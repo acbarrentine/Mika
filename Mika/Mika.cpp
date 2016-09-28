@@ -2,10 +2,11 @@
 //
 
 #include "stdafx.h"
-
+#include "Compiler.h"
 
 int main()
 {
-    return 0;
+	GCompiler.ReadScript("FirstRun.mika");
+    return -GCompiler.GetErrorCount();
 }
 

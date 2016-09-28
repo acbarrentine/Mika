@@ -17,7 +17,10 @@
 //#include <stdio.h>
 //#include <tchar.h>
 
-//#define NOMINMAX
-//#include <windows.h>
+#define NOMINMAX
+#include <windows.h>
+
+#include <iostream>
+#include <fstream>
 
 // TODO: reference additional headers your program requires here

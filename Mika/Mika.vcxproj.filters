@@ -12,12 +12,18 @@
     <Filter Include="Source Files\Generated">
       <UniqueIdentifier>{70c5a53d-61d3-4455-a4f5-9307a3c146cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Scripts">
+      <UniqueIdentifier>{44bab3a7-8385-4c6c-8dd3-fd6376ef51be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tokenizer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -34,10 +40,18 @@
     <ClCompile Include="Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Compiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="Syntax.l">
       <Filter>Source Files</Filter>
     </Flex>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TestScripts\FirstRun.mika">
+      <Filter>Test Scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>
