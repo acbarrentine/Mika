@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Identifier.h"
+
 #if !defined(yyFlexLexerOnce)
 #include <FlexLexer.h>
 #endif
@@ -11,6 +13,8 @@ enum TType
 {
 	kOpenParen,
 	kCloseParen,
+	kOpenBrace,
+	kCloseBrace,
 	kColon,
 	kDot,
 	kPlus,
@@ -34,7 +38,14 @@ enum TType
 	kFloat,
 	kString,
 	kStruct,
+	kReturn,
 
+	kIdentifier,
+	kIntConstant,
+	kFloatConstant,
+	kStringConstant,
+
+	kEOL,
 	kEOF
 };
 
@@ -42,35 +53,39 @@ class Token
 {
 protected:
 	TType mType;
+	int mFileIndex;
 	int mLineNumber;
 	union
 	{
 		int mIntValue;
 		float mFloatValue;
-		const char* mStringValue;
 	};
+	Identifier mStringValue;
 
 public:
-	Token(TType tokenType, int lineNumber)
-		: mType(tokenType)
-		, mLineNumber(lineNumber)
-		, mStringValue(nullptr)
-	{}
+	Token(TType tokenType, int fileIndex, int lineNumber, const char* str, int len);
+
+	void SetValue(int val) { mIntValue = val; }
+	void SetValue(float val) { mFloatValue = val; }
+	void SetValue(Identifier val) { mStringValue = val; }
+
+	void Print() const;
 };
 
 class Tokenizer : public yyFlexLexer
 {
 protected:
-	const char* mFileName;
+	int mFileIndex;
 
 public:
-	Tokenizer(std::istream* inputStream, std::ostream* outputStream)
-		: yyFlexLexer(inputStream, outputStream)
-		, mFileName(nullptr)
-	{}
+	Tokenizer(std::istream* in)
+		: yyFlexLexer(in)
+		, mFileIndex(0)
+	{
+	}
 
 	int yylex();
 
-	void Read(const char* fileName);
+	void Read();
 	void LexError(const char c);
 };

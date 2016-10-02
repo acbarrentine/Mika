@@ -6,7 +6,6 @@ Compiler GCompiler;
 
 Compiler::Compiler()
 	: mErrorCount(0)
-	, mTokenizer(nullptr)
 {
 	mTokenList.reserve(kInitialTokenCount);
 }
@@ -79,6 +78,8 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 
 void Compiler::ReadScript(const char* fileName)
 {
+	mFileNames.push_back(fileName);
+
 	std::ifstream inputStream;
 	inputStream.open(fileName, std::ifstream::in);
 	if (!inputStream.good())
@@ -87,12 +88,30 @@ void Compiler::ReadScript(const char* fileName)
 		return;
 	}
 
-	mTokenizer = new Tokenizer(&inputStream, &std::cout);
-	mTokenizer->Read(fileName);
+	mScriptSource << inputStream.rdbuf();
+
+	Tokenizer tokenizer(&mScriptSource);
+	tokenizer.Read();
+
+	for (size_t i = 0; i < mTokenList.size(); ++i)
+	{
+		mTokenList[i].Print();
+		Message(MsgSeverity::kInfo, " ");
+	}
 }
 
-Token& Compiler::CreateToken(TType tokenType, int lineNumber)
+const char* Compiler::GetFileName(int fileIndex) const
 {
-	mTokenList.push_back(Token(tokenType, lineNumber));
+	return mFileNames[fileIndex].c_str();
+}
+
+Identifier Compiler::AddIdentifier(const char* first, const char* last)
+{
+	return mIdentifiers.AddValue(first, last);
+}
+
+Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber, const char* str, int len)
+{
+	mTokenList.push_back(Token(tokenType, fileIndex, lineNumber, str, len));
 	return mTokenList.back();
 }

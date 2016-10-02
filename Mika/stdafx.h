@@ -9,18 +9,16 @@
 #pragma warning(disable:4702) // unreachable code in the xtree standard header
 #include <vector>
 #include <map>
+#include <set>
 #include <string>
 #include <algorithm>
 #pragma warning(pop)
-
-
-//#include <stdio.h>
-//#include <tchar.h>
 
 #define NOMINMAX
 #include <windows.h>
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
-// TODO: reference additional headers your program requires here
+#define ARRAY_COUNT(arr) (sizeof(arr)/sizeof(arr[0]))

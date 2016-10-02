@@ -336,8 +336,8 @@ int yyFlexLexer::yylex()
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 33
-#define YY_END_OF_BUFFER 34
+#define YY_NUM_RULES 36
+#define YY_END_OF_BUFFER 37
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -345,15 +345,16 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[65] =
+static yyconst flex_int16_t yy_accept[73] =
     {   0,
-        0,    0,   34,   32,   30,   31,   29,   32,   32,    1,
-        2,    8,    5,    6,    4,    7,   26,    3,   13,   32,
-       14,   25,   25,   25,   25,   25,   25,   25,   15,    0,
-       28,    0,   26,    9,   11,   10,   12,   25,   25,   25,
-       25,   16,   25,   19,   25,   25,   27,   18,   25,   20,
-       21,   25,   25,   25,   25,   25,   25,   22,   25,   25,
-       17,   23,   24,    0
+        0,    0,   37,   35,   33,   34,   32,   35,   35,    1,
+        2,   10,    7,    8,    6,    9,   29,    5,   15,   35,
+       16,   28,   28,   28,   28,   28,   28,   28,   28,    3,
+        4,   17,    0,   31,    0,   29,   11,   13,   12,   14,
+       28,   28,   28,   28,   18,   28,   21,   28,   28,   28,
+       30,   20,   28,   22,   23,   28,   28,   28,   28,   28,
+       28,   28,   28,   24,   28,   28,   28,   19,   27,   25,
+       26,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -371,7 +372,7 @@ static yyconst flex_int32_t yy_ec[256] =
 
        23,   24,   25,   26,   27,   19,   19,   28,   19,   29,
        30,   19,   19,   31,   32,   33,   34,   19,   35,   19,
-       19,   19,    1,    1,    1,    1,    1,    1,    1,    1,
+       19,   19,   36,    1,   37,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -388,68 +389,72 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[36] =
+static yyconst flex_int32_t yy_meta[38] =
     {   0,
         1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    3,    1,    1,    1,    1,    3,    3,
         3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3
+        3,    3,    3,    3,    3,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[67] =
+static yyconst flex_int16_t yy_base[75] =
     {   0,
-        0,    0,   77,   78,   78,   78,   78,   59,   69,   78,
-       78,   78,   78,   78,   78,   78,   24,   78,   26,   57,
-       56,    0,   43,   11,   17,   40,   37,   43,   78,   62,
-       61,   52,   28,   78,   78,   78,   78,    0,   43,   34,
-       34,    0,   29,    0,   30,   33,   45,    0,   38,    0,
-        0,   17,   29,   23,   26,   32,   27,    0,   24,   15,
-        0,    0,    0,   78,   51,   44
+        0,    0,   84,   85,   85,   85,   85,   66,   76,   85,
+       85,   85,   85,   85,   85,   85,   26,   85,   28,   64,
+       63,    0,   50,   13,   19,   47,   54,   43,   49,   85,
+       85,   85,   68,   67,   58,   30,   85,   85,   85,   85,
+        0,   49,   40,   40,    0,   35,    0,   34,   35,   38,
+       50,    0,   43,    0,    0,   28,   19,   33,   27,   28,
+       29,   36,   32,    0,   23,   26,   17,    0,    0,    0,
+        0,   85,   53,   46
     } ;
 
-static yyconst flex_int16_t yy_def[67] =
+static yyconst flex_int16_t yy_def[75] =
     {   0,
-       64,    1,   64,   64,   64,   64,   64,   64,   65,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   66,   66,   66,   66,   66,   66,   66,   64,   65,
-       65,   64,   64,   64,   64,   64,   64,   66,   66,   66,
-       66,   66,   66,   66,   66,   66,   64,   66,   66,   66,
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
-       66,   66,   66,    0,   64,   64
+       72,    1,   72,   72,   72,   72,   72,   72,   73,   72,
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+       72,   74,   74,   74,   74,   74,   74,   74,   74,   72,
+       72,   72,   73,   73,   72,   72,   72,   72,   72,   72,
+       74,   74,   74,   74,   74,   74,   74,   74,   74,   74,
+       72,   74,   74,   74,   74,   74,   74,   74,   74,   74,
+       74,   74,   74,   74,   74,   74,   74,   74,   74,   74,
+       74,    0,   72,   72
     } ;
 
-static yyconst flex_int16_t yy_nxt[114] =
+static yyconst flex_int16_t yy_nxt[123] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
        14,   15,   16,   17,   18,   19,   20,   21,   22,   23,
        22,   22,   22,   24,   22,   22,   25,   22,   22,   26,
-       22,   27,   22,   22,   28,   32,   34,   33,   40,   32,
-       42,   33,   35,   55,   41,   43,   38,   63,   62,   61,
-       56,   30,   60,   30,   59,   58,   57,   54,   47,   53,
-       52,   51,   50,   49,   48,   47,   31,   31,   46,   45,
-       44,   39,   37,   36,   31,   29,   64,    3,   64,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
+       27,   28,   22,   22,   29,   30,   31,   35,   37,   36,
+       43,   35,   45,   36,   38,   61,   44,   46,   41,   71,
+       70,   69,   62,   33,   68,   33,   67,   66,   65,   64,
+       63,   60,   59,   51,   58,   57,   56,   55,   54,   53,
+       52,   51,   34,   34,   50,   49,   48,   47,   42,   40,
+       39,   34,   32,   72,    3,   72,   72,   72,   72,   72,
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
 
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   64,   64
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+       72,   72
     } ;
 
-static yyconst flex_int16_t yy_chk[114] =
+static yyconst flex_int16_t yy_chk[123] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,   17,   19,   17,   24,   33,
-       25,   33,   19,   52,   24,   25,   66,   60,   59,   57,
-       52,   65,   56,   65,   55,   54,   53,   49,   47,   46,
-       45,   43,   41,   40,   39,   32,   31,   30,   28,   27,
-       26,   23,   21,   20,    9,    8,    3,   64,   64,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
+        1,    1,    1,    1,    1,    1,    1,   17,   19,   17,
+       24,   36,   25,   36,   19,   57,   24,   25,   74,   67,
+       66,   65,   57,   73,   63,   73,   62,   61,   60,   59,
+       58,   56,   53,   51,   50,   49,   48,   46,   44,   43,
+       42,   35,   34,   33,   29,   28,   27,   26,   23,   21,
+       20,    9,    8,    3,   72,   72,   72,   72,   72,   72,
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
 
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   64,   64
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+       72,   72
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -464,8 +469,8 @@ static yyconst flex_int16_t yy_chk[114] =
 #line 6 "C:\\Code\\Mika\\Mika\\Syntax.l"
 #include "Compiler.h"
 #pragma warning( disable : 4244 )		// truncation
-#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, yylineno); return type
-#line 469 "C:\\Code\\Mika\\Mika\\Syntax.flex.cpp"
+#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
+#line 474 "C:\\Code\\Mika\\Mika\\Syntax.flex.cpp"
 
 #define INITIAL 0
 
@@ -565,7 +570,7 @@ YY_DECL
 #line 20 "C:\\Code\\Mika\\Mika\\Syntax.l"
 
 
-#line 569 "C:\\Code\\Mika\\Mika\\Syntax.flex.cpp"
+#line 574 "C:\\Code\\Mika\\Mika\\Syntax.flex.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -618,13 +623,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 65 )
+				if ( yy_current_state >= 73 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 64 );
+		while ( yy_current_state != 72 );
 		yy_cp = (yy_last_accepting_cpos);
 		yy_current_state = (yy_last_accepting_state);
 
@@ -657,170 +662,195 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 24 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kColon); }
+{ SYNTAX_TOKEN(TType::kOpenBrace); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 25 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kDot); }
+{ SYNTAX_TOKEN(TType::kCloseBrace); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 26 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kPlus); }
+{ SYNTAX_TOKEN(TType::kColon); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 27 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kMinus); }
+{ SYNTAX_TOKEN(TType::kDot); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 28 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kSlash); }
+{ SYNTAX_TOKEN(TType::kPlus); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 29 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kAsterisk); }
+{ SYNTAX_TOKEN(TType::kMinus); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 30 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kArrow); }
+{ SYNTAX_TOKEN(TType::kSlash); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 31 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kEquals); }
+{ SYNTAX_TOKEN(TType::kAsterisk); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 32 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kLessEquals); }
+{ SYNTAX_TOKEN(TType::kArrow); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 33 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kGreaterEquals); }
+{ SYNTAX_TOKEN(TType::kEquals); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 34 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kLessThan); }
+{ SYNTAX_TOKEN(TType::kLessEquals); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 35 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kGreaterThan); }
+{ SYNTAX_TOKEN(TType::kGreaterEquals); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 36 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kNotEquals); }
+{ SYNTAX_TOKEN(TType::kLessThan); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 38 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kIf); }
+#line 37 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ SYNTAX_TOKEN(TType::kGreaterThan); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 39 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kWhile); }
+#line 38 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ SYNTAX_TOKEN(TType::kNotEquals); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 40 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kAnd); }
+{ SYNTAX_TOKEN(TType::kIf); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 41 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kOr); }
+{ SYNTAX_TOKEN(TType::kWhile); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 42 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kFun); }
+{ SYNTAX_TOKEN(TType::kAnd); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 43 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kInt); }
+{ SYNTAX_TOKEN(TType::kOr); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 44 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kFloat); }
+{ SYNTAX_TOKEN(TType::kFun); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 45 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kString); }
+{ SYNTAX_TOKEN(TType::kInt); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 46 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kStruct); }
+{ SYNTAX_TOKEN(TType::kFloat); }
 	YY_BREAK
-/* Identifier */
 case 25:
 YY_RULE_SETUP
-#line 49 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{}
+#line 47 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ SYNTAX_TOKEN(TType::kString); }
 	YY_BREAK
-/* Decimal constant */
 case 26:
 YY_RULE_SETUP
-#line 52 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{}
+#line 48 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ SYNTAX_TOKEN(TType::kStruct); }
 	YY_BREAK
-/* Float constant */
 case 27:
 YY_RULE_SETUP
-#line 55 "C:\\Code\\Mika\\Mika\\Syntax.l"
+#line 49 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ SYNTAX_TOKEN(TType::kReturn); }
+	YY_BREAK
+/* Identifier */
+case 28:
+YY_RULE_SETUP
+#line 52 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{
+												GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno, yytext, yyleng);
+												return TType::kIdentifier;
+											}
+	YY_BREAK
+/* Decimal constant */
+case 29:
+YY_RULE_SETUP
+#line 58 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{
+												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno, yytext, yyleng);
+												t.SetValue(1);
+												return TType::kInt;
+											}
+	YY_BREAK
+/* Float constant */
+case 30:
+YY_RULE_SETUP
+#line 65 "C:\\Code\\Mika\\Mika\\Syntax.l"
 {}
 	YY_BREAK
 /* String constant */
-case 28:
+case 31:
 YY_RULE_SETUP
-#line 58 "C:\\Code\\Mika\\Mika\\Syntax.l"
+#line 68 "C:\\Code\\Mika\\Mika\\Syntax.l"
 {}
 	YY_BREAK
 /* Whitespace */
-case 29:
-YY_RULE_SETUP
-#line 61 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{}
-	YY_BREAK
-case 30:
-YY_RULE_SETUP
-#line 62 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{}
-	YY_BREAK
-case 31:
-/* rule 31 can match eol */
-YY_RULE_SETUP
-#line 63 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{}
-	YY_BREAK
-case YY_STATE_EOF(INITIAL):
-#line 64 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ SYNTAX_TOKEN(TType::kEOF); }
-	YY_BREAK
-/* Error check */
 case 32:
 YY_RULE_SETUP
-#line 67 "C:\\Code\\Mika\\Mika\\Syntax.l"
-{ LexError( *yytext ); }
+#line 71 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 69 "C:\\Code\\Mika\\Mika\\Syntax.l"
+#line 72 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{}
+	YY_BREAK
+case 34:
+/* rule 34 can match eol */
+YY_RULE_SETUP
+#line 73 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{	
+							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
+							return TType::kEOL;
+						}
+	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+#line 77 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ SYNTAX_TOKEN(TType::kEOF); }
+	YY_BREAK
+/* Error check */
+case 35:
+YY_RULE_SETUP
+#line 80 "C:\\Code\\Mika\\Mika\\Syntax.l"
+{ LexError( *yytext ); }
+	YY_BREAK
+case 36:
+YY_RULE_SETUP
+#line 82 "C:\\Code\\Mika\\Mika\\Syntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 824 "C:\\Code\\Mika\\Mika\\Syntax.flex.cpp"
+#line 854 "C:\\Code\\Mika\\Mika\\Syntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1200,7 +1230,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 65 )
+			if ( yy_current_state >= 73 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1228,11 +1258,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 65 )
+		if ( yy_current_state >= 73 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 64);
+	yy_is_jam = (yy_current_state == 72);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1717,7 +1747,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 69 "C:\\Code\\Mika\\Mika\\Syntax.l"
+#line 82 "C:\\Code\\Mika\\Mika\\Syntax.l"
 
 
 

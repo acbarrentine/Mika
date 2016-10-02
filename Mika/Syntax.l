@@ -5,7 +5,7 @@
 %{
 #include "Compiler.h"
 #pragma warning( disable : 4244 )		// truncation
-#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, yylineno); return type
+#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
 %}
 
 %option nodefault
@@ -21,6 +21,8 @@ LETTER					[a-zA-Z_]
 
 "("						{ SYNTAX_TOKEN(TType::kOpenParen); }
 ")"						{ SYNTAX_TOKEN(TType::kCloseParen); }
+"{"						{ SYNTAX_TOKEN(TType::kOpenBrace); }
+"}"						{ SYNTAX_TOKEN(TType::kCloseBrace); }
 ":"						{ SYNTAX_TOKEN(TType::kColon); }
 "."						{ SYNTAX_TOKEN(TType::kDot); }
 "+"						{ SYNTAX_TOKEN(TType::kPlus); }
@@ -44,12 +46,20 @@ LETTER					[a-zA-Z_]
 "float"					{ SYNTAX_TOKEN(TType::kFloat); }
 "string"				{ SYNTAX_TOKEN(TType::kString); }
 "struct"				{ SYNTAX_TOKEN(TType::kStruct); }
+"return"				{ SYNTAX_TOKEN(TType::kReturn); }
 
 	/* Identifier */
-{LETTER}({LETTER}|{DIGIT})*					{}
+{LETTER}({LETTER}|{DIGIT})*					{
+												GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno, yytext, yyleng);
+												return TType::kIdentifier;
+											}
 
 	/* Decimal constant */
-{DIGIT}+									{}
+{DIGIT}+									{
+												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno, yytext, yyleng);
+												t.SetValue(1);
+												return TType::kInt;
+											}
 
 	/* Float constant */
 {DIGIT}+"."{DIGIT}+							{}
@@ -60,7 +70,10 @@ LETTER					[a-zA-Z_]
 	/* Whitespace */
 [ \r\v\f]				{}
 [\t]					{}
-[\n]					{}
+[\n]					{	
+							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
+							return TType::kEOL;
+						}
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }
 
 	/* Error check */
