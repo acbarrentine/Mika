@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Compiler.h"
+#include "ScriptTokenizer.h"
+#include "GlueTokenizer.h"
 #include <stdarg.h>
 
 Compiler GCompiler;
@@ -76,6 +78,22 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 	}
 }
 
+void Compiler::ReadGlue(const char* fileName)
+{
+	mFileNames.push_back(fileName);
+
+	std::ifstream inputStream;
+	inputStream.open(fileName, std::ifstream::in);
+	if (!inputStream.good())
+	{
+		Message(MsgSeverity::kError, "File %s not found\n", fileName);
+		return;
+	}
+
+	GlueTokenizer tokenizer(&inputStream);
+	tokenizer.Read();
+}
+
 void Compiler::ReadScript(const char* fileName)
 {
 	mFileNames.push_back(fileName);
@@ -88,9 +106,7 @@ void Compiler::ReadScript(const char* fileName)
 		return;
 	}
 
-	mScriptSource << inputStream.rdbuf();
-
-	Tokenizer tokenizer(&mScriptSource);
+	ScriptTokenizer tokenizer(&inputStream);
 	tokenizer.Read();
 
 	for (size_t i = 0; i < mTokenList.size(); ++i)

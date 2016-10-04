@@ -2,19 +2,13 @@
 
 #include "Identifier.h"
 
-#if !defined(yyFlexLexerOnce)
-#include <FlexLexer.h>
-#endif
-
-#undef  YY_DECL
-#define YY_DECL int Tokenizer::yylex()
-
 enum TType
 {
 	kOpenParen,
 	kCloseParen,
 	kOpenBrace,
 	kCloseBrace,
+	kComma,
 	kColon,
 	kDot,
 	kPlus,
@@ -34,6 +28,7 @@ enum TType
 	kAnd,
 	kOr,
 	kFun,
+	kVoid,
 	kInt,
 	kFloat,
 	kString,
@@ -70,22 +65,4 @@ public:
 	void SetValue(Identifier val) { mStringValue = val; }
 
 	void Print() const;
-};
-
-class Tokenizer : public yyFlexLexer
-{
-protected:
-	int mFileIndex;
-
-public:
-	Tokenizer(std::istream* in)
-		: yyFlexLexer(in)
-		, mFileIndex(0)
-	{
-	}
-
-	int yylex();
-
-	void Read();
-	void LexError(const char c);
 };

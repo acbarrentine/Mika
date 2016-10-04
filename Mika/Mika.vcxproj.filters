@@ -13,9 +13,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tokenizer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Compiler.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -23,6 +20,15 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptTokenizer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlueTokenizer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Token.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -33,27 +39,42 @@
     <ClCompile Include="Mika.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Syntax.flex.cpp">
-      <Filter>Source Files\Generated</Filter>
-    </ClCompile>
-    <ClCompile Include="Tokenizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Compiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Identifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Flex Include="Syntax.l">
+    <ClCompile Include="GlueSyntax.flex.cpp">
+      <Filter>Source Files\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptSyntax.flex.cpp">
+      <Filter>Source Files\Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptTokenizer.cpp">
       <Filter>Source Files</Filter>
-    </Flex>
+    </ClCompile>
+    <ClCompile Include="GlueTokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Token.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika">
       <Filter>Test Scripts</Filter>
     </None>
+    <None Include="..\TestScripts\MikaGlue.mikah">
+      <Filter>Test Scripts</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="GlueSyntax.l">
+      <Filter>Source Files</Filter>
+    </Flex>
+    <Flex Include="ScriptSyntax.l">
+      <Filter>Source Files</Filter>
+    </Flex>
   </ItemGroup>
 </Project>

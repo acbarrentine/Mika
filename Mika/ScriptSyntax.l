@@ -4,15 +4,18 @@
 
 %{
 #include "Compiler.h"
+#include "ScriptTokenizer.h"
+
 #pragma warning( disable : 4244 )		// truncation
 #define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
 %}
 
 %option nodefault
-%option yyclass="Tokenizer"
+%option yyclass="ScriptTokenizer"
 %option noyywrap
 %option c++
 %option batch
+%option prefix="Script"
 
 DIGIT					[0-9]
 LETTER					[a-zA-Z_]
@@ -23,6 +26,7 @@ LETTER					[a-zA-Z_]
 ")"						{ SYNTAX_TOKEN(TType::kCloseParen); }
 "{"						{ SYNTAX_TOKEN(TType::kOpenBrace); }
 "}"						{ SYNTAX_TOKEN(TType::kCloseBrace); }
+","						{ SYNTAX_TOKEN(TType::kComma); }
 ":"						{ SYNTAX_TOKEN(TType::kColon); }
 "."						{ SYNTAX_TOKEN(TType::kDot); }
 "+"						{ SYNTAX_TOKEN(TType::kPlus); }
@@ -42,6 +46,7 @@ LETTER					[a-zA-Z_]
 "and"					{ SYNTAX_TOKEN(TType::kAnd); }
 "or"					{ SYNTAX_TOKEN(TType::kOr); }
 "fun"					{ SYNTAX_TOKEN(TType::kFun); }
+"void"					{ SYNTAX_TOKEN(TType::kVoid); }
 "int"					{ SYNTAX_TOKEN(TType::kInt); }
 "float"					{ SYNTAX_TOKEN(TType::kFloat); }
 "string"				{ SYNTAX_TOKEN(TType::kString); }

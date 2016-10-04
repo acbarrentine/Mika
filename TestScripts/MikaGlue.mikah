@@ -1,0 +1,2 @@
+Print(string) : void
+AssertEquals(int, int) : void

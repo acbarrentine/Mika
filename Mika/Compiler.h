@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Tokenizer.h"
 #include "Identifier.h"
+#include "Token.h"
 
 enum class MsgSeverity : int
 {
@@ -16,7 +16,6 @@ class Compiler
 protected:
 	int mErrorCount;
 	std::vector<Token> mTokenList;
-	std::stringstream mScriptSource;
 	std::vector<std::string> mFileNames;
 	StringTable mIdentifiers;
 	const int kInitialTokenCount = 200000;
@@ -27,6 +26,7 @@ public:
 	void Message(MsgSeverity severity, const char* format, ...);
 	void MessageArgs(MsgSeverity severity, const char* format, va_list args);
 
+	void ReadGlue(const char* fileName);
 	void ReadScript(const char* fileName);
 
 	const char* GetFileName(int fileIndex) const;

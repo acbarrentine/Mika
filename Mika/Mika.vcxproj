@@ -146,30 +146,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Compiler.h" />
+    <ClInclude Include="GlueTokenizer.h" />
     <ClInclude Include="Identifier.h" />
+    <ClInclude Include="ScriptTokenizer.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Tokenizer.h" />
+    <ClInclude Include="Token.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="GlueSyntax.flex.cpp" />
+    <ClCompile Include="GlueTokenizer.cpp" />
     <ClCompile Include="Identifier.cpp" />
     <ClCompile Include="Mika.cpp" />
+    <ClCompile Include="ScriptSyntax.flex.cpp" />
+    <ClCompile Include="ScriptTokenizer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Syntax.flex.cpp" />
-    <ClCompile Include="Tokenizer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Flex Include="Syntax.l">
-      <FileType>Document</FileType>
-    </Flex>
+    <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika" />
+    <None Include="..\TestScripts\MikaGlue.mikah" />
+  </ItemGroup>
+  <ItemGroup>
+    <Flex Include="GlueSyntax.l" />
+    <Flex Include="ScriptSyntax.l" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
