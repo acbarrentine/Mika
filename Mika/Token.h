@@ -41,7 +41,8 @@ enum TType
 	kStringConstant,
 
 	kEOL,
-	kEOF
+	kEOF,
+	kInvalid,
 };
 
 class Token
@@ -53,7 +54,7 @@ protected:
 	union
 	{
 		int mIntValue;
-		float mFloatValue;
+		double mFloatValue;
 	};
 	Identifier mStringValue;
 
@@ -61,8 +62,10 @@ public:
 	Token(TType tokenType, int fileIndex, int lineNumber, const char* str, int len);
 
 	void SetValue(int val) { mIntValue = val; }
-	void SetValue(float val) { mFloatValue = val; }
+	void SetValue(double val) { mFloatValue = val; }
 	void SetValue(Identifier val) { mStringValue = val; }
+
+	TType GetType() const { return mType; }
 
 	void Print() const;
 };

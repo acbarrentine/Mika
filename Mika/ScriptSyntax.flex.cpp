@@ -811,7 +811,7 @@ YY_RULE_SETUP
 #line 63 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {
 												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno, yytext, yyleng);
-												t.SetValue(1);
+												t.SetValue(ParseInt());
 												return TType::kInt;
 											}
 	YY_BREAK
@@ -819,50 +819,59 @@ YY_RULE_SETUP
 case 32:
 YY_RULE_SETUP
 #line 70 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
-{}
+{
+												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno, yytext, yyleng);
+												t.SetValue(ParseDouble());
+												return TType::kFloat;
+											}
 	YY_BREAK
 /* String constant */
 case 33:
 YY_RULE_SETUP
-#line 73 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
-{}
+#line 77 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+{
+												char stringBuf[2048];
+												strncpy_s(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
+												GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno, stringBuf, yyleng - 2);
+												return TType::kStringConstant;
+											}
 	YY_BREAK
 /* Whitespace */
 case 34:
 YY_RULE_SETUP
-#line 76 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 85 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 77 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 86 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {}
 	YY_BREAK
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 78 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 87 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {	
 							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
 							return TType::kEOL;
 						}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 82 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 91 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
 case 37:
 YY_RULE_SETUP
-#line 85 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 94 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 { LexError( *yytext ); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 87 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 96 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 866 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
+#line 875 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1759,7 +1768,7 @@ void Scriptfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 87 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 96 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 
 
 

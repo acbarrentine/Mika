@@ -62,15 +62,24 @@ LETTER					[a-zA-Z_]
 	/* Decimal constant */
 {DIGIT}+									{
 												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno, yytext, yyleng);
-												t.SetValue(1);
+												t.SetValue(ParseInt());
 												return TType::kInt;
 											}
 
 	/* Float constant */
-{DIGIT}+"."{DIGIT}+							{}
+{DIGIT}+"."{DIGIT}+							{
+												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno, yytext, yyleng);
+												t.SetValue(ParseDouble());
+												return TType::kFloat;
+											}
 
 	/* String constant */
-\".*\"										{}
+\".*\"										{
+												char stringBuf[2048];
+												strncpy_s(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
+												GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno, stringBuf, yyleng - 2);
+												return TType::kStringConstant;
+											}
 
 	/* Whitespace */
 [ \r\v\f]				{}

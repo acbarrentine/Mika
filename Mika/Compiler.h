@@ -15,6 +15,9 @@ class Compiler
 {
 protected:
 	int mErrorCount;
+	size_t mCurrentTokenIndex;
+	TType mCurrentTokenType;
+	Token* mCurrentToken;
 	std::vector<Token> mTokenList;
 	std::vector<std::string> mFileNames;
 	StringTable mIdentifiers;
@@ -27,12 +30,18 @@ public:
 	void MessageArgs(MsgSeverity severity, const char* format, va_list args);
 
 	void ReadGlue(const char* fileName);
+	void ParseGlue();
 	void ReadScript(const char* fileName);
+	void ParseScript();
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
 	Identifier AddIdentifier(const char* first, const char* last);
 	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber, const char* str, int len);
+
+protected:
+	void StartParse();
+	void NextToken();
 };
 
 extern Compiler GCompiler;

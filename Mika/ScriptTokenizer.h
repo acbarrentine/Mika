@@ -25,4 +25,7 @@ public:
 
 	void Read();
 	void LexError(const char c);
+
+	int ParseInt();
+	double ParseDouble();
 };

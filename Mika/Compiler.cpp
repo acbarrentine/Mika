@@ -8,6 +8,9 @@ Compiler GCompiler;
 
 Compiler::Compiler()
 	: mErrorCount(0)
+	, mCurrentTokenIndex(0)
+	, mCurrentTokenType(TType::kInvalid)
+	, mCurrentToken(nullptr)
 {
 	mTokenList.reserve(kInitialTokenCount);
 }
@@ -76,6 +79,12 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 	{
 		fprintf(stream, buf);
 	}
+
+	if (mErrorCount > 100)
+	{
+		Message(MsgSeverity::kInfo, "Maximum error count exceeded. Aborting.\n");
+		exit(-mErrorCount);
+	}
 }
 
 void Compiler::ReadGlue(const char* fileName)
@@ -94,6 +103,16 @@ void Compiler::ReadGlue(const char* fileName)
 	tokenizer.Read();
 }
 
+void Compiler::ParseGlue()
+{
+	StartParse();
+
+	while (mCurrentTokenType != TType::kEOF)
+	{
+		NextToken();
+	}
+}
+
 void Compiler::ReadScript(const char* fileName)
 {
 	mFileNames.push_back(fileName);
@@ -108,11 +127,16 @@ void Compiler::ReadScript(const char* fileName)
 
 	ScriptTokenizer tokenizer(&inputStream);
 	tokenizer.Read();
+}
 
-	for (size_t i = 0; i < mTokenList.size(); ++i)
+void Compiler::ParseScript()
+{
+	StartParse();
+
+	while (mCurrentTokenType != TType::kEOF)
 	{
-		mTokenList[i].Print();
-		Message(MsgSeverity::kInfo, " ");
+		mCurrentToken->Print();
+		NextToken();
 	}
 }
 
@@ -130,4 +154,29 @@ Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber, con
 {
 	mTokenList.push_back(Token(tokenType, fileIndex, lineNumber, str, len));
 	return mTokenList.back();
+}
+
+void Compiler::StartParse()
+{
+	if (mTokenList.size() <= 0)
+	{
+		CreateToken(TType::kEOF, 0, 0, "", 0);
+	}
+
+	if (mCurrentTokenIndex != 0)
+	{
+		++mCurrentTokenIndex;
+	}
+	mCurrentToken = &mTokenList[mCurrentTokenIndex];
+	mCurrentTokenType = mCurrentToken->GetType();
+}
+
+void Compiler::NextToken()
+{
+	if (mCurrentTokenType == TType::kEOF)
+		return;
+
+	++mCurrentTokenIndex;
+	mCurrentToken = &mTokenList[mCurrentTokenIndex];
+	mCurrentTokenType = mCurrentToken->GetType();
 }
