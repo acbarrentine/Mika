@@ -1,2 +1,2 @@
 Print(string) : void
-AssertEquals(int, int) : void
+AssertEquals(left:int, right:int) : void

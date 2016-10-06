@@ -2,7 +2,11 @@
 #include "Compiler.h"
 #include "ScriptTokenizer.h"
 #include "GlueTokenizer.h"
+#include "Type.h"
+#include "Variable.h"
+#include "FunctionDeclaration.h"
 #include <stdarg.h>
+
 
 Compiler GCompiler;
 
@@ -80,10 +84,10 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 		fprintf(stream, buf);
 	}
 
-	if (mErrorCount > 100)
+	if (severity == MsgSeverity::kError && mErrorCount > 100)
 	{
 		Message(MsgSeverity::kInfo, "Maximum error count exceeded. Aborting.\n");
-		exit(-mErrorCount);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -109,6 +113,7 @@ void Compiler::ParseGlue()
 
 	while (mCurrentTokenType != TType::kEOF)
 	{
+		ParseGlueDeclaration();
 		NextToken();
 	}
 }
@@ -135,7 +140,7 @@ void Compiler::ParseScript()
 
 	while (mCurrentTokenType != TType::kEOF)
 	{
-		mCurrentToken->Print();
+		mCurrentToken->Print(MsgSeverity::kInfo);
 		NextToken();
 	}
 }
@@ -156,8 +161,98 @@ Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber, con
 	return mTokenList.back();
 }
 
+Type* Compiler::ParseType()
+{
+	switch (mCurrentTokenType)
+	{
+		case TType::kInt:
+			NextToken();
+			return nullptr;
+
+		case TType::kFloat:
+			NextToken();
+			return nullptr;
+
+		case TType::kString:
+			NextToken();
+			return nullptr;
+
+		default:
+			return nullptr;
+	}
+}
+
+void Compiler::ParseGlueDeclaration()
+{
+	switch (mCurrentTokenType)
+	{
+		case TType::kStruct:
+			break;
+
+		case TType::kIdentifier:
+			ParseGlueFunctionDeclaration();
+			break;
+
+		default:
+			Error(mCurrentTokenIndex, "Glue declaration expected");
+			NextToken();
+			break;
+	}
+}
+
+void Compiler::ParseGlueFunctionDeclaration()
+{
+	Identifier id = mCurrentToken->GetIdentifier();
+	FunctionDeclaration* decl = new FunctionDeclaration(mCurrentTokenIndex, id);
+	NextToken();
+	Expect(TType::kOpenParen);
+	ParseGlueFunctionParameters(decl);
+	Expect(TType::kCloseParen);
+	Expect(TType::kColon);
+	Type* returnType = ParseType();
+	decl->SetReturnType(returnType);
+	Expect(TType::kEOL);
+}
+
+void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
+{
+	while (1)
+	{
+		if (mCurrentTokenType == TType::kCloseParen)
+			return;
+
+		Variable* var = new Variable(mCurrentTokenIndex);
+		if (Peek(TType::kColon))
+		{
+			Identifier name;
+			if (mCurrentTokenType != TType::kIdentifier)
+			{
+				Error(mCurrentTokenIndex, "identifier expected");
+			}
+			else
+			{
+				var->SetName(mCurrentToken->GetIdentifier());
+				NextToken();
+			}
+
+			Expect(TType::kColon);
+		}
+
+		Type* varType = ParseType();
+		var->SetType(varType);
+
+		decl->AddParameter(var);
+
+		if (mCurrentTokenType != TType::kComma)
+			break;
+	}
+	Expect(TType::kCloseParen);
+}
+
 void Compiler::StartParse()
 {
+	// An unlikely case in practice, but if the file is actually empty,
+	// make sure the token list has its terminator on it.
 	if (mTokenList.size() <= 0)
 	{
 		CreateToken(TType::kEOF, 0, 0, "", 0);
@@ -179,4 +274,64 @@ void Compiler::NextToken()
 	++mCurrentTokenIndex;
 	mCurrentToken = &mTokenList[mCurrentTokenIndex];
 	mCurrentTokenType = mCurrentToken->GetType();
+}
+
+void Compiler::Error(size_t errorTokenIndex, const char* message)
+{
+	ShowLine(errorTokenIndex, message, MsgSeverity::kError);
+}
+
+void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity)
+{
+	const Token& errorToken = mTokenList[errorTokenIndex];
+	int fileIndex = errorToken.GetFileIndex();
+	int line = errorToken.GetLineNumber();
+
+	static const char* messageLevel[] =
+	{
+		"info",
+		"warning",
+		"error",
+		"error",
+	};
+	Message(severity, "%s(%d) : %s : %s\n", mFileNames[fileIndex].c_str(), line, messageLevel[(int)severity], message);
+
+	size_t tokenIndex = errorTokenIndex;
+	while (tokenIndex > 0 && mTokenList[tokenIndex - 1].GetLineNumber() == line)
+	{
+		--tokenIndex;
+	}
+
+	while (1)
+	{
+		if (mTokenList[tokenIndex].GetLineNumber() != line)
+			break;
+
+		const Token& tok = mTokenList[tokenIndex++];
+		tok.Print(severity);
+		Message(severity, " ");
+	}
+}
+
+bool Compiler::Peek(TType expectedType)
+{
+	if (mCurrentTokenType == kEOF)
+		return false;
+
+	return mTokenList[mCurrentTokenIndex + 1].GetType() == expectedType;
+}
+
+bool Compiler::Expect(TType expectedType)
+{
+	if (mCurrentTokenType != expectedType)
+	{
+		// todo: needs to identify the token type
+		Error(mCurrentTokenIndex, "expected");
+		return false;
+	}
+	else
+	{
+		NextToken();
+		return true;
+	}
 }

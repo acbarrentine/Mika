@@ -12,7 +12,7 @@ Token::Token(TType tokenType, int fileIndex, int lineNumber, const char* str, in
 	mStringValue = GCompiler.AddIdentifier(str, str + len);
 }
 
-void Token::Print() const
+void Token::Print(MsgSeverity severity) const
 {
-	GCompiler.Message(MsgSeverity::kInfo, mStringValue.GetString());
+	GCompiler.Message(severity, mStringValue.GetString());
 }

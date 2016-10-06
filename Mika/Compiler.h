@@ -11,6 +11,9 @@ enum class MsgSeverity : int
 	kError2,
 };
 
+class FunctionDeclaration;
+class Type;
+
 class Compiler
 {
 protected:
@@ -40,8 +43,17 @@ public:
 	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber, const char* str, int len);
 
 protected:
+	Type* ParseType();
+	void ParseGlueDeclaration();
+	void ParseGlueFunctionDeclaration();
+	void ParseGlueFunctionParameters(FunctionDeclaration* decl);
+
 	void StartParse();
 	void NextToken();
+	void Error(size_t errorTokenIndex, const char* message);
+	void ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity) ;
+	bool Peek(TType expectedType);
+	bool Expect(TType expectedType);
 };
 
 extern Compiler GCompiler;

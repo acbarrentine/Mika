@@ -31,6 +31,15 @@
     <ClInclude Include="Token.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FunctionDeclaration.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Variable.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

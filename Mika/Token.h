@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Identifier.h"
+enum class MsgSeverity : int;
 
 enum TType
 {
@@ -66,6 +67,9 @@ public:
 	void SetValue(Identifier val) { mStringValue = val; }
 
 	TType GetType() const { return mType; }
+	int GetFileIndex() const { return mFileIndex; }
+	int GetLineNumber() const { return mLineNumber; }
+	Identifier GetIdentifier() const { return mStringValue; }
 
-	void Print() const;
+	void Print(MsgSeverity severity) const;
 };
