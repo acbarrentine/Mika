@@ -31,6 +31,8 @@ public:
 
 	void Message(MsgSeverity severity, const char* format, ...);
 	void MessageArgs(MsgSeverity severity, const char* format, va_list args);
+	void Error(size_t errorTokenIndex, const char* message);
+	void Error(const char* format, ...);
 
 	void ReadGlue(const char* fileName);
 	void ParseGlue();
@@ -40,7 +42,7 @@ public:
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
 	Identifier AddIdentifier(const char* first, const char* last);
-	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber, const char* str, int len);
+	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber);
 
 protected:
 	Type* ParseType();
@@ -50,7 +52,6 @@ protected:
 
 	void StartParse();
 	void NextToken();
-	void Error(size_t errorTokenIndex, const char* message);
 	void ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity) ;
 	bool Peek(TType expectedType);
 	bool Expect(TType expectedType);

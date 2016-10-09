@@ -60,7 +60,7 @@ protected:
 	Identifier mStringValue;
 
 public:
-	Token(TType tokenType, int fileIndex, int lineNumber, const char* str, int len);
+	Token(TType tokenType, int fileIndex, int lineNumber);
 
 	void SetValue(int val) { mIntValue = val; }
 	void SetValue(double val) { mFloatValue = val; }
@@ -72,4 +72,6 @@ public:
 	Identifier GetIdentifier() const { return mStringValue; }
 
 	void Print(MsgSeverity severity) const;
+
+	static const char* StringRepresentation(TType tokenType);
 };

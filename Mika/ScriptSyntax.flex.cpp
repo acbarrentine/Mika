@@ -471,7 +471,7 @@ static yyconst flex_int16_t yy_chk[130] =
 #include "ScriptTokenizer.h"
 
 #pragma warning( disable : 4244 )		// truncation
-#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
+#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno); return type
 #line 476 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
 
 #define INITIAL 0
@@ -801,77 +801,81 @@ case 30:
 YY_RULE_SETUP
 #line 57 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {
-												GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kIdentifier;
 											}
 	YY_BREAK
 /* Decimal constant */
 case 31:
 YY_RULE_SETUP
-#line 63 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 64 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {
-												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno);
 												t.SetValue(ParseInt());
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kInt;
 											}
 	YY_BREAK
 /* Float constant */
 case 32:
 YY_RULE_SETUP
-#line 70 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 72 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {
-												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno);
 												t.SetValue(ParseDouble());
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kFloat;
 											}
 	YY_BREAK
 /* String constant */
 case 33:
 YY_RULE_SETUP
-#line 77 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 80 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {
 												char stringBuf[2048];
 												strncpy_s(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
-												GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno, stringBuf, yyleng - 2);
+												Token& t = GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno);
+												t.SetValue(GCompiler.AddIdentifier(stringBuf, stringBuf + (yyleng - 2)));
 												return TType::kStringConstant;
 											}
 	YY_BREAK
 /* Whitespace */
 case 34:
 YY_RULE_SETUP
-#line 85 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 89 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 86 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 90 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {}
 	YY_BREAK
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 87 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 91 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 {	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
+							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
 							return TType::kEOL;
 						}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 91 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 95 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
 case 37:
 YY_RULE_SETUP
-#line 94 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 98 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 { LexError( *yytext ); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 96 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 100 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 875 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
+#line 879 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1768,7 +1772,7 @@ void Scriptfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 96 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 100 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 
 
 

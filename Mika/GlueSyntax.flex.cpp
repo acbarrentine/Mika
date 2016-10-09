@@ -446,7 +446,7 @@ static yyconst flex_int16_t yy_chk[73] =
 #include "GlueTokenizer.h"
 
 #pragma warning( disable : 4244 )		// truncation
-#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
+#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno); return type
 #line 451 "C:\\Code\\Mika\\Mika\\GlueSyntax.flex.cpp"
 
 #define INITIAL 0
@@ -686,46 +686,47 @@ case 12:
 YY_RULE_SETUP
 #line 39 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 {
-												GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kIdentifier;
 											}
 	YY_BREAK
 /* Whitespace */
 case 13:
 YY_RULE_SETUP
-#line 45 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 46 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 {}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 46 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 47 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 {}
 	YY_BREAK
 case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
-#line 47 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 48 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 {	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
+							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
 							return TType::kEOL;
 						}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 51 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 52 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
 case 16:
 YY_RULE_SETUP
-#line 54 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 55 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 { LexError( *yytext ); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 56 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 57 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 729 "C:\\Code\\Mika\\Mika\\GlueSyntax.flex.cpp"
+#line 730 "C:\\Code\\Mika\\Mika\\GlueSyntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1622,7 +1623,7 @@ void Gluefree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 56 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 57 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 
 
 

@@ -51,9 +51,6 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 
 	OutputDebugString(buf);
 
-	if (severity == MsgSeverity::kError)
-		++mErrorCount;
-
 	static HANDLE console = 0;
 	if (!console)
 	{
@@ -83,8 +80,27 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 	{
 		fprintf(stream, buf);
 	}
+}
 
-	if (severity == MsgSeverity::kError && mErrorCount > 100)
+void Compiler::Error(size_t errorTokenIndex, const char* message)
+{
+	ShowLine(errorTokenIndex, message, MsgSeverity::kError);
+
+	if (++mErrorCount > 100)
+	{
+		Message(MsgSeverity::kInfo, "Maximum error count exceeded. Aborting.\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void Compiler::Error(const char* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	MessageArgs(MsgSeverity::kError, format, args);
+	va_end(args);
+
+	if (++mErrorCount > 100)
 	{
 		Message(MsgSeverity::kInfo, "Maximum error count exceeded. Aborting.\n");
 		exit(EXIT_FAILURE);
@@ -99,7 +115,7 @@ void Compiler::ReadGlue(const char* fileName)
 	inputStream.open(fileName, std::ifstream::in);
 	if (!inputStream.good())
 	{
-		Message(MsgSeverity::kError, "File %s not found\n", fileName);
+		Error("File %s not found\n", fileName);
 		return;
 	}
 
@@ -114,7 +130,6 @@ void Compiler::ParseGlue()
 	while (mCurrentTokenType != TType::kEOF)
 	{
 		ParseGlueDeclaration();
-		NextToken();
 	}
 }
 
@@ -126,7 +141,8 @@ void Compiler::ReadScript(const char* fileName)
 	inputStream.open(fileName, std::ifstream::in);
 	if (!inputStream.good())
 	{
-		Message(MsgSeverity::kError, "File %s not found\n", fileName);
+		++mErrorCount;
+		Error("File %s not found\n", fileName);
 		return;
 	}
 
@@ -155,9 +171,9 @@ Identifier Compiler::AddIdentifier(const char* first, const char* last)
 	return mIdentifiers.AddValue(first, last);
 }
 
-Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber, const char* str, int len)
+Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber)
 {
-	mTokenList.push_back(Token(tokenType, fileIndex, lineNumber, str, len));
+	mTokenList.push_back(Token(tokenType, fileIndex, lineNumber));
 	return mTokenList.back();
 }
 
@@ -174,6 +190,10 @@ Type* Compiler::ParseType()
 			return nullptr;
 
 		case TType::kString:
+			NextToken();
+			return nullptr;
+
+		case TType::kVoid:
 			NextToken();
 			return nullptr;
 
@@ -245,8 +265,9 @@ void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
 
 		if (mCurrentTokenType != TType::kComma)
 			break;
+		
+		Expect(TType::kComma);
 	}
-	Expect(TType::kCloseParen);
 }
 
 void Compiler::StartParse()
@@ -255,7 +276,7 @@ void Compiler::StartParse()
 	// make sure the token list has its terminator on it.
 	if (mTokenList.size() <= 0)
 	{
-		CreateToken(TType::kEOF, 0, 0, "", 0);
+		CreateToken(TType::kEOF, 0, 0);
 	}
 
 	if (mCurrentTokenIndex != 0)
@@ -274,11 +295,6 @@ void Compiler::NextToken()
 	++mCurrentTokenIndex;
 	mCurrentToken = &mTokenList[mCurrentTokenIndex];
 	mCurrentTokenType = mCurrentToken->GetType();
-}
-
-void Compiler::Error(size_t errorTokenIndex, const char* message)
-{
-	ShowLine(errorTokenIndex, message, MsgSeverity::kError);
 }
 
 void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity)
@@ -307,8 +323,16 @@ void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity
 		if (mTokenList[tokenIndex].GetLineNumber() != line)
 			break;
 
+		bool thisIsTheOne = tokenIndex == errorTokenIndex;
+
 		const Token& tok = mTokenList[tokenIndex++];
+
+		if (thisIsTheOne)
+			Message(severity, "<<");
 		tok.Print(severity);
+		if (thisIsTheOne)
+			Message(severity, ">>");
+
 		Message(severity, " ");
 	}
 }
@@ -325,8 +349,9 @@ bool Compiler::Expect(TType expectedType)
 {
 	if (mCurrentTokenType != expectedType)
 	{
-		// todo: needs to identify the token type
-		Error(mCurrentTokenIndex, "expected");
+		char messageBuf[32];
+		sprintf_s(messageBuf, "'%s' expected", Token::StringRepresentation(expectedType));
+		Error(mCurrentTokenIndex, messageBuf);
 		return false;
 	}
 	else

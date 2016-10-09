@@ -7,7 +7,7 @@
 #include "ScriptTokenizer.h"
 
 #pragma warning( disable : 4244 )		// truncation
-#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
+#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno); return type
 %}
 
 %option nodefault
@@ -55,21 +55,24 @@ LETTER					[a-zA-Z_]
 
 	/* Identifier */
 {LETTER}({LETTER}|{DIGIT})*					{
-												GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kIdentifier;
 											}
 
 	/* Decimal constant */
 {DIGIT}+									{
-												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno);
 												t.SetValue(ParseInt());
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kInt;
 											}
 
 	/* Float constant */
 {DIGIT}+"."{DIGIT}+							{
-												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno);
 												t.SetValue(ParseDouble());
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kFloat;
 											}
 
@@ -77,7 +80,8 @@ LETTER					[a-zA-Z_]
 \".*\"										{
 												char stringBuf[2048];
 												strncpy_s(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
-												GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno, stringBuf, yyleng - 2);
+												Token& t = GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno);
+												t.SetValue(GCompiler.AddIdentifier(stringBuf, stringBuf + (yyleng - 2)));
 												return TType::kStringConstant;
 											}
 
@@ -85,7 +89,7 @@ LETTER					[a-zA-Z_]
 [ \r\v\f]				{}
 [\t]					{}
 [\n]					{	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
+							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
 							return TType::kEOL;
 						}
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }

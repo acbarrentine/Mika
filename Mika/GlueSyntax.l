@@ -7,7 +7,7 @@
 #include "GlueTokenizer.h"
 
 #pragma warning( disable : 4244 )		// truncation
-#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno, yytext, yyleng); return type
+#define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno); return type
 %}
 
 %option nodefault
@@ -37,7 +37,8 @@ LETTER					[a-zA-Z_]
 
 	/* Identifier */
 {LETTER}({LETTER}|{DIGIT})*					{
-												GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno, yytext, yyleng);
+												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
+												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kIdentifier;
 											}
 
@@ -45,7 +46,7 @@ LETTER					[a-zA-Z_]
 [ \r\v\f]				{}
 [\t]					{}
 [\n]					{	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++, yytext, yyleng);
+							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
 							return TType::kEOL;
 						}
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }
