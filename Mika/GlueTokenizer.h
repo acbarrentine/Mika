@@ -15,9 +15,9 @@ protected:
 	int mFileIndex;
 
 public:
-	GlueTokenizer(std::istream* in)
+	GlueTokenizer(std::istream* in, int fileIndex)
 		: yyFlexLexer(in)
-		, mFileIndex(0)
+		, mFileIndex(fileIndex)
 	{
 	}
 

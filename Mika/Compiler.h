@@ -67,14 +67,18 @@ protected:
 	Statement* ParseScriptCompoundStatement();
 	Statement* ParseScriptIfStatement();
 	Statement* ParseScriptWhileStatement();
+	Statement* ParseScriptReturnStatement();
 	Statement* ParseScriptExpressionStatement();
 	Expression* ParseScriptExpression();
+	Expression* ParseScriptPrimaryExpression();
+	Expression* ParseScriptExpressionWithPrecedence(int precedence);
 
 	void StartParse();
 	void NextToken();
 	void ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity) ;
 	bool Peek(TType expectedType);
 	bool Expect(TType expectedType);
+	void SwallowTokens(TType terminator);
 };
 
 extern Compiler GCompiler;

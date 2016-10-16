@@ -7,10 +7,16 @@
 #include "FunctionDeclaration.h"
 #include "ScriptFunction.h"
 #include "Expression.h"
+#include "IntConstantExpression.h"
+#include "FloatConstantExpression.h"
+#include "StringConstantExpression.h"
+#include "FunctionCallExpression.h"
+#include "IdentifierExpression.h"
 #include "Statement.h"
 #include "CompoundStatement.h"
 #include "IfStatement.h"
 #include "WhileStatement.h"
+#include "ReturnStatement.h"
 #include "ExpressionStatement.h"
 #include <stdarg.h>
 
@@ -102,10 +108,14 @@ void Compiler::Error(size_t errorTokenIndex, const char* message)
 
 void Compiler::Error(const char* format, ...)
 {
+	static char buf[64 * 1024];
+
 	va_list args;
 	va_start(args, format);
-	MessageArgs(MsgSeverity::kError, format, args);
+	vsnprintf(buf, sizeof(buf), format, args);
 	va_end(args);
+
+	ShowLine(mCurrentTokenIndex, buf, MsgSeverity::kError);
 
 	if (++mErrorCount > 100)
 	{
@@ -126,7 +136,7 @@ void Compiler::ReadGlue(const char* fileName)
 		return;
 	}
 
-	GlueTokenizer tokenizer(&inputStream);
+	GlueTokenizer tokenizer(&inputStream, mFileNames.size() - 1);
 	tokenizer.Read();
 }
 
@@ -153,7 +163,7 @@ void Compiler::ReadScript(const char* fileName)
 		return;
 	}
 
-	ScriptTokenizer tokenizer(&inputStream);
+	ScriptTokenizer tokenizer(&inputStream, mFileNames.size() - 1);
 	tokenizer.Read();
 }
 
@@ -308,6 +318,9 @@ void Compiler::ParseScriptFunction()
 		name = mCurrentToken->GetIdentifier();
 		NextToken();
 	}
+	Expect(TType::kOpenParen);
+	Expect(TType::kCloseParen);
+
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
 
@@ -335,6 +348,10 @@ Statement* Compiler::ParseScriptStatement()
 			retVal = ParseScriptWhileStatement();
 			break;
 
+		case TType::kReturn:
+			retVal = ParseScriptReturnStatement();
+			break;
+
 		case TType::kOpenBrace:
 			retVal = ParseScriptCompoundStatement();
 			break;
@@ -343,7 +360,12 @@ Statement* Compiler::ParseScriptStatement()
 			retVal = ParseScriptExpressionStatement();
 			break;
 	}
-	Expect(TType::kEOL);
+	
+	if (!Expect(TType::kEOL))
+	{
+		SwallowTokens(TType::kEOL);
+	}
+	
 	return retVal;
 }
 
@@ -399,6 +421,15 @@ Statement* Compiler::ParseScriptWhileStatement()
 	return whileStmt;
 }
 
+Statement* Compiler::ParseScriptReturnStatement()
+{
+	ReturnStatement* retStmt = new ReturnStatement(mCurrentTokenIndex);
+	Expect(TType::kReturn);
+	Expression* expr = ParseScriptExpression();
+	retStmt->SetExpression(expr);
+	return retStmt;
+}
+
 Statement* Compiler::ParseScriptExpressionStatement()
 {
 	ExpressionStatement* exprStmt = new ExpressionStatement(mCurrentTokenIndex);
@@ -409,8 +440,71 @@ Statement* Compiler::ParseScriptExpressionStatement()
 
 Expression* Compiler::ParseScriptExpression()
 {
-	Expression* expr = new Expression(mCurrentTokenIndex);
-	NextToken();
+	Expression* expr = ParseScriptPrimaryExpression();
+	return expr;
+}
+
+Expression* Compiler::ParseScriptPrimaryExpression()
+{
+	Expression* expr = nullptr;
+	switch (mCurrentTokenType)
+	{
+		case kOpenParen:
+			NextToken();
+			expr = ParseScriptExpressionWithPrecedence(0);
+			Expect(TType::kCloseParen);
+			break;
+		case kIdentifier:
+			if (Peek(TType::kOpenParen))
+			{
+				FunctionCallExpression* callExpr = new FunctionCallExpression(mCurrentTokenIndex);
+				NextToken();
+				Expect(TType::kOpenParen);
+				while (mCurrentTokenType != TType::kCloseParen && mCurrentTokenType != TType::kEOF)
+				{
+					Expression* arg = ParseScriptExpression();
+					callExpr->AddActual(arg);
+					if (mCurrentTokenType == TType::kComma)
+					{
+						NextToken();
+					}
+					else
+					{
+						break;
+					}
+				}
+				Expect(TType::kCloseParen);
+				expr = callExpr;
+			}
+			else
+			{
+				expr = new IdentifierExpression(mCurrentTokenIndex);
+				NextToken();
+			}
+			break;
+		case kIntConstant:
+			expr = new IntConstantExpression(mCurrentTokenIndex);
+			NextToken();
+			break;
+		case kFloatConstant:
+			expr = new FloatConstantExpression(mCurrentTokenIndex);
+			NextToken();
+			break;
+		case kStringConstant:
+			expr = new StringConstantExpression(mCurrentTokenIndex);
+			NextToken();
+			break;
+		case kEOF:
+		default:
+			break;
+	}
+	return expr;
+}
+
+Expression* Compiler::ParseScriptExpressionWithPrecedence(int precedence)
+{
+	precedence;
+	Expression* expr = ParseScriptPrimaryExpression();
 	return expr;
 }
 
@@ -464,12 +558,11 @@ void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity
 
 	while (1)
 	{
-		if (mTokenList[tokenIndex].GetLineNumber() != line)
+		const Token& tok = mTokenList[tokenIndex++];
+		if (tok.GetLineNumber() != line || tok.GetType() == TType::kEOL)
 			break;
 
 		bool thisIsTheOne = tokenIndex == errorTokenIndex;
-
-		const Token& tok = mTokenList[tokenIndex++];
 
 		if (thisIsTheOne)
 			Message(severity, "<<");
@@ -479,6 +572,8 @@ void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity
 
 		Message(severity, " ");
 	}
+
+	Message(severity, "\n");
 }
 
 bool Compiler::Peek(TType expectedType)
@@ -502,5 +597,20 @@ bool Compiler::Expect(TType expectedType)
 	{
 		NextToken();
 		return true;
+	}
+}
+
+void Compiler::SwallowTokens(TType terminator)
+{
+	while (1)
+	{
+		Token& t = mTokenList[mCurrentTokenIndex];
+		TType tokenType = t.GetType();
+		if (tokenType == terminator
+			|| tokenType == TType::kEOF)
+		{
+			break;
+		}
+		NextToken();
 	}
 }

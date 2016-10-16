@@ -2,13 +2,13 @@ fun TestEntry() : int
 {
 	Print("hello world")
 	if OtherFunc() < 4
-		Print("success");
+		Print("success")
 	else
 	{
-		Print("fail");
+		Print("fail")
 	}
 	return 4
 }
 
 fun OtherFunc() : int
-	return 2;
+	return 2

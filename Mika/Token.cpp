@@ -16,7 +16,14 @@ void Token::Print(MsgSeverity severity) const
 	const char* stringRep = StringRepresentation(mType);
 	if (!stringRep)
 	{
-		GCompiler.Message(severity, mStringValue.GetString());
+		if (mType == TType::kStringConstant)
+		{
+			GCompiler.Message(severity, "\"%s\"", mStringValue.GetString());
+		}
+		else
+		{
+			GCompiler.Message(severity, mStringValue.GetString());
+		}
 	}
 	else
 	{
@@ -60,7 +67,7 @@ const char* Token::StringRepresentation(TType tokenType)
 		case kStruct:			return "struct";
 		case kReturn:			return "return";
 
-		case kEOL:				return "\n";
+		case kEOL:				return "<<NEWLINE>>";
 		case kEOF:				return "<<EOF>>";
 
 		default:				return nullptr;

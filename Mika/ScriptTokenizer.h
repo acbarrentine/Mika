@@ -15,9 +15,9 @@ protected:
 	int mFileIndex;
 
 public:
-	ScriptTokenizer(std::istream* in)
+	ScriptTokenizer(std::istream* in, int fileIndex)
 		: yyFlexLexer(in)
-		, mFileIndex(0)
+		, mFileIndex(fileIndex)
 	{
 	}
 
