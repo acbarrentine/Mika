@@ -5,6 +5,13 @@
 #include "Type.h"
 #include "Variable.h"
 #include "FunctionDeclaration.h"
+#include "ScriptFunction.h"
+#include "Expression.h"
+#include "Statement.h"
+#include "CompoundStatement.h"
+#include "IfStatement.h"
+#include "WhileStatement.h"
+#include "ExpressionStatement.h"
 #include <stdarg.h>
 
 
@@ -156,14 +163,18 @@ void Compiler::ParseScript()
 
 	while (mCurrentTokenType != TType::kEOF)
 	{
-		mCurrentToken->Print(MsgSeverity::kInfo);
-		NextToken();
+		ParseScriptDeclaration();
 	}
 }
 
 const char* Compiler::GetFileName(int fileIndex) const
 {
 	return mFileNames[fileIndex].c_str();
+}
+
+Identifier Compiler::AddIdentifier(const char* id)
+{
+	return mIdentifiers.AddValue(id, id + strlen(id));
 }
 
 Identifier Compiler::AddIdentifier(const char* first, const char* last)
@@ -268,6 +279,139 @@ void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
 		
 		Expect(TType::kComma);
 	}
+}
+
+void Compiler::ParseScriptDeclaration()
+{
+	if (mCurrentTokenType == TType::kFun)
+	{
+		NextToken();
+		ParseScriptFunction();
+		return;
+	}
+
+	Error("Unrecognized script declaration");
+	NextToken();
+}
+
+void Compiler::ParseScriptFunction()
+{
+	size_t rootToken = mCurrentTokenIndex;
+	Identifier name;
+	if (mCurrentTokenType != TType::kIdentifier)
+	{
+		Error("function name expected");
+		name = AddIdentifier("__internal__");
+	}
+	else
+	{
+		name = mCurrentToken->GetIdentifier();
+		NextToken();
+	}
+	Expect(TType::kColon);
+	Type* returnType = ParseType();
+
+	ScriptFunction* func = new ScriptFunction(rootToken);
+	func->SetName(name);
+	func->SetReturnType(returnType);
+
+	Expect(TType::kEOL);
+	Statement* body = ParseScriptStatement();
+	func->SetStatement(body);
+
+	mScriptFunctions.push_back(func);
+}
+
+Statement* Compiler::ParseScriptStatement()
+{
+	Statement* retVal;
+	switch (mCurrentTokenType)
+	{
+		case TType::kIf:
+			retVal = ParseScriptIfStatement();
+			break;
+
+		case TType::kWhile:
+			retVal = ParseScriptWhileStatement();
+			break;
+
+		case TType::kOpenBrace:
+			retVal = ParseScriptCompoundStatement();
+			break;
+
+		default:
+			retVal = ParseScriptExpressionStatement();
+			break;
+	}
+	Expect(TType::kEOL);
+	return retVal;
+}
+
+Statement* Compiler::ParseScriptCompoundStatement()
+{
+	CompoundStatement* cmpStmt = new CompoundStatement(mCurrentTokenIndex);
+
+	Expect(TType::kOpenBrace);
+	Expect(TType::kEOL);
+	while (mCurrentTokenType != TType::kCloseBrace
+		&& mCurrentTokenType != TType::kEOF)
+	{
+		Statement* sub = ParseScriptStatement();
+		cmpStmt->AddStatement(sub);
+	}
+	Expect(TType::kCloseBrace);
+	Expect(TType::kEOL);
+
+	return cmpStmt;
+}
+
+Statement* Compiler::ParseScriptIfStatement()
+{
+	IfStatement* ifStmt = new IfStatement(mCurrentTokenIndex);
+
+	Expect(TType::kIf);
+	Expression* expr = ParseScriptExpression();
+	ifStmt->SetExpression(expr);
+	Expect(TType::kEOL);
+	Statement* thenClause = ParseScriptStatement();
+	ifStmt->SetThenClause(thenClause);
+
+	// 'else' optional
+	if (mCurrentTokenType == TType::kElse)
+	{
+		NextToken();
+		Statement* elseClause = ParseScriptStatement();
+		ifStmt->SetElseClause(elseClause);
+	}
+
+	return ifStmt;
+}
+
+Statement* Compiler::ParseScriptWhileStatement()
+{
+	WhileStatement* whileStmt = new WhileStatement(mCurrentTokenIndex);
+	Expect(TType::kWhile);
+	Expression* expr = ParseScriptExpression();
+	whileStmt->SetExpression(expr);
+	Expect(TType::kEOL);
+	Statement* body = ParseScriptStatement();
+	whileStmt->SetLoop(body);
+	return whileStmt;
+}
+
+Statement* Compiler::ParseScriptExpressionStatement()
+{
+	ExpressionStatement* exprStmt = new ExpressionStatement(mCurrentTokenIndex);
+	Expression* expr = ParseScriptExpression();
+	exprStmt->SetExpression(expr);
+	return exprStmt;
+}
+
+Expression* Compiler::ParseScriptExpression()
+{
+	Expression* expr = new Expression(mCurrentTokenIndex);
+	NextToken();
+	return expr;
 }
 
 void Compiler::StartParse()

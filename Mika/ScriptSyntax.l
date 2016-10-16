@@ -42,6 +42,7 @@ LETTER					[a-zA-Z_]
 "!="					{ SYNTAX_TOKEN(TType::kNotEquals); }
 
 "if"					{ SYNTAX_TOKEN(TType::kIf); }
+"else"					{ SYNTAX_TOKEN(TType::kElse); }
 "while"					{ SYNTAX_TOKEN(TType::kWhile); }
 "and"					{ SYNTAX_TOKEN(TType::kAnd); }
 "or"					{ SYNTAX_TOKEN(TType::kOr); }

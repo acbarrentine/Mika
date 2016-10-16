@@ -40,6 +40,27 @@
     <ClInclude Include="Type.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ScriptFunction.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Statement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Expression.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IfStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WhileStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpressionStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CompoundStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

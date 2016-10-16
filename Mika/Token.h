@@ -25,6 +25,7 @@ enum TType
 	kNotEquals,
 
 	kIf,
+	kElse,
 	kWhile,
 	kAnd,
 	kOr,

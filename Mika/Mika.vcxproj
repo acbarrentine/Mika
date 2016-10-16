@@ -146,14 +146,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Compiler.h" />
+    <ClInclude Include="CompoundStatement.h" />
+    <ClInclude Include="Expression.h" />
+    <ClInclude Include="ExpressionStatement.h" />
     <ClInclude Include="FunctionDeclaration.h" />
     <ClInclude Include="GlueTokenizer.h" />
     <ClInclude Include="Identifier.h" />
+    <ClInclude Include="IfStatement.h" />
+    <ClInclude Include="ScriptFunction.h" />
     <ClInclude Include="ScriptTokenizer.h" />
+    <ClInclude Include="Statement.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="Variable.h" />
+    <ClInclude Include="WhileStatement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Compiler.cpp" />

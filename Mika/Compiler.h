@@ -11,8 +11,15 @@ enum class MsgSeverity : int
 	kError2,
 };
 
-class FunctionDeclaration;
 class Type;
+class ScriptFunction;
+class FunctionDeclaration;
+class Expression;
+class Statement;
+class CompoundStatement;
+class IfStatement;
+class WhileStatement;
+class ExpressionStatement;
 
 class Compiler
 {
@@ -23,6 +30,7 @@ protected:
 	Token* mCurrentToken;
 	std::vector<Token> mTokenList;
 	std::vector<std::string> mFileNames;
+	std::vector<ScriptFunction*> mScriptFunctions;
 	StringTable mIdentifiers;
 	const int kInitialTokenCount = 200000;
 
@@ -41,14 +49,26 @@ public:
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
+	
+	Identifier AddIdentifier(const char* id);
 	Identifier AddIdentifier(const char* first, const char* last);
 	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber);
 
 protected:
 	Type* ParseType();
+	
 	void ParseGlueDeclaration();
 	void ParseGlueFunctionDeclaration();
 	void ParseGlueFunctionParameters(FunctionDeclaration* decl);
+
+	void ParseScriptDeclaration();
+	void ParseScriptFunction();
+	Statement* ParseScriptStatement();
+	Statement* ParseScriptCompoundStatement();
+	Statement* ParseScriptIfStatement();
+	Statement* ParseScriptWhileStatement();
+	Statement* ParseScriptExpressionStatement();
+	Expression* ParseScriptExpression();
 
 	void StartParse();
 	void NextToken();
