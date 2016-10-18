@@ -12,6 +12,7 @@
 #include "StringConstantExpression.h"
 #include "FunctionCallExpression.h"
 #include "IdentifierExpression.h"
+#include "BinaryExpression.h"
 #include "Statement.h"
 #include "CompoundStatement.h"
 #include "IfStatement.h"
@@ -382,7 +383,6 @@ Statement* Compiler::ParseScriptCompoundStatement()
 		cmpStmt->AddStatement(sub);
 	}
 	Expect(TType::kCloseBrace);
-	Expect(TType::kEOL);
 
 	return cmpStmt;
 }
@@ -402,6 +402,7 @@ Statement* Compiler::ParseScriptIfStatement()
 	if (mCurrentTokenType == TType::kElse)
 	{
 		NextToken();
+		Expect(TType::kEOL);
 		Statement* elseClause = ParseScriptStatement();
 		ifStmt->SetElseClause(elseClause);
 	}
@@ -440,7 +441,7 @@ Statement* Compiler::ParseScriptExpressionStatement()
 
 Expression* Compiler::ParseScriptExpression()
 {
-	Expression* expr = ParseScriptPrimaryExpression();
+	Expression* expr = ParseScriptExpressionWithPrecedence(0);
 	return expr;
 }
 
@@ -501,11 +502,60 @@ Expression* Compiler::ParseScriptPrimaryExpression()
 	return expr;
 }
 
-Expression* Compiler::ParseScriptExpressionWithPrecedence(int precedence)
+Expression* Compiler::ParseScriptExpressionWithPrecedence(int minPrecedence)
 {
-	precedence;
+	minPrecedence;
 	Expression* expr = ParseScriptPrimaryExpression();
+	while (1)
+	{
+		BinaryExpression* binExpr = ParseScriptBinaryOperator();
+		if (!binExpr)
+		{
+			return expr;
+		}
+
+		int precedence = binExpr->GetPrecedence();
+		if (precedence >= minPrecedence)
+		{
+			// consume the operator
+			NextToken();
+
+			// if we're dealing with associativity, here's where we do it
+
+			Expression* right = ParseScriptExpressionWithPrecedence(precedence);
+			binExpr->SetLeft(expr);
+			binExpr->SetRight(right);
+			expr = binExpr;
+		}
+		else
+		{
+			break;
+		}
+	}
+
 	return expr;
+}
+
+BinaryExpression* Compiler::ParseScriptBinaryOperator()
+{
+	switch (mCurrentTokenType)
+	{
+		case TType::kPlus:
+		case TType::kMinus:
+		case TType::kSlash:
+		case TType::kAsterisk:
+		case TType::kArrow:
+		case TType::kEquals:
+		case TType::kLessEquals:
+		case TType::kGreaterEquals:
+		case TType::kLessThan:
+		case TType::kGreaterThan:
+		case TType::kNotEquals:
+			return new BinaryExpression(mCurrentTokenIndex);
+
+		default:
+			return nullptr;
+	}
 }
 
 void Compiler::StartParse()

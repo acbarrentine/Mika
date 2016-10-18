@@ -15,6 +15,7 @@ class Type;
 class ScriptFunction;
 class FunctionDeclaration;
 class Expression;
+class BinaryExpression;
 class Statement;
 class CompoundStatement;
 class IfStatement;
@@ -49,7 +50,8 @@ public:
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
-	
+	Token& GetToken(size_t tokenIndex) { return mTokenList[tokenIndex]; }
+
 	Identifier AddIdentifier(const char* id);
 	Identifier AddIdentifier(const char* first, const char* last);
 	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber);
@@ -71,7 +73,8 @@ protected:
 	Statement* ParseScriptExpressionStatement();
 	Expression* ParseScriptExpression();
 	Expression* ParseScriptPrimaryExpression();
-	Expression* ParseScriptExpressionWithPrecedence(int precedence);
+	Expression* ParseScriptExpressionWithPrecedence(int minPrecedence);
+	BinaryExpression* ParseScriptBinaryOperator();
 
 	void StartParse();
 	void NextToken();

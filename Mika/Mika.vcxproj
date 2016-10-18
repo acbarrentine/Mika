@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryExpression.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="CompoundStatement.h" />
     <ClInclude Include="Expression.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="WhileStatement.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryExpression.cpp" />
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="FloatConstantExpression.cpp" />
     <ClCompile Include="FunctionCallExpression.cpp" />
