@@ -67,7 +67,6 @@ const char* Token::StringRepresentation(TType tokenType)
 		case kStruct:			return "struct";
 		case kReturn:			return "return";
 
-		case kEOL:				return "<<NEWLINE>>";
 		case kEOF:				return "<<EOF>>";
 
 		default:				return nullptr;

@@ -42,7 +42,6 @@ enum TType
 	kFloatConstant,
 	kStringConstant,
 
-	kEOL,
 	kEOF,
 	kInvalid,
 };

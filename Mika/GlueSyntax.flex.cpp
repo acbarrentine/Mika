@@ -706,27 +706,24 @@ case 15:
 /* rule 15 can match eol */
 YY_RULE_SETUP
 #line 48 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
-{	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
-							return TType::kEOL;
-						}
+{}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 52 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 49 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
 case 16:
 YY_RULE_SETUP
-#line 55 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 52 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 { LexError( *yytext ); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 57 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 54 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 730 "C:\\Code\\Mika\\Mika\\GlueSyntax.flex.cpp"
+#line 727 "C:\\Code\\Mika\\Mika\\GlueSyntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1623,7 +1620,7 @@ void Gluefree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 57 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
+#line 54 "C:\\Code\\Mika\\Mika\\GlueSyntax.l"
 
 
 

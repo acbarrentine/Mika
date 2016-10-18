@@ -89,10 +89,7 @@ LETTER					[a-zA-Z_]
 	/* Whitespace */
 [ \r\v\f]				{}
 [\t]					{}
-[\n]					{	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
-							return TType::kEOL;
-						}
+[\n]					{}
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }
 
 	/* Error check */

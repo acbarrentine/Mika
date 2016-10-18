@@ -253,7 +253,6 @@ void Compiler::ParseGlueFunctionDeclaration()
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
 	decl->SetReturnType(returnType);
-	Expect(TType::kEOL);
 }
 
 void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
@@ -329,7 +328,6 @@ void Compiler::ParseScriptFunction()
 	func->SetName(name);
 	func->SetReturnType(returnType);
 
-	Expect(TType::kEOL);
 	Statement* body = ParseScriptStatement();
 	func->SetStatement(body);
 
@@ -362,11 +360,6 @@ Statement* Compiler::ParseScriptStatement()
 			break;
 	}
 	
-	if (!Expect(TType::kEOL))
-	{
-		SwallowTokens(TType::kEOL);
-	}
-	
 	return retVal;
 }
 
@@ -375,7 +368,6 @@ Statement* Compiler::ParseScriptCompoundStatement()
 	CompoundStatement* cmpStmt = new CompoundStatement(mCurrentTokenIndex);
 
 	Expect(TType::kOpenBrace);
-	Expect(TType::kEOL);
 	while (mCurrentTokenType != TType::kCloseBrace
 		&& mCurrentTokenType != TType::kEOF)
 	{
@@ -394,7 +386,6 @@ Statement* Compiler::ParseScriptIfStatement()
 	Expect(TType::kIf);
 	Expression* expr = ParseScriptExpression();
 	ifStmt->SetExpression(expr);
-	Expect(TType::kEOL);
 	Statement* thenClause = ParseScriptStatement();
 	ifStmt->SetThenClause(thenClause);
 
@@ -402,7 +393,6 @@ Statement* Compiler::ParseScriptIfStatement()
 	if (mCurrentTokenType == TType::kElse)
 	{
 		NextToken();
-		Expect(TType::kEOL);
 		Statement* elseClause = ParseScriptStatement();
 		ifStmt->SetElseClause(elseClause);
 	}
@@ -416,7 +406,6 @@ Statement* Compiler::ParseScriptWhileStatement()
 	Expect(TType::kWhile);
 	Expression* expr = ParseScriptExpression();
 	whileStmt->SetExpression(expr);
-	Expect(TType::kEOL);
 	Statement* body = ParseScriptStatement();
 	whileStmt->SetLoop(body);
 	return whileStmt;
@@ -609,7 +598,7 @@ void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity
 	while (1)
 	{
 		const Token& tok = mTokenList[tokenIndex++];
-		if (tok.GetLineNumber() != line || tok.GetType() == TType::kEOL)
+		if (tok.GetLineNumber() != line)
 			break;
 
 		bool thisIsTheOne = tokenIndex == errorTokenIndex;

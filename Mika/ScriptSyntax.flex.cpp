@@ -865,27 +865,24 @@ case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
 #line 92 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
-{	
-							GCompiler.CreateToken(TType::kEOL, mFileIndex, yylineno++);
-							return TType::kEOL;
-						}
+{}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 96 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 93 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
 case 38:
 YY_RULE_SETUP
-#line 99 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 96 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 { LexError( *yytext ); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 101 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 98 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 889 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
+#line 886 "C:\\Code\\Mika\\Mika\\ScriptSyntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1782,7 +1779,7 @@ void Scriptfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 101 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
+#line 98 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
 
 
 
