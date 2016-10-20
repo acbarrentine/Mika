@@ -15,4 +15,5 @@ public:
 	{}
 
 	virtual void ResolveType() = 0;
+	Type* GetType() const { return mType; }
 };

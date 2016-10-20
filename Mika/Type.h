@@ -8,6 +8,7 @@ protected:
 	Identifier mName;
 	size_t mSize;
 
+public:
 	Type(Identifier name, size_t size)
 		: mName(name)
 		, mSize(size)

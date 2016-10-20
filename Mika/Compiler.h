@@ -25,6 +25,9 @@ class ExpressionStatement;
 class Compiler
 {
 protected:
+	typedef std::map<Identifier, FunctionDeclaration*> FunctionDeclarationMap;
+	typedef std::map<Identifier, Type*> TypeMap;
+
 	int mErrorCount;
 	size_t mCurrentTokenIndex;
 	TType mCurrentTokenType;
@@ -32,6 +35,8 @@ protected:
 	std::vector<Token> mTokenList;
 	std::vector<std::string> mFileNames;
 	std::vector<ScriptFunction*> mScriptFunctions;
+	FunctionDeclarationMap mDeclarations;
+	TypeMap mTypes;
 	StringTable mIdentifiers;
 	const int kInitialTokenCount = 200000;
 
@@ -47,6 +52,7 @@ public:
 	void ParseGlue();
 	void ReadScript(const char* fileName);
 	void ParseScript();
+	void AnalyzeScript();
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
@@ -56,7 +62,12 @@ public:
 	Identifier AddIdentifier(const char* first, const char* last);
 	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber);
 
+	FunctionDeclaration* FindDeclaration(Identifier name);
+	Type* FindType(TType tokenType);
+	Type* FindType(Identifier name);
+
 protected:
+	void RegisterBuiltInType(TType name, size_t size);
 	Type* ParseType();
 	
 	void ParseGlueDeclaration();

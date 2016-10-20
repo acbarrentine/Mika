@@ -31,6 +31,10 @@ Compiler::Compiler()
 	, mCurrentToken(nullptr)
 {
 	mTokenList.reserve(kInitialTokenCount);
+
+	RegisterBuiltInType(TType::kInt, 4);
+	RegisterBuiltInType(TType::kFloat, 8);
+	RegisterBuiltInType(TType::kString, 8);
 }
 
 void Compiler::Message(MsgSeverity severity, const char* format, ...)
@@ -178,6 +182,15 @@ void Compiler::ParseScript()
 	}
 }
 
+void Compiler::AnalyzeScript()
+{
+	for (size_t i = 0; i < mScriptFunctions.size(); ++i)
+	{
+		ScriptFunction* func = mScriptFunctions[i];
+		func->ResolveTypes();
+	}
+}
+
 const char* Compiler::GetFileName(int fileIndex) const
 {
 	return mFileNames[fileIndex].c_str();
@@ -197,6 +210,31 @@ Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber)
 {
 	mTokenList.push_back(Token(tokenType, fileIndex, lineNumber));
 	return mTokenList.back();
+}
+
+FunctionDeclaration* Compiler::FindDeclaration(Identifier name)
+{
+	FunctionDeclarationMap::iterator it = mDeclarations.find(name);
+	return it != mDeclarations.end() ? it->second : nullptr;
+}
+
+Type* Compiler::FindType(TType tokenType)
+{
+	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(tokenType));
+	return FindType(id);
+}
+
+Type* Compiler::FindType(Identifier name)
+{
+	TypeMap::iterator it = mTypes.find(name);
+	return it != mTypes.end() ? it->second : nullptr;
+}
+
+void Compiler::RegisterBuiltInType(TType name, size_t size)
+{
+	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
+	Type* t = new Type(id, size);
+	mTypes.insert(std::make_pair(id, t));
 }
 
 Type* Compiler::ParseType()
@@ -253,6 +291,8 @@ void Compiler::ParseGlueFunctionDeclaration()
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
 	decl->SetReturnType(returnType);
+
+	mDeclarations.insert(std::make_pair(id, decl));
 }
 
 void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
@@ -324,14 +364,18 @@ void Compiler::ParseScriptFunction()
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
 
+	FunctionDeclaration* decl = new FunctionDeclaration(rootToken, name);
+	decl->SetReturnType(returnType);
+
 	ScriptFunction* func = new ScriptFunction(rootToken);
 	func->SetName(name);
-	func->SetReturnType(returnType);
+	func->SetDeclaration(decl);
 
 	Statement* body = ParseScriptStatement();
 	func->SetStatement(body);
 
 	mScriptFunctions.push_back(func);
+	mDeclarations.insert(std::make_pair(name, decl));
 }
 
 Statement* Compiler::ParseScriptStatement()

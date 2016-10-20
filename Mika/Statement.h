@@ -9,4 +9,6 @@ public:
 	Statement(size_t rootToken)
 		: mRootToken(rootToken)
 	{}
+
+	virtual void ResolveTypes() = 0;
 };

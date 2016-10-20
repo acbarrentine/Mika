@@ -39,5 +39,15 @@ int BinaryExpression::GetPrecedence() const
 
 void BinaryExpression::ResolveType()
 {
+	mLeft->ResolveType();
+	mRight->ResolveType();
 
+	Type* leftType = mLeft->GetType();
+	Type* rightType = mRight->GetType();
+	if (leftType != rightType)
+	{
+		GCompiler.Error(mRootToken, "incompatible types in expression");
+	}
+
+	mType = leftType;
 }

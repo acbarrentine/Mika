@@ -16,4 +16,6 @@ public:
 	{
 		mStmtList.push_back(stmt);
 	}
+
+	virtual void ResolveTypes() override;
 };

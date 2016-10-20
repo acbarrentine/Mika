@@ -31,14 +31,9 @@ public:
 
 	const char* GetString() const { return mValue; }
 
-	friend struct IDComparator;
-};
-
-struct IDComparator
-{
-	bool operator()(const Identifier& lhs, const Identifier& rhs) const
+	bool operator<(const Identifier other)
 	{
-		return lhs.mValue < rhs.mValue;
+		return mValue < other.mValue;
 	}
 };
 

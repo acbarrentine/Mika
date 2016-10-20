@@ -2,6 +2,8 @@
 
 #include "Identifier.h"
 
+class Variable;
+
 class FunctionDeclaration
 {
 protected:
@@ -23,4 +25,5 @@ public:
 	}
 
 	void SetReturnType(Type* returnType) { mReturnType = returnType; }
+	Type* GetReturnType() const { return mReturnType; }
 };

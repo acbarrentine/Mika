@@ -18,4 +18,6 @@ public:
 
 	void SetExpression(Expression* expr) { mExpression = expr; }
 	void SetLoop(Statement* stmt) { mLoop = stmt; }
+
+	virtual void ResolveTypes() override;
 };

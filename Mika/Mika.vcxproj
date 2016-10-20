@@ -172,14 +172,19 @@
   <ItemGroup>
     <ClCompile Include="BinaryExpression.cpp" />
     <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="CompoundStatement.cpp" />
+    <ClCompile Include="ExpressionStatement.cpp" />
     <ClCompile Include="FloatConstantExpression.cpp" />
     <ClCompile Include="FunctionCallExpression.cpp" />
     <ClCompile Include="GlueSyntax.flex.cpp" />
     <ClCompile Include="GlueTokenizer.cpp" />
     <ClCompile Include="Identifier.cpp" />
     <ClCompile Include="IdentifierExpression.cpp" />
+    <ClCompile Include="IfStatement.cpp" />
     <ClCompile Include="IntConstantExpression.cpp" />
     <ClCompile Include="Mika.cpp" />
+    <ClCompile Include="ReturnStatement.cpp" />
+    <ClCompile Include="ScriptFunction.cpp" />
     <ClCompile Include="ScriptSyntax.flex.cpp" />
     <ClCompile Include="ScriptTokenizer.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +195,7 @@
     </ClCompile>
     <ClCompile Include="StringConstantExpression.cpp" />
     <ClCompile Include="Token.cpp" />
+    <ClCompile Include="WhileStatement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika" />

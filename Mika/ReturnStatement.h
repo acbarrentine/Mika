@@ -15,4 +15,6 @@ public:
 	{}
 
 	void SetExpression(Expression* expr) { mExpression = expr; }
+
+	virtual void ResolveTypes() override;
 };
