@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DB3D02DB-469E-40D4-A511-4022F74C0EB4}</ProjectGuid>
+    <ProjectGuid>{430D6738-9242-403C-B700-8489673D9A0F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Mika</RootNamespace>
+    <RootNamespace>MikaVM</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -29,7 +29,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -53,7 +53,6 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="..\winflex\custom_build_rules\win_flex_bison_custom_build.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -85,12 +84,10 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)winflex</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,73 +142,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryExpression.h" />
-    <ClInclude Include="Compiler.h" />
-    <ClInclude Include="CompoundStatement.h" />
-    <ClInclude Include="Expression.h" />
-    <ClInclude Include="ExpressionStatement.h" />
-    <ClInclude Include="FloatConstantExpression.h" />
-    <ClInclude Include="FunctionCallExpression.h" />
-    <ClInclude Include="FunctionDeclaration.h" />
-    <ClInclude Include="GlueTokenizer.h" />
-    <ClInclude Include="Identifier.h" />
-    <ClInclude Include="IdentifierExpression.h" />
-    <ClInclude Include="IfStatement.h" />
-    <ClInclude Include="IntConstantExpression.h" />
-    <ClInclude Include="ObjectFileHelper.h" />
-    <ClInclude Include="ReturnStatement.h" />
-    <ClInclude Include="ScriptFunction.h" />
-    <ClInclude Include="ScriptTokenizer.h" />
-    <ClInclude Include="Statement.h" />
+    <ClInclude Include="MikaScript.h" />
+    <ClInclude Include="MikaVM.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StringConstantExpression.h" />
-    <ClInclude Include="SymbolTable.h" />
-    <ClInclude Include="Token.h" />
-    <ClInclude Include="Type.h" />
-    <ClInclude Include="Variable.h" />
-    <ClInclude Include="WhileStatement.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BinaryExpression.cpp" />
-    <ClCompile Include="Compiler.cpp" />
-    <ClCompile Include="CompoundStatement.cpp" />
-    <ClCompile Include="ExpressionStatement.cpp" />
-    <ClCompile Include="FloatConstantExpression.cpp" />
-    <ClCompile Include="FunctionCallExpression.cpp" />
-    <ClCompile Include="FunctionDeclaration.cpp" />
-    <ClCompile Include="GlueSyntax.flex.cpp" />
-    <ClCompile Include="GlueTokenizer.cpp" />
-    <ClCompile Include="Identifier.cpp" />
-    <ClCompile Include="IdentifierExpression.cpp" />
-    <ClCompile Include="IfStatement.cpp" />
-    <ClCompile Include="IntConstantExpression.cpp" />
-    <ClCompile Include="Mika.cpp" />
-    <ClCompile Include="ObjectFileHelper.cpp" />
-    <ClCompile Include="ReturnStatement.cpp" />
-    <ClCompile Include="ScriptFunction.cpp" />
-    <ClCompile Include="ScriptSyntax.flex.cpp" />
-    <ClCompile Include="ScriptTokenizer.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MikaScript.cpp" />
+    <ClCompile Include="MikaVM.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="StringConstantExpression.cpp" />
-    <ClCompile Include="SymbolTable.cpp" />
-    <ClCompile Include="Token.cpp" />
-    <ClCompile Include="WhileStatement.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\TestScripts\FirstRun.mika" />
-    <None Include="..\TestScripts\MikaGlue.mikah" />
-  </ItemGroup>
-  <ItemGroup>
-    <Flex Include="GlueSyntax.l" />
-    <Flex Include="ScriptSyntax.l" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\winflex\custom_build_rules\win_flex_bison_custom_build.targets" />
   </ImportGroup>
 </Project>

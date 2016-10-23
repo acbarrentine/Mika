@@ -53,6 +53,7 @@ public:
 	void ReadScript(const char* fileName);
 	void ParseScript();
 	void AnalyzeScript();
+	void WriteObjectFile(const char* fileName);
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }

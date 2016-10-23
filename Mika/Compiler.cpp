@@ -20,6 +20,7 @@
 #include "WhileStatement.h"
 #include "ReturnStatement.h"
 #include "ExpressionStatement.h"
+#include "ObjectFileHelper.h"
 #include <stdarg.h>
 
 
@@ -186,15 +187,24 @@ void Compiler::ParseScript()
 void Compiler::AnalyzeScript()
 {
 	SymbolTable symbolTable;
-	symbolTable.Push();
 
-	for (size_t i = 0; i < mScriptFunctions.size(); ++i)
+	// TODO global variables?
+
+	symbolTable.Push();
+	for (ScriptFunction* func : mScriptFunctions)
 	{
-		ScriptFunction* func = mScriptFunctions[i];
 		func->ResolveTypes(symbolTable);
 	}
-
 	symbolTable.Pop();
+}
+
+void Compiler::WriteObjectFile(const char* fileName)
+{
+	ObjectFileHelper helper(fileName);
+	for (ScriptFunction* func : mScriptFunctions)
+	{
+		helper.AddFunction(func);
+	}
 }
 
 const char* Compiler::GetFileName(int fileIndex) const

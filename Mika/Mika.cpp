@@ -10,6 +10,7 @@ int main()
 	if (GCompiler.GetErrorCount() == 0) GCompiler.ParseGlue();
 	if (GCompiler.GetErrorCount() == 0) GCompiler.ReadScript("FirstRun.mika");
 	if (GCompiler.GetErrorCount() == 0) GCompiler.ParseScript();
-    return -GCompiler.GetErrorCount();
+	if (GCompiler.GetErrorCount() == 0) GCompiler.WriteObjectFile("FirstRun.miko");
+	return -GCompiler.GetErrorCount();
 }
 
