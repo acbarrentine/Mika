@@ -164,6 +164,7 @@
     <ClInclude Include="Statement.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringConstantExpression.h" />
+    <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="Variable.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="ExpressionStatement.cpp" />
     <ClCompile Include="FloatConstantExpression.cpp" />
     <ClCompile Include="FunctionCallExpression.cpp" />
+    <ClCompile Include="FunctionDeclaration.cpp" />
     <ClCompile Include="GlueSyntax.flex.cpp" />
     <ClCompile Include="GlueTokenizer.cpp" />
     <ClCompile Include="Identifier.cpp" />
@@ -194,6 +196,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="StringConstantExpression.cpp" />
+    <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="WhileStatement.cpp" />
   </ItemGroup>

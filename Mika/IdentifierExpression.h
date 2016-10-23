@@ -13,5 +13,5 @@ public:
 		: Expression(rootToken)
 	{}
 
-	virtual void ResolveType();
+	virtual void ResolveType(SymbolTable& symbolTable);
 };

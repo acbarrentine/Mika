@@ -22,5 +22,5 @@ public:
 	void SetThenClause(Statement* stmt) { mThenClause = stmt; }
 	void SetElseClause(Statement* stmt) { mElseClause = stmt; }
 
-	virtual void ResolveTypes() override;
+	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 };

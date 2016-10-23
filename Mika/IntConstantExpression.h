@@ -13,5 +13,5 @@ public:
 		, mValue(0)
 	{}
 
-	virtual void ResolveType();
+	virtual void ResolveType(SymbolTable& symbolTable);
 };

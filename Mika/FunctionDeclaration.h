@@ -3,6 +3,7 @@
 #include "Identifier.h"
 
 class Variable;
+class SymbolTable;
 
 class FunctionDeclaration
 {
@@ -23,6 +24,8 @@ public:
 	{
 		mParameterList.push_back(param);
 	}
+
+	void BindParameters(SymbolTable& symbolTable);
 
 	void SetReturnType(Type* returnType) { mReturnType = returnType; }
 	Type* GetReturnType() const { return mReturnType; }

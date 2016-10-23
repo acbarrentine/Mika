@@ -17,4 +17,7 @@ public:
 
 	void SetName(Identifier name) { mName = name; }
 	void SetType(Type* type) { mType = type; }
+
+	Identifier GetName() const { return mName; }
+	Type* GetType() const { return mType; }
 };

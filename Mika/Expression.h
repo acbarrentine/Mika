@@ -1,6 +1,7 @@
 #pragma once
 
 class Type;
+class SymbolTable;
 
 class Expression
 {
@@ -14,6 +15,6 @@ public:
 		, mType(nullptr)
 	{}
 
-	virtual void ResolveType() = 0;
+	virtual void ResolveType(SymbolTable& symbolTable) = 0;
 	Type* GetType() const { return mType; }
 };

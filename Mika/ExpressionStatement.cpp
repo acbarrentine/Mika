@@ -2,7 +2,7 @@
 #include "ExpressionStatement.h"
 #include "Expression.h"
 
-void ExpressionStatement::ResolveTypes()
+void ExpressionStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	mExpression->ResolveType();
+	mExpression->ResolveType(symbolTable);
 }

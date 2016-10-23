@@ -82,6 +82,9 @@
     <ClInclude Include="BinaryExpression.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="SymbolTable.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -145,6 +148,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ReturnStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SymbolTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FunctionDeclaration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -4,6 +4,7 @@
 #include "GlueTokenizer.h"
 #include "Type.h"
 #include "Variable.h"
+#include "SymbolTable.h"
 #include "FunctionDeclaration.h"
 #include "ScriptFunction.h"
 #include "Expression.h"
@@ -184,11 +185,16 @@ void Compiler::ParseScript()
 
 void Compiler::AnalyzeScript()
 {
+	SymbolTable symbolTable;
+	symbolTable.Push();
+
 	for (size_t i = 0; i < mScriptFunctions.size(); ++i)
 	{
 		ScriptFunction* func = mScriptFunctions[i];
-		func->ResolveTypes();
+		func->ResolveTypes(symbolTable);
 	}
+
+	symbolTable.Pop();
 }
 
 const char* Compiler::GetFileName(int fileIndex) const

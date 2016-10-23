@@ -19,5 +19,5 @@ public:
 
 	int GetPrecedence() const;
 
-	virtual void ResolveType();
+	virtual void ResolveType(SymbolTable& symbolTable);
 };

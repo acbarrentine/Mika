@@ -1,5 +1,7 @@
 #pragma once
 
+class SymbolTable;
+
 class Statement
 {
 protected:
@@ -10,5 +12,5 @@ public:
 		: mRootToken(rootToken)
 	{}
 
-	virtual void ResolveTypes() = 0;
+	virtual void ResolveTypes(SymbolTable& symbolTable) = 0;
 };

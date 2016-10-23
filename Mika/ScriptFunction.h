@@ -3,6 +3,7 @@
 class Type;
 class Statement;
 class FunctionDeclaration;
+class SymbolTable;
 
 class ScriptFunction
 {
@@ -28,5 +29,5 @@ public:
 		mStatement = stmt;
 	}
 
-	void ResolveTypes();
+	void ResolveTypes(SymbolTable& symbolTable);
 };

@@ -2,7 +2,7 @@
 #include "StringConstantExpression.h"
 #include "Compiler.h"
 
-void StringConstantExpression::ResolveType()
+void StringConstantExpression::ResolveType(SymbolTable&)
 {
 	mType = GCompiler.FindType(TType::kString);
 }

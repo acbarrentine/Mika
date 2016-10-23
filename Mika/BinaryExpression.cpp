@@ -37,10 +37,10 @@ int BinaryExpression::GetPrecedence() const
 	}
 }
 
-void BinaryExpression::ResolveType()
+void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 {
-	mLeft->ResolveType();
-	mRight->ResolveType();
+	mLeft->ResolveType(symbolTable);
+	mRight->ResolveType(symbolTable);
 
 	Type* leftType = mLeft->GetType();
 	Type* rightType = mRight->GetType();

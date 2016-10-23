@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "CompoundStatement.h"
 
-void CompoundStatement::ResolveTypes()
+void CompoundStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	for (size_t i = 0; i < mStmtList.size(); ++i)
+	for (Statement* stmt : mStmtList)
 	{
-		Statement* stmt = mStmtList[i];
-		stmt->ResolveTypes();
+		stmt->ResolveTypes(symbolTable);
 	}
 }

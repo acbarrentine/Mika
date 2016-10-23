@@ -16,5 +16,5 @@ public:
 
 	void SetExpression(Expression* expr) { mExpression = expr; }
 
-	virtual void ResolveTypes() override;
+	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 };

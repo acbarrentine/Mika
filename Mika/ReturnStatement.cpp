@@ -2,7 +2,7 @@
 #include "ReturnStatement.h"
 #include "Expression.h"
 
-void ReturnStatement::ResolveTypes()
+void ReturnStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	mExpression->ResolveType();
+	mExpression->ResolveType(symbolTable);
 }

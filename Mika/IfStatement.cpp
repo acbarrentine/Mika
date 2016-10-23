@@ -2,12 +2,12 @@
 #include "IfStatement.h"
 #include "Expression.h"
 
-void IfStatement::ResolveTypes()
+void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	mExpression->ResolveType();
-	mThenClause->ResolveTypes();
+	mExpression->ResolveType(symbolTable);
+	mThenClause->ResolveTypes(symbolTable);
 	if (mElseClause)
 	{
-		mElseClause->ResolveTypes();
+		mElseClause->ResolveTypes(symbolTable);
 	}
 }

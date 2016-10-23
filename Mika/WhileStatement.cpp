@@ -2,8 +2,8 @@
 #include "WhileStatement.h"
 #include "Expression.h"
 
-void WhileStatement::ResolveTypes()
+void WhileStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	mExpression->ResolveType();
-	mLoop->ResolveTypes();
+	mExpression->ResolveType(symbolTable);
+	mLoop->ResolveTypes(symbolTable);
 }

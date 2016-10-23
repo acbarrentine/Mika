@@ -3,7 +3,7 @@
 #include "Compiler.h"
 #include "FunctionDeclaration.h"
 
-void FunctionCallExpression::ResolveType()
+void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 {
 	Token& nameToken = GCompiler.GetToken(mRootToken);
 	mDeclaration = GCompiler.FindDeclaration(nameToken.GetIdentifier());
@@ -19,7 +19,7 @@ void FunctionCallExpression::ResolveType()
 	for (size_t i = 0; i < mActuals.size(); ++i)
 	{
 		Expression* expr = mActuals[i];
-		expr->ResolveType();
+		expr->ResolveType(symbolTable);
 
 		// todo - compare to declared types
 	}
