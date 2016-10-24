@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "MikaScript.h"
+#include "MikaArchive.h"
+
 
 MikaCell* MikaScript::OpCode::GetArgs() const
 {
@@ -13,3 +15,15 @@ MikaScript::OpCode* MikaScript::OpCode::Next() const
 	const char* nextOp = thisOp + argBytes;
 	return (MikaScript::OpCode*) nextOp;
 }
+
+void MikaScript::ReadScript(const char* fileName)
+{
+	MikaReader reader;
+	reader.Open(fileName);
+	if (!reader.Failed())
+	{
+		MikaFileHeader fileHeader;
+		reader >> fileHeader;
+	}
+}
+

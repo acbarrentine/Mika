@@ -30,8 +30,12 @@ protected:
 		OpCode* mByteCode;
 	};
 
+	std::vector<FunctionHeader> mFunctions;
+
 public:
 	MikaScript()
 	{
 	}
+
+	void ReadScript(const char* fileName);
 };
