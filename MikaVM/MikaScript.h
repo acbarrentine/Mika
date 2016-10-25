@@ -30,12 +30,13 @@ protected:
 		OpCode* mByteCode;
 	};
 
+	std::vector<char> mStringData;
+	std::vector<unsigned char> mByteData;
 	std::vector<FunctionHeader> mFunctions;
 
-public:
-	MikaScript()
-	{
-	}
+	friend class MikaReader;
+	friend class MikaWriter;
 
-	void ReadScript(const char* fileName);
+public:
+	MikaScript(const char* fileName);
 };

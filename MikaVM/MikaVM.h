@@ -2,7 +2,6 @@
 
 #include "MikaScript.h"
 
-
 class MikaVM
 {
 protected:
@@ -18,5 +17,6 @@ public:
 	MikaVM()
 	{}
 
+	void Import(MikaScript& script);
 	void Execute(const char* functionName);
 };

@@ -136,7 +136,7 @@ void Compiler::ReadGlue(const char* fileName)
 	mFileNames.push_back(fileName);
 
 	std::ifstream inputStream;
-	inputStream.open(fileName, std::ifstream::in);
+	inputStream.open(fileName, std::ios::in);
 	if (!inputStream.good())
 	{
 		Error("File %s not found\n", fileName);
@@ -162,7 +162,7 @@ void Compiler::ReadScript(const char* fileName)
 	mFileNames.push_back(fileName);
 
 	std::ifstream inputStream;
-	inputStream.open(fileName, std::ifstream::in);
+	inputStream.open(fileName, std::ios::in);
 	if (!inputStream.good())
 	{
 		++mErrorCount;
@@ -205,6 +205,8 @@ void Compiler::WriteObjectFile(const char* fileName)
 	{
 		helper.AddFunction(func);
 	}
+
+	helper.WriteFile();
 }
 
 const char* Compiler::GetFileName(int fileIndex) const

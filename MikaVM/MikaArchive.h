@@ -1,24 +1,20 @@
 #pragma once
 
-struct MikaFileHeader
+class MikaScript;
+class MikaArchive
 {
-	unsigned int mMagic;
-	unsigned int mNumFunctions;
-	unsigned int mStringDataSize;
-	unsigned int mByteDataSize;
+public:
+	virtual void Serialize(void* v, size_t size) = 0;
 
-	friend std::ifstream& operator >>(std::ifstream& ar, MikaFileHeader& header)
+	template <typename T>
+	friend MikaArchive& operator <<(MikaArchive& ar, T& o)
 	{
-		ar >> header.mMagic;
-		ar >> header.mNumFunctions;
-		ar >> header.mStringDataSize;
-		ar >> header.mByteDataSize;
-
+		ar.Serialize(&o, sizeof(o));
 		return ar;
 	}
 };
 
-class MikaReader
+class MikaReader : public MikaArchive
 {
 protected:
 	std::ifstream mStream;
@@ -29,13 +25,40 @@ public:
 		: mFailed(false)
 	{}
 
-	template <typename T>
-	MikaReader& operator >>(T& o)
-	{
-		mStream >> o;
-		return *this;
-	}
+	virtual void Serialize(void* v, size_t size);
 
-	void Open(const char* fileName);
+	void Process(const char* fileName, MikaScript* script);
 	bool Failed() { return mFailed; }
+};
+
+struct MikaArchiveFileHeader
+{
+	unsigned int mMagic;
+	unsigned int mNumFunctions;
+	unsigned int mStringDataSize;
+	unsigned int mByteDataSize;
+
+	friend MikaReader& operator <<(MikaReader& ar, MikaArchiveFileHeader& header)
+	{
+		ar << header.mMagic;
+		ar << header.mNumFunctions;
+		ar << header.mStringDataSize;
+		ar << header.mByteDataSize;
+		return ar;
+	}
+};
+
+struct MikaArchiveFunctionHeader
+{
+	unsigned int mNameOffset;
+	unsigned int mByteSize;
+	unsigned int mStackUsage;
+
+	friend MikaReader& operator <<(MikaReader& ar, MikaArchiveFunctionHeader& header)
+	{
+		ar << header.mNameOffset;
+		ar << header.mByteSize;
+		ar << header.mStackUsage;
+		return ar;
+	}
 };

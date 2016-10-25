@@ -16,14 +16,9 @@ MikaScript::OpCode* MikaScript::OpCode::Next() const
 	return (MikaScript::OpCode*) nextOp;
 }
 
-void MikaScript::ReadScript(const char* fileName)
+MikaScript::MikaScript(const char* fileName)
 {
 	MikaReader reader;
-	reader.Open(fileName);
-	if (!reader.Failed())
-	{
-		MikaFileHeader fileHeader;
-		reader >> fileHeader;
-	}
+	reader.Process(fileName, this);
 }
 

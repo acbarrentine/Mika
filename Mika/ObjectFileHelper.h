@@ -21,4 +21,6 @@ public:
 
 	void AddFunction(ScriptFunction* func);
 	void AddVariable(Variable* var);
+
+	void WriteFile();
 };
