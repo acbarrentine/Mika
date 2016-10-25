@@ -27,6 +27,16 @@ public:
 
 	virtual void Serialize(void* v, size_t size);
 
+	template <typename T>
+	friend MikaReader& operator<<(MikaReader& ar, std::vector<T>& vec)
+	{
+		size_t size;
+		ar << size;
+		vec.resize(size);
+		ar.Serialize(&vec[0], size);
+		return ar;
+	}
+
 	void Process(const char* fileName, MikaScript* script);
 	bool Failed() { return mFailed; }
 };
@@ -51,14 +61,14 @@ struct MikaArchiveFileHeader
 struct MikaArchiveFunctionHeader
 {
 	unsigned int mNameOffset;
-	unsigned int mByteSize;
-	unsigned int mStackUsage;
+	unsigned int mByteCodeSize;
+	unsigned int mStackSize;
 
 	friend MikaReader& operator <<(MikaReader& ar, MikaArchiveFunctionHeader& header)
 	{
 		ar << header.mNameOffset;
-		ar << header.mByteSize;
-		ar << header.mStackUsage;
+		ar << header.mByteCodeSize;
+		ar << header.mStackSize;
 		return ar;
 	}
 };

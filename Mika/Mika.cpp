@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Compiler.h"
 
+
 int main()
 {
 	if (GCompiler.GetErrorCount() == 0) GCompiler.ReadGlue("MikaGlue.mikah");
