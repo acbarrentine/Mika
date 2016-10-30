@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "ObjectFileHelper.h"
+#include "ScriptFunction.h"
+#include "Compiler.h"
 #include "..\MikaVM\MikaArchive.h"
 
 
@@ -7,57 +9,27 @@ class MikaWriter : public MikaArchive
 {
 protected:
 	std::ofstream mStream;
-	bool mFailed;
 
 public:
-	MikaWriter()
-		: mFailed(false)
-	{}
-
 	virtual void Serialize(void* v, size_t size)
 	{
 		mStream.write((char*)v, size);
 	}
 
-	template <typename T>
-	friend MikaWriter& operator<<(MikaWriter& ar, std::vector<T>& vec)
-	{
-		size_t size = vec.size();
-		ar.Serialize(&size, sizeof(size));
-		ar.Serialize(&vec[0], size);
-		return ar;
-	}
-
-	void Process(const char* fileName)
+	void Open(const char* fileName)
 	{
 		mStream.open(fileName, std::ios::out | std::ios::binary);
-
-		if (mStream.good())
-		{
-			std::vector<char> dummyCharData;
-			dummyCharData.resize(100);
-			std::vector<unsigned char> dummyByteData;
-			dummyByteData.resize(100);
-
-			MikaArchiveFileHeader fileHeader;
-			fileHeader.mMagic = 'MIKA';
-			fileHeader.mByteDataSize = dummyByteData.size();
-			fileHeader.mStringDataSize = dummyCharData.size();
-			fileHeader.mNumFunctions = 0;
-
-			*this << fileHeader;
-
-			*this << dummyCharData;
-			*this << dummyByteData;
-		}
 	}
 
-	bool Failed() { return mFailed; }
+	bool Failed() { return mStream.bad(); }
 };
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
-	func;
+	FunctionRecord record;
+	record.mFunction = func;
+	record.mNameOffset = AddString(func->GetName());
+	mFunctions.push_back(record);
 }
 
 void ObjectFileHelper::AddVariable(Variable* var)
@@ -68,5 +40,34 @@ void ObjectFileHelper::AddVariable(Variable* var)
 void ObjectFileHelper::WriteFile()
 {
 	MikaWriter writer;
-	writer.Process(mFileName);
+	writer.Open(mFileName);
+	if (writer.Failed())
+	{
+		GCompiler.Error("Failed to open output file '%s'", mFileName);
+		return;
+	}
+	
+	MikaArchiveFileHeader fileHeader;
+	fileHeader.mMagic = 'MIKA';
+	fileHeader.mByteData.resize(100);
+	fileHeader.mStringData = std::move(mStringData);
+
+	for (FunctionRecord& record : mFunctions)
+	{
+		MikaArchiveFunctionHeader header;
+		header.mByteCodeSize = 0;
+		header.mNameOffset = record.mNameOffset;
+		header.mStackSize = 0;
+		fileHeader.mFunctions.push_back(header);
+	}
+	writer << fileHeader;
+}
+
+int ObjectFileHelper::AddString(Identifier id)
+{
+	int len = mStringData.size();
+	const char* str = id.GetString();
+	mStringData.insert(mStringData.end(), str, str + strlen(str));
+	mStringData.push_back('\0');
+	return len;
 }

@@ -7,7 +7,7 @@ protected:
 
 public:
 	Identifier() : mValue(nullptr) {}
-	Identifier(const char* value) : mValue(value) {}
+	explicit Identifier(const char* value) : mValue(value) {}
 
 	bool operator ==(const Identifier& rhs) const
 	{

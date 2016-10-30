@@ -31,13 +31,18 @@ void MikaReader::Process(const char* fileName, MikaScript* script)
 			}
 		}
 
-		*this << script->mStringData;
-		*this << script->mByteData;
+		script->mByteData = std::move(fileHeader.mByteData);
+		script->mStringData = std::move(fileHeader.mStringData);
 
-		for (unsigned int i = 0; i < fileHeader.mNumFunctions; ++i)
+		script->mFunctions.reserve(fileHeader.mFunctions.size());
+		for (MikaArchiveFunctionHeader& arHeader : fileHeader.mFunctions)
 		{
+			MikaScript::FunctionHeader runTimeHeader;
+			runTimeHeader.mName = &script->mStringData[arHeader.mNameOffset];
+			runTimeHeader.mByteCode = nullptr;
+			script->mFunctions.push_back(runTimeHeader);
 
+			std::cout << "Adding func " << runTimeHeader.mName << " to script." << std::endl;
 		}
 	}
-
 }

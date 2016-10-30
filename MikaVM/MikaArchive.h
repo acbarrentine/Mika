@@ -18,45 +18,26 @@ class MikaReader : public MikaArchive
 {
 protected:
 	std::ifstream mStream;
-	bool mFailed;
 
 public:
-	MikaReader()
-		: mFailed(false)
-	{}
-
 	virtual void Serialize(void* v, size_t size);
 
-	template <typename T>
-	friend MikaReader& operator<<(MikaReader& ar, std::vector<T>& vec)
-	{
-		size_t size;
-		ar << size;
-		vec.resize(size);
-		ar.Serialize(&vec[0], size);
-		return ar;
-	}
-
 	void Process(const char* fileName, MikaScript* script);
-	bool Failed() { return mFailed; }
+	bool Failed() { return mStream.bad(); }
 };
 
-struct MikaArchiveFileHeader
+template <typename T>
+MikaArchive& operator<<(MikaArchive& ar, std::vector<T>& vec)
 {
-	unsigned int mMagic;
-	unsigned int mNumFunctions;
-	unsigned int mStringDataSize;
-	unsigned int mByteDataSize;
-
-	friend MikaReader& operator <<(MikaReader& ar, MikaArchiveFileHeader& header)
+	size_t size = vec.size();
+	ar << size;
+	vec.resize(size);
+	for (size_t i = 0; i < size; ++i)
 	{
-		ar << header.mMagic;
-		ar << header.mNumFunctions;
-		ar << header.mStringDataSize;
-		ar << header.mByteDataSize;
-		return ar;
+		ar << vec[i];
 	}
-};
+	return ar;
+}
 
 struct MikaArchiveFunctionHeader
 {
@@ -64,11 +45,28 @@ struct MikaArchiveFunctionHeader
 	unsigned int mByteCodeSize;
 	unsigned int mStackSize;
 
-	friend MikaReader& operator <<(MikaReader& ar, MikaArchiveFunctionHeader& header)
+	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFunctionHeader& header)
 	{
 		ar << header.mNameOffset;
 		ar << header.mByteCodeSize;
 		ar << header.mStackSize;
+		return ar;
+	}
+};
+
+struct MikaArchiveFileHeader
+{
+	unsigned int mMagic;
+	std::vector<char> mStringData;
+	std::vector<unsigned char> mByteData;
+	std::vector<MikaArchiveFunctionHeader> mFunctions;
+
+	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFileHeader& header)
+	{
+		ar << header.mMagic;
+		ar << header.mStringData;
+		ar << header.mByteData;
+		ar << header.mFunctions;
 		return ar;
 	}
 };

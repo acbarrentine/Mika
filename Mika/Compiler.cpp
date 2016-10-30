@@ -115,14 +115,12 @@ void Compiler::Error(size_t errorTokenIndex, const char* message)
 
 void Compiler::Error(const char* format, ...)
 {
-	static char buf[64 * 1024];
-
 	va_list args;
 	va_start(args, format);
-	vsnprintf(buf, sizeof(buf), format, args);
-	va_end(args);
 
-	ShowLine(mCurrentTokenIndex, buf, MsgSeverity::kError);
+	MessageArgs(MsgSeverity::kError, format, args);
+	Message(MsgSeverity::kError, "\n");
+	va_end(args);
 
 	if (++mErrorCount > 100)
 	{
@@ -165,7 +163,6 @@ void Compiler::ReadScript(const char* fileName)
 	inputStream.open(fileName, std::ios::in);
 	if (!inputStream.good())
 	{
-		++mErrorCount;
 		Error("File %s not found\n", fileName);
 		return;
 	}
@@ -358,7 +355,7 @@ void Compiler::ParseScriptDeclaration()
 		return;
 	}
 
-	Error("Unrecognized script declaration");
+	Error(mCurrentTokenIndex, "Unrecognized script declaration");
 	NextToken();
 }
 
@@ -368,7 +365,7 @@ void Compiler::ParseScriptFunction()
 	Identifier name;
 	if (mCurrentTokenType != TType::kIdentifier)
 	{
-		Error("function name expected");
+		Error(mCurrentTokenIndex, "function name expected");
 		name = AddIdentifier("__internal__");
 	}
 	else
