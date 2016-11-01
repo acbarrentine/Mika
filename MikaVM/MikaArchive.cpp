@@ -45,4 +45,5 @@ void MikaReader::Process(const char* fileName, MikaScript* script)
 			std::cout << "Adding func " << runTimeHeader.mName << " to script." << std::endl;
 		}
 	}
+
 }

@@ -36,5 +36,8 @@
     <ClInclude Include="MikaArchive.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="MikaOpcodes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

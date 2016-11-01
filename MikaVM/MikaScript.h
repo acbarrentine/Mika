@@ -15,10 +15,10 @@ protected:
 	struct OpCode
 	{
 		GlueFunc mFunc;
-		unsigned char mFileIndex;
-		unsigned char mLineNumber;
-		unsigned char mNumArgs;
-		unsigned char mFlags;
+		unsigned short mFileIndex;
+		unsigned short mLineNumber;
+		unsigned short mNumArgs;
+		unsigned short mFlags;
 
 		MikaCell* GetArgs() const;
 		OpCode* Next() const;
@@ -35,7 +35,7 @@ protected:
 	std::vector<FunctionHeader> mFunctions;
 
 	friend class MikaReader;
-	friend class MikaWriter;
+	//friend class MikaWriter;
 
 public:
 	MikaScript(const char* fileName);

@@ -4,6 +4,7 @@ class Type;
 class Statement;
 class FunctionDeclaration;
 class SymbolTable;
+class ObjectFileHelper;
 
 class ScriptFunction
 {
@@ -30,4 +31,5 @@ public:
 	}
 
 	void ResolveTypes(SymbolTable& symbolTable);
+	void WriteInstructions(ObjectFileHelper& helper);
 };

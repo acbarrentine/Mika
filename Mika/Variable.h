@@ -20,4 +20,6 @@ public:
 
 	Identifier GetName() const { return mName; }
 	Type* GetType() const { return mType; }
+
+	size_t GetRootToken() const { return mRootToken; }
 };

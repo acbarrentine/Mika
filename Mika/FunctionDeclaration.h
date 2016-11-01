@@ -24,6 +24,14 @@ public:
 	{
 		mParameterList.push_back(param);
 	}
+	Variable* GetParameter(size_t index)
+	{
+		return mParameterList[index];
+	}
+	size_t GetParameterCount() const
+	{
+		return mParameterList.size();
+	}
 
 	void BindParameters(SymbolTable& symbolTable);
 
