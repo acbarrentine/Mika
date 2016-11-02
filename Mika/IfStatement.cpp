@@ -11,3 +11,8 @@ void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 		mElseClause->ResolveTypes(symbolTable);
 	}
 }
+
+void IfStatement::GenCode(ObjectFileHelper& helper)
+{
+	helper;
+}

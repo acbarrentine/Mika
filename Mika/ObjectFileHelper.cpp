@@ -5,18 +5,19 @@
 #include "..\MikaVM\MikaArchive.h"
 
 
-struct OpCodeData
-{
-	OpCode mCode;
-	int mNumArgs;
-};
-#undef MIKA_OPCODE
-#define MIKA_OPCODE(op, numArgs) op, numArgs,
-static OpCodeData SOpCodeData[] =
-{
-	IllegalInstruction, 0,
-#include "..\MikaVM\MikaOpcodes.h"
-};
+// struct OpCodeData
+// {
+// 	OpCode mCode;
+//  const char* mName;
+// 	int mNumArgs;
+// };
+// #undef MIKA_OPCODE
+// #define MIKA_OPCODE(op, numArgs) op, #op, numArgs,
+// static OpCodeData SOpCodeData[] =
+// {
+// 	IllegalInstruction, 0,
+// #include "..\MikaVM\MikaOpcodes.h"
+// };
 
 
 class MikaWriter : public MikaArchive
@@ -40,13 +41,8 @@ public:
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
-	FunctionRecord record;
-	record.mFunction = func;
-	record.mNameOffset = AddString(func->GetName());
-	record.mByteCodeOffset = mByteCodeData.size();
-	mFunctions.push_back(record);
-
-	func->WriteInstructions(*this);
+	mFunctions.emplace_back(func, AddString(func->GetName()));
+	func->GenCode(*this);
 }
 
 void ObjectFileHelper::AddVariable(Variable* var)
@@ -54,12 +50,11 @@ void ObjectFileHelper::AddVariable(Variable* var)
 	var;
 }
 
-void ObjectFileHelper::EmitInstruction(OpCode opCode, size_t rootToken)
+IRInstruction& ObjectFileHelper::EmitInstruction(OpCode opCode, size_t rootToken)
 {
-	Instruction i;
-	i.mOpCode = opCode;
-	i.mNumArgs = SOpCodeData[opCode].mNumArgs;
-	i.mRootToken = rootToken;
+	FunctionRecord& record = mFunctions.back();
+	record.mInstructions.emplace_back(opCode, rootToken);
+	return record.mInstructions.back();
 }
 
 void ObjectFileHelper::WriteFile()

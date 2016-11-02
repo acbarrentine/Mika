@@ -13,5 +13,6 @@ public:
 		, mValue(0.0f)
 	{}
 
-	virtual void ResolveType(SymbolTable& symbolTable);
+	virtual void ResolveType(SymbolTable& symbolTable) override;
+	virtual void GenCode(ObjectFileHelper& helper) override;
 };

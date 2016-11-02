@@ -16,4 +16,5 @@ public:
 	void SetExpression(Expression* expr) { mExpression = expr; }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
+	virtual void GenCode(ObjectFileHelper& helper) override;
 };

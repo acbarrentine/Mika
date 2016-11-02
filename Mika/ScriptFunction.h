@@ -31,5 +31,5 @@ public:
 	}
 
 	void ResolveTypes(SymbolTable& symbolTable);
-	void WriteInstructions(ObjectFileHelper& helper);
+	void GenCode(ObjectFileHelper& helper);
 };

@@ -23,4 +23,5 @@ public:
 	void SetElseClause(Statement* stmt) { mElseClause = stmt; }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
+	virtual void GenCode(ObjectFileHelper& helper) override;
 };

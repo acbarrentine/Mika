@@ -6,6 +6,7 @@
 #include "Variable.h"
 #include "SymbolTable.h"
 #include "ObjectFileHelper.h"
+#include "IRCode.h"
 
 
 Type* ScriptFunction::GetReturnType() const
@@ -21,12 +22,16 @@ void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 	symbolTable.Pop();
 }
 
-void ScriptFunction::WriteInstructions(ObjectFileHelper& helper)
+void ScriptFunction::GenCode(ObjectFileHelper& helper)
 {
 	// save called arguments
 	for (size_t i = 0; i < mDeclaration->GetParameterCount(); ++i)
 	{
 		Variable* var = mDeclaration->GetParameter(i);
-		helper.EmitInstruction(CopyArgToStack, var->GetRootToken());
+		IRInstruction& op = helper.EmitInstruction(CopyArgToStack, var->GetRootToken());
+		op.SetOperand(0, new IRVariableOperand(var));
+		op.SetOperand(1, new IRIntOperand(i));
 	}
+
+	mStatement->GenCode(helper);
 }

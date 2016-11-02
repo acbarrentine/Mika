@@ -19,5 +19,6 @@ public:
 
 	int GetPrecedence() const;
 
-	virtual void ResolveType(SymbolTable& symbolTable);
+	virtual void ResolveType(SymbolTable& symbolTable) override;
+	virtual void GenCode(ObjectFileHelper& helper) override;
 };

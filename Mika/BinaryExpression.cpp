@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "BinaryExpression.h"
 #include "Compiler.h"
+#include "ObjectFileHelper.h"
+
 
 int BinaryExpression::GetPrecedence() const
 {
@@ -50,4 +52,10 @@ void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 	}
 
 	mType = leftType;
+}
+
+void BinaryExpression::GenCode(ObjectFileHelper& helper)
+{
+	mLeft->GenCode(helper);
+	mRight->GenCode(helper);
 }

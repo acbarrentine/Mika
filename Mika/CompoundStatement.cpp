@@ -8,3 +8,11 @@ void CompoundStatement::ResolveTypes(SymbolTable& symbolTable)
 		stmt->ResolveTypes(symbolTable);
 	}
 }
+
+void CompoundStatement::GenCode(ObjectFileHelper& helper)
+{
+	for (Statement* stmt : mStmtList)
+	{
+		stmt->GenCode(helper);
+	}
+}

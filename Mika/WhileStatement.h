@@ -20,4 +20,5 @@ public:
 	void SetLoop(Statement* stmt) { mLoop = stmt; }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
+	virtual void GenCode(ObjectFileHelper& helper) override;
 };
