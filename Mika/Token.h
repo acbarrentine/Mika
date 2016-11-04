@@ -66,6 +66,10 @@ public:
 	void SetValue(double val) { mFloatValue = val; }
 	void SetValue(Identifier val) { mStringValue = val; }
 
+	int GetIntValue() const { return mIntValue; }
+	double GetFloatValue() const { return mFloatValue; }
+	Identifier GetStringValue() const { return mStringValue; }
+
 	TType GetType() const { return mType; }
 	int GetFileIndex() const { return mFileIndex; }
 	int GetLineNumber() const { return mLineNumber; }

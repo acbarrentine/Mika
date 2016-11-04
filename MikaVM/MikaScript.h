@@ -9,7 +9,7 @@ union MikaCell
 
 class MikaScript
 {
-protected:
+public:
 	typedef void(*GlueFunc)();
 
 	struct OpCode
@@ -24,6 +24,7 @@ protected:
 		OpCode* Next() const;
 	};
 
+protected:
 	struct FunctionHeader
 	{
 		const char* mName;

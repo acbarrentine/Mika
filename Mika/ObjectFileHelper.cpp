@@ -5,21 +5,6 @@
 #include "..\MikaVM\MikaArchive.h"
 
 
-// struct OpCodeData
-// {
-// 	OpCode mCode;
-//  const char* mName;
-// 	int mNumArgs;
-// };
-// #undef MIKA_OPCODE
-// #define MIKA_OPCODE(op, numArgs) op, #op, numArgs,
-// static OpCodeData SOpCodeData[] =
-// {
-// 	IllegalInstruction, 0,
-// #include "..\MikaVM\MikaOpcodes.h"
-// };
-
-
 class MikaWriter : public MikaArchive
 {
 protected:
@@ -41,8 +26,16 @@ public:
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
+	mByteCodeOffset = 0;
+
 	mFunctions.emplace_back(func, AddString(func->GetName()));
 	func->GenCode(*this);
+
+	//FunctionRecord& record = mFunctions.back();
+	
+	// optimize
+	// assign stack addresses
+	// byte code
 }
 
 void ObjectFileHelper::AddVariable(Variable* var)
@@ -53,17 +46,18 @@ void ObjectFileHelper::AddVariable(Variable* var)
 IRInstruction& ObjectFileHelper::EmitInstruction(OpCode opCode, size_t rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(opCode, rootToken);
+	record.mInstructions.emplace_back(opCode, rootToken, mByteCodeOffset);
+	mByteCodeOffset += record.mInstructions.back().GetSize();
 	return record.mInstructions.back();
 }
 
-void ObjectFileHelper::WriteFile()
+void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 {
 	MikaWriter writer;
-	writer.Open(mFileName);
+	writer.Open(objectFileName);
 	if (writer.Failed())
 	{
-		GCompiler.Error("Failed to open output file '%s'", mFileName);
+		GCompiler.Error("Failed to open output file '%s'", objectFileName);
 		return;
 	}
 	
@@ -81,6 +75,29 @@ void ObjectFileHelper::WriteFile()
 		fileHeader.mFunctions.push_back(header);
 	}
 	writer << fileHeader;
+}
+
+void ObjectFileHelper::WriteDebugFile(const char* debugFileName)
+{
+	std::ofstream stream;
+	stream.open(debugFileName, std::ios::out);
+	if (stream.bad())
+	{
+		GCompiler.Error("Failed to open debug output file '%s'", debugFileName);
+	}
+
+	for (FunctionRecord& record : mFunctions)
+	{
+		ScriptFunction* func = record.mFunction;
+		stream << func->GetName().GetString() << std::endl;
+	
+		for (IRInstruction& op : record.mInstructions)
+		{
+			stream << op << std::endl;
+		}
+
+		stream << std::endl;
+	}
 }
 
 int ObjectFileHelper::AddString(Identifier id)

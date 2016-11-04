@@ -195,15 +195,16 @@ void Compiler::AnalyzeScript()
 	symbolTable.Pop();
 }
 
-void Compiler::WriteObjectFile(const char* fileName)
+void Compiler::WriteObjectFile(const char* objectFileName, const char* debugFileName)
 {
-	ObjectFileHelper helper(fileName);
+	ObjectFileHelper helper;
 	for (ScriptFunction* func : mScriptFunctions)
 	{
 		helper.AddFunction(func);
 	}
 
-	helper.WriteFile();
+	helper.WriteObjectFile(objectFileName);
+	helper.WriteDebugFile(debugFileName);
 }
 
 const char* Compiler::GetFileName(int fileIndex) const
@@ -654,7 +655,7 @@ void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity
 		--tokenIndex;
 	}
 
-	while (1)
+	while (tokenIndex < mTokenList.size())
 	{
 		const Token& tok = mTokenList[tokenIndex++];
 		if (tok.GetLineNumber() != line)

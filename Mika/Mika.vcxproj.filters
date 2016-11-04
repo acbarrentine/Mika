@@ -165,6 +165,9 @@
     <ClCompile Include="ObjectFileHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IRCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika">

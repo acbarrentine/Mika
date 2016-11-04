@@ -6,6 +6,8 @@
 // instruction set, and is usually the last transformation
 // before going to actual byte code.
 
+#include "Identifier.h"
+
 class Identifier;
 class Variable;
 class FunctionDeclaration;
@@ -20,6 +22,8 @@ enum OpCode
 
 class IROperand
 {
+public:
+	virtual void DebugSerialize(std::ostream&) {}
 };
 
 class IRFunctionOperand : public IROperand
@@ -38,7 +42,14 @@ public:
 
 class IRRegisterOperand : public IROperand
 {
+	static int SDummyRegister;
 	int mTempRegister;
+public:
+	IRRegisterOperand() : mTempRegister(SDummyRegister++) {}
+	virtual void DebugSerialize(std::ostream& stream)
+	{
+		stream << "%" << mTempRegister;
+	}
 };
 
 class IRLabelOperand : public IROperand
@@ -51,6 +62,10 @@ class IRIntOperand : public IROperand
 	int mValue;
 public:
 	IRIntOperand(int val) : mValue(val) {}
+	virtual void DebugSerialize(std::ostream& stream)
+	{
+		stream << mValue;
+	}
 };
 
 class IRFloatOperand : public IROperand
@@ -72,12 +87,14 @@ class IRInstruction
 protected:
 	OpCode mCode;
 	size_t mRootToken;
+	int mByteCodeOffset;
 	IROperand* mOperands[3];
 
 public:
-	IRInstruction(OpCode code, size_t rootToken)
+	IRInstruction(OpCode code, size_t rootToken, int byteCodeOffset)
 		: mCode(code)
 		, mRootToken(rootToken)
+		, mByteCodeOffset(byteCodeOffset)
 	{
 		mOperands[0] = 0;
 		mOperands[1] = 0;
@@ -88,4 +105,8 @@ public:
 	{
 		mOperands[index] = op;
 	}
+
+	int GetSize() const;
+
+	friend std::ostream& operator<<(std::ostream& stream, IRInstruction& op);
 };

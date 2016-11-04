@@ -190,6 +190,7 @@
     <ClCompile Include="IdentifierExpression.cpp" />
     <ClCompile Include="IfStatement.cpp" />
     <ClCompile Include="IntConstantExpression.cpp" />
+    <ClCompile Include="IRCode.cpp" />
     <ClCompile Include="Mika.cpp" />
     <ClCompile Include="ObjectFileHelper.cpp" />
     <ClCompile Include="ReturnStatement.cpp" />

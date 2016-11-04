@@ -25,14 +25,14 @@ protected:
 		}
 	};
 
-	const char* mFileName;
 	std::vector<char> mStringData;
 	std::vector<unsigned char> mByteCodeData;
 	std::vector<FunctionRecord> mFunctions;
+	int mByteCodeOffset;
 
 public:
-	ObjectFileHelper(const char* outputFileName)
-		: mFileName(outputFileName)
+	ObjectFileHelper()
+		: mByteCodeOffset(0)
 	{
 	}
 
@@ -42,7 +42,8 @@ public:
 	IRInstruction& EmitInstruction(OpCode opCode, size_t rootToken);
 	//void EmitLabel();
 
-	void WriteFile();
+	void WriteObjectFile(const char* objectFileName);
+	void WriteDebugFile(const char* debugFileName);
 
 protected:
 	int AddString(Identifier id);

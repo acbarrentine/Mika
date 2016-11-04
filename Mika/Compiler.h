@@ -53,7 +53,7 @@ public:
 	void ReadScript(const char* fileName);
 	void ParseScript();
 	void AnalyzeScript();
-	void WriteObjectFile(const char* fileName);
+	void WriteObjectFile(const char* objectFileName, const char* debugFileName);
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
@@ -66,6 +66,8 @@ public:
 	FunctionDeclaration* FindDeclaration(Identifier name);
 	Type* FindType(TType tokenType);
 	Type* FindType(Identifier name);
+
+	int GetCellSize() const { return 8; }
 
 protected:
 	void RegisterBuiltInType(TType name, size_t size);
