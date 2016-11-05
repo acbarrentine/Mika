@@ -255,27 +255,22 @@ void Compiler::RegisterBuiltInType(TType name, size_t size)
 
 Type* Compiler::ParseType()
 {
+	Type* returnType = nullptr;
 	switch (mCurrentTokenType)
 	{
 		case TType::kInt:
-			NextToken();
-			return nullptr;
-
 		case TType::kFloat:
-			NextToken();
-			return nullptr;
-
 		case TType::kString:
-			NextToken();
-			return nullptr;
-
 		case TType::kVoid:
+			returnType = FindType(mCurrentTokenType);
 			NextToken();
-			return nullptr;
+			break;
 
 		default:
-			return nullptr;
+			break;
 	}
+
+	return returnType;
 }
 
 void Compiler::ParseGlueDeclaration()

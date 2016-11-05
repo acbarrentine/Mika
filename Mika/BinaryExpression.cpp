@@ -58,4 +58,6 @@ void BinaryExpression::GenCode(ObjectFileHelper& helper)
 {
 	mLeft->GenCode(helper);
 	mRight->GenCode(helper);
+
+	mResultRegister = new IRRegisterOperand();
 }

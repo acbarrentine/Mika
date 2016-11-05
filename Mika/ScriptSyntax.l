@@ -89,7 +89,7 @@ LETTER					[a-zA-Z_]
 	/* Whitespace */
 [ \r\v\f]				{}
 [\t]					{}
-[\n]					{}
+[\n]					{ ++yylineno; }
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }
 
 	/* Error check */

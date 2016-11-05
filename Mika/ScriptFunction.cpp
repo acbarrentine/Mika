@@ -34,4 +34,5 @@ void ScriptFunction::GenCode(ObjectFileHelper& helper)
 	}
 
 	mStatement->GenCode(helper);
+	helper.EmitInstruction(IllegalInstruction, mRootToken);
 }

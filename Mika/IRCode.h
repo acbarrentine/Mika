@@ -28,9 +28,11 @@ public:
 
 class IRFunctionOperand : public IROperand
 {
+protected:
 	FunctionDeclaration* mFunction;
 public:
 	IRFunctionOperand(FunctionDeclaration* decl) : mFunction(decl) {}
+	virtual void DebugSerialize(std::ostream& stream) override;
 };
 
 class IRVariableOperand : public IROperand
@@ -46,15 +48,17 @@ class IRRegisterOperand : public IROperand
 	int mTempRegister;
 public:
 	IRRegisterOperand() : mTempRegister(SDummyRegister++) {}
-	virtual void DebugSerialize(std::ostream& stream)
-	{
-		stream << "%" << mTempRegister;
-	}
+	virtual void DebugSerialize(std::ostream& stream) override;
 };
 
 class IRLabelOperand : public IROperand
 {
-	int mLabel;
+protected:
+	int mByteCodeOffset;
+public:
+	IRLabelOperand() : mByteCodeOffset(0) {}
+	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
+	virtual void DebugSerialize(std::ostream& stream) override;
 };
 
 class IRIntOperand : public IROperand
@@ -62,10 +66,7 @@ class IRIntOperand : public IROperand
 	int mValue;
 public:
 	IRIntOperand(int val) : mValue(val) {}
-	virtual void DebugSerialize(std::ostream& stream)
-	{
-		stream << mValue;
-	}
+	virtual void DebugSerialize(std::ostream& stream) override;
 };
 
 class IRFloatOperand : public IROperand
@@ -73,6 +74,7 @@ class IRFloatOperand : public IROperand
 	double mValue;
 public:
 	IRFloatOperand(double val) : mValue(val) {}
+	virtual void DebugSerialize(std::ostream& stream) override;
 };
 
 class IRStringOperand : public IROperand
@@ -80,6 +82,7 @@ class IRStringOperand : public IROperand
 	Identifier mValue;
 public:
 	IRStringOperand(Identifier val) : mValue(val) {}
+	virtual void DebugSerialize(std::ostream& stream) override;
 };
 
 class IRInstruction

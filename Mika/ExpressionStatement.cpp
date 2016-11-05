@@ -9,6 +9,5 @@ void ExpressionStatement::ResolveTypes(SymbolTable& symbolTable)
 
 void ExpressionStatement::GenCode(ObjectFileHelper& helper)
 {
-	//mExpression->GetCode(helper);
-	helper;
+	mExpression->GenCode(helper);
 }

@@ -11,7 +11,13 @@ void ReturnStatement::ResolveTypes(SymbolTable& symbolTable)
 
 void ReturnStatement::GenCode(ObjectFileHelper& helper)
 {
-	mExpression->GenCode(helper);
-	IRInstruction& op = helper.EmitInstruction(SetResultRegister, mRootToken);
-	op.SetOperand(0, mExpression->GetResultRegister());
+	if (mExpression)
+	{
+		mExpression->GenCode(helper);
+
+		IRInstruction& op = helper.EmitInstruction(SetResultRegister, mRootToken);
+		op.SetOperand(0, mExpression->GetResultRegister());
+	}
+
+	helper.EmitInstruction(IllegalInstruction, mRootToken);
 }

@@ -37,4 +37,5 @@ public:
 
 	void SetReturnType(Type* returnType) { mReturnType = returnType; }
 	Type* GetReturnType() const { return mReturnType; }
+	Identifier GetName() const { return mName; }
 };

@@ -5,3 +5,6 @@ MIKA_OPCODE(PushArgument, 1)
 MIKA_OPCODE(CallFunction, 1)
 MIKA_OPCODE(CopyResultRegister, 1)
 MIKA_OPCODE(SetResultRegister, 1)
+MIKA_OPCODE(ConditionalBranch, 2)
+MIKA_OPCODE(UnconditionalBranch, 1)
+\

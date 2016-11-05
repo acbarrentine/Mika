@@ -865,7 +865,7 @@ case 37:
 /* rule 37 can match eol */
 YY_RULE_SETUP
 #line 92 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"
-{}
+{ ++yylineno; }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 #line 93 "C:\\Code\\Mika\\Mika\\ScriptSyntax.l"

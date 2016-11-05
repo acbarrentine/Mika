@@ -6,6 +6,17 @@
 class Variable;
 class ScriptFunction;
 
+class Label
+{
+protected:
+	int mByteCodeOffset;
+
+public:
+	Label() : mByteCodeOffset(0) {}
+	void SetByteCodeOffset(int offset) { mByteCodeOffset = offset; }
+	int GetByteCodeOffset() const { return mByteCodeOffset; }
+};
+
 class ObjectFileHelper
 {
 protected:
@@ -28,6 +39,7 @@ protected:
 	std::vector<char> mStringData;
 	std::vector<unsigned char> mByteCodeData;
 	std::vector<FunctionRecord> mFunctions;
+	std::vector<Label> mLabels;
 	int mByteCodeOffset;
 
 public:
@@ -40,7 +52,7 @@ public:
 	void AddVariable(Variable* var);
 
 	IRInstruction& EmitInstruction(OpCode opCode, size_t rootToken);
-	//void EmitLabel();
+	int GetByteCodeOffset() const { return mByteCodeOffset; }
 
 	void WriteObjectFile(const char* objectFileName);
 	void WriteDebugFile(const char* debugFileName);
