@@ -2,6 +2,9 @@
 #include "ObjectFileHelper.h"
 #include "ScriptFunction.h"
 #include "Compiler.h"
+#include "IRCode.h"
+#include "FunctionDeclaration.h"
+#include "DebugWriter.h"
 #include "..\MikaVM\MikaArchive.h"
 
 
@@ -79,24 +82,17 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 
 void ObjectFileHelper::WriteDebugFile(const char* debugFileName)
 {
-	std::ofstream stream;
-	stream.open(debugFileName, std::ios::out);
-	if (stream.bad())
+	DebugWriter writer;
+	writer.Open(debugFileName);
+	if (writer.Failed())
 	{
 		GCompiler.Error("Failed to open debug output file '%s'", debugFileName);
+		return;
 	}
 
 	for (FunctionRecord& record : mFunctions)
 	{
-		ScriptFunction* func = record.mFunction;
-		stream << func->GetName().GetString() << std::endl;
-	
-		for (IRInstruction& op : record.mInstructions)
-		{
-			stream << op << std::endl;
-		}
-
-		stream << std::endl;
+		writer.WriteFunction(record);
 	}
 }
 

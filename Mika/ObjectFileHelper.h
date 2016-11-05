@@ -59,4 +59,6 @@ public:
 
 protected:
 	int AddString(Identifier id);
+
+	friend class DebugWriter;
 };

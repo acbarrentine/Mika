@@ -2,17 +2,19 @@
 
 #include "Expression.h"
 
+enum OpCode : int;
+enum TType : int;
+
 class BinaryExpression : public Expression
 {
 protected:
 	Expression* mLeft;
 	Expression* mRight;
+	TType mTokenType;
+	OpCode mOpCode;
 
 public:
-	BinaryExpression(size_t rootToken)
-		: Expression(rootToken)
-	{
-	}
+	BinaryExpression(size_t rootToken);
 
 	void SetLeft(Expression* expr) { mLeft = expr; }
 	void SetRight(Expression* expr) { mRight = expr; }

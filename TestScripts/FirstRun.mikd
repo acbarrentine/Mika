@@ -1,25 +1,27 @@
 TestEntry
-	00000000	CopyConstantToStack %0, 0
+	00000000	CopyConstantToStack %0, "hello world"
 	0000001c	PushArgument %0
 	00000030	CallFunction Print
-	00000044	CallFunction Print
-	00000058	CopyConstantToStack %1, 4
-	00000074	ConditionalBranch %2, 000000e8
-	00000090	CopyConstantToStack %3, 0
-	000000ac	PushArgument %3
-	000000c0	CallFunction Print
-	000000d4	UnconditionalBranch 0000012c
-	000000e8	CopyConstantToStack %4, 0
-	00000104	PushArgument %4
-	00000118	CallFunction Print
-	0000012c	CopyConstantToStack %5, 4
-	00000148	SetResultRegister %5
-	0000015c	Return
-	00000164	Return
+	00000044	CallFunction OtherFunc
+	00000058	CopyResultRegister %1
+	0000006c	CopyConstantToStack %2, 4
+	00000088	LessThanInt %3, %1, %2
+	000000ac	ConditionalBranch %3, 00000120
+	000000c8	CopyConstantToStack %4, "success"
+	000000e4	PushArgument %4
+	000000f8	CallFunction Print
+	0000010c	UnconditionalBranch 00000164
+	00000120	CopyConstantToStack %5, "fail"
+	0000013c	PushArgument %5
+	00000150	CallFunction Print
+	00000164	CopyConstantToStack %6, 4
+	00000180	SetResultRegister %6
+	00000194	Return
+	0000019c	Return
 
 OtherFunc
-	00000000	CopyConstantToStack %6, 2
-	0000001c	SetResultRegister %6
+	00000000	CopyConstantToStack %7, 2
+	0000001c	SetResultRegister %7
 	00000030	Return
 	00000038	Return
 

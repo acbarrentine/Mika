@@ -303,7 +303,7 @@ void Compiler::ParseGlueFunctionDeclaration()
 	Type* returnType = ParseType();
 	decl->SetReturnType(returnType);
 
-	mDeclarations.insert(std::make_pair(id, decl));
+  	mDeclarations[id] = decl;
 }
 
 void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)

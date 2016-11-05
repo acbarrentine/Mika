@@ -31,9 +31,9 @@ public:
 
 	const char* GetString() const { return mValue; }
 
-	bool operator<(const Identifier other)
+	friend bool operator<(const Identifier& lhs, const Identifier& rhs)
 	{
-		return mValue < other.mValue;
+		return lhs.mValue < rhs.mValue;
 	}
 };
 

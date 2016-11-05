@@ -14,16 +14,30 @@ class FunctionDeclaration;
 
 #undef MIKA_OPCODE
 #define MIKA_OPCODE(op, numArgs) op,
-enum OpCode
+enum OpCode : int
 {
 	IllegalInstruction,
 #include "..\MikaVM\MikaOpcodes.h"
 };
 
+class IRVisitor
+{
+public:
+	virtual void Visit(class IROperand*) = 0;
+	virtual void Visit(class IRFunctionOperand*) = 0;
+	virtual void Visit(class IRVariableOperand*) = 0;
+	virtual void Visit(class IRRegisterOperand*) = 0;
+	virtual void Visit(class IRLabelOperand*) = 0;
+	virtual void Visit(class IRIntOperand*) = 0;
+	virtual void Visit(class IRFloatOperand*) = 0;
+	virtual void Visit(class IRStringOperand*) = 0;
+	virtual void Visit(class IRInstruction*) = 0;
+};
+
 class IROperand
 {
 public:
-	virtual void DebugSerialize(std::ostream&) {}
+	virtual void Accept(IRVisitor* visitor) = 0;
 };
 
 class IRFunctionOperand : public IROperand
@@ -32,23 +46,32 @@ protected:
 	FunctionDeclaration* mFunction;
 public:
 	IRFunctionOperand(FunctionDeclaration* decl) : mFunction(decl) {}
-	virtual void DebugSerialize(std::ostream& stream) override;
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRVariableOperand : public IROperand
 {
+protected:
 	Variable* mVariable;
 public:
 	IRVariableOperand(Variable* var) : mVariable(var) {}
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRRegisterOperand : public IROperand
 {
+protected:
 	static int SDummyRegister;
 	int mTempRegister;
 public:
 	IRRegisterOperand() : mTempRegister(SDummyRegister++) {}
-	virtual void DebugSerialize(std::ostream& stream) override;
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRLabelOperand : public IROperand
@@ -58,40 +81,61 @@ protected:
 public:
 	IRLabelOperand() : mByteCodeOffset(0) {}
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
-	virtual void DebugSerialize(std::ostream& stream) override;
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRIntOperand : public IROperand
 {
+protected:
 	int mValue;
 public:
 	IRIntOperand(int val) : mValue(val) {}
-	virtual void DebugSerialize(std::ostream& stream) override;
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRFloatOperand : public IROperand
 {
+protected:
 	double mValue;
 public:
 	IRFloatOperand(double val) : mValue(val) {}
-	virtual void DebugSerialize(std::ostream& stream) override;
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRStringOperand : public IROperand
 {
+protected:
 	Identifier mValue;
+
 public:
 	IRStringOperand(Identifier val) : mValue(val) {}
-	virtual void DebugSerialize(std::ostream& stream) override;
+
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };
 
 class IRInstruction
 {
+public:
+	struct OpCodeData
+	{
+		OpCode mCode;
+		const char* mName;
+		int mNumArgs;
+	};
+
 protected:
 	OpCode mCode;
 	size_t mRootToken;
 	int mByteCodeOffset;
 	IROperand* mOperands[3];
+	static OpCodeData SOpCodeData[];
 
 public:
 	IRInstruction(OpCode code, size_t rootToken, int byteCodeOffset)
@@ -111,5 +155,6 @@ public:
 
 	int GetSize() const;
 
-	friend std::ostream& operator<<(std::ostream& stream, IRInstruction& op);
+	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
 };

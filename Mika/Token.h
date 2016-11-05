@@ -3,7 +3,7 @@
 #include "Identifier.h"
 enum class MsgSeverity : int;
 
-enum TType
+enum TType : int
 {
 	kOpenParen,
 	kCloseParen,

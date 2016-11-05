@@ -152,6 +152,7 @@
     <ClInclude Include="BinaryExpression.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="CompoundStatement.h" />
+    <ClInclude Include="DebugWriter.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="ExpressionStatement.h" />
     <ClInclude Include="FloatConstantExpression.h" />

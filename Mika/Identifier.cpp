@@ -5,7 +5,7 @@
 Identifier StringTable::AddValue(std::string value)
 {
 	auto it = mStrings.insert(value);
-	return it.first->c_str();
+	return Identifier(it.first->c_str());
 }
 
 Identifier StringTable::AddValue(const char* str)
