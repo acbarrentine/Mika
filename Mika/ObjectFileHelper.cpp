@@ -8,6 +8,7 @@
 #include "Type.h"
 #include "DebugWriter.h"
 #include "ReferenceCollector.h"
+#include "ByteCodeLocator.h"
 #include "ByteCodeWriter.h"
 #include "..\MikaVM\MikaArchive.h"
 
@@ -39,6 +40,7 @@ void ObjectFileHelper::AddFunction(ScriptFunction* func)
 	FunctionRecord& record = mFunctions.back();
 	// optimize
 	AssignStackOffsets(record);
+	AssignByteCodeOffsets(record);
 
 	ByteCodeWriter byteCodeWriter(mByteCodeData);
 	byteCodeWriter.WriteFunction(record);
@@ -56,17 +58,23 @@ IRInstruction* ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
 	return record.mInstructions.back();
 }
 
-void ObjectFileHelper::EmitLabel(IRLabelOperand* label, int rootToken)
-{
-	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRLabel(label, rootToken));
-}
-
 void ObjectFileHelper::EmitReturn(int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
 	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken));
 }
+
+IRLabelInstruction* ObjectFileHelper::GenLabel(Identifier name, int rootToken)
+{
+	return new IRLabelInstruction(name, rootToken);
+}
+
+void ObjectFileHelper::EmitLabel(IRLabelInstruction* label)
+{
+	FunctionRecord& record = mFunctions.back();
+	record.mInstructions.push_back(label);
+}
+
 
 void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 {
@@ -143,4 +151,22 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 		op->Accept(&tempLocator);
 	}
 	stackOffset = tempLocator.GetUsedBytes();
+}
+
+void ObjectFileHelper::AssignByteCodeOffsets(FunctionRecord& record)
+{
+	record.mByteCodeOffset = mByteCodeOffset;
+
+	ByteCodeLocator byteCodeLocator(mByteCodeOffset);
+	for (IRInstruction* op : record.mInstructions)
+	{
+		op->Accept(&byteCodeLocator);
+	}
+	mByteCodeOffset = byteCodeLocator.GetByteCodeOffset();
+
+	LabelLocator labelLocator;
+	for (IRInstruction* op : record.mInstructions)
+	{
+		op->Accept(&labelLocator);
+	}
 }

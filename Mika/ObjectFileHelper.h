@@ -29,9 +29,11 @@ protected:
 	std::vector<char> mStringData;
 	std::vector<unsigned char> mByteCodeData;
 	std::vector<FunctionRecord> mFunctions;
+	int mByteCodeOffset;
 
 public:
 	ObjectFileHelper()
+		: mByteCodeOffset(0)
 	{
 	}
 
@@ -39,8 +41,10 @@ public:
 	void AddVariable(Variable* var);
 
 	IRInstruction* EmitInstruction(OpCode opCode, int rootToken);
-	void EmitLabel(IRLabelOperand* label, int rootToken);
 	void EmitReturn(int rootToken);
+
+	IRLabelInstruction* GenLabel(Identifier name, int rootToken);
+	void EmitLabel(IRLabelInstruction* label);
 
 	void WriteObjectFile(const char* objectFileName);
 	void WriteDebugFile(const char* debugFileName);
@@ -48,6 +52,7 @@ public:
 protected:
 	int AddString(Identifier id);
 	void AssignStackOffsets(FunctionRecord& record);
+	void AssignByteCodeOffsets(FunctionRecord& record);
 
 	friend class DebugWriter;
 	friend class ByteCodeWriter;

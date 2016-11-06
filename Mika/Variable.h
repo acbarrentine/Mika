@@ -31,4 +31,5 @@ public:
 	int GetRefCount() const { return mReferences; }
 
 	void SetStackOffset(int offset) { mStackOffset = offset; }
+	int GetStackOffset() const { return mStackOffset; }
 };

@@ -7,7 +7,7 @@ fun TestEntry() : int
 	{
 		Print("fail")
 	}
-	return 4
+	return 14
 }
 
 fun OtherFunc() : int

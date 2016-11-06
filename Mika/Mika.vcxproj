@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BinaryExpression.h" />
+    <ClInclude Include="ByteCodeLocator.h" />
     <ClInclude Include="ByteCodeWriter.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="CompoundStatement.h" />

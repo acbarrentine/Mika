@@ -29,7 +29,7 @@ public:
 		}
 	}
 
-	void Visit(class IRLabel*) override {}
+	void Visit(class IRLabelInstruction*) override {}
 	void Visit(class IRReturnInstruction*) override {}
 };
 
@@ -83,7 +83,7 @@ public:
 		}
 	}
 
-	void Visit(class IRLabel*) override {}
+	void Visit(class IRLabelInstruction*) override {}
 	void Visit(class IRReturnInstruction*) override {}
 
 	int GetUsedBytes() const
@@ -143,7 +143,7 @@ public:
 		}
 	}
 
-	void Visit(class IRLabel*) override {}
+	void Visit(class IRLabelInstruction*) override {}
 	void Visit(class IRReturnInstruction*) override {}
 
 	int GetUsedBytes() const

@@ -23,22 +23,23 @@ public:
 
 	void Visit(IRVariableOperand* op, bool) override
 	{
-		op;
+		Variable* var = op->mVariable;
+		mStream << "%" << var->GetName().GetString() << " (" << std::setbase(16) << var->GetStackOffset() << ")";
 	}
 
 	void Visit(IRRegisterOperand* op, bool) override
 	{
-		mStream << "%" << op->mTempRegister;
+		mStream << "%" << std::setbase(10) << op->mTempRegister;
 	}
 
 	void Visit(IRLabelOperand* op, bool) override
 	{
-		mStream << std::setfill('0') << std::setw(8) << std::setbase(16) << op->mByteCodeOffset;
+		mStream << op->mLabel->mLabel.GetString() << " (0x" << std::setbase(16) << op->mByteCodeOffset << ")";
 	}
 
 	void Visit(IRIntOperand* op, bool) override
 	{
-		mStream << op->mValue;
+		mStream << std::setbase(10) << op->mValue;
 	}
 
 	void Visit(IRFloatOperand* op, bool) override
@@ -71,9 +72,9 @@ public:
 		mStream << std::endl;
 	}
 
-	void Visit(class IRLabel*) override
+	void Visit(class IRLabelInstruction* op) override
 	{
-		mStream << "Label:" << std::endl;
+		mStream << op->mLabel.GetString() << ":" << std::endl;
 	}
 
 	void Visit(class IRReturnInstruction* op) override

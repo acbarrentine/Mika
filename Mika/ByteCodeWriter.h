@@ -53,7 +53,7 @@ public:
 		op;
 	}
 
-	void Visit(class IRLabel*) override
+	void Visit(class IRLabelInstruction*) override
 	{
 	}
 	

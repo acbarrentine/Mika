@@ -11,6 +11,7 @@
 class Identifier;
 class Variable;
 class FunctionDeclaration;
+class IRLabelInstruction;
 
 #undef MIKA_OPCODE
 #define MIKA_OPCODE(op, numArgs, numWrites) op,
@@ -32,7 +33,7 @@ public:
 	virtual void Visit(class IRStringOperand*, bool forWrite) = 0;
 	
 	virtual void Visit(class IRInstruction*) = 0;
-	virtual void Visit(class IRLabel*) = 0;
+	virtual void Visit(class IRLabelInstruction*) = 0;
 	virtual void Visit(class IRReturnInstruction*) = 0;
 };
 
@@ -55,6 +56,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRVariableOperand : public IROperand
@@ -69,6 +72,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRRegisterOperand : public IROperand
@@ -90,15 +95,18 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRLabelOperand : public IROperand
 {
 protected:
+	IRLabelInstruction* mLabel;
 	int mByteCodeOffset;
 
 public:
-	IRLabelOperand() : mByteCodeOffset(0) {}
+	IRLabelOperand(IRLabelInstruction* label) : mLabel(label), mByteCodeOffset(0) {}
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
@@ -106,6 +114,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRIntOperand : public IROperand
@@ -121,6 +131,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRFloatOperand : public IROperand
@@ -136,6 +148,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRStringOperand : public IROperand
@@ -151,6 +165,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRInstruction
@@ -187,6 +203,11 @@ public:
 		mOperands[index] = op;
 	}
 
+	void SetByteCodeOffset(int byteCodeOffset)
+	{
+		mByteCodeOffset = byteCodeOffset;
+	}
+
 	virtual int GetSize() const;
 	int GetNumOperands() const;
 	const char* GetName() const;
@@ -197,15 +218,17 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
-class IRLabel : public IRInstruction
+class IRLabelInstruction : public IRInstruction
 {
 protected:
-	IRLabelOperand* mLabel;
+	Identifier mLabel;
 
 public:
-	IRLabel(IRLabelOperand* label, int rootToken)
+	IRLabelInstruction(Identifier label, int rootToken)
 		: IRInstruction(IllegalInstruction, rootToken)
 		, mLabel(label)
 	{
@@ -221,6 +244,8 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
 
 class IRReturnInstruction : public IRInstruction
@@ -238,4 +263,6 @@ public:
 	friend class ReferenceCollector;
 	friend class VariableLocator;
 	friend class TempRegisterLocator;
+	friend class ByteCodeLocator;
+	friend class LabelLocator;
 };
