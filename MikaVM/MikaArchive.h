@@ -70,3 +70,48 @@ struct MikaArchiveFileHeader
 		return ar;
 	}
 };
+
+enum OpCode : int;
+struct MikaArchiveInstruction
+{
+	union
+	{
+		OpCode mCode;
+		void* mPlaceholder;
+	};
+	short mFileIndex;
+	short mLineNumber;
+	short mNumArgs;
+	short mFlags;
+
+	friend MikaArchive& operator<<(MikaArchive& ar, MikaArchiveInstruction& instruction)
+	{
+		ar << instruction.mPlaceholder;
+		ar << instruction.mFileIndex;
+		ar << instruction.mLineNumber;
+		ar << instruction.mNumArgs;
+		ar << instruction.mFlags;
+		return ar;
+	}
+};
+
+struct MikaArchiveCell
+{
+	union
+	{
+		int mIntVal;
+		double mDblVal;
+		void* mPtrVal;
+	};
+
+	MikaArchiveCell()
+	{
+		memset(this, 0, sizeof(MikaArchiveCell));
+	}
+
+	friend MikaArchive& operator<<(MikaArchive& ar, MikaArchiveCell& cell)
+	{
+		ar.Serialize(&cell, sizeof(MikaArchiveCell));
+		return ar;
+	}
+};

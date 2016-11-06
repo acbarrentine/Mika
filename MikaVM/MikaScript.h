@@ -1,26 +1,26 @@
 #pragma once
 
-union MikaCell
-{
-	int mIntVal;
-	double mDblVal;
-	void* mPtrVal;
-};
-
 class MikaScript
 {
 public:
 	typedef void(*GlueFunc)();
 
+	union Cell
+	{
+		int mIntVal;
+		double mDblVal;
+		void* mPtrVal;
+	};
+
 	struct OpCode
 	{
 		GlueFunc mFunc;
-		unsigned short mFileIndex;
-		unsigned short mLineNumber;
-		unsigned short mNumArgs;
-		unsigned short mFlags;
+		short mFileIndex;
+		short mLineNumber;
+		short mNumArgs;
+		short mFlags;
 
-		MikaCell* GetArgs() const;
+		Cell* GetArgs() const;
 		OpCode* Next() const;
 	};
 

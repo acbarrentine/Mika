@@ -11,7 +11,7 @@ protected:
 		const char* SourceFile;
 		unsigned int LineNumber;
 	} mLoc;
-	MikaCell mConditionRegister;
+	MikaScript::Cell mConditionRegister;
 
 public:
 	MikaVM()

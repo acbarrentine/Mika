@@ -21,5 +21,6 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
 
 #define ARRAY_COUNT(arr) (sizeof(arr)/sizeof(arr[0]))

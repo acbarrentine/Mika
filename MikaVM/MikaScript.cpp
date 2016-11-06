@@ -3,15 +3,15 @@
 #include "MikaArchive.h"
 
 
-MikaCell* MikaScript::OpCode::GetArgs() const
+MikaScript::Cell* MikaScript::OpCode::GetArgs() const
 {
-	return mNumArgs ? (MikaCell*)(this + 1) : nullptr;
+	return mNumArgs ? (Cell*)(this + 1) : nullptr;
 }
 
 MikaScript::OpCode* MikaScript::OpCode::Next() const
 {
 	const char* thisOp = (const char*) this;
-	int argBytes = mNumArgs * sizeof(MikaCell);
+	int argBytes = mNumArgs * sizeof(Cell);
 	const char* nextOp = thisOp + argBytes;
 	return (MikaScript::OpCode*) nextOp;
 }

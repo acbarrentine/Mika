@@ -9,9 +9,9 @@
 #include "DebugWriter.h"
 #include "ReferenceCollector.h"
 #include "ByteCodeLocator.h"
+#include "../MikaVM/MikaArchive.h"
+#include "../MikaVM/MikaScript.h"
 #include "ByteCodeWriter.h"
-#include "..\MikaVM\MikaArchive.h"
-
 
 class MikaWriter : public MikaArchive
 {
@@ -38,7 +38,9 @@ void ObjectFileHelper::AddFunction(ScriptFunction* func)
 	func->GenCode(*this);
 
 	FunctionRecord& record = mFunctions.back();
-	// optimize
+
+	// TODO: optimize
+	
 	AssignStackOffsets(record);
 	AssignByteCodeOffsets(record);
 
@@ -88,7 +90,7 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	
 	MikaArchiveFileHeader fileHeader;
 	fileHeader.mMagic = 'MIKA';
-	fileHeader.mByteData.resize(100);
+	fileHeader.mByteData = std::move(mByteCodeData);
 	fileHeader.mStringData = std::move(mStringData);
 
 	for (FunctionRecord& record : mFunctions)

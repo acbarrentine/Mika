@@ -58,6 +58,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRVariableOperand : public IROperand
@@ -74,6 +75,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRRegisterOperand : public IROperand
@@ -97,6 +99,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRLabelOperand : public IROperand
@@ -116,6 +119,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRIntOperand : public IROperand
@@ -133,6 +137,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRFloatOperand : public IROperand
@@ -150,6 +155,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRStringOperand : public IROperand
@@ -167,6 +173,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRInstruction
@@ -220,6 +227,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRLabelInstruction : public IRInstruction
@@ -246,6 +254,7 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
 
 class IRReturnInstruction : public IRInstruction
@@ -265,4 +274,5 @@ public:
 	friend class TempRegisterLocator;
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
+	friend class ByteCodeWriter;
 };
