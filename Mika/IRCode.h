@@ -30,7 +30,10 @@ public:
 	virtual void Visit(class IRIntOperand*, bool forWrite) = 0;
 	virtual void Visit(class IRFloatOperand*, bool forWrite) = 0;
 	virtual void Visit(class IRStringOperand*, bool forWrite) = 0;
+	
 	virtual void Visit(class IRInstruction*) = 0;
+	virtual void Visit(class IRLabel*) = 0;
+	virtual void Visit(class IRReturnInstruction*) = 0;
 };
 
 class IROperand
@@ -93,6 +96,7 @@ class IRLabelOperand : public IROperand
 {
 protected:
 	int mByteCodeOffset;
+
 public:
 	IRLabelOperand() : mByteCodeOffset(0) {}
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
@@ -108,6 +112,7 @@ class IRIntOperand : public IROperand
 {
 protected:
 	int mValue;
+
 public:
 	IRIntOperand(int val) : mValue(val) {}
 
@@ -122,6 +127,7 @@ class IRFloatOperand : public IROperand
 {
 protected:
 	double mValue;
+
 public:
 	IRFloatOperand(double val) : mValue(val) {}
 
@@ -166,10 +172,10 @@ protected:
 	static OpCodeData SOpCodeData[];
 
 public:
-	IRInstruction(OpCode code, int rootToken, int byteCodeOffset)
+	IRInstruction(OpCode code, int rootToken)
 		: mCode(code)
 		, mRootToken(rootToken)
-		, mByteCodeOffset(byteCodeOffset)
+		, mByteCodeOffset(0)
 	{
 		mOperands[0] = 0;
 		mOperands[1] = 0;
@@ -181,12 +187,53 @@ public:
 		mOperands[index] = op;
 	}
 
-	int GetSize() const;
+	virtual int GetSize() const;
 	int GetNumOperands() const;
 	const char* GetName() const;
 	bool WritesOperand(int index);
 
 	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
+};
+
+class IRLabel : public IRInstruction
+{
+protected:
+	IRLabelOperand* mLabel;
+
+public:
+	IRLabel(IRLabelOperand* label, int rootToken)
+		: IRInstruction(IllegalInstruction, rootToken)
+		, mLabel(label)
+	{
+	}
+
+	virtual int GetSize() const override
+	{
+		return 0;
+	}
+
+	virtual void Accept(IRVisitor* visitor) override { visitor->Visit(this); }
+	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
+};
+
+class IRReturnInstruction : public IRInstruction
+{
+public:
+	IRReturnInstruction(int rootToken)
+		: IRInstruction(IllegalInstruction, rootToken)
+	{
+	}
+
+	virtual int GetSize() const override;
+
+	virtual void Accept(IRVisitor* visitor) override { visitor->Visit(this); }
 	friend class DebugWriter;
 	friend class ReferenceCollector;
 	friend class VariableLocator;

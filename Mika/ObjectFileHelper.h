@@ -6,16 +6,6 @@
 class Variable;
 class ScriptFunction;
 
-class Label
-{
-protected:
-	int mByteCodeOffset;
-
-public:
-	Label() : mByteCodeOffset(0) {}
-	void SetByteCodeOffset(int offset) { mByteCodeOffset = offset; }
-	int GetByteCodeOffset() const { return mByteCodeOffset; }
-};
 
 class ObjectFileHelper
 {
@@ -25,34 +15,32 @@ protected:
 		ScriptFunction* mFunction;
 		int mNameOffset;
 		int mByteCodeOffset;
-		std::vector<IRInstruction> mInstructions;
+		std::vector<IRInstruction*> mInstructions;
 
 		FunctionRecord(ScriptFunction* func, int nameOffset)
 			: mFunction(func)
 			, mNameOffset(nameOffset)
 			, mByteCodeOffset(0)
 		{
-			mInstructions.reserve(500);
+			mInstructions.reserve(200);
 		}
 	};
 
 	std::vector<char> mStringData;
 	std::vector<unsigned char> mByteCodeData;
 	std::vector<FunctionRecord> mFunctions;
-	std::vector<Label> mLabels;
-	int mByteCodeOffset;
 
 public:
 	ObjectFileHelper()
-		: mByteCodeOffset(0)
 	{
 	}
 
 	void AddFunction(ScriptFunction* func);
 	void AddVariable(Variable* var);
 
-	IRInstruction& EmitInstruction(OpCode opCode, int rootToken);
-	int GetByteCodeOffset() const { return mByteCodeOffset; }
+	IRInstruction* EmitInstruction(OpCode opCode, int rootToken);
+	void EmitLabel(IRLabelOperand* label, int rootToken);
+	void EmitReturn(int rootToken);
 
 	void WriteObjectFile(const char* objectFileName);
 	void WriteDebugFile(const char* debugFileName);
@@ -62,4 +50,5 @@ protected:
 	void AssignStackOffsets(FunctionRecord& record);
 
 	friend class DebugWriter;
+	friend class ByteCodeWriter;
 };

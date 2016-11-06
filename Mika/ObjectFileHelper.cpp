@@ -8,6 +8,7 @@
 #include "Type.h"
 #include "DebugWriter.h"
 #include "ReferenceCollector.h"
+#include "ByteCodeWriter.h"
 #include "..\MikaVM\MikaArchive.h"
 
 
@@ -32,15 +33,15 @@ public:
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
-	mByteCodeOffset = 0;
-
 	mFunctions.emplace_back(func, AddString(func->GetName()));
 	func->GenCode(*this);
 
 	FunctionRecord& record = mFunctions.back();
 	// optimize
 	AssignStackOffsets(record);
-	// byte code
+
+	ByteCodeWriter byteCodeWriter(mByteCodeData);
+	byteCodeWriter.WriteFunction(record);
 }
 
 void ObjectFileHelper::AddVariable(Variable* var)
@@ -48,12 +49,23 @@ void ObjectFileHelper::AddVariable(Variable* var)
 	var;
 }
 
-IRInstruction& ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
+IRInstruction* ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(opCode, rootToken, mByteCodeOffset);
-	mByteCodeOffset += record.mInstructions.back().GetSize();
+	record.mInstructions.emplace_back(new IRInstruction(opCode, rootToken));
 	return record.mInstructions.back();
+}
+
+void ObjectFileHelper::EmitLabel(IRLabelOperand* label, int rootToken)
+{
+	FunctionRecord& record = mFunctions.back();
+	record.mInstructions.emplace_back(new IRLabel(label, rootToken));
+}
+
+void ObjectFileHelper::EmitReturn(int rootToken)
+{
+	FunctionRecord& record = mFunctions.back();
+	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken));
 }
 
 void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
@@ -111,24 +123,24 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 {
 	// mark variables referenced
 	ReferenceCollector collector;
-	for (IRInstruction& op : record.mInstructions)
+	for (IRInstruction* op : record.mInstructions)
 	{
-		collector.Visit(&op);
+		op->Accept(&collector);
 	}
 
 	// assign stack locations to used variables
 	int stackOffset = 0;
 	VariableLocator varLocator(stackOffset);
-	for (IRInstruction& op : record.mInstructions)
+	for (IRInstruction* op : record.mInstructions)
 	{
-		varLocator.Visit(&op);
+		op->Accept(&varLocator);
 	}
 	stackOffset = varLocator.GetUsedBytes();
 
 	TempRegisterLocator tempLocator(stackOffset);
-	for (IRInstruction& op : record.mInstructions)
+	for (IRInstruction* op : record.mInstructions)
 	{
-		tempLocator.Visit(&op);
+		op->Accept(&tempLocator);
 	}
 	stackOffset = tempLocator.GetUsedBytes();
 }

@@ -15,9 +15,9 @@ void ReturnStatement::GenCode(ObjectFileHelper& helper)
 	{
 		mExpression->GenCode(helper);
 
-		IRInstruction& op = helper.EmitInstruction(SetResultRegister, mRootToken);
-		op.SetOperand(0, mExpression->GetResultRegister());
+		IRInstruction* op = helper.EmitInstruction(SetResultRegister, mRootToken);
+		op->SetOperand(0, mExpression->GetResultRegister());
 	}
 
-	helper.EmitInstruction(IllegalInstruction, mRootToken);
+	helper.EmitReturn(mRootToken);
 }

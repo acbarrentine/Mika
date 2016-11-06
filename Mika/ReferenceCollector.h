@@ -28,6 +28,9 @@ public:
 			operand->Accept(this, op->WritesOperand(i));
 		}
 	}
+
+	void Visit(class IRLabel*) override {}
+	void Visit(class IRReturnInstruction*) override {}
 };
 
 class VariableLocator : public IRVisitor
@@ -79,6 +82,9 @@ public:
 			operand->Accept(this, op->WritesOperand(i));
 		}
 	}
+
+	void Visit(class IRLabel*) override {}
+	void Visit(class IRReturnInstruction*) override {}
 
 	int GetUsedBytes() const
 	{
@@ -136,6 +142,9 @@ public:
 			operand->Accept(this, op->WritesOperand(i));
 		}
 	}
+
+	void Visit(class IRLabel*) override {}
+	void Visit(class IRReturnInstruction*) override {}
 
 	int GetUsedBytes() const
 	{

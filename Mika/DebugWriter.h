@@ -53,9 +53,8 @@ public:
 
 	void Visit(IRInstruction* op) override
 	{
-		mStream << "\t" << std::setfill('0') << std::setw(8) << std::setbase(16) << op->mByteCodeOffset << "\t";
-
-		mStream << ((op->mCode == IllegalInstruction) ? "Return" : op->GetName());
+		mStream << "\t" << std::setfill('0') << std::setw(8) << std::setbase(16)
+			<< op->mByteCodeOffset << "\t" << op->GetName();
 
 		int numOperands = op->GetNumOperands();
 		for (int i = 0; i < numOperands; ++i)
@@ -72,14 +71,25 @@ public:
 		mStream << std::endl;
 	}
 
+	void Visit(class IRLabel*) override
+	{
+		mStream << "Label:" << std::endl;
+	}
+
+	void Visit(class IRReturnInstruction* op) override
+	{
+		mStream << "\t" << std::setfill('0') << std::setw(8) << std::setbase(16)
+			<< op->mByteCodeOffset << "\t" << "Return" << std::endl;
+	}
+
 	void WriteFunction(ObjectFileHelper::FunctionRecord& record)
 	{
 		ScriptFunction* func = record.mFunction;
 		mStream << func->GetName().GetString() << std::endl;
 
-		for (IRInstruction& op : record.mInstructions)
+		for (IRInstruction* op : record.mInstructions)
 		{
-			Visit(&op);
+			op->Accept(this);
 		}
 
 		mStream << std::endl;

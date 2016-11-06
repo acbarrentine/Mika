@@ -24,7 +24,7 @@ void IdentifierExpression::GenCode(ObjectFileHelper& helper)
 {
 	mResultRegister = new IRRegisterOperand;
 
-	IRInstruction& op = helper.EmitInstruction(CopyStackToStack, mRootToken);
-	op.SetOperand(0, mResultRegister);
-	op.SetOperand(1, new IRVariableOperand(mVariable));
+	IRInstruction* op = helper.EmitInstruction(CopyStackToStack, mRootToken);
+	op->SetOperand(0, mResultRegister);
+	op->SetOperand(1, new IRVariableOperand(mVariable));
 }

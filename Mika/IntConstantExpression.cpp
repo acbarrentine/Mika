@@ -16,7 +16,7 @@ void IntConstantExpression::GenCode(ObjectFileHelper& helper)
 {
 	mResultRegister = new IRRegisterOperand;
 
-	IRInstruction& op = helper.EmitInstruction(CopyConstantToStack, mRootToken);
-	op.SetOperand(0, mResultRegister);
-	op.SetOperand(1, new IRIntOperand(mValue));
+	IRInstruction* op = helper.EmitInstruction(CopyConstantToStack, mRootToken);
+	op->SetOperand(0, mResultRegister);
+	op->SetOperand(1, new IRIntOperand(mValue));
 }

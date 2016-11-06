@@ -144,8 +144,8 @@ void BinaryExpression::GenCode(ObjectFileHelper& helper)
 	mRight->GenCode(helper);
 
 	mResultRegister = new IRRegisterOperand();
-	IRInstruction& binOp = helper.EmitInstruction(mOpCode, mRootToken);
-	binOp.SetOperand(0, mResultRegister);
-	binOp.SetOperand(1, mLeft->GetResultRegister());
-	binOp.SetOperand(2, mRight->GetResultRegister());
+	IRInstruction* binOp = helper.EmitInstruction(mOpCode, mRootToken);
+	binOp->SetOperand(0, mResultRegister);
+	binOp->SetOperand(1, mLeft->GetResultRegister());
+	binOp->SetOperand(2, mRight->GetResultRegister());
 }

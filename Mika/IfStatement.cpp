@@ -23,24 +23,24 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 
 	// conditional branch to end
 	IRRegisterOperand* condition = mExpression->GetResultRegister();
-	IRInstruction& ifOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
-	ifOp.SetOperand(0, condition);
-	ifOp.SetOperand(1, elseLabel);
+	IRInstruction* ifOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
+	ifOp->SetOperand(0, condition);
+	ifOp->SetOperand(1, elseLabel);
 
 	// then
 	mThenClause->GenCode(helper);
 	
 	// branch to end
-	IRInstruction& unOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
-	unOp.SetOperand(0, endLabel);
+	IRInstruction* unOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
+	unOp->SetOperand(0, endLabel);
 
 	// else
-	elseLabel->SetOffset(helper.GetByteCodeOffset());
+	helper.EmitLabel(elseLabel, mRootToken);
 	if (mElseClause)
 	{
 		mElseClause->GenCode(helper);
 	}
 
 	// end
-	endLabel->SetOffset(helper.GetByteCodeOffset());
+	helper.EmitLabel(endLabel, mRootToken);
 }

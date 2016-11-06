@@ -36,18 +36,18 @@ void FunctionCallExpression::GenCode(ObjectFileHelper& helper)
 
 	for (Expression* expr : mActuals)
 	{
-		IRInstruction& pushOp = helper.EmitInstruction(PushArgument, expr->GetRootToken());
-		pushOp.SetOperand(0, expr->GetResultRegister());
+		IRInstruction* pushOp = helper.EmitInstruction(PushArgument, expr->GetRootToken());
+		pushOp->SetOperand(0, expr->GetResultRegister());
 	}
 
-	IRInstruction& callOp = helper.EmitInstruction(CallFunction, mRootToken);
-	callOp.SetOperand(0, new IRFunctionOperand(mDeclaration));
+	IRInstruction* callOp = helper.EmitInstruction(CallFunction, mRootToken);
+	callOp->SetOperand(0, new IRFunctionOperand(mDeclaration));
 
 	if (mType != GCompiler.FindType(TType::kVoid))
 	{
 		mResultRegister = new IRRegisterOperand;
 
-		IRInstruction& copyOp = helper.EmitInstruction(CopyResultRegister, mRootToken);
-		copyOp.SetOperand(0, mResultRegister);
+		IRInstruction* copyOp = helper.EmitInstruction(CopyResultRegister, mRootToken);
+		copyOp->SetOperand(0, mResultRegister);
 	}
 }

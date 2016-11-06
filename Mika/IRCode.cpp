@@ -16,14 +16,7 @@ IRInstruction::OpCodeData IRInstruction::SOpCodeData[] =
 
 int IRInstruction::GetSize() const
 {
-	if (mCode == IllegalInstruction)
-	{
-		return GCompiler.GetCellSize();
-	}
-	else
-	{
-		return sizeof(MikaScript::OpCode) + (GetNumOperands() * GCompiler.GetCellSize());
-	}
+	return sizeof(MikaScript::OpCode) + (GetNumOperands() * GCompiler.GetCellSize());
 }
 
 const char* IRInstruction::GetName() const
@@ -39,4 +32,9 @@ int IRInstruction::GetNumOperands() const
 bool IRInstruction::WritesOperand(int index)
 {
 	return index < SOpCodeData[mCode].mNumWrites;
+}
+
+int IRReturnInstruction::GetSize() const
+{
+	return GCompiler.GetCellSize();
 }

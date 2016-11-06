@@ -28,11 +28,11 @@ void ScriptFunction::GenCode(ObjectFileHelper& helper)
 	for (int i = 0; i < mDeclaration->GetParameterCount(); ++i)
 	{
 		Variable* var = mDeclaration->GetParameter(i);
-		IRInstruction& op = helper.EmitInstruction(CopyArgToStack, var->GetRootToken());
-		op.SetOperand(0, new IRVariableOperand(var));
-		op.SetOperand(1, new IRIntOperand(i));
+		IRInstruction* op = helper.EmitInstruction(CopyArgToStack, var->GetRootToken());
+		op->SetOperand(0, new IRVariableOperand(var));
+		op->SetOperand(1, new IRIntOperand(i));
 	}
 
 	mStatement->GenCode(helper);
-	helper.EmitInstruction(IllegalInstruction, mRootToken);
+	helper.EmitReturn(mRootToken);
 }

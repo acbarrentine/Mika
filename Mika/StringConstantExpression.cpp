@@ -15,7 +15,7 @@ void StringConstantExpression::ResolveType(SymbolTable&)
 void StringConstantExpression::GenCode(ObjectFileHelper& helper)
 {
 	mResultRegister = new IRRegisterOperand;
-	IRInstruction& op = helper.EmitInstruction(CopyConstantToStack, mRootToken);
-	op.SetOperand(0, mResultRegister);
-	op.SetOperand(1, new IRStringOperand(mValue));
+	IRInstruction* op = helper.EmitInstruction(CopyConstantToStack, mRootToken);
+	op->SetOperand(0, mResultRegister);
+	op->SetOperand(1, new IRStringOperand(mValue));
 }
