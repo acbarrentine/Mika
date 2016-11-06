@@ -10,7 +10,7 @@ protected:
 	FunctionDeclaration* mDeclaration;
 
 public:
-	FunctionCallExpression(size_t rootToken)
+	FunctionCallExpression(int rootToken)
 		: Expression(rootToken)
 	{}
 

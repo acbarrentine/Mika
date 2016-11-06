@@ -5,14 +5,18 @@
 class Variable
 {
 protected:
-	size_t mRootToken;
+	int mRootToken;
 	Identifier mName;
 	class Type* mType;
+	int mReferences;
+	int mStackOffset;
 
 public:
-	Variable(size_t rootToken)
+	Variable(int rootToken)
 		: mRootToken(rootToken)
 		, mType(nullptr)
+		, mReferences(0)
+		, mStackOffset(0)
 	{}
 
 	void SetName(Identifier name) { mName = name; }
@@ -21,5 +25,10 @@ public:
 	Identifier GetName() const { return mName; }
 	Type* GetType() const { return mType; }
 
-	size_t GetRootToken() const { return mRootToken; }
+	int GetRootToken() const { return mRootToken; }
+
+	void AddRef() { ++mReferences; }
+	int GetRefCount() const { return mReferences; }
+
+	void SetStackOffset(int offset) { mStackOffset = offset; }
 };

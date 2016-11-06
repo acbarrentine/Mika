@@ -8,13 +8,13 @@ class SymbolTable;
 class FunctionDeclaration
 {
 protected:
-	size_t mRootToken;
+	int mRootToken;
 	Identifier mName;
 	class Type* mReturnType;
 	std::vector<Variable*> mParameterList;
 
 public:
-	FunctionDeclaration(size_t rootToken, Identifier name)
+	FunctionDeclaration(int rootToken, Identifier name)
 		: mRootToken(rootToken)
 		, mName(name)
 		, mReturnType(nullptr)
@@ -24,11 +24,11 @@ public:
 	{
 		mParameterList.push_back(param);
 	}
-	Variable* GetParameter(size_t index)
+	Variable* GetParameter(int index)
 	{
 		return mParameterList[index];
 	}
-	size_t GetParameterCount() const
+	int GetParameterCount() const
 	{
 		return mParameterList.size();
 	}

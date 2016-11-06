@@ -25,7 +25,7 @@ void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 void ScriptFunction::GenCode(ObjectFileHelper& helper)
 {
 	// save called arguments
-	for (size_t i = 0; i < mDeclaration->GetParameterCount(); ++i)
+	for (int i = 0; i < mDeclaration->GetParameterCount(); ++i)
 	{
 		Variable* var = mDeclaration->GetParameter(i);
 		IRInstruction& op = helper.EmitInstruction(CopyArgToStack, var->GetRootToken());

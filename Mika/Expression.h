@@ -8,12 +8,12 @@ class IRRegisterOperand;
 class Expression
 {
 protected:
-	size_t mRootToken;
+	int mRootToken;
 	Type* mType;
 	IRRegisterOperand* mResultRegister;
 	
 public:
-	Expression(size_t rootToken)
+	Expression(int rootToken)
 		: mRootToken(rootToken)
 		, mType(nullptr)
 	{}
@@ -22,6 +22,6 @@ public:
 	virtual void GenCode(ObjectFileHelper& helper) = 0;
 
 	Type* GetType() const { return mType; }
-	size_t GetRootToken() const { return mRootToken; }
+	int GetRootToken() const { return mRootToken; }
 	IRRegisterOperand* GetResultRegister() const { return mResultRegister; }
 };

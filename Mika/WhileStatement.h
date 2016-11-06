@@ -10,7 +10,7 @@ protected:
 	Statement* mLoop;
 
 public:
-	WhileStatement(size_t rootToken)
+	WhileStatement(int rootToken)
 		: Statement(rootToken)
 		, mExpression(nullptr)
 		, mLoop(nullptr)

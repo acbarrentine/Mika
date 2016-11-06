@@ -12,7 +12,7 @@ protected:
 	Variable* mVariable;
 
 public:
-	IdentifierExpression(size_t rootToken)
+	IdentifierExpression(int rootToken)
 		: Expression(rootToken)
 		, mVariable(nullptr)
 	{}

@@ -14,7 +14,7 @@ protected:
 	OpCode mOpCode;
 
 public:
-	BinaryExpression(size_t rootToken);
+	BinaryExpression(int rootToken);
 
 	void SetLeft(Expression* expr) { mLeft = expr; }
 	void SetRight(Expression* expr) { mRight = expr; }

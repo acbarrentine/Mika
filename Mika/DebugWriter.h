@@ -16,54 +16,49 @@ public:
 
 	bool Failed() { return mStream.bad(); }
 
-	void Visit(IROperand* op) override
-	{
-		op->Accept(this);
-	}
-
-	void Visit(IRFunctionOperand* op) override
+	void Visit(IRFunctionOperand* op, bool) override
 	{
 		mStream << op->mFunction->GetName().GetString();
 	}
 
-	void Visit(IRVariableOperand* op) override
+	void Visit(IRVariableOperand* op, bool) override
 	{
 		op;
 	}
 
-	void Visit(IRRegisterOperand* op)
+	void Visit(IRRegisterOperand* op, bool) override
 	{
 		mStream << "%" << op->mTempRegister;
 	}
 
-	void Visit(IRLabelOperand* op)
+	void Visit(IRLabelOperand* op, bool) override
 	{
 		mStream << std::setfill('0') << std::setw(8) << std::setbase(16) << op->mByteCodeOffset;
 	}
 
-	void Visit(IRIntOperand* op)
+	void Visit(IRIntOperand* op, bool) override
 	{
 		mStream << op->mValue;
 	}
 
-	void Visit(IRFloatOperand* op)
+	void Visit(IRFloatOperand* op, bool) override
 	{
 		mStream << op->mValue;
 	}
 
-	void Visit(IRStringOperand* op)
+	void Visit(IRStringOperand* op, bool) override
 	{
 		mStream << "\"" << op->mValue.GetString() << "\"";
 	}
 
-	void Visit(IRInstruction* op)
+	void Visit(IRInstruction* op) override
 	{
 		mStream << "\t" << std::setfill('0') << std::setw(8) << std::setbase(16) << op->mByteCodeOffset << "\t";
 
-		OpCode code = op->mCode;
-		mStream << ((code == IllegalInstruction) ? "Return" : IRInstruction::SOpCodeData[code].mName);
+		mStream << ((op->mCode == IllegalInstruction) ? "Return" : op->GetName());
 
-		for (int i = 0; i < IRInstruction::SOpCodeData[code].mNumArgs; ++i)
+		int numOperands = op->GetNumOperands();
+		for (int i = 0; i < numOperands; ++i)
 		{
 			IROperand* operand = op->mOperands[i];
 			if (i)
@@ -71,7 +66,7 @@ public:
 			else
 				mStream << " ";
 
-			operand->Accept(this);
+			operand->Accept(this, op->WritesOperand(i));
 		}
 
 		mStream << std::endl;

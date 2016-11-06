@@ -51,7 +51,7 @@ public:
 	void AddFunction(ScriptFunction* func);
 	void AddVariable(Variable* var);
 
-	IRInstruction& EmitInstruction(OpCode opCode, size_t rootToken);
+	IRInstruction& EmitInstruction(OpCode opCode, int rootToken);
 	int GetByteCodeOffset() const { return mByteCodeOffset; }
 
 	void WriteObjectFile(const char* objectFileName);
@@ -59,6 +59,7 @@ public:
 
 protected:
 	int AddString(Identifier id);
+	void AssignStackOffsets(FunctionRecord& record);
 
 	friend class DebugWriter;
 };

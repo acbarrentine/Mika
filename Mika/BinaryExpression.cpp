@@ -4,7 +4,7 @@
 #include "ObjectFileHelper.h"
 
 
-BinaryExpression::BinaryExpression(size_t rootToken)
+BinaryExpression::BinaryExpression(int rootToken)
 	: Expression(rootToken)
 	, mLeft(nullptr)
 	, mRight(nullptr)

@@ -4,7 +4,7 @@ class MikaScript;
 class MikaArchive
 {
 public:
-	virtual void Serialize(void* v, size_t size) = 0;
+	virtual void Serialize(void* v, int size) = 0;
 
 	template <typename T>
 	friend MikaArchive& operator <<(MikaArchive& ar, T& o)
@@ -20,7 +20,7 @@ protected:
 	std::ifstream mStream;
 
 public:
-	virtual void Serialize(void* v, size_t size);
+	virtual void Serialize(void* v, int size);
 
 	void Process(const char* fileName, MikaScript* script);
 	bool Failed() { return mStream.bad(); }
@@ -29,10 +29,10 @@ public:
 template <typename T>
 MikaArchive& operator<<(MikaArchive& ar, std::vector<T>& vec)
 {
-	size_t size = vec.size();
+	int size = vec.size();
 	ar << size;
 	vec.resize(size);
-	for (size_t i = 0; i < size; ++i)
+	for (int i = 0; i < size; ++i)
 	{
 		ar << vec[i];
 	}

@@ -8,7 +8,7 @@ protected:
 	double mValue;
 
 public:
-	FloatConstantExpression(size_t rootToken)
+	FloatConstantExpression(int rootToken)
 		: Expression(rootToken)
 		, mValue(0.0f)
 	{}

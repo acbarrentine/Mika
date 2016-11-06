@@ -165,6 +165,7 @@
     <ClInclude Include="IntConstantExpression.h" />
     <ClInclude Include="IRCode.h" />
     <ClInclude Include="ObjectFileHelper.h" />
+    <ClInclude Include="ReferenceCollector.h" />
     <ClInclude Include="ReturnStatement.h" />
     <ClInclude Include="ScriptFunction.h" />
     <ClInclude Include="ScriptTokenizer.h" />

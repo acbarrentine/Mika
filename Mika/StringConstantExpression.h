@@ -9,7 +9,7 @@ protected:
 	Identifier mValue;
 
 public:
-	StringConstantExpression(size_t rootToken)
+	StringConstantExpression(int rootToken)
 		: Expression(rootToken)
 	{}
 

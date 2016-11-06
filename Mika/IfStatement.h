@@ -11,7 +11,7 @@ protected:
 	Statement* mElseClause;
 
 public:
-	IfStatement(size_t rootToken)
+	IfStatement(int rootToken)
 		: Statement(rootToken)
 		, mExpression(nullptr)
 		, mThenClause(nullptr)

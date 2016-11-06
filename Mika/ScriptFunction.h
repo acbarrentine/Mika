@@ -9,13 +9,13 @@ class ObjectFileHelper;
 class ScriptFunction
 {
 protected:
-	size_t mRootToken;
+	int mRootToken;
 	Identifier mName;
 	FunctionDeclaration* mDeclaration;
 	Statement* mStatement;
 
 public:
-	ScriptFunction(size_t rootToken)
+	ScriptFunction(int rootToken)
 		: mRootToken(rootToken)
 		, mDeclaration(nullptr)
 	{}

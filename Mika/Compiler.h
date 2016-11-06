@@ -29,7 +29,7 @@ protected:
 	typedef std::map<Identifier, Type*> TypeMap;
 
 	int mErrorCount;
-	size_t mCurrentTokenIndex;
+	int mCurrentTokenIndex;
 	TType mCurrentTokenType;
 	Token* mCurrentToken;
 	std::vector<Token> mTokenList;
@@ -45,7 +45,7 @@ public:
 
 	void Message(MsgSeverity severity, const char* format, ...);
 	void MessageArgs(MsgSeverity severity, const char* format, va_list args);
-	void Error(size_t errorTokenIndex, const char* message);
+	void Error(int errorTokenIndex, const char* message);
 	void Error(const char* format, ...);
 
 	void ReadGlue(const char* fileName);
@@ -57,7 +57,7 @@ public:
 
 	const char* GetFileName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
-	Token& GetToken(size_t tokenIndex) { return mTokenList[tokenIndex]; }
+	Token& GetToken(int tokenIndex) { return mTokenList[tokenIndex]; }
 
 	Identifier AddIdentifier(const char* id);
 	Identifier AddIdentifier(const char* first, const char* last);
@@ -70,7 +70,7 @@ public:
 	int GetCellSize() const { return 8; }
 
 protected:
-	void RegisterBuiltInType(TType name, size_t size);
+	void RegisterBuiltInType(TType name, int size);
 	Type* ParseType();
 	
 	void ParseGlueDeclaration();
@@ -92,7 +92,7 @@ protected:
 
 	void StartParse();
 	void NextToken();
-	void ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity) ;
+	void ShowLine(int errorTokenIndex, const char* message, MsgSeverity severity) ;
 	bool Peek(TType expectedType);
 	bool Expect(TType expectedType);
 	void SwallowTokens(TType terminator);

@@ -18,7 +18,7 @@ void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 
 	mType = mDeclaration->GetReturnType();
 
-	for (size_t i = 0; i < mActuals.size(); ++i)
+	for (unsigned int i = 0; i < mActuals.size(); ++i)
 	{
 		Expression* expr = mActuals[i];
 		expr->ResolveType(symbolTable);
@@ -29,15 +29,13 @@ void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 
 void FunctionCallExpression::GenCode(ObjectFileHelper& helper)
 {
-	for (size_t i = 0; i < mActuals.size(); ++i)
+	for (Expression* expr : mActuals)
 	{
-		Expression* expr = mActuals[i];
 		expr->GenCode(helper);
 	}
 
-	for (size_t i = 0; i < mActuals.size(); ++i)
+	for (Expression* expr : mActuals)
 	{
-		Expression* expr = mActuals[i];
 		IRInstruction& pushOp = helper.EmitInstruction(PushArgument, expr->GetRootToken());
 		pushOp.SetOperand(0, expr->GetResultRegister());
 	}

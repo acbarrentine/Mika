@@ -6,10 +6,10 @@ class ObjectFileHelper;
 class Statement
 {
 protected:
-	size_t mRootToken;
+	int mRootToken;
 
 public:
-	Statement(size_t rootToken)
+	Statement(int rootToken)
 		: mRootToken(rootToken)
 	{}
 

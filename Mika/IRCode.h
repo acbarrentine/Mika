@@ -13,7 +13,7 @@ class Variable;
 class FunctionDeclaration;
 
 #undef MIKA_OPCODE
-#define MIKA_OPCODE(op, numArgs) op,
+#define MIKA_OPCODE(op, numArgs, numWrites) op,
 enum OpCode : int
 {
 	IllegalInstruction,
@@ -23,32 +23,35 @@ enum OpCode : int
 class IRVisitor
 {
 public:
-	virtual void Visit(class IROperand*) = 0;
-	virtual void Visit(class IRFunctionOperand*) = 0;
-	virtual void Visit(class IRVariableOperand*) = 0;
-	virtual void Visit(class IRRegisterOperand*) = 0;
-	virtual void Visit(class IRLabelOperand*) = 0;
-	virtual void Visit(class IRIntOperand*) = 0;
-	virtual void Visit(class IRFloatOperand*) = 0;
-	virtual void Visit(class IRStringOperand*) = 0;
+	virtual void Visit(class IRFunctionOperand*, bool forWrite) = 0;
+	virtual void Visit(class IRVariableOperand*, bool forWrite) = 0;
+	virtual void Visit(class IRRegisterOperand*, bool forWrite) = 0;
+	virtual void Visit(class IRLabelOperand*, bool forWrite) = 0;
+	virtual void Visit(class IRIntOperand*, bool forWrite) = 0;
+	virtual void Visit(class IRFloatOperand*, bool forWrite) = 0;
+	virtual void Visit(class IRStringOperand*, bool forWrite) = 0;
 	virtual void Visit(class IRInstruction*) = 0;
 };
 
 class IROperand
 {
 public:
-	virtual void Accept(IRVisitor* visitor) = 0;
+	virtual void Accept(IRVisitor* visitor, bool forWrite) = 0;
 };
 
 class IRFunctionOperand : public IROperand
 {
 protected:
 	FunctionDeclaration* mFunction;
+
 public:
 	IRFunctionOperand(FunctionDeclaration* decl) : mFunction(decl) {}
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRVariableOperand : public IROperand
@@ -58,8 +61,11 @@ protected:
 public:
 	IRVariableOperand(Variable* var) : mVariable(var) {}
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRRegisterOperand : public IROperand
@@ -67,11 +73,20 @@ class IRRegisterOperand : public IROperand
 protected:
 	static int SDummyRegister;
 	int mTempRegister;
-public:
-	IRRegisterOperand() : mTempRegister(SDummyRegister++) {}
+	int mStackOffset;
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+public:
+	IRRegisterOperand()
+		: mTempRegister(SDummyRegister++)
+		, mStackOffset(-1)
+	{
+	}
+
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRLabelOperand : public IROperand
@@ -82,8 +97,11 @@ public:
 	IRLabelOperand() : mByteCodeOffset(0) {}
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRIntOperand : public IROperand
@@ -93,8 +111,11 @@ protected:
 public:
 	IRIntOperand(int val) : mValue(val) {}
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRFloatOperand : public IROperand
@@ -104,8 +125,11 @@ protected:
 public:
 	IRFloatOperand(double val) : mValue(val) {}
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRStringOperand : public IROperand
@@ -116,8 +140,11 @@ protected:
 public:
 	IRStringOperand(Identifier val) : mValue(val) {}
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };
 
 class IRInstruction
@@ -128,17 +155,18 @@ public:
 		OpCode mCode;
 		const char* mName;
 		int mNumArgs;
+		int mNumWrites;
 	};
 
 protected:
 	OpCode mCode;
-	size_t mRootToken;
+	int mRootToken;
 	int mByteCodeOffset;
 	IROperand* mOperands[3];
 	static OpCodeData SOpCodeData[];
 
 public:
-	IRInstruction(OpCode code, size_t rootToken, int byteCodeOffset)
+	IRInstruction(OpCode code, int rootToken, int byteCodeOffset)
 		: mCode(code)
 		, mRootToken(rootToken)
 		, mByteCodeOffset(byteCodeOffset)
@@ -154,7 +182,13 @@ public:
 	}
 
 	int GetSize() const;
+	int GetNumOperands() const;
+	const char* GetName() const;
+	bool WritesOperand(int index);
 
 	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
 	friend class DebugWriter;
+	friend class ReferenceCollector;
+	friend class VariableLocator;
+	friend class TempRegisterLocator;
 };

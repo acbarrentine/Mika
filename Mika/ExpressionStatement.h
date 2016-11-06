@@ -9,7 +9,7 @@ protected:
 	Expression* mExpression;
 
 public:
-	ExpressionStatement(size_t rootToken)
+	ExpressionStatement(int rootToken)
 		: Statement(rootToken)
 	{}
 

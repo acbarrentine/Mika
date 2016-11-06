@@ -6,11 +6,13 @@ class Type
 {
 protected:
 	Identifier mName;
-	size_t mSize;
+	int mSize;
 
 public:
-	Type(Identifier name, size_t size)
+	Type(Identifier name, int size)
 		: mName(name)
 		, mSize(size)
 	{}
+
+	int GetSize() const { return mSize; }
 };

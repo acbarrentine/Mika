@@ -8,7 +8,7 @@ protected:
 	int mValue;
 
 public:
-	IntConstantExpression(size_t rootToken)
+	IntConstantExpression(int rootToken)
 		: Expression(rootToken)
 		, mValue(0)
 	{}

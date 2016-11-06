@@ -3,7 +3,7 @@
 #include "MikaScript.h"
 
 
-void MikaReader::Serialize(void* v, size_t size)
+void MikaReader::Serialize(void* v, int size)
 {
 	mStream.read((char*)v, size);
 }

@@ -102,7 +102,7 @@ void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list arg
 	}
 }
 
-void Compiler::Error(size_t errorTokenIndex, const char* message)
+void Compiler::Error(int errorTokenIndex, const char* message)
 {
 	ShowLine(errorTokenIndex, message, MsgSeverity::kError);
 
@@ -246,7 +246,7 @@ Type* Compiler::FindType(Identifier name)
 	return it != mTypes.end() ? it->second : nullptr;
 }
 
-void Compiler::RegisterBuiltInType(TType name, size_t size)
+void Compiler::RegisterBuiltInType(TType name, int size)
 {
 	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
 	Type* t = new Type(id, size);
@@ -357,7 +357,7 @@ void Compiler::ParseScriptDeclaration()
 
 void Compiler::ParseScriptFunction()
 {
-	size_t rootToken = mCurrentTokenIndex;
+	int rootToken = mCurrentTokenIndex;
 	Identifier name;
 	if (mCurrentTokenType != TType::kIdentifier)
 	{
@@ -629,7 +629,7 @@ void Compiler::NextToken()
 	mCurrentTokenType = mCurrentToken->GetType();
 }
 
-void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity severity)
+void Compiler::ShowLine(int errorTokenIndex, const char* message, MsgSeverity severity)
 {
 	const Token& errorToken = mTokenList[errorTokenIndex];
 	int fileIndex = errorToken.GetFileIndex();
@@ -644,13 +644,13 @@ void Compiler::ShowLine(size_t errorTokenIndex, const char* message, MsgSeverity
 	};
 	Message(severity, "%s(%d) : %s : %s\n", mFileNames[fileIndex].c_str(), line, messageLevel[(int)severity], message);
 
-	size_t tokenIndex = errorTokenIndex;
+	int tokenIndex = errorTokenIndex;
 	while (tokenIndex > 0 && mTokenList[tokenIndex - 1].GetLineNumber() == line)
 	{
 		--tokenIndex;
 	}
 
-	while (tokenIndex < mTokenList.size())
+	while (tokenIndex < (int)mTokenList.size())
 	{
 		const Token& tok = mTokenList[tokenIndex++];
 		if (tok.GetLineNumber() != line)

@@ -8,7 +8,7 @@ protected:
 	std::vector<Statement*> mStmtList;
 
 public:
-	CompoundStatement(size_t rootToken)
+	CompoundStatement(int rootToken)
 		: Statement(rootToken)
 	{}
 

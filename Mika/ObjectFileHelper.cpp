@@ -4,7 +4,10 @@
 #include "Compiler.h"
 #include "IRCode.h"
 #include "FunctionDeclaration.h"
+#include "Variable.h"
+#include "Type.h"
 #include "DebugWriter.h"
+#include "ReferenceCollector.h"
 #include "..\MikaVM\MikaArchive.h"
 
 
@@ -14,7 +17,7 @@ protected:
 	std::ofstream mStream;
 
 public:
-	virtual void Serialize(void* v, size_t size)
+	virtual void Serialize(void* v, int size)
 	{
 		mStream.write((char*)v, size);
 	}
@@ -34,10 +37,9 @@ void ObjectFileHelper::AddFunction(ScriptFunction* func)
 	mFunctions.emplace_back(func, AddString(func->GetName()));
 	func->GenCode(*this);
 
-	//FunctionRecord& record = mFunctions.back();
-	
+	FunctionRecord& record = mFunctions.back();
 	// optimize
-	// assign stack addresses
+	AssignStackOffsets(record);
 	// byte code
 }
 
@@ -46,7 +48,7 @@ void ObjectFileHelper::AddVariable(Variable* var)
 	var;
 }
 
-IRInstruction& ObjectFileHelper::EmitInstruction(OpCode opCode, size_t rootToken)
+IRInstruction& ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
 	record.mInstructions.emplace_back(opCode, rootToken, mByteCodeOffset);
@@ -103,4 +105,30 @@ int ObjectFileHelper::AddString(Identifier id)
 	mStringData.insert(mStringData.end(), str, str + strlen(str));
 	mStringData.push_back('\0');
 	return len;
+}
+
+void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
+{
+	// mark variables referenced
+	ReferenceCollector collector;
+	for (IRInstruction& op : record.mInstructions)
+	{
+		collector.Visit(&op);
+	}
+
+	// assign stack locations to used variables
+	int stackOffset = 0;
+	VariableLocator varLocator(stackOffset);
+	for (IRInstruction& op : record.mInstructions)
+	{
+		varLocator.Visit(&op);
+	}
+	stackOffset = varLocator.GetUsedBytes();
+
+	TempRegisterLocator tempLocator(stackOffset);
+	for (IRInstruction& op : record.mInstructions)
+	{
+		tempLocator.Visit(&op);
+	}
+	stackOffset = tempLocator.GetUsedBytes();
 }
