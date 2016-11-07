@@ -17,14 +17,14 @@ protected:
 
 		virtual void Serialize(void* v, int size) override
 		{
-			int start = mByteCode.size();
+			size_t start = mByteCode.size();
 			mByteCode.insert(mByteCode.end(), size, 0);
 			memcpy(&mByteCode[start], v, size);
 		}
 
 		int Tell() const
 		{
-			return mByteCode.size();
+			return (int)mByteCode.size();
 		}
 	} mByteStream;
 

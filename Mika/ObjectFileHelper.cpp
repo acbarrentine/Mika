@@ -122,11 +122,11 @@ void ObjectFileHelper::WriteDebugFile(const char* debugFileName)
 
 int ObjectFileHelper::AddString(Identifier id)
 {
-	int len = mStringData.size();
+	size_t len = mStringData.size();
 	const char* str = id.GetString();
 	mStringData.insert(mStringData.end(), str, str + strlen(str));
 	mStringData.push_back('\0');
-	return len;
+	return (int)len;
 }
 
 void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)

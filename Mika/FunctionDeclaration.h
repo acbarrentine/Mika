@@ -30,7 +30,7 @@ public:
 	}
 	int GetParameterCount() const
 	{
-		return mParameterList.size();
+		return (int)mParameterList.size();
 	}
 
 	void BindParameters(SymbolTable& symbolTable);

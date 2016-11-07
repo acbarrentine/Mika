@@ -6,7 +6,10 @@
 #include "Compiler.h"
 #include "ScriptTokenizer.h"
 
-#pragma warning( disable : 4244 )		// truncation
+#pragma warning(disable : 4244)			// truncation
+#pragma warning(disable : 4267)			// truncation
+#pragma warning(disable : 6011)			// analysis - write to null ptr
+
 #define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno); return type
 %}
 

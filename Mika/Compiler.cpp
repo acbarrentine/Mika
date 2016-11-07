@@ -141,7 +141,7 @@ void Compiler::ReadGlue(const char* fileName)
 		return;
 	}
 
-	GlueTokenizer tokenizer(&inputStream, mFileNames.size() - 1);
+	GlueTokenizer tokenizer(&inputStream, (int)mFileNames.size() - 1);
 	tokenizer.Read();
 }
 
@@ -167,7 +167,7 @@ void Compiler::ReadScript(const char* fileName)
 		return;
 	}
 
-	ScriptTokenizer tokenizer(&inputStream, mFileNames.size() - 1);
+	ScriptTokenizer tokenizer(&inputStream, (int)mFileNames.size() - 1);
 	tokenizer.Read();
 }
 
