@@ -96,9 +96,9 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	for (FunctionRecord& record : mFunctions)
 	{
 		MikaArchiveFunctionHeader header;
-		header.mByteCodeSize = 0;
+		header.mByteCodeOffset = record.mByteCodeOffset;
 		header.mNameOffset = record.mNameOffset;
-		header.mStackSize = 0;
+		header.mStackSize = record.mStackUsage;
 		fileHeader.mFunctions.push_back(header);
 	}
 	writer << fileHeader;
@@ -132,7 +132,7 @@ int ObjectFileHelper::AddString(Identifier id)
 void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 {
 	// mark variables referenced
-	ReferenceCollector collector;
+	ReferenceCollector collector(this);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&collector);
@@ -153,6 +153,7 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 		op->Accept(&tempLocator);
 	}
 	stackOffset = tempLocator.GetUsedBytes();
+	record.mStackUsage = stackOffset;
 }
 
 void ObjectFileHelper::AssignByteCodeOffsets(FunctionRecord& record)

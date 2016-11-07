@@ -47,9 +47,14 @@ class IRFunctionOperand : public IROperand
 {
 protected:
 	FunctionDeclaration* mFunction;
+	int mStringOffset;
 
 public:
-	IRFunctionOperand(FunctionDeclaration* decl) : mFunction(decl) {}
+	IRFunctionOperand(FunctionDeclaration* decl)
+		: mFunction(decl)
+		, mStringOffset(0)
+	{
+	}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;
@@ -162,9 +167,14 @@ class IRStringOperand : public IROperand
 {
 protected:
 	Identifier mValue;
+	int mStringOffset;
 
 public:
-	IRStringOperand(Identifier val) : mValue(val) {}
+	IRStringOperand(Identifier val)
+		: mValue(val)
+		, mStringOffset(0)
+	{
+	}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	friend class DebugWriter;

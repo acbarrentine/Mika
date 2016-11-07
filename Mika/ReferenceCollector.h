@@ -4,20 +4,34 @@
 
 class ReferenceCollector : public IRVisitor
 {
+protected:
+	ObjectFileHelper* mHelper;
+
 public:
-	ReferenceCollector() {}
+	ReferenceCollector(ObjectFileHelper* helper)
+		: mHelper(helper)
+	{
+	}
 
 	void Visit(IRVariableOperand* op, bool) override
 	{
 		op->mVariable->AddRef();
 	}
 
+	void Visit(IRFunctionOperand* op, bool) override
+	{
+		op->mStringOffset = mHelper->AddString(op->mFunction->GetName());
+	}
+
+	void Visit(IRStringOperand* op, bool) override
+	{
+		op->mStringOffset = mHelper->AddString(op->mValue);
+	}
+
 	void Visit(IRRegisterOperand*, bool) override {}
-	void Visit(IRFunctionOperand*, bool) override {}
 	void Visit(IRLabelOperand*, bool) override {}
 	void Visit(IRIntOperand*, bool) override {}
 	void Visit(IRFloatOperand*, bool) override {}
-	void Visit(IRStringOperand*, bool) override {}
 
 	void Visit(IRInstruction* op)
 	{

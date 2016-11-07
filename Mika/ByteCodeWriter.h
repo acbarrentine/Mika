@@ -36,9 +36,8 @@ public:
 
 	void Visit(IRFunctionOperand* op, bool) override
 	{
-		op;
 		MikaArchiveCell cell;
-		cell.mIntVal = 0;
+		cell.mIntVal = op->mStringOffset;
 		mByteStream << cell;
 	}
 
@@ -79,13 +78,12 @@ public:
 
 	void Visit(IRStringOperand* op, bool) override
 	{
-		op;
 		MikaArchiveCell cell;
-		cell.mIntVal = 0;//op->mValue;
+		cell.mIntVal = op->mStringOffset;
 		mByteStream << cell;
 	}
 
-	static_assert(sizeof(MikaArchiveInstruction) == sizeof(MikaScript::OpCode), "Compiler and runtime disagreement on instruction size");
+	static_assert(sizeof(MikaArchiveInstruction) == sizeof(MikaScript::Instruction), "Compiler and runtime disagreement on instruction size");
 	static_assert(sizeof(MikaArchiveCell) == sizeof(MikaScript::Cell), "Compiler and runtime disagree on Cell size");
 
 	void Visit(IRInstruction* op) override

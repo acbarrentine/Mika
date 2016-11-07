@@ -2,7 +2,6 @@
 #include "MikaArchive.h"
 #include "MikaScript.h"
 
-
 void MikaReader::Serialize(void* v, int size)
 {
 	mStream.read((char*)v, size);
@@ -39,11 +38,23 @@ void MikaReader::Process(const char* fileName, MikaScript* script)
 		{
 			MikaScript::FunctionHeader runTimeHeader;
 			runTimeHeader.mName = &script->mStringData[arHeader.mNameOffset];
-			runTimeHeader.mByteCode = nullptr;
+			runTimeHeader.mByteCodeOffset = arHeader.mByteCodeOffset;
+			runTimeHeader.mStackSize = arHeader.mStackSize;
 			script->mFunctions.push_back(runTimeHeader);
 
 			std::cout << "Adding func " << runTimeHeader.mName << " to script." << std::endl;
 		}
-	}
 
+		// fixup function references
+		for (size_t pcOffset = 0; pcOffset < script->mByteData.size(); )
+		{
+			MikaScript::Instruction* op = (MikaScript::Instruction*) &script->mByteData[pcOffset];
+			MikaArchiveInstruction* archiveVersion = (MikaArchiveInstruction*)op;
+			if (op->mFunc)
+			{
+				op->mFunc = MikaScript::SBuiltInFunctions[archiveVersion->mCode];
+			}
+			pcOffset += op->GetSize();
+		}
+	}
 }

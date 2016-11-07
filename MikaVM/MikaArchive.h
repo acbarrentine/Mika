@@ -42,13 +42,13 @@ MikaArchive& operator<<(MikaArchive& ar, std::vector<T>& vec)
 struct MikaArchiveFunctionHeader
 {
 	unsigned int mNameOffset;
-	unsigned int mByteCodeSize;
+	unsigned int mByteCodeOffset;
 	unsigned int mStackSize;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFunctionHeader& header)
 	{
 		ar << header.mNameOffset;
-		ar << header.mByteCodeSize;
+		ar << header.mByteCodeOffset;
 		ar << header.mStackSize;
 		return ar;
 	}

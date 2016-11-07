@@ -3,7 +3,7 @@
 class MikaScript
 {
 public:
-	typedef void(*GlueFunc)();
+	typedef void(*GlueFunc)(class MikaVM*);
 
 	union Cell
 	{
@@ -12,7 +12,7 @@ public:
 		void* mPtrVal;
 	};
 
-	struct OpCode
+	struct Instruction
 	{
 		GlueFunc mFunc;
 		short mFileIndex;
@@ -21,14 +21,21 @@ public:
 		short mFlags;
 
 		Cell* GetArgs() const;
-		OpCode* Next() const;
+		
+		int GetSize() const
+		{
+			return mFunc ? sizeof(Instruction) + (mNumArgs * sizeof(Cell)) : sizeof(Cell);
+		}
 	};
+
+	static GlueFunc SBuiltInFunctions[];
 
 protected:
 	struct FunctionHeader
 	{
 		const char* mName;
-		OpCode* mByteCode;
+		int mByteCodeOffset;
+		int mStackSize;
 	};
 
 	std::vector<char> mStringData;
@@ -36,7 +43,6 @@ protected:
 	std::vector<FunctionHeader> mFunctions;
 
 	friend class MikaReader;
-	//friend class MikaWriter;
 
 public:
 	MikaScript(const char* fileName);

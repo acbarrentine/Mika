@@ -15,12 +15,14 @@ protected:
 		ScriptFunction* mFunction;
 		int mNameOffset;
 		int mByteCodeOffset;
+		int mStackUsage;
 		std::vector<IRInstruction*> mInstructions;
 
 		FunctionRecord(ScriptFunction* func, int nameOffset)
 			: mFunction(func)
 			, mNameOffset(nameOffset)
 			, mByteCodeOffset(0)
+			, mStackUsage(0)
 		{
 			mInstructions.reserve(200);
 		}
@@ -56,4 +58,5 @@ protected:
 
 	friend class DebugWriter;
 	friend class ByteCodeWriter;
+	friend class ReferenceCollector;
 };

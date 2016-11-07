@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "IRCode.h"
 #include "Compiler.h"
-#include "../MikaVM/MikaScript.h"
+#include "../MikaVM/MikaArchive.h"
 
 
 int IRRegisterOperand::SDummyRegister = 0;
@@ -16,7 +16,7 @@ IRInstruction::OpCodeData IRInstruction::SOpCodeData[] =
 
 int IRInstruction::GetSize() const
 {
-	return sizeof(MikaScript::OpCode) + (GetNumOperands() * GCompiler.GetCellSize());
+	return sizeof(MikaArchiveInstruction) + (GetNumOperands() * GCompiler.GetCellSize());
 }
 
 const char* IRInstruction::GetName() const
