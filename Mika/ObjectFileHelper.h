@@ -6,7 +6,6 @@
 class Variable;
 class ScriptFunction;
 
-
 class ObjectFileHelper
 {
 protected:
@@ -59,4 +58,5 @@ protected:
 	friend class DebugWriter;
 	friend class ByteCodeWriter;
 	friend class ReferenceCollector;
+	friend class Optimizer;
 };

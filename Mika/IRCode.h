@@ -64,6 +64,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRVariableOperand : public IROperand
@@ -81,6 +82,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRRegisterOperand : public IROperand
@@ -105,6 +107,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRLabelOperand : public IROperand
@@ -125,6 +128,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRIntOperand : public IROperand
@@ -143,6 +147,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRFloatOperand : public IROperand
@@ -161,6 +166,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRStringOperand : public IROperand
@@ -184,6 +190,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRInstruction
@@ -201,6 +208,7 @@ protected:
 	OpCode mCode;
 	int mRootToken;
 	int mByteCodeOffset;
+	bool mRemoved;
 	IROperand* mOperands[3];
 	static OpCodeData SOpCodeData[];
 
@@ -209,6 +217,7 @@ public:
 		: mCode(code)
 		, mRootToken(rootToken)
 		, mByteCodeOffset(0)
+		, mRemoved(false)
 	{
 		mOperands[0] = 0;
 		mOperands[1] = 0;
@@ -229,8 +238,13 @@ public:
 	int GetNumOperands() const;
 	const char* GetName() const;
 	bool WritesOperand(int index);
+	void Remove() { mRemoved = true; }
 
-	virtual void Accept(IRVisitor* visitor) { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor)
+	{
+		if (!mRemoved) visitor->Visit(this);
+	}
+
 	friend class DebugWriter;
 	friend class ReferenceCollector;
 	friend class VariableLocator;
@@ -238,6 +252,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRLabelInstruction : public IRInstruction
@@ -257,7 +272,11 @@ public:
 		return 0;
 	}
 
-	virtual void Accept(IRVisitor* visitor) override { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor) override
+	{
+		if (!mRemoved) visitor->Visit(this);
+	}
+
 	friend class DebugWriter;
 	friend class ReferenceCollector;
 	friend class VariableLocator;
@@ -265,6 +284,7 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };
 
 class IRReturnInstruction : public IRInstruction
@@ -277,7 +297,11 @@ public:
 
 	virtual int GetSize() const override;
 
-	virtual void Accept(IRVisitor* visitor) override { visitor->Visit(this); }
+	virtual void Accept(IRVisitor* visitor)
+	{
+		if (!mRemoved) visitor->Visit(this);
+	}
+
 	friend class DebugWriter;
 	friend class ReferenceCollector;
 	friend class VariableLocator;
@@ -285,4 +309,5 @@ public:
 	friend class ByteCodeLocator;
 	friend class LabelLocator;
 	friend class ByteCodeWriter;
+	friend class Optimizer;
 };

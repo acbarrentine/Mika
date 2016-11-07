@@ -19,11 +19,9 @@ if_end:
 	00000164	CopyConstantToStack %6, 14
 	00000180	SetResultRegister %6
 	00000194	Return
-	0000019c	Return
 
 OtherFunc
-	000001a4	CopyConstantToStack %7, 2
-	000001c0	SetResultRegister %7
-	000001d4	Return
-	000001dc	Return
+	0000019c	CopyConstantToStack %7, 2
+	000001b8	SetResultRegister %7
+	000001cc	Return
 

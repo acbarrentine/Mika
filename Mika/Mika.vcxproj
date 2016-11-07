@@ -93,6 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalIncludeDirectories>$(SolutionDir)winflex</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,6 +169,7 @@
     <ClInclude Include="IntConstantExpression.h" />
     <ClInclude Include="IRCode.h" />
     <ClInclude Include="ObjectFileHelper.h" />
+    <ClInclude Include="Optimizer.h" />
     <ClInclude Include="ReferenceCollector.h" />
     <ClInclude Include="ReturnStatement.h" />
     <ClInclude Include="ScriptFunction.h" />

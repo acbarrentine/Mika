@@ -9,6 +9,7 @@
 #include "DebugWriter.h"
 #include "ReferenceCollector.h"
 #include "ByteCodeLocator.h"
+#include "Optimizer.h"
 #include "../MikaVM/MikaArchive.h"
 #include "../MikaVM/MikaScript.h"
 #include "ByteCodeWriter.h"
@@ -39,8 +40,9 @@ void ObjectFileHelper::AddFunction(ScriptFunction* func)
 
 	FunctionRecord& record = mFunctions.back();
 
-	// TODO: optimize
-	
+	Optimizer optimizer;
+	optimizer.OptimizeFunction(record);
+
 	AssignStackOffsets(record);
 	AssignByteCodeOffsets(record);
 
