@@ -6,23 +6,55 @@ protected:
 	int mByteCodeOffset;
 
 public:
-	ByteCodeLocator(int startOffset)
-		: mByteCodeOffset(startOffset)
+	ByteCodeLocator()
+		: mByteCodeOffset(0)
 	{
 	}
 
-	void Visit(IRRegisterOperand*, bool) override {}
-	void Visit(IRVariableOperand*, bool) override {}
-	void Visit(IRFunctionOperand*, bool) override {}
-	void Visit(IRLabelOperand*, bool) override {}
-	void Visit(IRIntOperand*, bool) override {}
-	void Visit(IRFloatOperand*, bool) override {}
-	void Visit(IRStringOperand*, bool) override {}
+	void Visit(IRRegisterOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
+	void Visit(IRVariableOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
+	void Visit(IRFunctionOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
+	void Visit(IRLabelOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
+	void Visit(IRIntOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
+	void Visit(IRFloatOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
+	void Visit(IRStringOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
 
 	void Visit(IRInstruction* op)
 	{
+		int targetOffset = mByteCodeOffset + op->GetSize();
 		op->SetByteCodeOffset(mByteCodeOffset);
-		mByteCodeOffset += op->GetSize();
+		mByteCodeOffset += sizeof(MikaArchiveInstruction);
+		
+		int numOperands = op->GetNumOperands();
+		for (int i = 0; i < numOperands; ++i)
+		{
+			IROperand* operand = op->mOperands[i];
+			operand->Accept(this, op->WritesOperand(i));
+		}
+
+		// make sure the operands pushed the offset to the right place
+		assert(mByteCodeOffset == targetOffset);
 	}
 
 	void Visit(class IRLabelInstruction* op) override
@@ -44,19 +76,14 @@ public:
 
 class LabelLocator : public IRVisitor
 {
-protected:
-	int mByteCodeOffset;
-
 public:
 	LabelLocator()
-		: mByteCodeOffset(0)
 	{
 	}
 
 	void Visit(IRLabelOperand* op, bool) override
 	{
-		int targetOffset = op->mLabel->mByteCodeOffset;
-		op->SetOffset(targetOffset - mByteCodeOffset);
+		op->SetOffset(op->mLabel->mByteCodeOffset);
 	}
 
 	void Visit(IRRegisterOperand*, bool) override {}
@@ -68,9 +95,6 @@ public:
 
 	void Visit(IRInstruction* op)
 	{
-		mByteCodeOffset = op->mByteCodeOffset;
-		mByteCodeOffset += op->GetSize();
-
 		int numOperands = op->GetNumOperands();
 		for (int i = 0; i < numOperands; ++i)
 		{

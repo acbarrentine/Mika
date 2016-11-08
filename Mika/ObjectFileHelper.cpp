@@ -6,13 +6,13 @@
 #include "FunctionDeclaration.h"
 #include "Variable.h"
 #include "Type.h"
+#include "../MikaVM/MikaArchive.h"
+#include "../MikaVM/MikaVM.h"
+#include "ByteCodeWriter.h"
+#include "ByteCodeLocator.h"
 #include "DebugWriter.h"
 #include "ReferenceCollector.h"
-#include "ByteCodeLocator.h"
 #include "Optimizer.h"
-#include "../MikaVM/MikaArchive.h"
-#include "../MikaVM/MikaScript.h"
-#include "ByteCodeWriter.h"
 
 class MikaWriter : public MikaArchive
 {
@@ -33,9 +33,26 @@ public:
 	bool Failed() { return mStream.bad(); }
 };
 
+ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func)
+	: mFunction(func)
+	, mStackUsage(0)
+{
+	AddString(func->GetName());
+	mInstructions.reserve(200);
+}
+
+int ObjectFileHelper::FunctionRecord::AddString(Identifier id)
+{
+	size_t len = mStringData.size();
+	const char* str = id.GetString();
+	mStringData.insert(mStringData.end(), str, str + strlen(str));
+	mStringData.push_back('\0');
+	return (int)len;
+}
+
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
-	mFunctions.emplace_back(func, AddString(func->GetName()));
+	mFunctions.emplace_back(func);
 	func->GenCode(*this);
 
 	FunctionRecord& record = mFunctions.back();
@@ -46,8 +63,8 @@ void ObjectFileHelper::AddFunction(ScriptFunction* func)
 	AssignStackOffsets(record);
 	AssignByteCodeOffsets(record);
 
-	ByteCodeWriter byteCodeWriter(mByteCodeData);
-	byteCodeWriter.WriteFunction(record);
+	ByteCodeWriter byteCodeWriter(record);
+	byteCodeWriter.WriteFunction();
 }
 
 void ObjectFileHelper::AddVariable(Variable* var)
@@ -92,15 +109,13 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	
 	MikaArchiveFileHeader fileHeader;
 	fileHeader.mMagic = 'MIKA';
-	fileHeader.mByteData = std::move(mByteCodeData);
-	fileHeader.mStringData = std::move(mStringData);
 
 	for (FunctionRecord& record : mFunctions)
 	{
 		MikaArchiveFunctionHeader header;
-		header.mByteCodeOffset = record.mByteCodeOffset;
-		header.mNameOffset = record.mNameOffset;
 		header.mStackSize = record.mStackUsage;
+		header.mStringData = std::move(record.mStringData);
+		header.mByteData = std::move(record.mByteCodeData);
 		fileHeader.mFunctions.push_back(header);
 	}
 	writer << fileHeader;
@@ -122,19 +137,10 @@ void ObjectFileHelper::WriteDebugFile(const char* debugFileName)
 	}
 }
 
-int ObjectFileHelper::AddString(Identifier id)
-{
-	size_t len = mStringData.size();
-	const char* str = id.GetString();
-	mStringData.insert(mStringData.end(), str, str + strlen(str));
-	mStringData.push_back('\0');
-	return (int)len;
-}
-
 void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 {
 	// mark variables referenced
-	ReferenceCollector collector(this);
+	ReferenceCollector collector(record);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&collector);
@@ -160,14 +166,11 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 
 void ObjectFileHelper::AssignByteCodeOffsets(FunctionRecord& record)
 {
-	record.mByteCodeOffset = mByteCodeOffset;
-
-	ByteCodeLocator byteCodeLocator(mByteCodeOffset);
+	ByteCodeLocator byteCodeLocator;
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&byteCodeLocator);
 	}
-	mByteCodeOffset = byteCodeLocator.GetByteCodeOffset();
 
 	LabelLocator labelLocator;
 	for (IRInstruction* op : record.mInstructions)

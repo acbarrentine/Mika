@@ -12,29 +12,19 @@ protected:
 	struct FunctionRecord
 	{
 		ScriptFunction* mFunction;
-		int mNameOffset;
-		int mByteCodeOffset;
 		int mStackUsage;
 		std::vector<IRInstruction*> mInstructions;
+		std::vector<char> mStringData;
+		std::vector<unsigned char> mByteCodeData;
 
-		FunctionRecord(ScriptFunction* func, int nameOffset)
-			: mFunction(func)
-			, mNameOffset(nameOffset)
-			, mByteCodeOffset(0)
-			, mStackUsage(0)
-		{
-			mInstructions.reserve(200);
-		}
+		FunctionRecord(ScriptFunction* func);
+		int AddString(Identifier id);
 	};
 
-	std::vector<char> mStringData;
-	std::vector<unsigned char> mByteCodeData;
 	std::vector<FunctionRecord> mFunctions;
-	int mByteCodeOffset;
 
 public:
 	ObjectFileHelper()
-		: mByteCodeOffset(0)
 	{
 	}
 
@@ -51,7 +41,6 @@ public:
 	void WriteDebugFile(const char* debugFileName);
 
 protected:
-	int AddString(Identifier id);
 	void AssignStackOffsets(FunctionRecord& record);
 	void AssignByteCodeOffsets(FunctionRecord& record);
 

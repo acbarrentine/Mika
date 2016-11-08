@@ -28,9 +28,12 @@ protected:
 		}
 	} mByteStream;
 
+	std::vector<IRInstruction*>& mInstructions;
+
 public:
-	ByteCodeWriter(std::vector<unsigned char>& byteCode)
-		: mByteStream(byteCode)
+	ByteCodeWriter(ObjectFileHelper::FunctionRecord& record)
+		: mByteStream(record.mByteCodeData)
+		, mInstructions(record.mInstructions)
 	{
 	}
 
@@ -83,8 +86,8 @@ public:
 		mByteStream << cell;
 	}
 
-	static_assert(sizeof(MikaArchiveInstruction) == sizeof(MikaScript::Instruction), "Compiler and runtime disagreement on instruction size");
-	static_assert(sizeof(MikaArchiveCell) == sizeof(MikaScript::Cell), "Compiler and runtime disagree on Cell size");
+	static_assert(sizeof(MikaArchiveInstruction) == sizeof(MikaVM::Instruction), "Compiler and runtime disagreement on instruction size");
+	static_assert(sizeof(MikaArchiveCell) == sizeof(MikaVM::Cell), "Compiler and runtime disagree on Cell size");
 
 	void Visit(IRInstruction* op) override
 	{
@@ -122,9 +125,9 @@ public:
 		mByteStream << term;
 	}
 
-	void WriteFunction(ObjectFileHelper::FunctionRecord& record)
+	void WriteFunction()
 	{
-		for (IRInstruction* op : record.mInstructions)
+		for (IRInstruction* op : mInstructions)
 		{
 			op->Accept(this);
 		}

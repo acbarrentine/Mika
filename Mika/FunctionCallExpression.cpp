@@ -40,7 +40,8 @@ void FunctionCallExpression::GenCode(ObjectFileHelper& helper)
 		pushOp->SetOperand(0, expr->GetResultRegister());
 	}
 
-	IRInstruction* callOp = helper.EmitInstruction(CallFunction, mRootToken);
+	OpCode code = mDeclaration->IsScriptFunction() ? CallScriptFunction : CallNativeFunction;
+	IRInstruction* callOp = helper.EmitInstruction(code, mRootToken);
 	callOp->SetOperand(0, new IRFunctionOperand(mDeclaration));
 
 	if (mType != GCompiler.FindType(TType::kVoid))

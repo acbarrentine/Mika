@@ -23,7 +23,6 @@
 #include "ObjectFileHelper.h"
 #include <stdarg.h>
 
-
 Compiler GCompiler;
 
 Compiler::Compiler()
@@ -377,6 +376,7 @@ void Compiler::ParseScriptFunction()
 
 	FunctionDeclaration* decl = new FunctionDeclaration(rootToken, name);
 	decl->SetReturnType(returnType);
+	decl->SetScriptFunction();
 
 	ScriptFunction* func = new ScriptFunction(rootToken);
 	func->SetName(name);

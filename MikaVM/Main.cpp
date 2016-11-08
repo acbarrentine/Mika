@@ -8,9 +8,8 @@ int main()
 	//char cwdBuf[1024];
 	//_getcwd(cwdBuf, sizeof(cwdBuf));
 
-	MikaScript script("..\\TestScripts\\FirstRun.miko");
 	MikaVM vm;
-	vm.Import(script);
+	vm.Import("..\\TestScripts\\FirstRun.miko");
 	vm.Execute("FirstRun:TestEntry");
 	return 0;
 }

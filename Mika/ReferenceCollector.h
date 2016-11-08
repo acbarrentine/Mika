@@ -5,11 +5,11 @@
 class ReferenceCollector : public IRVisitor
 {
 protected:
-	ObjectFileHelper* mHelper;
+	ObjectFileHelper::FunctionRecord& mRecord;
 
 public:
-	ReferenceCollector(ObjectFileHelper* helper)
-		: mHelper(helper)
+	ReferenceCollector(ObjectFileHelper::FunctionRecord& record)
+		: mRecord(record)
 	{
 	}
 
@@ -20,12 +20,12 @@ public:
 
 	void Visit(IRFunctionOperand* op, bool) override
 	{
-		op->mStringOffset = mHelper->AddString(op->mFunction->GetName());
+		op->mStringOffset =	mRecord.AddString(op->mFunction->GetName());
 	}
 
 	void Visit(IRStringOperand* op, bool) override
 	{
-		op->mStringOffset = mHelper->AddString(op->mValue);
+		op->mStringOffset = mRecord.AddString(op->mValue);
 	}
 
 	void Visit(IRRegisterOperand*, bool) override {}

@@ -1,6 +1,6 @@
 #pragma once
 
-class MikaScript;
+class MikaVM;
 class MikaArchive
 {
 public:
@@ -22,7 +22,7 @@ protected:
 public:
 	virtual void Serialize(void* v, int size);
 
-	void Process(const char* fileName, MikaScript* script);
+	void Process(const char* fileName, MikaVM* script);
 	bool Failed() { return mStream.bad(); }
 };
 
@@ -41,15 +41,15 @@ MikaArchive& operator<<(MikaArchive& ar, std::vector<T>& vec)
 
 struct MikaArchiveFunctionHeader
 {
-	unsigned int mNameOffset;
-	unsigned int mByteCodeOffset;
 	unsigned int mStackSize;
+	std::vector<char> mStringData;
+	std::vector<unsigned char> mByteData;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFunctionHeader& header)
 	{
-		ar << header.mNameOffset;
-		ar << header.mByteCodeOffset;
 		ar << header.mStackSize;
+		ar << header.mStringData;
+		ar << header.mByteData;
 		return ar;
 	}
 };
@@ -57,15 +57,11 @@ struct MikaArchiveFunctionHeader
 struct MikaArchiveFileHeader
 {
 	unsigned int mMagic;
-	std::vector<char> mStringData;
-	std::vector<unsigned char> mByteData;
 	std::vector<MikaArchiveFunctionHeader> mFunctions;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFileHeader& header)
 	{
 		ar << header.mMagic;
-		ar << header.mStringData;
-		ar << header.mByteData;
 		ar << header.mFunctions;
 		return ar;
 	}
@@ -114,4 +110,10 @@ struct MikaArchiveCell
 		ar.Serialize(&cell, sizeof(MikaArchiveCell));
 		return ar;
 	}
+};
+
+struct MikaArchiveByteCodeStringFixup
+{
+	int mStringOffset;
+	int mByteCodeOffset;
 };

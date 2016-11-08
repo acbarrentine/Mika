@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "MikaArchive.h"
-#include "MikaScript.h"
+#include "MikaVM.h"
 
 void MikaReader::Serialize(void* v, int size)
 {
 	mStream.read((char*)v, size);
 }
 
-void MikaReader::Process(const char* fileName, MikaScript* script)
+void MikaReader::Process(const char* fileName, MikaVM* vm)
 {
 	mStream.open(fileName, std::ios::in | std::ios::binary);
 
@@ -30,31 +30,37 @@ void MikaReader::Process(const char* fileName, MikaScript* script)
 			}
 		}
 
-		script->mByteData = std::move(fileHeader.mByteData);
-		script->mStringData = std::move(fileHeader.mStringData);
+		// split out the file name part of the incoming path
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		char fname[_MAX_FNAME];
+		char ext[_MAX_EXT];
+		_splitpath_s(fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
 
-		script->mFunctions.reserve(fileHeader.mFunctions.size());
 		for (MikaArchiveFunctionHeader& arHeader : fileHeader.mFunctions)
 		{
-			MikaScript::FunctionHeader runTimeHeader;
-			runTimeHeader.mName = &script->mStringData[arHeader.mNameOffset];
-			runTimeHeader.mByteCodeOffset = arHeader.mByteCodeOffset;
+			MikaVM::Function runTimeHeader;
+			runTimeHeader.mStringData = std::move(arHeader.mStringData);
+			runTimeHeader.mByteData = std::move(arHeader.mByteData);
+			runTimeHeader.mName = &runTimeHeader.mStringData[0];
 			runTimeHeader.mStackSize = arHeader.mStackSize;
-			script->mFunctions.push_back(runTimeHeader);
 
-			std::cout << "Adding func " << runTimeHeader.mName << " to script." << std::endl;
-		}
-
-		// fixup function references
-		for (size_t pcOffset = 0; pcOffset < script->mByteData.size(); )
-		{
-			MikaScript::Instruction* op = (MikaScript::Instruction*) &script->mByteData[pcOffset];
-			MikaArchiveInstruction* archiveVersion = (MikaArchiveInstruction*)op;
-			if (op->mFunc)
+			// fixup function references
+			for (size_t pcOffset = 0; pcOffset < runTimeHeader.mByteData.size(); )
 			{
-				op->mFunc = MikaScript::SBuiltInFunctions[archiveVersion->mCode];
+				MikaVM::Instruction* op = (MikaVM::Instruction*)&runTimeHeader.mByteData[pcOffset];
+				MikaArchiveInstruction* archiveVersion = (MikaArchiveInstruction*)op;
+				if (op->mFunc)
+				{
+					op->mFunc = MikaVM::SBuiltInFunctions[archiveVersion->mCode];
+				}
+				pcOffset += op->GetSize();
 			}
-			pcOffset += op->GetSize();
+
+			std::string key = fname;
+			key += ":";
+			key += runTimeHeader.mName;
+			vm->mFunctions.insert(std::make_pair(key, std::move(runTimeHeader)));
 		}
 	}
 }

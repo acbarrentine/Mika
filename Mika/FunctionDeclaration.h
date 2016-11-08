@@ -9,6 +9,7 @@ class FunctionDeclaration
 {
 protected:
 	int mRootToken;
+	bool mScriptFunction;
 	Identifier mName;
 	class Type* mReturnType;
 	std::vector<Variable*> mParameterList;
@@ -16,6 +17,7 @@ protected:
 public:
 	FunctionDeclaration(int rootToken, Identifier name)
 		: mRootToken(rootToken)
+		, mScriptFunction(false)
 		, mName(name)
 		, mReturnType(nullptr)
 	{}
@@ -38,4 +40,7 @@ public:
 	void SetReturnType(Type* returnType) { mReturnType = returnType; }
 	Type* GetReturnType() const { return mReturnType; }
 	Identifier GetName() const { return mName; }
+
+	void SetScriptFunction() { mScriptFunction = true; }
+	bool IsScriptFunction() const { return mScriptFunction; }
 };
