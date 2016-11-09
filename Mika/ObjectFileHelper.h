@@ -16,9 +16,11 @@ protected:
 		std::vector<IRInstruction*> mInstructions;
 		std::vector<char> mStringData;
 		std::vector<unsigned char> mByteCodeData;
+		std::vector<int> mStringFixups;
 
 		FunctionRecord(ScriptFunction* func);
 		int AddString(Identifier id);
+		void AddStringFixup(int stackOffset);
 	};
 
 	std::vector<FunctionRecord> mFunctions;
@@ -47,5 +49,6 @@ protected:
 	friend class DebugWriter;
 	friend class ByteCodeWriter;
 	friend class ReferenceCollector;
+	friend class ByteCodeLocator;
 	friend class Optimizer;
 };

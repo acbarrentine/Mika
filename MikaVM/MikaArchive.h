@@ -39,17 +39,25 @@ MikaArchive& operator<<(MikaArchive& ar, std::vector<T>& vec)
 	return ar;
 }
 
+struct MikaArchiveStringFixup
+{
+	int mStringOffset;
+	int mByteCodeOffset;
+};
+
 struct MikaArchiveFunctionHeader
 {
 	unsigned int mStackSize;
 	std::vector<char> mStringData;
 	std::vector<unsigned char> mByteData;
+	std::vector<int> mStringFixups;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFunctionHeader& header)
 	{
 		ar << header.mStackSize;
 		ar << header.mStringData;
 		ar << header.mByteData;
+		ar << header.mStringFixups;
 		return ar;
 	}
 };
@@ -108,10 +116,4 @@ struct MikaArchiveCell
 		ar.Serialize(&cell, sizeof(MikaArchiveCell));
 		return ar;
 	}
-};
-
-struct MikaArchiveByteCodeStringFixup
-{
-	int mStringOffset;
-	int mByteCodeOffset;
 };

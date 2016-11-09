@@ -50,7 +50,14 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 				pcOffset += op->GetSize();
 			}
 
-			vm->mFunctions.insert(std::make_pair(runTimeHeader.mName, std::move(runTimeHeader)));
+			for (int& fixup : arHeader.mStringFixups)
+			{
+				MikaVM::Cell* location = (MikaVM::Cell*) (&runTimeHeader.mByteData[fixup]);
+				const char* str = &runTimeHeader.mStringData[location->mIntVal];
+				location->mPtrVal = (void*) str;
+			}
+
+			vm->mScriptFunctions.insert(std::make_pair(runTimeHeader.mName, std::move(runTimeHeader)));
 		}
 	}
 }

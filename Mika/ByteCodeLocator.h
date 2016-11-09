@@ -3,11 +3,13 @@
 class ByteCodeLocator : public IRVisitor
 {
 protected:
+	ObjectFileHelper::FunctionRecord& mRecord;
 	int mByteCodeOffset;
 
 public:
-	ByteCodeLocator()
-		: mByteCodeOffset(0)
+	ByteCodeLocator(ObjectFileHelper::FunctionRecord& record)
+		: mRecord(record)
+		, mByteCodeOffset(0)
 	{
 	}
 
@@ -21,6 +23,7 @@ public:
 	}
 	void Visit(IRFunctionOperand*, bool) override
 	{
+		mRecord.AddStringFixup(mByteCodeOffset);
 		mByteCodeOffset += sizeof(MikaArchiveCell);
 	}
 	void Visit(IRLabelOperand*, bool) override
@@ -37,6 +40,7 @@ public:
 	}
 	void Visit(IRStringOperand*, bool) override
 	{
+		mRecord.AddStringFixup(mByteCodeOffset);
 		mByteCodeOffset += sizeof(MikaArchiveCell);
 	}
 

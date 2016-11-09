@@ -11,3 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <cassert>
+
+#define NOMINMAX
+#include <windows.h>

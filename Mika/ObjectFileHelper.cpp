@@ -54,6 +54,11 @@ int ObjectFileHelper::FunctionRecord::AddString(Identifier id)
 	return (int)len;
 }
 
+void ObjectFileHelper::FunctionRecord::AddStringFixup(int stackOffset)
+{
+	mStringFixups.push_back(stackOffset);
+}
+
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
 	mFunctions.emplace_back(func);
@@ -120,6 +125,8 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 		header.mStackSize = record.mStackUsage;
 		header.mStringData = std::move(record.mStringData);
 		header.mByteData = std::move(record.mByteCodeData);
+		header.mStringFixups = std::move(record.mStringFixups);
+
 		fileHeader.mFunctions.push_back(header);
 	}
 	writer << fileHeader;
@@ -170,7 +177,7 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 
 void ObjectFileHelper::AssignByteCodeOffsets(FunctionRecord& record)
 {
-	ByteCodeLocator byteCodeLocator;
+	ByteCodeLocator byteCodeLocator(record);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&byteCodeLocator);
