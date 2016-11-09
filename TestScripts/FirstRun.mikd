@@ -6,11 +6,11 @@ TestEntry
 	00000058	CopyResultRegister %1
 	0000006c	CopyConstantToStack %2, 4
 	00000088	LessThanInt %3, %1, %2
-	000000ac	ConditionalBranch %3, if_else (0x58)
+	000000ac	ConditionalBranch %3, if_else (0x120)
 	000000c8	CopyConstantToStack %4, "success"
 	000000e4	PushArgument %4
 	000000f8	CallNativeFunction Print
-	0000010c	UnconditionalBranch if_end (0x44)
+	0000010c	UnconditionalBranch if_end (0x164)
 if_else:
 	00000120	CopyConstantToStack %5, "fail"
 	0000013c	PushArgument %5

@@ -24,6 +24,7 @@ public:
 	Identifier GetName() const { return mName; }
 	void SetDeclaration(FunctionDeclaration* decl) { mDeclaration = decl; }
 	Type* GetReturnType() const;
+	int GetRootToken() const { return mRootToken; }
 
 	void SetStatement(Statement* stmt)
 	{

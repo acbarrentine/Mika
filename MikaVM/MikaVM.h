@@ -23,10 +23,9 @@ public:
 	struct Instruction
 	{
 		GlueFunc mFunc;
-		short mFileIndex;
 		short mLineNumber;
 		short mNumArgs;
-		short mFlags;
+		int mFlags;
 
 		Cell* GetArgs() const;
 
@@ -39,7 +38,6 @@ public:
 	struct Location
 	{
 		const char* Function;
-		const char* SourceFile;
 		unsigned int LineNumber;
 	};
 

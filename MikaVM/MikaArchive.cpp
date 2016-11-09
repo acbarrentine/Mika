@@ -30,13 +30,6 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			}
 		}
 
-		// split out the file name part of the incoming path
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
-		char fname[_MAX_FNAME];
-		char ext[_MAX_EXT];
-		_splitpath_s(fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-
 		for (MikaArchiveFunctionHeader& arHeader : fileHeader.mFunctions)
 		{
 			MikaVM::Function runTimeHeader;
@@ -57,10 +50,7 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 				pcOffset += op->GetSize();
 			}
 
-			std::string key = fname;
-			key += ":";
-			key += runTimeHeader.mName;
-			vm->mFunctions.insert(std::make_pair(key, std::move(runTimeHeader)));
+			vm->mFunctions.insert(std::make_pair(runTimeHeader.mName, std::move(runTimeHeader)));
 		}
 	}
 }

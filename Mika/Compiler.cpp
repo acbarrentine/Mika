@@ -130,7 +130,7 @@ void Compiler::Error(const char* format, ...)
 
 void Compiler::ReadGlue(const char* fileName)
 {
-	mFileNames.push_back(fileName);
+	AddSourceFile(fileName);
 
 	std::ifstream inputStream;
 	inputStream.open(fileName, std::ios::in);
@@ -156,7 +156,7 @@ void Compiler::ParseGlue()
 
 void Compiler::ReadScript(const char* fileName)
 {
-	mFileNames.push_back(fileName);
+	AddSourceFile(fileName);
 
 	std::ifstream inputStream;
 	inputStream.open(fileName, std::ios::in);
@@ -206,9 +206,14 @@ void Compiler::WriteObjectFile(const char* objectFileName, const char* debugFile
 	helper.WriteDebugFile(debugFileName);
 }
 
-const char* Compiler::GetFileName(int fileIndex) const
+Identifier Compiler::GetFileName(int fileIndex) const
 {
-	return mFileNames[fileIndex].c_str();
+	return mFileNames[fileIndex];
+}
+
+Identifier Compiler::GetStemName(int fileIndex) const
+{
+	return mStemNames[fileIndex];
 }
 
 Identifier Compiler::AddIdentifier(const char* id)
@@ -219,6 +224,17 @@ Identifier Compiler::AddIdentifier(const char* id)
 Identifier Compiler::AddIdentifier(const char* first, const char* last)
 {
 	return mIdentifiers.AddValue(first, last);
+}
+
+Identifier Compiler::ComposeIdentifier(const char* format, ...)
+{
+	char buf[512];
+	va_list args;
+	va_start(args, format);
+	vsnprintf_s(buf, ARRAY_COUNT(buf), format, args);
+	va_end(args);
+
+	return AddIdentifier(buf);
 }
 
 Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber)
@@ -642,7 +658,7 @@ void Compiler::ShowLine(int errorTokenIndex, const char* message, MsgSeverity se
 		"error",
 		"error",
 	};
-	Message(severity, "%s(%d) : %s : %s\n", mFileNames[fileIndex].c_str(), line, messageLevel[(int)severity], message);
+	Message(severity, "%s(%d) : %s : %s\n", mFileNames[fileIndex].GetString(), line, messageLevel[(int)severity], message);
 
 	int tokenIndex = errorTokenIndex;
 	while (tokenIndex > 0 && mTokenList[tokenIndex - 1].GetLineNumber() == line)
@@ -707,4 +723,18 @@ void Compiler::SwallowTokens(TType terminator)
 		}
 		NextToken();
 	}
+}
+
+void Compiler::AddSourceFile(const char* fileName)
+{
+	mFileNames.push_back(AddIdentifier(fileName));
+
+	// split out the file name part of the incoming path
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+	_splitpath_s(fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
+
+	mStemNames.push_back(AddIdentifier(fname));
 }

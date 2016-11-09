@@ -75,15 +75,13 @@ struct MikaArchiveInstruction
 		OpCode mCode;
 		void* mPlaceholder;
 	};
-	short mFileIndex;
 	short mLineNumber;
 	short mNumArgs;
-	short mFlags;
+	int mFlags;
 
 	friend MikaArchive& operator<<(MikaArchive& ar, MikaArchiveInstruction& instruction)
 	{
 		ar << instruction.mPlaceholder;
-		ar << instruction.mFileIndex;
 		ar << instruction.mLineNumber;
 		ar << instruction.mNumArgs;
 		ar << instruction.mFlags;

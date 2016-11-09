@@ -28,7 +28,6 @@ void MikaVM::Execute(const char* functionName)
 			break;
 		}
 
-		mLoc.SourceFile = nullptr;
 		mLoc.LineNumber = op->mLineNumber;
 
 		op->mFunc(this);

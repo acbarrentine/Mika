@@ -33,7 +33,8 @@ protected:
 	TType mCurrentTokenType;
 	Token* mCurrentToken;
 	std::vector<Token> mTokenList;
-	std::vector<std::string> mFileNames;
+	std::vector<Identifier> mFileNames;
+	std::vector<Identifier> mStemNames;
 	std::vector<ScriptFunction*> mScriptFunctions;
 	FunctionDeclarationMap mDeclarations;
 	TypeMap mTypes;
@@ -55,12 +56,14 @@ public:
 	void AnalyzeScript();
 	void WriteObjectFile(const char* objectFileName, const char* debugFileName);
 
-	const char* GetFileName(int fileIndex) const;
+	Identifier GetFileName(int fileIndex) const;
+	Identifier GetStemName(int fileIndex) const;
 	int GetErrorCount() const { return mErrorCount; }
 	Token& GetToken(int tokenIndex) { return mTokenList[tokenIndex]; }
 
 	Identifier AddIdentifier(const char* id);
 	Identifier AddIdentifier(const char* first, const char* last);
+	Identifier ComposeIdentifier(const char* format, ...);
 	Token& CreateToken(TType tokenType, int fileIndex, int lineNumber);
 
 	FunctionDeclaration* FindDeclaration(Identifier name);
@@ -96,6 +99,7 @@ protected:
 	bool Peek(TType expectedType);
 	bool Expect(TType expectedType);
 	void SwallowTokens(TType terminator);
+	void AddSourceFile(const char* fileName);
 };
 
 extern Compiler GCompiler;

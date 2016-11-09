@@ -15,7 +15,7 @@ void ScriptTokenizer::Read()
 
 void ScriptTokenizer::LexError(const char c)
 {
-	const char* fileName = GCompiler.GetFileName(mFileIndex);
+	const char* fileName = GCompiler.GetFileName(mFileIndex).GetString();
 	GCompiler.Error("Illegal character '%c' found reading %s at line %d", c, fileName, yylineno);
 }
 

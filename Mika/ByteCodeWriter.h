@@ -99,10 +99,9 @@ public:
 		instuction.mCode = op->mCode;
 		
 		Token& tok = GCompiler.GetToken(op->mRootToken);
-		instuction.mFileIndex = (short)tok.GetFileIndex();
 		instuction.mLineNumber = (short)tok.GetLineNumber();
-		instuction.mFlags = 0;
 		instuction.mNumArgs = (short)op->GetNumOperands();
+		instuction.mFlags = 0;
 		
 		mByteStream << instuction;
 
