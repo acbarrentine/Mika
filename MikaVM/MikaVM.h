@@ -11,6 +11,10 @@ public:
 		int mStackSize;
 		std::vector<char> mStringData;
 		std::vector<unsigned char> mByteData;
+
+		// TODO
+		// Include a pointer to a shared GlobalContext object that references
+		// any global vars or similar per-script content
 	};
 
 	union Cell
@@ -46,14 +50,14 @@ public:
 	{
 		const char* Function;
 		unsigned int LineNumber;
-		Location() : Function(nullptr), LineNumber(0) {}
+		size_t PCOffset;
+		Location() : Function(nullptr), LineNumber(0), PCOffset(0) {}
 	};
 
 protected:
 	std::map<std::string, Function> mScriptFunctions;
 	std::map<std::string, GlueFunc> mGlueFunctions;
 
-	Cell mConditionRegister;
 	Cell* mOperands;
 	char* mBasePtr;
 	char* mStackPtr;
@@ -76,7 +80,11 @@ public:
 	Cell GetFunctionArg(int index);
 	Cell GetStackValue(int offset);
 	GlueFunc GetGlueFunction(const char* name);
+	void ResetFunctionArgs();
 
 	void PushFunctionArg(Cell value);
 	void CopyToStack(Cell value, int stackOffset);
+
+	void SetPCOffset(size_t offset);
+	Location GetLocation() const;
 };

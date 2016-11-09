@@ -38,9 +38,9 @@ void MikaVM::Execute(const char* functionName)
 	mBasePtr = &mStack[0];
 	mStackPtr = mBasePtr + func.mStackSize;
 
-	for (size_t pcOffset = 0; pcOffset < func.mByteData.size(); )
+	for (mLoc.PCOffset = 0; mLoc.PCOffset < func.mByteData.size(); )
 	{
-		MikaVM::Instruction* op = (MikaVM::Instruction*)&func.mByteData[pcOffset];
+		MikaVM::Instruction* op = (MikaVM::Instruction*)&func.mByteData[mLoc.PCOffset];
 		if (!op->mFunc)
 		{
 			break;
@@ -49,10 +49,14 @@ void MikaVM::Execute(const char* functionName)
 		mLoc.LineNumber = op->mLineNumber;
 
 		mOperands = op->GetOperands();
-		op->mFunc(this);
+		mLoc.PCOffset += op->GetSize();
 
-		pcOffset += op->GetSize();
+		op->mFunc(this);
 	}
+
+	mBasePtr = nullptr;
+	mStackPtr = nullptr;
+	mOperands = nullptr;
 }
 
 MikaVM::Cell MikaVM::GetOperand(int index)
@@ -77,6 +81,11 @@ MikaVM::GlueFunc MikaVM::GetGlueFunction(const char* name)
 	return mGlueFunctions[name];
 }
 
+void MikaVM::ResetFunctionArgs()
+{
+	mFunctionArgs.clear();
+}
+
 void MikaVM::PushFunctionArg(MikaVM::Cell value)
 {
 	mFunctionArgs.push_back(value);
@@ -87,6 +96,16 @@ void MikaVM::CopyToStack(Cell value, int stackOffset)
 	assert(mBasePtr + stackOffset < mStackPtr);
 	Cell* cell = (Cell*)(mBasePtr + stackOffset);
 	*cell = value;
+}
+
+void MikaVM::SetPCOffset(size_t offset)
+{
+	mLoc.PCOffset = offset;
+}
+
+MikaVM::Location MikaVM::GetLocation() const
+{
+	return mLoc;
 }
 
 void Glue_CopyArgToStack(MikaVM*)
@@ -123,6 +142,8 @@ void Glue_CallNativeFunction(MikaVM* vm)
 	}
 
 	glue(vm);
+
+	vm->ResetFunctionArgs();
 }
 
 void Glue_CallScriptFunction(MikaVM*)
@@ -137,12 +158,20 @@ void Glue_SetResultRegister(MikaVM*)
 {
 }
 
-void Glue_ConditionalBranch(MikaVM*)
+void Glue_ConditionalBranch(MikaVM* vm)
 {
+	MikaVM::Cell cond = vm->GetOperand(0);
+	if (!cond.mIntVal)
+	{
+		MikaVM::Cell dest = vm->GetOperand(1);
+		vm->SetPCOffset(dest.mIntVal);
+	}
 }
 
-void Glue_UnconditionalBranch(MikaVM*)
+void Glue_UnconditionalBranch(MikaVM* vm)
 {
+	MikaVM::Cell dest = vm->GetOperand(0);
+	vm->SetPCOffset(dest.mIntVal);
 }
 
 void Glue_AddInt(MikaVM*)
@@ -225,8 +254,13 @@ void Glue_GreaterEqualsString(MikaVM*)
 {
 }
 
-void Glue_LessThanInt(MikaVM*)
+void Glue_LessThanInt(MikaVM* vm)
 {
+	MikaVM::Cell dest = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperand(1);
+	MikaVM::Cell rhs = vm->GetOperand(2);
+	MikaVM::Cell truth(lhs.mIntVal < rhs.mIntVal);
+	vm->CopyToStack(truth, dest.mIntVal);
 }
 
 void Glue_LessThanFloat(MikaVM*)
