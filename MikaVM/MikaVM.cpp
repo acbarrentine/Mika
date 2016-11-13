@@ -123,6 +123,16 @@ void MikaVM::CopyToStack(Cell value, int stackOffset)
 	*cell = value;
 }
 
+void MikaVM::SetResultRegister(Cell value)
+{
+	mResultRegister = value;
+}
+
+MikaVM::Cell MikaVM::GetResultRegister() const
+{
+	return mResultRegister;
+}
+
 void MikaVM::SetPCOffset(size_t offset)
 {
 	Location& loc = GetLocation();
@@ -216,12 +226,18 @@ void Glue_CallScriptFunction(MikaVM* vm)
 	vm->PushCallFrame(func);
 }
 
-void Glue_CopyResultRegister(MikaVM*)
+void Glue_CopyResultRegister(MikaVM* vm)
 {
+	MikaVM::Cell loc = vm->GetOperand(0);
+	MikaVM::Cell value = vm->GetResultRegister();
+	vm->CopyToStack(value, loc.mIntVal);
 }
 
-void Glue_SetResultRegister(MikaVM*)
+void Glue_SetResultRegister(MikaVM* vm)
 {
+	MikaVM::Cell loc = vm->GetOperand(0);
+	MikaVM::Cell value = vm->GetStackValue(loc.mIntVal);
+	vm->SetResultRegister(value);
 }
 
 void Glue_ConditionalBranch(MikaVM* vm)

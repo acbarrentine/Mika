@@ -1,7 +1,7 @@
 fun TestEntry() : int
 {
 	Print("hello world")
-	if OtherFunc() < 4
+	if OtherFunc() > 4
 		Print("success")
 	else
 	{
@@ -11,4 +11,4 @@ fun TestEntry() : int
 }
 
 fun OtherFunc() : int
-	return 2
+	return 8

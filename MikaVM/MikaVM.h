@@ -77,6 +77,7 @@ protected:
 	std::vector<Cell> mFunctionArgs;
 	std::vector<char> mStack;
 	std::vector<Location> mCallFrames;
+	Cell mResultRegister;
 
 	static GlueFunc SBuiltInFunctions[];
 
@@ -98,6 +99,8 @@ public:
 
 	void PushFunctionArg(Cell value);
 	void CopyToStack(Cell value, int stackOffset);
+	void SetResultRegister(Cell value);
+	Cell GetResultRegister() const;
 
 	void SetPCOffset(size_t offset);
 	Location& GetLocation();
