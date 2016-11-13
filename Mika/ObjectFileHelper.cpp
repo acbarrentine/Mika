@@ -37,11 +37,7 @@ ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func)
 	: mFunction(func)
 	, mStackUsage(0)
 {
-	Token& tok = GCompiler.GetToken(func->GetRootToken());
-	Identifier fileNameStem = GCompiler.GetStemName(tok.GetFileIndex());
-	Identifier functionName = func->GetName();
-	Identifier combinedName = GCompiler.ComposeIdentifier("%s:%s", fileNameStem.GetString(), functionName.GetString());
-	AddString(combinedName);
+	AddString(func->GetName());
 	mInstructions.reserve(200);
 }
 

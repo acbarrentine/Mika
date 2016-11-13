@@ -309,7 +309,8 @@ void Compiler::ParseGlueDeclaration()
 void Compiler::ParseGlueFunctionDeclaration()
 {
 	Identifier id = mCurrentToken->GetIdentifier();
-	FunctionDeclaration* decl = new FunctionDeclaration(mCurrentTokenIndex, id);
+	FunctionDeclaration* decl = new FunctionDeclaration(mCurrentTokenIndex);
+	decl->SetName(id);
 	NextToken();
 	Expect(TType::kOpenParen);
 	ParseGlueFunctionParameters(decl);
@@ -390,19 +391,15 @@ void Compiler::ParseScriptFunction()
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
 
-	FunctionDeclaration* decl = new FunctionDeclaration(rootToken, name);
-	decl->SetReturnType(returnType);
-	decl->SetScriptFunction();
-
 	ScriptFunction* func = new ScriptFunction(rootToken);
+	func->SetReturnType(returnType);
 	func->SetName(name);
-	func->SetDeclaration(decl);
 
 	Statement* body = ParseScriptStatement();
 	func->SetStatement(body);
 
 	mScriptFunctions.push_back(func);
-	mDeclarations.insert(std::make_pair(name, decl));
+	mDeclarations.insert(std::make_pair(name, func));
 }
 
 Statement* Compiler::ParseScriptStatement()

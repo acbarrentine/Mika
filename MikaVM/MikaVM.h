@@ -48,10 +48,25 @@ public:
 
 	struct Location
 	{
-		const char* Function;
+		Function* Func;
+		char* BasePtr;
+		char* StackPtr;
 		unsigned int LineNumber;
 		size_t PCOffset;
-		Location() : Function(nullptr), LineNumber(0), PCOffset(0) {}
+		
+		Location()
+		{
+			Reset();
+		}
+
+		void Reset()
+		{
+			Func = nullptr;
+			BasePtr = nullptr;
+			StackPtr = nullptr;
+			LineNumber = 0;
+			PCOffset = 0;
+		}
 	};
 
 protected:
@@ -59,11 +74,9 @@ protected:
 	std::map<std::string, GlueFunc> mGlueFunctions;
 
 	Cell* mOperands;
-	char* mBasePtr;
-	char* mStackPtr;
 	std::vector<Cell> mFunctionArgs;
 	std::vector<char> mStack;
-	Location mLoc;
+	std::vector<Location> mCallFrames;
 
 	static GlueFunc SBuiltInFunctions[];
 
@@ -79,12 +92,15 @@ public:
 	Cell GetOperand(int index);
 	Cell GetFunctionArg(int index);
 	Cell GetStackValue(int offset);
-	GlueFunc GetGlueFunction(const char* name);
+	GlueFunc GetGlueFunction(const char* functionName);
+	Function* GetScriptFunction(const char* functionName);
 	void ResetFunctionArgs();
 
 	void PushFunctionArg(Cell value);
 	void CopyToStack(Cell value, int stackOffset);
 
 	void SetPCOffset(size_t offset);
-	Location GetLocation() const;
+	Location& GetLocation();
+	void PushCallFrame(Function* func);
+	void PopCallFrame();
 };

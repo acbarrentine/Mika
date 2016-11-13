@@ -5,8 +5,6 @@
 
 MikaVM::MikaVM(int stackSize)
 	: mOperands(nullptr)
-	, mBasePtr(nullptr)
-	, mStackPtr(nullptr)
 {
 	mStack.insert(mStack.begin(), stackSize, 0);
 	
@@ -26,36 +24,50 @@ void MikaVM::Import(const char* fileName)
 
 void MikaVM::Execute(const char* functionName)
 {
-	auto& it = mScriptFunctions.find(functionName);
-	if (it == mScriptFunctions.end())
+	Function* func = GetScriptFunction(functionName);
+	if (!func)
 	{
 		std::cerr << "Function " << functionName << " not found." << std::endl;
 		return;
 	}
 
-	Function& func = it->second;
-	mLoc.Function = func.mName;
-	mBasePtr = &mStack[0];
-	mStackPtr = mBasePtr + func.mStackSize;
+	PushCallFrame(func);
+	size_t entryFrame = mCallFrames.size();
 
-	for (mLoc.PCOffset = 0; mLoc.PCOffset < func.mByteData.size(); )
+	while (1)
 	{
-		MikaVM::Instruction* op = (MikaVM::Instruction*)&func.mByteData[mLoc.PCOffset];
-		if (!op->mFunc)
+		// because execution can change program flow, we need to retrieve
+		// location on each pass through the loop
+		Location& currentLoc = GetLocation();
+		Function* currentFunc = currentLoc.Func;
+
+		if (currentLoc.PCOffset >= currentFunc->mByteData.size())
 		{
+			std::cerr << "Ran past the end of instructions!" << std::endl;
 			break;
 		}
 
-		mLoc.LineNumber = op->mLineNumber;
+		MikaVM::Instruction* op = (MikaVM::Instruction*)&currentFunc->mByteData[currentLoc.PCOffset];
+		if (!op->mFunc)
+		{
+			// return to previous call frame
+			if (mCallFrames.size() > entryFrame)
+			{
+				PopCallFrame();
+				continue;
+			}
+			break;
+		}
+
+		currentLoc.LineNumber = op->mLineNumber;
 
 		mOperands = op->GetOperands();
-		mLoc.PCOffset += op->GetSize();
+		currentLoc.PCOffset += op->GetSize();
 
 		op->mFunc(this);
 	}
 
-	mBasePtr = nullptr;
-	mStackPtr = nullptr;
+	mCallFrames.pop_back();
 	mOperands = nullptr;
 }
 
@@ -71,14 +83,26 @@ MikaVM::Cell MikaVM::GetFunctionArg(int index)
 
 MikaVM::Cell MikaVM::GetStackValue(int offset)
 {
-	assert(mBasePtr + offset < mStackPtr);
-	Cell* cell = (Cell*)(mBasePtr + offset);
+	Location& loc = GetLocation();
+	assert(loc.BasePtr + offset < loc.StackPtr);
+	Cell* cell = (Cell*)(loc.BasePtr + offset);
 	return *cell;
 }
 
-MikaVM::GlueFunc MikaVM::GetGlueFunction(const char* name)
+MikaVM::GlueFunc MikaVM::GetGlueFunction(const char* functionName)
 {
-	return mGlueFunctions[name];
+	return mGlueFunctions[functionName];
+}
+
+MikaVM::Function* MikaVM::GetScriptFunction(const char* functionName)
+{
+	auto& it = mScriptFunctions.find(functionName);
+	if (it == mScriptFunctions.end())
+	{
+		return nullptr;
+	}
+
+	return &it->second;
 }
 
 void MikaVM::ResetFunctionArgs()
@@ -93,19 +117,50 @@ void MikaVM::PushFunctionArg(MikaVM::Cell value)
 
 void MikaVM::CopyToStack(Cell value, int stackOffset)
 {
-	assert(mBasePtr + stackOffset < mStackPtr);
-	Cell* cell = (Cell*)(mBasePtr + stackOffset);
+	Location& loc = GetLocation();
+	assert(loc.BasePtr + stackOffset < loc.StackPtr);
+	Cell* cell = (Cell*)(loc.BasePtr + stackOffset);
 	*cell = value;
 }
 
 void MikaVM::SetPCOffset(size_t offset)
 {
-	mLoc.PCOffset = offset;
+	Location& loc = GetLocation();
+	loc.PCOffset = offset;
 }
 
-MikaVM::Location MikaVM::GetLocation() const
+MikaVM::Location& MikaVM::GetLocation()
 {
-	return mLoc;
+	return mCallFrames.back();
+}
+
+void MikaVM::PushCallFrame(Function* func)
+{
+	size_t stackDepth = mCallFrames.size();
+	if (!stackDepth)
+	{
+		mCallFrames.emplace_back();
+		MikaVM::Location& newFrame = GetLocation();
+
+		newFrame.Func = func;
+		newFrame.BasePtr = &mStack[0];
+		newFrame.StackPtr = newFrame.BasePtr + func->mStackSize;
+	}
+	else
+	{
+		mCallFrames.emplace_back();
+		MikaVM::Location& currentLoc = mCallFrames[stackDepth - 1];
+		MikaVM::Location& newFrame = GetLocation();
+
+		newFrame.Func = func;
+		newFrame.BasePtr = currentLoc.StackPtr;
+		newFrame.StackPtr = newFrame.BasePtr + func->mStackSize;
+	}
+}
+
+void MikaVM::PopCallFrame()
+{
+	mCallFrames.pop_back();
 }
 
 void Glue_CopyArgToStack(MikaVM*)
@@ -146,8 +201,19 @@ void Glue_CallNativeFunction(MikaVM* vm)
 	vm->ResetFunctionArgs();
 }
 
-void Glue_CallScriptFunction(MikaVM*)
+void Glue_CallScriptFunction(MikaVM* vm)
 {
+	// locate the target
+	MikaVM::Cell nameCell = vm->GetOperand(0);
+	const char* name = (const char*)nameCell.mPtrVal;
+	MikaVM::Function* func = vm->GetScriptFunction(name);
+	if (!func)
+	{
+		std::cerr << "Function " << name << " not found." << std::endl;
+		return;
+	}
+
+	vm->PushCallFrame(func);
 }
 
 void Glue_CopyResultRegister(MikaVM*)

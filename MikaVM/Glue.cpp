@@ -9,7 +9,7 @@ void Glue_Print(MikaVM* vm)
 	MikaVM::Location loc = vm->GetLocation();
 
 	char msgBuf[1024];
-	sprintf_s(msgBuf, "%s:%i - %s\n", loc.Function, loc.LineNumber, str);
+	sprintf_s(msgBuf, "%s:%i - %s\n", loc.Func->mName, loc.LineNumber, str);
 
 	std::cout << msgBuf;	
 	OutputDebugString(msgBuf);

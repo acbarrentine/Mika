@@ -6,25 +6,20 @@ class FunctionDeclaration;
 class SymbolTable;
 class ObjectFileHelper;
 
-class ScriptFunction
+#include "FunctionDeclaration.h"
+
+class ScriptFunction : public FunctionDeclaration
 {
 protected:
-	int mRootToken;
-	Identifier mName;
-	FunctionDeclaration* mDeclaration;
 	Statement* mStatement;
 
 public:
 	ScriptFunction(int rootToken)
-		: mRootToken(rootToken)
-		, mDeclaration(nullptr)
+		: FunctionDeclaration(rootToken)
 	{}
 
-	void SetName(Identifier name) { mName = name; }
-	Identifier GetName() const { return mName; }
-	void SetDeclaration(FunctionDeclaration* decl) { mDeclaration = decl; }
-	Type* GetReturnType() const;
-	int GetRootToken() const { return mRootToken; }
+	virtual void SetName(Identifier name);
+	virtual bool IsScriptFunction() const { return true; }
 
 	void SetStatement(Statement* stmt)
 	{
