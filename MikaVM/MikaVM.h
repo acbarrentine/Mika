@@ -91,6 +91,7 @@ public:
 	void Execute(const char* functionName);
 
 	Cell GetOperand(int index);
+	Cell GetOperandStackValue(int index);
 	Cell GetFunctionArg(int index);
 	Cell GetStackValue(int offset);
 	GlueFunc GetGlueFunction(const char* functionName);

@@ -76,6 +76,12 @@ MikaVM::Cell MikaVM::GetOperand(int index)
 	return mOperands[index];
 }
 
+MikaVM::Cell MikaVM::GetOperandStackValue(int index)
+{
+	Cell loc = GetOperand(index);
+	return GetStackValue(loc.mIntVal);
+}
+
 MikaVM::Cell MikaVM::GetFunctionArg(int index)
 {
 	return mFunctionArgs[index];
@@ -190,8 +196,7 @@ void Glue_CopyStackToStack(MikaVM*)
 
 void Glue_PushArgument(MikaVM* vm)
 {
-	MikaVM::Cell stackIndex = vm->GetOperand(0);
-	MikaVM::Cell value = vm->GetStackValue(stackIndex.mIntVal);
+	MikaVM::Cell value = vm->GetOperandStackValue(0);
 	vm->PushFunctionArg(value);
 }
 
@@ -235,15 +240,14 @@ void Glue_CopyResultRegister(MikaVM* vm)
 
 void Glue_SetResultRegister(MikaVM* vm)
 {
-	MikaVM::Cell loc = vm->GetOperand(0);
-	MikaVM::Cell value = vm->GetStackValue(loc.mIntVal);
+	MikaVM::Cell value = vm->GetOperandStackValue(0);
 	vm->SetResultRegister(value);
 }
 
 void Glue_ConditionalBranch(MikaVM* vm)
 {
-	MikaVM::Cell cond = vm->GetOperand(0);
-	if (!cond.mIntVal)
+	MikaVM::Cell condValue = vm->GetOperandStackValue(0);
+	if (!condValue.mIntVal)
 	{
 		MikaVM::Cell dest = vm->GetOperand(1);
 		vm->SetPCOffset(dest.mIntVal);
@@ -256,36 +260,86 @@ void Glue_UnconditionalBranch(MikaVM* vm)
 	vm->SetPCOffset(dest.mIntVal);
 }
 
-void Glue_AddInt(MikaVM*)
+void Glue_AddInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal + rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_AddFloat(MikaVM*)
+void Glue_AddFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal + rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_SubtractInt(MikaVM*)
+void Glue_SubtractInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal - rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_SubtractFloat(MikaVM*)
+void Glue_SubtractFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal - rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_DivideInt(MikaVM*)
+void Glue_DivideInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	if (!rhs.mIntVal)
+	{
+		std::cerr << "Divide by 0!" << std::endl;
+		return;
+	}
+	MikaVM::Cell result(lhs.mIntVal / rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_DivideFloat(MikaVM*)
+void Glue_DivideFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	if (!rhs.mDblVal)
+	{
+		std::cerr << "Divide by 0!" << std::endl;
+		return;
+	}
+	MikaVM::Cell result(lhs.mDblVal / rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_MultiplyInt(MikaVM*)
+void Glue_MultiplyInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal * rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_MultiplyFloat(MikaVM*)
+void Glue_MultiplyFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal * rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_AssignInt(MikaVM*)
@@ -300,36 +354,66 @@ void Glue_AssignString(MikaVM*)
 {
 }
 
-void Glue_EqualsInt(MikaVM*)
+void Glue_EqualsInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal == rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_EqualsFloat(MikaVM*)
+void Glue_EqualsFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal == rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_EqualsString(MikaVM*)
 {
 }
 
-void Glue_LessEqualsInt(MikaVM*)
+void Glue_LessEqualsInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal <= rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_LessEqualsFloat(MikaVM*)
+void Glue_LessEqualsFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal <= rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_LessEqualsString(MikaVM*)
 {
 }
 
-void Glue_GreaterEqualsInt(MikaVM*)
+void Glue_GreaterEqualsInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal >= rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_GreaterEqualsFloat(MikaVM*)
+void Glue_GreaterEqualsFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal >= rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_GreaterEqualsString(MikaVM*)
@@ -338,39 +422,64 @@ void Glue_GreaterEqualsString(MikaVM*)
 
 void Glue_LessThanInt(MikaVM* vm)
 {
-	MikaVM::Cell dest = vm->GetOperand(0);
-	MikaVM::Cell lhs = vm->GetOperand(1);
-	MikaVM::Cell rhs = vm->GetOperand(2);
-	MikaVM::Cell truth(lhs.mIntVal < rhs.mIntVal);
-	vm->CopyToStack(truth, dest.mIntVal);
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal < rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_LessThanFloat(MikaVM*)
+void Glue_LessThanFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal < rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_LessThanString(MikaVM*)
 {
 }
 
-void Glue_GreaterThanInt(MikaVM*)
+void Glue_GreaterThanInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal > rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_GreaterThanFloat(MikaVM*)
+void Glue_GreaterThanFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal > rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_GreaterThanString(MikaVM*)
 {
 }
 
-void Glue_NotEqualsInt(MikaVM*)
+void Glue_NotEqualsInt(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal != rhs.mIntVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
-void Glue_NotEqualsFloat(MikaVM*)
+void Glue_NotEqualsFloat(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mDblVal != rhs.mDblVal);
+	vm->CopyToStack(result, destLoc.mIntVal);
 }
 
 void Glue_NotEqualsString(MikaVM*)

@@ -44,7 +44,7 @@ public:
 
 	void Visit(IRFloatOperand* op, bool) override
 	{
-		mStream << op->mValue;
+		mStream << std::fixed << std::setprecision(4) << op->mValue;
 	}
 
 	void Visit(IRStringOperand* op, bool) override

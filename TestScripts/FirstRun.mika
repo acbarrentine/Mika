@@ -1,6 +1,7 @@
 fun TestEntry() : int
 {
 	Print("hello world")
+
 	if OtherFunc() > 4
 		Print("success")
 	else
