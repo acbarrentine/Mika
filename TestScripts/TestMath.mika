@@ -1,0 +1,16 @@
+fun TestEntry() : void
+{
+	TestIntMath()
+	TestFloatMath()
+}
+
+fun TestIntMath() : void
+{
+	AssertEqualsInt(4, 4)
+	AssertEqualsInt(9 + 13, 22)
+}
+
+fun TestFloatMath() : void
+{
+	AssertEqualsFloat(1.0, 2.0 / 2.0)
+}

@@ -191,6 +191,9 @@
     <None Include="..\TestScripts\MikaGlue.mikah">
       <Filter>Test Scripts</Filter>
     </None>
+    <None Include="..\TestScripts\TestMath.mika">
+      <Filter>Test Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="GlueSyntax.l">

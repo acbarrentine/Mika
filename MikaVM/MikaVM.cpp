@@ -41,11 +41,7 @@ void MikaVM::Execute(const char* functionName)
 		Location& currentLoc = GetLocation();
 		Function* currentFunc = currentLoc.Func;
 
-		if (currentLoc.PCOffset >= currentFunc->mByteData.size())
-		{
-			std::cerr << "Ran past the end of instructions!" << std::endl;
-			break;
-		}
+		assert(currentLoc.PCOffset < currentFunc->mByteData.size());
 
 		MikaVM::Instruction* op = (MikaVM::Instruction*)&currentFunc->mByteData[currentLoc.PCOffset];
 		if (!op->mFunc)

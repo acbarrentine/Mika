@@ -15,7 +15,23 @@ void Glue_Print(MikaVM* vm)
 	OutputDebugString(msgBuf);
 }
 
+void Glue_AssertEqualsInt(MikaVM* vm)
+{
+	MikaVM::Cell lhs = vm->GetFunctionArg(0);
+	MikaVM::Cell rhs = vm->GetFunctionArg(1);
+	assert (lhs.mIntVal == rhs.mIntVal);
+}
+
+void Glue_AssertEqualsFloat(MikaVM* vm)
+{
+	MikaVM::Cell lhs = vm->GetFunctionArg(0);
+	MikaVM::Cell rhs = vm->GetFunctionArg(1);
+	assert (lhs.mDblVal == rhs.mDblVal);
+}
+
 void RegisterGlueFunctions(MikaVM* vm)
 {
 	vm->RegisterGlue("Print", Glue_Print);
+	vm->RegisterGlue("AssertEqualsInt", Glue_AssertEqualsInt);
+	vm->RegisterGlue("AssertEqualsFloat", Glue_AssertEqualsFloat);
 }

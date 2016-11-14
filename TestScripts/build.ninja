@@ -1,0 +1,17 @@
+builddir = Output
+compiler = ../Debug/Mika.exe
+vm = ../Debug/MikaVM.exe
+
+rule compile
+  command = $compiler MikaGlue.mikah $in $out
+
+rule test
+  command = $vm $in $FunctionName $out
+  
+build Output/FirstRun.miko | Output/FirstRun.mikd : compile FirstRun.mika | MikaGlue.mikah $compiler
+build Output/FirstRun.results : test Output/FirstRun.miko | $vm
+  FunctionName = FirstRun:TestEntry
+
+build Output/TestMath.miko | Output/TestMath.mikd : compile TestMath.mika | MikaGlue.mikah $compiler
+build Output/TestMath.results : test Output/TestMath.miko | $vm
+  FunctionName = TestMath:TestEntry

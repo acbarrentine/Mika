@@ -218,6 +218,7 @@
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika" />
     <None Include="..\TestScripts\MikaGlue.mikah" />
+    <None Include="..\TestScripts\TestMath.mika" />
   </ItemGroup>
   <ItemGroup>
     <Flex Include="GlueSyntax.l" />
