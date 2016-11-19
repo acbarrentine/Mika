@@ -92,8 +92,9 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)winflex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)compiler</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -109,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <EnablePREfast>true</EnablePREfast>
-      <AdditionalIncludeDirectories>$(SolutionDir)winflex</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)compiler</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,78 +152,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryExpression.h" />
-    <ClInclude Include="ByteCodeLocator.h" />
-    <ClInclude Include="ByteCodeWriter.h" />
-    <ClInclude Include="Compiler.h" />
-    <ClInclude Include="CompoundStatement.h" />
-    <ClInclude Include="DebugWriter.h" />
-    <ClInclude Include="Expression.h" />
-    <ClInclude Include="ExpressionStatement.h" />
-    <ClInclude Include="FloatConstantExpression.h" />
-    <ClInclude Include="FunctionCallExpression.h" />
-    <ClInclude Include="FunctionDeclaration.h" />
-    <ClInclude Include="GlueTokenizer.h" />
-    <ClInclude Include="Identifier.h" />
-    <ClInclude Include="IdentifierExpression.h" />
-    <ClInclude Include="IfStatement.h" />
-    <ClInclude Include="IntConstantExpression.h" />
-    <ClInclude Include="IRCode.h" />
-    <ClInclude Include="ObjectFileHelper.h" />
-    <ClInclude Include="Optimizer.h" />
-    <ClInclude Include="ReferenceCollector.h" />
-    <ClInclude Include="ReturnStatement.h" />
-    <ClInclude Include="ScriptFunction.h" />
-    <ClInclude Include="ScriptTokenizer.h" />
-    <ClInclude Include="Statement.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="StringConstantExpression.h" />
-    <ClInclude Include="SymbolTable.h" />
-    <ClInclude Include="Token.h" />
-    <ClInclude Include="Type.h" />
-    <ClInclude Include="Variable.h" />
-    <ClInclude Include="WhileStatement.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="BinaryExpression.cpp" />
-    <ClCompile Include="Compiler.cpp" />
-    <ClCompile Include="CompoundStatement.cpp" />
-    <ClCompile Include="ExpressionStatement.cpp" />
-    <ClCompile Include="FloatConstantExpression.cpp" />
-    <ClCompile Include="FunctionCallExpression.cpp" />
-    <ClCompile Include="FunctionDeclaration.cpp" />
-    <ClCompile Include="GlueSyntax.flex.cpp" />
-    <ClCompile Include="GlueTokenizer.cpp" />
-    <ClCompile Include="Identifier.cpp" />
-    <ClCompile Include="IdentifierExpression.cpp" />
-    <ClCompile Include="IfStatement.cpp" />
-    <ClCompile Include="IntConstantExpression.cpp" />
-    <ClCompile Include="IRCode.cpp" />
     <ClCompile Include="Mika.cpp" />
-    <ClCompile Include="ObjectFileHelper.cpp" />
-    <ClCompile Include="ReturnStatement.cpp" />
-    <ClCompile Include="ScriptFunction.cpp" />
-    <ClCompile Include="ScriptSyntax.flex.cpp" />
-    <ClCompile Include="ScriptTokenizer.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="StringConstantExpression.cpp" />
-    <ClCompile Include="SymbolTable.cpp" />
-    <ClCompile Include="Token.cpp" />
-    <ClCompile Include="WhileStatement.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\TestScripts\FirstRun.mika" />
-    <None Include="..\TestScripts\MikaGlue.mikah" />
-    <None Include="..\TestScripts\TestMath.mika" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="GlueSyntax.l" />
-    <Flex Include="ScriptSyntax.l" />
+    <ProjectReference Include="..\Compiler\Compiler.vcxproj">
+      <Project>{46f9467b-9ed2-4bc1-80c6-76baeac88739}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

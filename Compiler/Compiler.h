@@ -49,8 +49,10 @@ public:
 	void Error(int errorTokenIndex, const char* message);
 	void Error(const char* format, ...);
 
-	void ReadGlue(const char* fileName);
-	void ParseGlue();
+	void ReadGlueHeader(const char* fileName);
+	void ParseGlueHeader();
+	void WriteGlueFile(const char* fileName);
+
 	void ReadScript(const char* fileName);
 	void ParseScript();
 	void AnalyzeScript();

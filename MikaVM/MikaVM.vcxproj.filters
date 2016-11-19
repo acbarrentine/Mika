@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Test Scripts">
+      <UniqueIdentifier>{01fe3405-aba6-4eff-831d-d193acb5c07e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,5 +42,16 @@
     <ClInclude Include="Glue.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\TestScripts\FirstRun.mika">
+      <Filter>Test Scripts</Filter>
+    </None>
+    <None Include="..\TestScripts\MikaGlue.mikah">
+      <Filter>Test Scripts</Filter>
+    </None>
+    <None Include="..\TestScripts\TestMath.mika">
+      <Filter>Test Scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

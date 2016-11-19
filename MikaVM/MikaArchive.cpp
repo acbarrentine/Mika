@@ -30,6 +30,7 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			}
 		}
 
+		// add each function to the VM
 		for (MikaArchiveFunctionHeader& arHeader : fileHeader.mFunctions)
 		{
 			MikaVM::Function runTimeHeader;
@@ -50,6 +51,7 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 				pcOffset += op->GetSize();
 			}
 
+			// fixup strings
 			for (int& fixup : arHeader.mStringFixups)
 			{
 				MikaVM::Cell* location = (MikaVM::Cell*) (&runTimeHeader.mByteData[fixup]);

@@ -98,7 +98,7 @@ MikaVM::GlueFunc MikaVM::GetGlueFunction(const char* functionName)
 
 MikaVM::Function* MikaVM::GetScriptFunction(const char* functionName)
 {
-	auto& it = mScriptFunctions.find(functionName);
+	const auto& it = mScriptFunctions.find(functionName);
 	if (it == mScriptFunctions.end())
 	{
 		return nullptr;

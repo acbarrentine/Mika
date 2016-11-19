@@ -128,7 +128,7 @@ void Compiler::Error(const char* format, ...)
 	}
 }
 
-void Compiler::ReadGlue(const char* fileName)
+void Compiler::ReadGlueHeader(const char* fileName)
 {
 	AddSourceFile(fileName);
 
@@ -144,13 +144,26 @@ void Compiler::ReadGlue(const char* fileName)
 	tokenizer.Read();
 }
 
-void Compiler::ParseGlue()
+void Compiler::ParseGlueHeader()
 {
 	StartParse();
 
 	while (mCurrentTokenType != TType::kEOF)
 	{
 		ParseGlueDeclaration();
+	}
+}
+
+void Compiler::WriteGlueFile(const char* fileName)
+{
+	if (fileName && *fileName)
+	{
+		std::ofstream outStream(fileName);
+		if (!outStream.good())
+		{
+			Error("Unable to open %s for writing.", fileName);
+			return;
+		}
 	}
 }
 
@@ -203,7 +216,11 @@ void Compiler::WriteObjectFile(const char* objectFileName, const char* debugFile
 	}
 
 	helper.WriteObjectFile(objectFileName);
-	helper.WriteDebugFile(debugFileName);
+
+	if (debugFileName && *debugFileName)
+	{
+		helper.WriteDebugFile(debugFileName);
+	}
 }
 
 Identifier Compiler::GetFileName(int fileIndex) const
