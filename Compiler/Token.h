@@ -36,6 +36,7 @@ enum TType : int
 	kString,
 	kStruct,
 	kReturn,
+	kLocation,
 
 	kIdentifier,
 	kIntConstant,

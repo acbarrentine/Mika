@@ -3,46 +3,28 @@
 #include "MikaVM.h"
 #include "Catch.hpp"
 
-void Glue_Print(MikaVM* vm)
+void Print(const char* msg, const char* locationName, int lineNumber)
 {
-	MikaVM::Cell val = vm->GetFunctionArg(0);
-	const char* str = (const char*)val.mPtrVal;
-	MikaVM::Location loc = vm->GetLocation();
-
 	char msgBuf[1024];
-	sprintf_s(msgBuf, "%s:%i - %s\n", loc.Func->mName, loc.LineNumber, str);
+	sprintf_s(msgBuf, "%s:%i - %s\n", locationName, lineNumber, msg);
 
-	std::cout << msgBuf;	
+	std::cout << msgBuf;
 	OutputDebugString(msgBuf);
 }
 
-void Glue_Assert(MikaVM* vm)
+void Assert(int cond, const char* locationName, int lineNumber)
 {
-	MikaVM::Cell cond = vm->GetFunctionArg(0);
-	MikaVM::Location& loc = vm->GetLocation();
-	CHECK_LINE(cond.mIntVal, loc.Func->mName, loc.LineNumber);
+	CHECK_LINE(cond, locationName, lineNumber);
 }
 
-void Glue_AssertEqualsInt(MikaVM* vm)
+void AssertEqualsInt(int lhs, int rhs, const char* locationName, int lineNumber)
 {
-	MikaVM::Cell lhs = vm->GetFunctionArg(0);
-	MikaVM::Cell rhs = vm->GetFunctionArg(1);
-	MikaVM::Location& loc = vm->GetLocation();
-	CHECK_LINE(lhs.mIntVal == rhs.mIntVal, loc.Func->mName, loc.LineNumber);
+	CHECK_LINE(lhs == rhs, locationName, lineNumber);
 }
 
-void Glue_AssertEqualsFloat(MikaVM* vm)
+void AssertEqualsFloat(double lhs, double rhs, const char* locationName, int lineNumber)
 {
-	MikaVM::Cell lhs = vm->GetFunctionArg(0);
-	MikaVM::Cell rhs = vm->GetFunctionArg(1);
-	MikaVM::Location& loc = vm->GetLocation();
-	CHECK_LINE(lhs.mDblVal == rhs.mDblVal, loc.Func->mName, loc.LineNumber);
+	CHECK_LINE(lhs == rhs, locationName, lineNumber);
 }
 
-void RegisterGlueFunctions(MikaVM* vm)
-{
-	vm->RegisterGlue("Print", Glue_Print);
-	vm->RegisterGlue("Assert", Glue_Assert);
-	vm->RegisterGlue("AssertEqualsInt", Glue_AssertEqualsInt);
-	vm->RegisterGlue("AssertEqualsFloat", Glue_AssertEqualsFloat);
-}
+#include "GeneratedGlue.hpp"

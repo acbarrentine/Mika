@@ -336,8 +336,8 @@ int yyFlexLexer::yylex()
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 17
-#define YY_END_OF_BUFFER 18
+#define YY_NUM_RULES 18
+#define YY_END_OF_BUFFER 19
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -345,12 +345,13 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[38] =
+static yyconst flex_int16_t yy_accept[46] =
     {   0,
-        0,    0,   18,   16,   14,   15,   13,    1,    2,    5,
-        6,   12,   12,   12,   12,   12,    3,    4,   12,   12,
-       12,   12,   12,   12,    8,   12,   12,   12,   12,   12,
-        7,    9,   12,   12,   10,   11,    0
+        0,    0,   19,   17,   15,   16,   14,    1,    2,    5,
+        6,   13,   13,   13,   13,   13,   13,    3,    4,   13,
+       13,   13,   13,   13,   13,   13,    8,   13,   13,   13,
+       13,   13,   13,   13,    7,    9,   13,   13,   13,   13,
+       10,   11,   13,   12,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -392,44 +393,46 @@ static yyconst flex_int32_t yy_meta[27] =
         2,    2,    2,    2,    1,    1
     } ;
 
-static yyconst flex_int16_t yy_base[39] =
+static yyconst flex_int16_t yy_base[47] =
     {   0,
-        0,    0,   45,   46,   46,   46,   46,   46,   46,   46,
-       46,    0,   27,   25,   20,   22,   46,   46,    0,   21,
-       17,   18,   21,   25,    0,   11,   22,   11,   14,   19,
-        0,    0,   15,    7,    0,    0,   46,   26
+        0,    0,   52,   53,   53,   53,   53,   53,   53,   53,
+       53,    0,   34,   32,   30,   26,   28,   53,   53,    0,
+       27,   23,   32,   23,   26,   30,    0,   29,   11,   26,
+       16,   15,   18,   23,    0,    0,   17,   17,    9,   11,
+        0,    0,   11,    0,   53,   26
     } ;
 
-static yyconst flex_int16_t yy_def[39] =
+static yyconst flex_int16_t yy_def[47] =
     {   0,
-       37,    1,   37,   37,   37,   37,   37,   37,   37,   37,
-       37,   38,   38,   38,   38,   38,   37,   37,   38,   38,
-       38,   38,   38,   38,   38,   38,   38,   38,   38,   38,
-       38,   38,   38,   38,   38,   38,    0,   37
+       45,    1,   45,   45,   45,   45,   45,   45,   45,   45,
+       45,   46,   46,   46,   46,   46,   46,   45,   45,   46,
+       46,   46,   46,   46,   46,   46,   46,   46,   46,   46,
+       46,   46,   46,   46,   46,   46,   46,   46,   46,   46,
+       46,   46,   46,   46,    0,   45
     } ;
 
-static yyconst flex_int16_t yy_nxt[73] =
+static yyconst flex_int16_t yy_nxt[80] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,    4,   11,   12,
-       12,   12,   12,   13,   12,   14,   12,   12,   12,   12,
-       15,   12,   12,   16,   17,   18,   29,   19,   36,   35,
-       34,   33,   32,   30,   31,   28,   27,   26,   25,   24,
-       23,   22,   21,   20,   37,    3,   37,   37,   37,   37,
-       37,   37,   37,   37,   37,   37,   37,   37,   37,   37,
-       37,   37,   37,   37,   37,   37,   37,   37,   37,   37,
-       37,   37
+       12,   12,   12,   13,   12,   14,   15,   12,   12,   12,
+       16,   12,   12,   17,   18,   19,   33,   20,   44,   43,
+       42,   41,   40,   34,   39,   38,   37,   36,   35,   32,
+       31,   30,   29,   28,   27,   26,   25,   24,   23,   22,
+       21,   45,    3,   45,   45,   45,   45,   45,   45,   45,
+       45,   45,   45,   45,   45,   45,   45,   45,   45,   45,
+       45,   45,   45,   45,   45,   45,   45,   45,   45
     } ;
 
-static yyconst flex_int16_t yy_chk[73] =
+static yyconst flex_int16_t yy_chk[80] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,   26,   38,   34,   33,
-       30,   29,   28,   26,   27,   24,   23,   22,   21,   20,
-       16,   15,   14,   13,    3,   37,   37,   37,   37,   37,
-       37,   37,   37,   37,   37,   37,   37,   37,   37,   37,
-       37,   37,   37,   37,   37,   37,   37,   37,   37,   37,
-       37,   37
+        1,    1,    1,    1,    1,    1,   29,   46,   43,   40,
+       39,   38,   37,   29,   34,   33,   32,   31,   30,   28,
+       26,   25,   24,   23,   22,   21,   17,   16,   15,   14,
+       13,    3,   45,   45,   45,   45,   45,   45,   45,   45,
+       45,   45,   45,   45,   45,   45,   45,   45,   45,   45,
+       45,   45,   45,   45,   45,   45,   45,   45,   45
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -450,7 +453,7 @@ static yyconst flex_int16_t yy_chk[73] =
 #pragma warning(disable : 6011)			// analysis - write to null ptr
 
 #define SYNTAX_TOKEN(type) GCompiler.CreateToken(type, mFileIndex, yylineno); return type
-#line 454 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
+#line 457 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
 
 #define INITIAL 0
 
@@ -550,7 +553,7 @@ YY_DECL
 #line 26 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 
 
-#line 554 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
+#line 557 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -603,13 +606,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 38 )
+				if ( yy_current_state >= 46 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_current_state != 37 );
+		while ( yy_current_state != 45 );
 		yy_cp = (yy_last_accepting_cpos);
 		yy_current_state = (yy_last_accepting_state);
 
@@ -684,10 +687,15 @@ YY_RULE_SETUP
 #line 39 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 { SYNTAX_TOKEN(TType::kStruct); }
 	YY_BREAK
-/* Identifier */
 case 12:
 YY_RULE_SETUP
-#line 42 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 40 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+{ SYNTAX_TOKEN(TType::kLocation); }
+	YY_BREAK
+/* Identifier */
+case 13:
+YY_RULE_SETUP
+#line 43 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 {
 												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
 												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
@@ -695,38 +703,38 @@ YY_RULE_SETUP
 											}
 	YY_BREAK
 /* Whitespace */
-case 13:
-YY_RULE_SETUP
-#line 49 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
-{}
-	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 50 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 {}
 	YY_BREAK
 case 15:
-/* rule 15 can match eol */
 YY_RULE_SETUP
 #line 51 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 {}
 	YY_BREAK
-case YY_STATE_EOF(INITIAL):
+case 16:
+/* rule 16 can match eol */
+YY_RULE_SETUP
 #line 52 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+{}
+	YY_BREAK
+case YY_STATE_EOF(INITIAL):
+#line 53 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
-case 16:
-YY_RULE_SETUP
-#line 55 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
-{ LexError( *yytext ); }
-	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 57 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 56 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+{ LexError( *yytext ); }
+	YY_BREAK
+case 18:
+YY_RULE_SETUP
+#line 58 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 730 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
+#line 738 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1106,7 +1114,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 38 )
+			if ( yy_current_state >= 46 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1134,11 +1142,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 38 )
+		if ( yy_current_state >= 46 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 37);
+	yy_is_jam = (yy_current_state == 45);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1623,7 +1631,7 @@ void Gluefree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 57 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 58 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
 
 
 

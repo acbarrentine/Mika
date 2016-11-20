@@ -16,6 +16,11 @@ void MikaVM::RegisterGlue(const char* name, GlueFunc func)
 	mGlueFunctions[name] = func;
 }
 
+void MikaVM::RegisterGlue(std::initializer_list<std::pair<const std::string, GlueFunc>> list)
+{
+	mGlueFunctions.insert(list);
+}
+
 void MikaVM::Import(const char* fileName)
 {
 	MikaReader reader;
@@ -201,11 +206,7 @@ void Glue_CallNativeFunction(MikaVM* vm)
 	MikaVM::Cell nameCell = vm->GetOperand(0);
 	const char* name = (const char*)nameCell.mPtrVal;
 	MikaVM::GlueFunc glue = vm->GetGlueFunction(name);
-	if (!glue)
-	{
-		std::cerr << "Failed to find glue function " << name << "!" << std::endl;
-		return;
-	}
+	assert(glue != nullptr);
 
 	glue(vm);
 

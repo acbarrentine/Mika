@@ -26,6 +26,7 @@
     <ClCompile Include="FloatConstantExpression.cpp" />
     <ClCompile Include="FunctionCallExpression.cpp" />
     <ClCompile Include="FunctionDeclaration.cpp" />
+    <ClCompile Include="GlueGenerator.cpp" />
     <ClCompile Include="GlueSyntax.flex.cpp" />
     <ClCompile Include="GlueTokenizer.cpp" />
     <ClCompile Include="Identifier.cpp" />
@@ -59,6 +60,7 @@
     <ClInclude Include="FloatConstantExpression.h" />
     <ClInclude Include="FunctionCallExpression.h" />
     <ClInclude Include="FunctionDeclaration.h" />
+    <ClInclude Include="GlueGenerator.h" />
     <ClInclude Include="GlueTokenizer.h" />
     <ClInclude Include="Identifier.h" />
     <ClInclude Include="IdentifierExpression.h" />

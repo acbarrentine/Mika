@@ -70,9 +70,11 @@ public:
 	};
 
 protected:
-	std::map<std::string, Function> mScriptFunctions;
-	std::map<std::string, GlueFunc> mGlueFunctions;
-
+	typedef std::map<std::string, Function> ScriptFunctionMap;
+	typedef std::map<std::string, GlueFunc> GlueMap;
+	
+	ScriptFunctionMap mScriptFunctions;
+	GlueMap mGlueFunctions;
 	Cell* mOperands;
 	std::vector<Cell> mFunctionArgs;
 	std::vector<char> mStack;
@@ -87,6 +89,7 @@ public:
 	MikaVM(int stackSize = 512);
 
 	void RegisterGlue(const char* name, GlueFunc func);
+	void RegisterGlue(std::initializer_list<std::pair<const std::string, GlueFunc>> list);
 	void Import(const char* fileName);
 	void Execute(const char* functionName);
 

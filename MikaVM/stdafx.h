@@ -16,3 +16,5 @@
 
 #define NOMINMAX
 #include <windows.h>
+
+#define ARRAY_COUNT(arr) (sizeof(arr)/sizeof(arr[0]))

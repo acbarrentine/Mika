@@ -1,4 +1,4 @@
-Print(string) : void
-Assert(int) : void
-AssertEqualsInt(left:int, right:int) : void
-AssertEqualsFloat(left:int, right:int) : void
+Print(string, location) : void
+Assert(cond : int, location) : void
+AssertEqualsInt(left:int, right:int, location) : void
+AssertEqualsFloat(left:float, right:float, location) : void

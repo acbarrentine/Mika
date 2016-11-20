@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Catch.hpp" />
+    <ClInclude Include="GeneratedGlue.hpp" />
     <ClInclude Include="Glue.h" />
     <ClInclude Include="MikaArchive.h" />
     <ClInclude Include="MikaOpcodes.h" />

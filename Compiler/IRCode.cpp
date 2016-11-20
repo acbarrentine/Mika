@@ -16,7 +16,7 @@ IRInstruction::OpCodeData IRInstruction::SOpCodeData[] =
 
 int IRInstruction::GetSize() const
 {
-	return sizeof(MikaArchiveInstruction) + (GetNumOperands() * GCompiler.GetCellSize());
+	return sizeof(MikaArchiveInstruction) + (GetNumOperands() * sizeof(int*));
 }
 
 const char* IRInstruction::GetName() const
@@ -36,5 +36,5 @@ bool IRInstruction::WritesOperand(int index)
 
 int IRReturnInstruction::GetSize() const
 {
-	return GCompiler.GetCellSize();
+	return sizeof(int*);
 }

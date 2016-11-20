@@ -21,6 +21,7 @@
 #include "ReturnStatement.h"
 #include "ExpressionStatement.h"
 #include "ObjectFileHelper.h"
+#include "GlueGenerator.h"
 #include <stdarg.h>
 
 Compiler GCompiler;
@@ -45,14 +46,17 @@ void Compiler::Reset()
 	mStemNames.clear();
 	mScriptFunctions.clear();
 	mDeclarations.clear();
+	mOrderedDeclarations.clear();
 	mTypes.clear();
 	mIdentifiers.Reset();
 
 	mTokenList.reserve(kInitialTokenCount);
 
-	RegisterBuiltInType(TType::kInt, 4);
-	RegisterBuiltInType(TType::kFloat, 8);
-	RegisterBuiltInType(TType::kString, 8);
+	RegisterBuiltInType(TType::kVoid, "void", nullptr, 1);
+	RegisterBuiltInType(TType::kInt, "int", "mIntVal", sizeof(int));
+	RegisterBuiltInType(TType::kFloat, "double", "mDblVal", sizeof(double));
+	RegisterBuiltInType(TType::kString, "const char*", "mPtrVal", sizeof(char*));
+	RegisterBuiltInType(TType::kLocation, nullptr, nullptr, sizeof(int) + sizeof(char*));
 }
 
 void Compiler::Message(MsgSeverity severity, const char* format, ...)
@@ -175,12 +179,14 @@ void Compiler::WriteGlueFile(const char* fileName)
 {
 	if (fileName && *fileName)
 	{
-		std::ofstream outStream(fileName);
-		if (!outStream.good())
+		GlueGenerator gen;
+
+		for (FunctionDeclaration* decl : mOrderedDeclarations)
 		{
-			Error("Unable to open %s for writing.", fileName);
-			return;
+			gen.AddFunction(decl);
 		}
+
+		gen.WriteGlueFile(fileName);
 	}
 }
 
@@ -295,10 +301,10 @@ Type* Compiler::FindType(Identifier name)
 	return it != mTypes.end() ? it->second.get() : nullptr;
 }
 
-void Compiler::RegisterBuiltInType(TType name, int size)
+void Compiler::RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size)
 {
 	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
-	mTypes.insert(std::make_pair(id, std::make_unique<Type>(id, size)));
+	mTypes.insert(std::make_pair(id, std::make_unique<Type>(id, nativeName, cellField, size)));
 }
 
 Type* Compiler::ParseType()
@@ -310,6 +316,7 @@ Type* Compiler::ParseType()
 		case TType::kFloat:
 		case TType::kString:
 		case TType::kVoid:
+		case TType::kLocation:
 			returnType = FindType(mCurrentTokenType);
 			NextToken();
 			break;
@@ -353,6 +360,7 @@ void Compiler::ParseGlueFunctionDeclaration()
 	decl->SetReturnType(returnType);
 
   	mDeclarations[id] = std::unique_ptr<FunctionDeclaration>(decl);
+	mOrderedDeclarations.push_back(decl);
 }
 
 void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)

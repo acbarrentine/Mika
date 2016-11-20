@@ -36,6 +36,7 @@ protected:
 	std::vector<Identifier> mFileNames;
 	std::vector<Identifier> mStemNames;
 	std::vector<ScriptFunction*> mScriptFunctions;
+	std::vector<FunctionDeclaration*> mOrderedDeclarations;
 	FunctionDeclarationMap mDeclarations;
 	TypeMap mTypes;
 	StringTable mIdentifiers;
@@ -73,10 +74,8 @@ public:
 	Type* FindType(TType tokenType);
 	Type* FindType(Identifier name);
 
-	int GetCellSize() const { return 8; }
-
 protected:
-	void RegisterBuiltInType(TType name, int size);
+	void RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size);
 	Type* ParseType();
 	
 	void ParseGlueDeclaration();

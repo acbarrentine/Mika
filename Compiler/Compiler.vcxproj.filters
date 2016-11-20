@@ -82,6 +82,9 @@
     <ClCompile Include="WhileStatement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GlueGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryExpression.h">
@@ -175,6 +178,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="WhileStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GlueGenerator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

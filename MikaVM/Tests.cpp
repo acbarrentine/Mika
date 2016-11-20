@@ -19,7 +19,7 @@ public:
 		GCompiler.Reset();
 
 		std::string glueHeader = "../TestScripts/MikaGlue.mikah";
-		std::string glueModule = "Glue.tmp";
+		std::string glueModule = "GeneratedGlue.tmp";
 		std::string sourceFile = "../TestScripts/" + scriptName + ".mika";
 		std::string objectPath = "../TestScripts/Output/" + scriptName + ".miko";
 		std::string debugPath = "../TestScripts/Output/" + scriptName + ".mikd";

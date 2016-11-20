@@ -6,13 +6,19 @@ class Type
 {
 protected:
 	Identifier mName;
+	const char* mNativeName;
+	const char* mCellField;
 	int mSize;
 
 public:
-	Type(Identifier name, int size)
+	Type(Identifier name, const char* nativeName, const char* cellField, int size)
 		: mName(name)
+		, mNativeName(nativeName)
+		, mCellField(cellField)
 		, mSize(size)
 	{}
 
 	int GetSize() const { return mSize; }
+	const char* GetNativeName() const { return mNativeName; }
+	const char* GetCellField() const { return mCellField; }
 };

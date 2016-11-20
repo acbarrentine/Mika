@@ -51,13 +51,11 @@ class VariableLocator : public IRVisitor
 {
 protected:
 	int mStackOffset;
-	int mCellSize;
 	int mUsedBytes;
 
 public:
 	VariableLocator(int startOffset)
 		: mStackOffset(startOffset)
-		, mCellSize(GCompiler.GetCellSize())
 		, mUsedBytes(startOffset)
 	{
 	}
@@ -69,8 +67,8 @@ public:
 		{
 			Type* varType = var->GetType();
 			int size = varType->GetSize();
-			if (size < mCellSize)
-				size = mCellSize;
+			if (size < sizeof(int*))
+				size = sizeof(int*);
 			var->SetStackOffset(mStackOffset);
 			mStackOffset += size;
 			if (mStackOffset > mUsedBytes)
@@ -110,13 +108,11 @@ class TempRegisterLocator : public IRVisitor
 {
 protected:
 	int mStackOffset;
-	int mCellSize;
 	int mUsedBytes;
 
 public:
 	TempRegisterLocator(int startOffset)
 		: mStackOffset(startOffset)
-		, mCellSize(GCompiler.GetCellSize())
 		, mUsedBytes(startOffset)
 	{
 	}
@@ -128,7 +124,7 @@ public:
 		if (forWrite)
 		{
 			op->mStackOffset = mStackOffset;
-			mStackOffset += mCellSize;
+			mStackOffset += sizeof(int*);
 			if (mStackOffset > mUsedBytes)
 			{
 				mUsedBytes = mStackOffset;
@@ -136,7 +132,7 @@ public:
 		}
 		else
 		{
-			mStackOffset -= mCellSize;
+			mStackOffset -= sizeof(int*);
 		}
 	}
 

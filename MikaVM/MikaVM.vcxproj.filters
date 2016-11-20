@@ -48,6 +48,9 @@
     <ClInclude Include="Catch.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedGlue.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika">
