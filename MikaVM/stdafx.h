@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <vector>
+#include <set>
 #include <type_traits>
 #include <iostream>
 #include <fstream>

@@ -19,7 +19,6 @@ public:
 		GCompiler.Reset();
 
 		std::string glueHeader = "../TestScripts/MikaGlue.mikah";
-		std::string glueModule = "GeneratedGlue.tmp";
 		std::string sourceFile = "../TestScripts/" + scriptName + ".mika";
 		std::string objectPath = "../TestScripts/Output/" + scriptName + ".miko";
 		std::string debugPath = "../TestScripts/Output/" + scriptName + ".mikd";
@@ -27,7 +26,6 @@ public:
 
 		if (GCompiler.GetErrorCount() == 0) GCompiler.ReadGlueHeader(glueHeader.c_str());
 		if (GCompiler.GetErrorCount() == 0) GCompiler.ParseGlueHeader();
-		if (GCompiler.GetErrorCount() == 0) GCompiler.WriteGlueFile(glueModule.c_str());
 		if (GCompiler.GetErrorCount() == 0) GCompiler.ReadScript(sourceFile.c_str());
 		if (GCompiler.GetErrorCount() == 0) GCompiler.ParseScript();
 		if (GCompiler.GetErrorCount() == 0) GCompiler.AnalyzeScript();

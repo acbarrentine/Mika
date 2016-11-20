@@ -30,6 +30,14 @@ void Glue_AssertEqualsFloat(MikaVM* vm)
 	AssertEqualsFloat(left, right, loc.Func->mName, loc.LineNumber);
 }
 
+void Glue_AssertEqualsString(MikaVM* vm)
+{
+	const char* left = (const char*)vm->GetFunctionArg(0).mPtrVal;
+	const char* right = (const char*)vm->GetFunctionArg(1).mPtrVal;
+	MikaVM::Location& loc = vm->GetLocation();
+	AssertEqualsString(left, right, loc.Func->mName, loc.LineNumber);
+}
+
 void RegisterGlueFunctions(MikaVM* vm)
 {
 	vm->RegisterGlue({
@@ -37,5 +45,6 @@ void RegisterGlueFunctions(MikaVM* vm)
 		{ "Assert", Glue_Assert },
 		{ "AssertEqualsInt", Glue_AssertEqualsInt },
 		{ "AssertEqualsFloat", Glue_AssertEqualsFloat },
+		{ "AssertEqualsString", Glue_AssertEqualsString },
 	});
 }

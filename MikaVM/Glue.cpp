@@ -27,4 +27,9 @@ void AssertEqualsFloat(double lhs, double rhs, const char* locationName, int lin
 	CHECK_LINE(lhs == rhs, locationName, lineNumber);
 }
 
+void AssertEqualsString(const char* left, const char* right, const char* locationName, int lineNumber)
+{
+	CHECK_LINE(strcmp(left, right) == 0, locationName, lineNumber);
+}
+
 #include "GeneratedGlue.hpp"
