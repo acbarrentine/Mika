@@ -12,6 +12,7 @@
 #include <set>
 #include <string>
 #include <algorithm>
+#include <memory>
 #pragma warning(pop)
 
 #define NOMINMAX

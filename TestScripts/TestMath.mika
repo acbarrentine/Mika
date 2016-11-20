@@ -13,4 +13,5 @@ fun TestIntMath() : void
 fun TestFloatMath() : void
 {
 	AssertEqualsFloat(1.0, 2.0 / 2.0)
+	Assert(1.0 < 2.0)
 }

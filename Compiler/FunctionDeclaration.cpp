@@ -2,10 +2,20 @@
 #include "FunctionDeclaration.h"
 #include "SymbolTable.h"
 
+void FunctionDeclaration::AddParameter(Variable* param)
+{
+	mParameterList.push_back(std::unique_ptr<Variable>(param));
+}
+
+Variable* FunctionDeclaration::GetParameter(int index)
+{
+	return mParameterList[index].get();
+}
+
 void FunctionDeclaration::BindParameters(SymbolTable& symbolTable)
 {
-	for (Variable* var : mParameterList)
+	for (auto& var : mParameterList)
 	{
-		symbolTable.AddVariable(var);
+		symbolTable.AddVariable(var.get());
 	}
 }

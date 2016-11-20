@@ -3,7 +3,7 @@
 
 void CompoundStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	for (Statement* stmt : mStmtList)
+	for (auto& stmt : mStmtList)
 	{
 		stmt->ResolveTypes(symbolTable);
 	}
@@ -11,7 +11,7 @@ void CompoundStatement::ResolveTypes(SymbolTable& symbolTable)
 
 void CompoundStatement::GenCode(ObjectFileHelper& helper)
 {
-	for (Statement* stmt : mStmtList)
+	for (auto& stmt : mStmtList)
 	{
 		stmt->GenCode(helper);
 	}

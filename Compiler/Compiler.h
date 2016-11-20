@@ -25,8 +25,8 @@ class ExpressionStatement;
 class Compiler
 {
 protected:
-	typedef std::map<Identifier, FunctionDeclaration*> FunctionDeclarationMap;
-	typedef std::map<Identifier, Type*> TypeMap;
+	typedef std::map<Identifier, std::unique_ptr<FunctionDeclaration>> FunctionDeclarationMap;
+	typedef std::map<Identifier, std::unique_ptr<Type>> TypeMap;
 
 	int mErrorCount;
 	int mCurrentTokenIndex;
@@ -44,6 +44,7 @@ protected:
 public:
 	Compiler();
 
+	void Reset();
 	void Message(MsgSeverity severity, const char* format, ...);
 	void MessageArgs(MsgSeverity severity, const char* format, va_list args);
 	void Error(int errorTokenIndex, const char* message);

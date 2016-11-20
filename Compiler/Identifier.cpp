@@ -2,6 +2,11 @@
 #include "Identifier.h"
 #include <stdarg.h>
 
+void StringTable::Reset()
+{
+	mStrings.clear();
+}
+
 Identifier StringTable::AddValue(std::string value)
 {
 	auto it = mStrings.insert(value);

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Statement.h"
-class Expression;
+#include "Expression.h"
 
 class WhileStatement : public Statement
 {
 protected:
-	Expression* mExpression;
-	Statement* mLoop;
+	std::unique_ptr<Expression> mExpression;
+	std::unique_ptr<Statement> mLoop;
 
 public:
 	WhileStatement(int rootToken)
@@ -16,8 +16,8 @@ public:
 		, mLoop(nullptr)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = expr; }
-	void SetLoop(Statement* stmt) { mLoop = stmt; }
+	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
+	void SetLoop(Statement* stmt) { mLoop = std::unique_ptr<Statement>(stmt); }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

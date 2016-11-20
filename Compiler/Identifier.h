@@ -40,6 +40,8 @@ public:
 class StringTable
 {
 public:
+	void Reset();
+
 	Identifier AddValue(std::string value);
 	Identifier AddValue(const char* str);
 	Identifier AddValue(const char* first, const char* last);

@@ -5,7 +5,7 @@
 class CompoundStatement : public Statement
 {
 protected:
-	std::vector<Statement*> mStmtList;
+	std::vector<std::unique_ptr<Statement>> mStmtList;
 
 public:
 	CompoundStatement(int rootToken)
@@ -14,7 +14,7 @@ public:
 
 	void AddStatement(Statement* stmt)
 	{
-		mStmtList.push_back(stmt);
+		mStmtList.push_back(std::unique_ptr<Statement>(stmt));
 	}
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;

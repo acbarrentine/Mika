@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Statement.h"
-class Expression;
+#include "Expression.h"
 
 class ReturnStatement : public Statement
 {
 protected:
-	Expression* mExpression;
+	std::unique_ptr<Expression> mExpression;
 
 public:
 	ReturnStatement(int rootToken)
@@ -14,7 +14,7 @@ public:
 		, mExpression(nullptr)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = expr; }
+	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

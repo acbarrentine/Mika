@@ -1,19 +1,19 @@
 #pragma once
 
 #include "Statement.h"
-class Expression;
+#include "Expression.h"
 
 class ExpressionStatement : public Statement
 {
 protected:
-	Expression* mExpression;
+	std::unique_ptr<Expression> mExpression;
 
 public:
 	ExpressionStatement(int rootToken)
 		: Statement(rootToken)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = expr; }
+	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

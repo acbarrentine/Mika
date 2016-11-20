@@ -7,11 +7,12 @@ class SymbolTable;
 class ObjectFileHelper;
 
 #include "FunctionDeclaration.h"
+#include "Statement.h"
 
 class ScriptFunction : public FunctionDeclaration
 {
 protected:
-	Statement* mStatement;
+	std::unique_ptr<Statement> mStatement;
 
 public:
 	ScriptFunction(int rootToken)
@@ -23,7 +24,7 @@ public:
 
 	void SetStatement(Statement* stmt)
 	{
-		mStatement = stmt;
+		mStatement = std::unique_ptr<Statement>(stmt);
 	}
 
 	void ResolveTypes(SymbolTable& symbolTable);

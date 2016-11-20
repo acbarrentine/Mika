@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Statement.h"
-class Expression;
+#include "Expression.h"
 
 class IfStatement : public Statement
 {
 protected:
-	Expression* mExpression;
-	Statement* mThenClause;
-	Statement* mElseClause;
+	std::unique_ptr<Expression> mExpression;
+	std::unique_ptr<Statement> mThenClause;
+	std::unique_ptr<Statement> mElseClause;
 
 public:
 	IfStatement(int rootToken)
@@ -18,9 +18,9 @@ public:
 		, mElseClause(nullptr)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = expr; }
-	void SetThenClause(Statement* stmt) { mThenClause = stmt; }
-	void SetElseClause(Statement* stmt) { mElseClause = stmt; }
+	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
+	void SetThenClause(Statement* stmt) { mThenClause = std::unique_ptr<Statement>(stmt); }
+	void SetElseClause(Statement* stmt) { mElseClause = std::unique_ptr<Statement>(stmt); }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

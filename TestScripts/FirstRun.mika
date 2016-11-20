@@ -1,12 +1,10 @@
 fun TestEntry() : int
 {
-	Print("hello world 2")
-
 	if OtherFunc() > 6
-		Print("success")
+		Assert(1)
 	else
 	{
-		Print("fail")
+		Assert(0)
 	}
 	return 14
 }

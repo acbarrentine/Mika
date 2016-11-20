@@ -31,6 +31,23 @@ Compiler::Compiler()
 	, mCurrentTokenType(TType::kInvalid)
 	, mCurrentToken(nullptr)
 {
+	Reset();
+}
+
+void Compiler::Reset()
+{
+	mErrorCount = 0;
+	mCurrentTokenIndex = 0;
+	mCurrentTokenType = TType::kInvalid;
+	mCurrentToken = nullptr;
+	mTokenList.clear();
+	mFileNames.clear();
+	mStemNames.clear();
+	mScriptFunctions.clear();
+	mDeclarations.clear();
+	mTypes.clear();
+	mIdentifiers.Reset();
+
 	mTokenList.reserve(kInitialTokenCount);
 
 	RegisterBuiltInType(TType::kInt, 4);
@@ -263,7 +280,7 @@ Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber)
 FunctionDeclaration* Compiler::FindDeclaration(Identifier name)
 {
 	FunctionDeclarationMap::iterator it = mDeclarations.find(name);
-	return it != mDeclarations.end() ? it->second : nullptr;
+	return it != mDeclarations.end() ? it->second.get() : nullptr;
 }
 
 Type* Compiler::FindType(TType tokenType)
@@ -275,14 +292,13 @@ Type* Compiler::FindType(TType tokenType)
 Type* Compiler::FindType(Identifier name)
 {
 	TypeMap::iterator it = mTypes.find(name);
-	return it != mTypes.end() ? it->second : nullptr;
+	return it != mTypes.end() ? it->second.get() : nullptr;
 }
 
 void Compiler::RegisterBuiltInType(TType name, int size)
 {
 	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
-	Type* t = new Type(id, size);
-	mTypes.insert(std::make_pair(id, t));
+	mTypes.insert(std::make_pair(id, std::make_unique<Type>(id, size)));
 }
 
 Type* Compiler::ParseType()
@@ -336,7 +352,7 @@ void Compiler::ParseGlueFunctionDeclaration()
 	Type* returnType = ParseType();
 	decl->SetReturnType(returnType);
 
-  	mDeclarations[id] = decl;
+  	mDeclarations[id] = std::unique_ptr<FunctionDeclaration>(decl);
 }
 
 void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)

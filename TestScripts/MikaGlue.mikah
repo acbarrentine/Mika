@@ -1,3 +1,4 @@
 Print(string) : void
+Assert(int) : void
 AssertEqualsInt(left:int, right:int) : void
 AssertEqualsFloat(left:int, right:int) : void

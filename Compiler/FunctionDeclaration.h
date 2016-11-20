@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Identifier.h"
+#include "Variable.h"
 
-class Variable;
 class SymbolTable;
 
 class FunctionDeclaration
@@ -11,7 +11,7 @@ protected:
 	int mRootToken;
 	Identifier mName;
 	class Type* mReturnType;
-	std::vector<Variable*> mParameterList;
+	std::vector<std::unique_ptr<Variable>> mParameterList;
 
 public:
 	FunctionDeclaration(int rootToken)
@@ -19,14 +19,8 @@ public:
 		, mReturnType(nullptr)
 	{}
 
-	void AddParameter(Variable* param)
-	{
-		mParameterList.push_back(param);
-	}
-	Variable* GetParameter(int index)
-	{
-		return mParameterList[index];
-	}
+	void AddParameter(Variable* param);
+	Variable* GetParameter(int index);
 	int GetParameterCount() const
 	{
 		return (int)mParameterList.size();
