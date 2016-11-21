@@ -77,10 +77,10 @@ public:
 protected:
 	void RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size);
 	Type* ParseType();
-	
+	void ParseFunctionParameters(FunctionDeclaration* decl);
+
 	void ParseGlueDeclaration();
 	void ParseGlueFunctionDeclaration();
-	void ParseGlueFunctionParameters(FunctionDeclaration* decl);
 
 	void ParseScriptDeclaration();
 	void ParseScriptFunction();
@@ -90,6 +90,7 @@ protected:
 	Statement* ParseScriptWhileStatement();
 	Statement* ParseScriptReturnStatement();
 	Statement* ParseScriptExpressionStatement();
+	Statement* ParseScriptVariableDeclaration();
 	Expression* ParseScriptExpression();
 	Expression* ParseScriptPrimaryExpression();
 	Expression* ParseScriptExpressionWithPrecedence(int minPrecedence);
@@ -100,7 +101,7 @@ protected:
 	void ShowLine(int errorTokenIndex, const char* message, MsgSeverity severity) ;
 	bool Peek(TType expectedType);
 	bool Expect(TType expectedType);
-	void SwallowTokens(TType terminator);
+	void SwallowLine();
 	void AddSourceFile(const char* fileName);
 };
 

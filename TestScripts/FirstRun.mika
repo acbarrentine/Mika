@@ -1,13 +1,18 @@
 fun TestEntry() : int
 {
-	if OtherFunc() > 6
+	var1 : int
+	var1 <- 4 * Twice(12)
+	AssertEqualsInt(var1, 28)
+
+	if Twice(3) >= 6
 		Assert(1)
 	else
 	{
 		Assert(0)
 	}
+
 	return 14
 }
 
-fun OtherFunc() : int
-	return 8
+fun Twice(val:int) : int
+	return val * val

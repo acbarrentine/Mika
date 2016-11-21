@@ -14,6 +14,7 @@
 #include "FunctionCallExpression.h"
 #include "IdentifierExpression.h"
 #include "BinaryExpression.h"
+#include "AssignmentExpression.h"
 #include "Statement.h"
 #include "CompoundStatement.h"
 #include "IfStatement.h"
@@ -23,6 +24,7 @@
 #include "ObjectFileHelper.h"
 #include "GlueGenerator.h"
 #include <stdarg.h>
+#include "VariableDeclarationStatement.h"
 
 Compiler GCompiler;
 
@@ -328,42 +330,7 @@ Type* Compiler::ParseType()
 	return returnType;
 }
 
-void Compiler::ParseGlueDeclaration()
-{
-	switch (mCurrentTokenType)
-	{
-		case TType::kStruct:
-			break;
-
-		case TType::kIdentifier:
-			ParseGlueFunctionDeclaration();
-			break;
-
-		default:
-			Error(mCurrentTokenIndex, "Glue declaration expected");
-			NextToken();
-			break;
-	}
-}
-
-void Compiler::ParseGlueFunctionDeclaration()
-{
-	Identifier id = mCurrentToken->GetIdentifier();
-	FunctionDeclaration* decl = new FunctionDeclaration(mCurrentTokenIndex);
-	decl->SetName(id);
-	NextToken();
-	Expect(TType::kOpenParen);
-	ParseGlueFunctionParameters(decl);
-	Expect(TType::kCloseParen);
-	Expect(TType::kColon);
-	Type* returnType = ParseType();
-	decl->SetReturnType(returnType);
-
-  	mDeclarations[id] = std::unique_ptr<FunctionDeclaration>(decl);
-	mOrderedDeclarations.push_back(decl);
-}
-
-void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
+void Compiler::ParseFunctionParameters(FunctionDeclaration* decl)
 {
 	while (1)
 	{
@@ -394,9 +361,44 @@ void Compiler::ParseGlueFunctionParameters(FunctionDeclaration* decl)
 
 		if (mCurrentTokenType != TType::kComma)
 			break;
-		
+
 		Expect(TType::kComma);
 	}
+}
+
+void Compiler::ParseGlueDeclaration()
+{
+	switch (mCurrentTokenType)
+	{
+		case TType::kStruct:
+			break;
+
+		case TType::kIdentifier:
+			ParseGlueFunctionDeclaration();
+			break;
+
+		default:
+			Error(mCurrentTokenIndex, "Glue declaration expected");
+			NextToken();
+			break;
+	}
+}
+
+void Compiler::ParseGlueFunctionDeclaration()
+{
+	Identifier id = mCurrentToken->GetIdentifier();
+	FunctionDeclaration* decl = new FunctionDeclaration(mCurrentTokenIndex);
+	decl->SetName(id);
+	NextToken();
+	Expect(TType::kOpenParen);
+	ParseFunctionParameters(decl);
+	Expect(TType::kCloseParen);
+	Expect(TType::kColon);
+	Type* returnType = ParseType();
+	decl->SetReturnType(returnType);
+
+  	mDeclarations[id] = std::unique_ptr<FunctionDeclaration>(decl);
+	mOrderedDeclarations.push_back(decl);
 }
 
 void Compiler::ParseScriptDeclaration()
@@ -414,7 +416,7 @@ void Compiler::ParseScriptDeclaration()
 
 void Compiler::ParseScriptFunction()
 {
-	int rootToken = mCurrentTokenIndex;
+	ScriptFunction* func = new ScriptFunction(mCurrentTokenIndex);
 	Identifier name;
 	if (mCurrentTokenType != TType::kIdentifier)
 	{
@@ -426,13 +428,14 @@ void Compiler::ParseScriptFunction()
 		name = mCurrentToken->GetIdentifier();
 		NextToken();
 	}
+
 	Expect(TType::kOpenParen);
+	ParseFunctionParameters(func);
 	Expect(TType::kCloseParen);
 
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
 
-	ScriptFunction* func = new ScriptFunction(rootToken);
 	func->SetReturnType(returnType);
 	func->SetName(name);
 
@@ -529,10 +532,60 @@ Statement* Compiler::ParseScriptReturnStatement()
 	return retStmt;
 }
 
+Statement* Compiler::ParseScriptVariableDeclaration()
+{
+	VariableDeclarationStatement* varStmt = new VariableDeclarationStatement(mCurrentTokenIndex);
+
+	if (mCurrentTokenType != TType::kIdentifier)
+	{
+		Error("variable identifier expected");
+		SwallowLine();
+		return varStmt;
+	}
+
+	Variable* var = new Variable(mCurrentTokenIndex);
+	var->SetName(mCurrentToken->GetStringValue());
+	NextToken();
+	Expect(TType::kColon);
+
+	Type* type = ParseType();
+	if (!type)
+	{
+		Error("variable type expected");
+		type = FindType(TType::kInt);
+	}
+	var->SetType(type);
+	varStmt->SetVariable(var);
+
+	// optional initializer
+	if (mCurrentTokenType == TType::kArrow)
+	{
+		NextToken();
+		Expression* expr = ParseScriptExpression();
+		if (!expr)
+		{
+			Error("expression expected");
+		}
+		varStmt->SetExpression(expr);
+	}
+
+	return varStmt;
+}
+
 Statement* Compiler::ParseScriptExpressionStatement()
 {
+	if (Peek(TType::kColon))
+	{
+		return ParseScriptVariableDeclaration();
+	}
+
 	ExpressionStatement* exprStmt = new ExpressionStatement(mCurrentTokenIndex);
 	Expression* expr = ParseScriptExpression();
+	if (!expr)
+	{
+		Error(mCurrentTokenIndex, "expression expected");
+		SwallowLine();
+	}
 	exprStmt->SetExpression(expr);
 	return exprStmt;
 }
@@ -642,7 +695,6 @@ BinaryExpression* Compiler::ParseScriptBinaryOperator()
 		case TType::kMinus:
 		case TType::kSlash:
 		case TType::kAsterisk:
-		case TType::kArrow:
 		case TType::kEquals:
 		case TType::kLessEquals:
 		case TType::kGreaterEquals:
@@ -650,6 +702,9 @@ BinaryExpression* Compiler::ParseScriptBinaryOperator()
 		case TType::kGreaterThan:
 		case TType::kNotEquals:
 			return new BinaryExpression(mCurrentTokenIndex);
+
+		case TType::kArrow:
+			return new AssignmentExpression(mCurrentTokenIndex);
 
 		default:
 			return nullptr;
@@ -748,14 +803,18 @@ bool Compiler::Expect(TType expectedType)
 	}
 }
 
-void Compiler::SwallowTokens(TType terminator)
+void Compiler::SwallowLine()
 {
+	Token& startToken = mTokenList[mCurrentTokenIndex];
+	int startLine = startToken.GetLineNumber();
+	NextToken();
 	while (1)
 	{
 		Token& t = mTokenList[mCurrentTokenIndex];
+		if (t.GetLineNumber() != startLine)
+			break;
 		TType tokenType = t.GetType();
-		if (tokenType == terminator
-			|| tokenType == TType::kEOF)
+		if (tokenType == TType::kEOF)
 		{
 			break;
 		}

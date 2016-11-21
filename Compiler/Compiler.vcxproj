@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssignmentExpression.cpp" />
     <ClCompile Include="BinaryExpression.cpp" />
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="CompoundStatement.cpp" />
@@ -46,9 +47,11 @@
     <ClCompile Include="StringConstantExpression.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="Token.cpp" />
+    <ClCompile Include="VariableDeclarationStatement.cpp" />
     <ClCompile Include="WhileStatement.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssignmentExpression.h" />
     <ClInclude Include="BinaryExpression.h" />
     <ClInclude Include="ByteCodeLocator.h" />
     <ClInclude Include="ByteCodeWriter.h" />
@@ -80,6 +83,7 @@
     <ClInclude Include="Token.h" />
     <ClInclude Include="Type.h" />
     <ClInclude Include="Variable.h" />
+    <ClInclude Include="VariableDeclarationStatement.h" />
     <ClInclude Include="WhileStatement.h" />
   </ItemGroup>
   <ItemGroup>

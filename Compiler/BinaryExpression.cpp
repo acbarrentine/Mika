@@ -3,7 +3,6 @@
 #include "Compiler.h"
 #include "ObjectFileHelper.h"
 
-
 BinaryExpression::BinaryExpression(int rootToken)
 	: Expression(rootToken)
 	, mLeft(nullptr)
@@ -26,8 +25,6 @@ int BinaryExpression::GetPrecedence() const
 			return 15;
 		case TType::kAsterisk:
 			return 15;
-		case TType::kArrow:
-			return 4;
 		case TType::kEquals:
 			return 11;
 		case TType::kLessEquals:
@@ -74,7 +71,6 @@ void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 	const static OpCode SubtractOps[] = { SubtractInt, SubtractFloat, IllegalInstruction };
 	const static OpCode DivideOps[] = { DivideInt, DivideFloat, IllegalInstruction };
 	const static OpCode MultiplyOps[] = { MultiplyInt, MultiplyFloat, IllegalInstruction };
-	const static OpCode AssignOps[] = { AssignInt, AssignFloat, AssignString };
 	const static OpCode EqualsOps[] = { EqualsInt, EqualsFloat, EqualsString };
 	const static OpCode LEOps[] = { LessEqualsInt, LessEqualsFloat, LessEqualsString };
 	const static OpCode GEOps[] = { GreaterEqualsInt, GreaterEqualsFloat, GreaterEqualsString };
@@ -98,11 +94,6 @@ void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 			break;
 		case TType::kAsterisk:
 			mOpCode = MultiplyOps[opType];
-			mType = leftType;
-			break;
-
-		case TType::kArrow:
-			mOpCode = AssignOps[opType];
 			mType = leftType;
 			break;
 

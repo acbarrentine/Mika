@@ -4,7 +4,6 @@
 #include "FunctionDeclaration.h"
 #include "ObjectFileHelper.h"
 
-
 void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 {
 	Token& nameToken = GCompiler.GetToken(mRootToken);

@@ -8,6 +8,8 @@
 
 void IdentifierExpression::ResolveType(SymbolTable& symbolTable)
 {
+	Token& tok = GCompiler.GetToken(mRootToken);
+	mValue = tok.GetStringValue();
 	mVariable = symbolTable.FindVariable(mValue);
 	if (!mVariable)
 	{
