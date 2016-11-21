@@ -180,19 +180,27 @@ void MikaVM::PopCallFrame()
 	mCallFrames.pop_back();
 }
 
-void Glue_CopyArgToStack(MikaVM*)
+void Glue_CopyArgToStack(MikaVM* vm)
 {
+	MikaVM::Cell stackIndex = vm->GetOperand(0);
+	MikaVM::Cell argIndex = vm->GetOperand(1);
+	MikaVM::Cell argValue = vm->GetFunctionArg(argIndex.mIntVal);
+	vm->CopyToStack(argValue, stackIndex.mIntVal);
 }
 
 void Glue_CopyConstantToStack(MikaVM* vm)
 {
 	MikaVM::Cell stackIndex = vm->GetOperand(0);
-	MikaVM::Cell str = vm->GetOperand(1);
-	vm->CopyToStack(str, stackIndex.mIntVal);
+	MikaVM::Cell val = vm->GetOperand(1);
+	vm->CopyToStack(val, stackIndex.mIntVal);
 }
 
-void Glue_CopyStackToStack(MikaVM*)
+void Glue_CopyStackToStack(MikaVM* vm)
 {
+	MikaVM::Cell dstStackIndex = vm->GetOperand(0);
+	MikaVM::Cell srcStackIndex = vm->GetOperand(1);
+	MikaVM::Cell value = vm->GetStackValue(srcStackIndex.mIntVal);
+	vm->CopyToStack(value, dstStackIndex.mIntVal);
 }
 
 void Glue_PushArgument(MikaVM* vm)

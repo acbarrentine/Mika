@@ -16,7 +16,7 @@ public:
 		: mRootToken(rootToken)
 		, mType(nullptr)
 		, mReferences(0)
-		, mStackOffset(0)
+		, mStackOffset(-1)
 	{}
 
 	void SetName(Identifier name) { mName = name; }

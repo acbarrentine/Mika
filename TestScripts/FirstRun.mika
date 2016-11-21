@@ -1,7 +1,7 @@
 fun TestEntry() : int
 {
 	var1 : int
-	var1 <- 4 * Twice(12)
+	var1 <- 4 + Twice(12)
 	AssertEqualsInt(var1, 28)
 
 	if Twice(3) >= 6
@@ -15,4 +15,4 @@ fun TestEntry() : int
 }
 
 fun Twice(val:int) : int
-	return val * val
+	return 2 * val

@@ -23,6 +23,7 @@
     <ClCompile Include="BinaryExpression.cpp" />
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="CompoundStatement.cpp" />
+    <ClCompile Include="Expression.cpp" />
     <ClCompile Include="ExpressionStatement.cpp" />
     <ClCompile Include="FloatConstantExpression.cpp" />
     <ClCompile Include="FunctionCallExpression.cpp" />

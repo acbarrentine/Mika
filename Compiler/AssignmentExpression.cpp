@@ -4,30 +4,13 @@
 #include "ObjectFileHelper.h"
 
 AssignmentExpression::AssignmentExpression(int rootToken)
-	: Expression(rootToken)
-	, mLeft(nullptr)
-	, mRight(nullptr)
-	, mOpCode(IllegalInstruction)
+	: BinaryExpression(rootToken)
 {
-	Token& t = GCompiler.GetToken(rootToken);
-	mTokenType = t.GetType();
-}
-
-int AssignmentExpression::GetPrecedence() const
-{
-	switch (mTokenType)
-	{
-		case TType::kArrow:
-			return 4;
-
-		default:
-			GCompiler.Error(mRootToken, "invalid token type for assignment operator");
-			return 0;
-	}
 }
 
 void AssignmentExpression::ResolveType(SymbolTable& symbolTable)
 {
+	mLeft->ResolveType(symbolTable);
 	mRight->ResolveType(symbolTable);
 	
 	Type* leftType = mLeft->GetType();
@@ -41,9 +24,5 @@ void AssignmentExpression::ResolveType(SymbolTable& symbolTable)
 void AssignmentExpression::GenCode(ObjectFileHelper& helper)
 {
 	mRight->GenCode(helper);
-
-	mResultRegister = new IRRegisterOperand();
-	IRInstruction* binOp = helper.EmitInstruction(CopyStackToStack, mRootToken);
-	binOp->SetOperand(0, new IRVariableOperand(mLeft.get()));
-	binOp->SetOperand(1, mRight->GetResultRegister());
+	mLeft->GenAssign(helper, mRight->GetResultRegister());
 }

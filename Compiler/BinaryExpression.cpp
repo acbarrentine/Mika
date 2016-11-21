@@ -17,6 +17,8 @@ int BinaryExpression::GetPrecedence() const
 {
 	switch (mTokenType)
 	{
+		case TType::kArrow:
+			return 4;
 		case TType::kPlus:
 			return 14;
 		case TType::kMinus:

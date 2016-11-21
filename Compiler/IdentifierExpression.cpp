@@ -30,3 +30,17 @@ void IdentifierExpression::GenCode(ObjectFileHelper& helper)
 	op->SetOperand(0, mResultRegister);
 	op->SetOperand(1, new IRVariableOperand(mVariable));
 }
+
+void IdentifierExpression::GenAssign(ObjectFileHelper& helper, IRRegisterOperand* src)
+{
+	if (mVariable)
+	{
+		IRInstruction* op = helper.EmitInstruction(CopyStackToStack, mRootToken);
+		op->SetOperand(0, new IRVariableOperand(mVariable));
+		op->SetOperand(1, src);
+	}
+	else
+	{
+		GCompiler.Error(mRootToken, "invalid target for assignment");
+	}
+}

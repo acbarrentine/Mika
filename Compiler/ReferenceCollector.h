@@ -63,7 +63,7 @@ public:
 	void Visit(IRVariableOperand* op, bool) override
 	{
 		Variable* var = op->mVariable;
-		if (var->GetRefCount())
+		if (var->GetStackOffset() < 0)
 		{
 			Type* varType = var->GetType();
 			int size = varType->GetSize();

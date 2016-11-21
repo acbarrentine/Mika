@@ -20,6 +20,7 @@ public:
 
 	virtual void ResolveType(SymbolTable& symbolTable) = 0;
 	virtual void GenCode(ObjectFileHelper& helper) = 0;
+	virtual void GenAssign(ObjectFileHelper& helper, IRRegisterOperand* src);
 
 	Type* GetType() const { return mType; }
 	int GetRootToken() const { return mRootToken; }
