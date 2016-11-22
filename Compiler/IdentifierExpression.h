@@ -19,5 +19,5 @@ public:
 
 	virtual void ResolveType(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;
-	virtual void GenAssign(ObjectFileHelper& helper, IRRegisterOperand* src) override;
+	virtual void GenAssign(ObjectFileHelper& helper, IROperand* src) override;
 };

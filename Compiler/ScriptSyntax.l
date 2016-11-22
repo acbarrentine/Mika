@@ -93,7 +93,11 @@ LETTER					[a-zA-Z_]
 [ \r\v\f]				{}
 [\t]					{}
 [\n]					{ ++yylineno; }
+[;]						{}
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }
+
+	/* Comment */
+#.*$					{}
 
 	/* Error check */
 .						{ LexError( *yytext ); }

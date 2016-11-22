@@ -22,7 +22,7 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 	mExpression->GenCode(helper);
 
 	// conditional branch to end
-	IRRegisterOperand* condition = mExpression->GetResultRegister();
+	IROperand* condition = mExpression->GetResultRegister();
 	IRInstruction* ifOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	ifOp->SetOperand(0, condition);
 	ifOp->SetOperand(1, new IRLabelOperand(elseLabel));

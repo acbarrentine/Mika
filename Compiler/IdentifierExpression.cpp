@@ -24,14 +24,21 @@ void IdentifierExpression::ResolveType(SymbolTable& symbolTable)
 
 void IdentifierExpression::GenCode(ObjectFileHelper& helper)
 {
-	mResultRegister = new IRRegisterOperand;
+	if (mVariable)
+	{
+		mResultRegister = new IRVariableOperand(mVariable);
+	}
+	else
+	{
+		IRInstruction* op = helper.EmitInstruction(CopyStackToStack, mRootToken);
+		op->SetOperand(0, mResultRegister);
+		op->SetOperand(1, new IRVariableOperand(mVariable));
 
-	IRInstruction* op = helper.EmitInstruction(CopyStackToStack, mRootToken);
-	op->SetOperand(0, mResultRegister);
-	op->SetOperand(1, new IRVariableOperand(mVariable));
+		mResultRegister = new IRRegisterOperand;
+	}
 }
 
-void IdentifierExpression::GenAssign(ObjectFileHelper& helper, IRRegisterOperand* src)
+void IdentifierExpression::GenAssign(ObjectFileHelper& helper, IROperand* src)
 {
 	if (mVariable)
 	{
