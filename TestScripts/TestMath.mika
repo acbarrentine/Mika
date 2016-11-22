@@ -8,7 +8,13 @@ fun TestIntMath() : void
 {
 	AssertEqualsInt(4, 4)
 	AssertEqualsInt(9 + 13, 22)
+
+	AssertEqualsInt(SquareInt(5), 25)
+	three : int <- 3
+	AssertEqualsInt(SquareInt(three), 9)
 }
+
+fun SquareInt(val:int):int return val * val
 
 fun TestFloatMath() : void
 {

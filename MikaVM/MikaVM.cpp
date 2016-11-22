@@ -206,6 +206,11 @@ void Glue_CopyStackToStack(MikaVM* vm)
 void Glue_PushArgument(MikaVM* vm)
 {
 	MikaVM::Cell value = vm->GetOperandStackValue(0);
+	MikaVM::Cell resetArgs = vm->GetOperand(1);
+	if (resetArgs.mIntVal)
+	{
+		vm->ResetFunctionArgs();
+	}
 	vm->PushFunctionArg(value);
 }
 
@@ -217,8 +222,6 @@ void Glue_CallNativeFunction(MikaVM* vm)
 	assert(glue != nullptr);
 
 	glue(vm);
-
-	vm->ResetFunctionArgs();
 }
 
 void Glue_CallScriptFunction(MikaVM* vm)
@@ -345,18 +348,6 @@ void Glue_MultiplyFloat(MikaVM* vm)
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
 	MikaVM::Cell result(lhs.mDblVal * rhs.mDblVal);
 	vm->CopyToStack(result, destLoc.mIntVal);
-}
-
-void Glue_AssignInt(MikaVM*)
-{
-}
-
-void Glue_AssignFloat(MikaVM*)
-{
-}
-
-void Glue_AssignString(MikaVM*)
-{
 }
 
 void Glue_EqualsInt(MikaVM* vm)

@@ -33,10 +33,12 @@ void FunctionCallExpression::GenCode(ObjectFileHelper& helper)
 		expr->GenCode(helper);
 	}
 
-	for (Expression* expr : mActuals)
+	for (size_t i = 0; i < mActuals.size(); ++i)
 	{
+		Expression* expr = mActuals[i];
 		IRInstruction* pushOp = helper.EmitInstruction(PushArgument, expr->GetRootToken());
 		pushOp->SetOperand(0, expr->GetResultRegister());
+		pushOp->SetOperand(1, new IRIntOperand(i == 0));
 	}
 
 	OpCode code = mDeclaration->IsScriptFunction() ? CallScriptFunction : CallNativeFunction;
