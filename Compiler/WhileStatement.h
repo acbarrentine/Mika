@@ -6,8 +6,8 @@
 class WhileStatement : public Statement
 {
 protected:
-	std::unique_ptr<Expression> mExpression;
-	std::unique_ptr<Statement> mLoop;
+	Expression* mExpression;
+	Statement* mLoop;
 
 public:
 	WhileStatement(int rootToken)
@@ -16,8 +16,8 @@ public:
 		, mLoop(nullptr)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
-	void SetLoop(Statement* stmt) { mLoop = std::unique_ptr<Statement>(stmt); }
+	void SetExpression(Expression* expr) { mExpression = expr; }
+	void SetLoop(Statement* stmt) { mLoop = stmt; }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

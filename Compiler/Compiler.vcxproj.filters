@@ -5,16 +5,16 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\Generated">
+    <Filter Include="Source Files\Lexing">
       <UniqueIdentifier>{82f44b9e-7e32-4dd8-8d87-66c7649fd1b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlueSyntax.flex.cpp">
-      <Filter>Source Files\Generated</Filter>
+      <Filter>Source Files\Lexing</Filter>
     </ClCompile>
     <ClCompile Include="ScriptSyntax.flex.cpp">
-      <Filter>Source Files\Generated</Filter>
+      <Filter>Source Files\Lexing</Filter>
     </ClCompile>
     <ClCompile Include="BinaryExpression.cpp">
       <Filter>Source Files</Filter>
@@ -92,6 +92,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Expression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -198,13 +201,16 @@
     <ClInclude Include="AssignmentExpression.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Flex Include="GlueSyntax.l">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Lexing</Filter>
     </Flex>
     <Flex Include="ScriptSyntax.l">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Lexing</Filter>
     </Flex>
   </ItemGroup>
 </Project>

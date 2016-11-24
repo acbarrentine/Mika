@@ -5,7 +5,7 @@ class SymbolTable;
 class ObjectFileHelper;
 class IROperand;
 
-class Expression
+class Expression : public ManagedEntity
 {
 protected:
 	int mRootToken;

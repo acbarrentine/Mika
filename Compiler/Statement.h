@@ -3,7 +3,7 @@
 class SymbolTable;
 class ObjectFileHelper;
 
-class Statement
+class Statement : public ManagedEntity
 {
 protected:
 	int mRootToken;

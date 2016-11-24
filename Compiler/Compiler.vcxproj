@@ -36,6 +36,7 @@
     <ClCompile Include="IfStatement.cpp" />
     <ClCompile Include="IntConstantExpression.cpp" />
     <ClCompile Include="IRCode.cpp" />
+    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="ObjectFileHelper.cpp" />
     <ClCompile Include="ReturnStatement.cpp" />
     <ClCompile Include="ScriptFunction.cpp" />
@@ -71,6 +72,7 @@
     <ClInclude Include="IfStatement.h" />
     <ClInclude Include="IntConstantExpression.h" />
     <ClInclude Include="IRCode.h" />
+    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="ObjectFileHelper.h" />
     <ClInclude Include="Optimizer.h" />
     <ClInclude Include="ReferenceCollector.h" />

@@ -5,7 +5,7 @@
 
 void VariableDeclarationStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	symbolTable.AddVariable(mVariable.get());
+	symbolTable.AddVariable(mVariable);
 	if (mExpression)
 	{
 		mExpression->ResolveType(symbolTable);
@@ -21,7 +21,7 @@ void VariableDeclarationStatement::GenCode(ObjectFileHelper& helper)
 		mExpression->GenCode(helper);
 
 		IRInstruction* op = helper.EmitInstruction(CopyStackToStack, mRootToken);
-		op->SetOperand(0, new IRVariableOperand(mVariable.get()));
+		op->SetOperand(0, new IRVariableOperand(mVariable));
 		op->SetOperand(1, mExpression->GetResultRegister());
 	}
 }

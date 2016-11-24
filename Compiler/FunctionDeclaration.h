@@ -5,13 +5,13 @@
 
 class SymbolTable;
 
-class FunctionDeclaration
+class FunctionDeclaration : public ManagedEntity
 {
 protected:
 	int mRootToken;
 	Identifier mName;
 	class Type* mReturnType;
-	std::vector<std::unique_ptr<Variable>> mParameterList;
+	std::vector<Variable*> mParameterList;
 
 public:
 	FunctionDeclaration(int rootToken)

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "MemoryManager.h"
 #include "Compiler.h"
 #include "ScriptTokenizer.h"
 #include "GlueTokenizer.h"
@@ -33,16 +34,20 @@ Compiler::Compiler()
 	, mCurrentTokenIndex(0)
 	, mCurrentTokenType(TType::kInvalid)
 	, mCurrentToken(nullptr)
+	, mGlobalBody(nullptr)
 {
 	Reset();
 }
 
 void Compiler::Reset()
 {
+	GMemoryManager.Reset();
+
 	mErrorCount = 0;
 	mCurrentTokenIndex = 0;
 	mCurrentTokenType = TType::kInvalid;
 	mCurrentToken = nullptr;
+	mGlobalBody = nullptr;
 	mTokenList.clear();
 	mFileNames.clear();
 	mStemNames.clear();
@@ -212,6 +217,14 @@ void Compiler::ParseScript()
 {
 	StartParse();
 
+	// create a global function to contain global-scoped initializers
+	ScriptFunction* globalFunc = new ScriptFunction(mCurrentTokenIndex, true);
+	globalFunc->SetName(AddIdentifier("__global__"));
+	globalFunc->SetReturnType(FindType(TType::kVoid));
+	mGlobalBody = new CompoundStatement(mCurrentTokenIndex);
+	globalFunc->SetStatement(mGlobalBody);
+	mScriptFunctions.push_back(globalFunc);
+
 	while (mCurrentTokenType != TType::kEOF)
 	{
 		ParseScriptDeclaration();
@@ -222,14 +235,10 @@ void Compiler::AnalyzeScript()
 {
 	SymbolTable symbolTable;
 
-	// TODO global variables?
-
-	symbolTable.Push();
 	for (ScriptFunction* func : mScriptFunctions)
 	{
 		func->ResolveTypes(symbolTable);
 	}
-	symbolTable.Pop();
 }
 
 void Compiler::WriteObjectFile(const char* objectFileName, const char* debugFileName)
@@ -288,7 +297,7 @@ Token& Compiler::CreateToken(TType tokenType, int fileIndex, int lineNumber)
 FunctionDeclaration* Compiler::FindDeclaration(Identifier name)
 {
 	FunctionDeclarationMap::iterator it = mDeclarations.find(name);
-	return it != mDeclarations.end() ? it->second.get() : nullptr;
+	return it != mDeclarations.end() ? it->second : nullptr;
 }
 
 Type* Compiler::FindType(TType tokenType)
@@ -300,13 +309,13 @@ Type* Compiler::FindType(TType tokenType)
 Type* Compiler::FindType(Identifier name)
 {
 	TypeMap::iterator it = mTypes.find(name);
-	return it != mTypes.end() ? it->second.get() : nullptr;
+	return it != mTypes.end() ? it->second : nullptr;
 }
 
 void Compiler::RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size)
 {
 	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
-	mTypes.insert(std::make_pair(id, std::make_unique<Type>(id, nativeName, cellField, size)));
+	mTypes.insert(std::make_pair(id, new Type(id, nativeName, cellField, size)));
 }
 
 Type* Compiler::ParseType()
@@ -397,26 +406,39 @@ void Compiler::ParseGlueFunctionDeclaration()
 	Type* returnType = ParseType();
 	decl->SetReturnType(returnType);
 
-  	mDeclarations[id] = std::unique_ptr<FunctionDeclaration>(decl);
+  	mDeclarations[id] = decl;
 	mOrderedDeclarations.push_back(decl);
 }
 
 void Compiler::ParseScriptDeclaration()
 {
-	if (mCurrentTokenType == TType::kFun)
+	switch (mCurrentTokenType)
 	{
-		NextToken();
-		ParseScriptFunction();
-		return;
-	}
+		case TType::kFun:
+			NextToken();
+			ParseScriptFunction();
+			break;
+		
+		case TType::kIdentifier:
+			ParseScriptGlobalVariable();
+			break;
 
-	Error(mCurrentTokenIndex, "Unrecognized script declaration");
-	NextToken();
+		default:
+			Error(mCurrentTokenIndex, "Unrecognized script declaration");
+			NextToken();
+			break;
+	}
+}
+
+void Compiler::ParseScriptGlobalVariable()
+{
+	Statement* stmt = ParseScriptVariableDeclaration();
+	mGlobalBody->AddStatement(stmt);
 }
 
 void Compiler::ParseScriptFunction()
 {
-	ScriptFunction* func = new ScriptFunction(mCurrentTokenIndex);
+	ScriptFunction* func = new ScriptFunction(mCurrentTokenIndex, false);
 	Identifier name;
 	if (mCurrentTokenType != TType::kIdentifier)
 	{

@@ -6,7 +6,7 @@
 class ReturnStatement : public Statement
 {
 protected:
-	std::unique_ptr<Expression> mExpression;
+	Expression* mExpression;
 
 public:
 	ReturnStatement(int rootToken)
@@ -14,7 +14,7 @@ public:
 		, mExpression(nullptr)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
+	void SetExpression(Expression* expr) { mExpression = expr; }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

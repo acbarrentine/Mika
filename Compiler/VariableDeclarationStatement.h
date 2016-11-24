@@ -7,8 +7,8 @@
 class VariableDeclarationStatement : public Statement
 {
 protected:
-	std::unique_ptr<Expression> mExpression;
-	std::unique_ptr<Variable> mVariable;
+	Expression* mExpression;
+	Variable* mVariable;
 
 public:
 	VariableDeclarationStatement(int rootToken)
@@ -17,8 +17,8 @@ public:
 		, mVariable(nullptr)
 	{}
 
-	void SetExpression(Expression* expr) { mExpression = std::unique_ptr<Expression>(expr); }
-	void SetVariable(Variable* var) { mVariable = std::unique_ptr<Variable>(var); }
+	void SetExpression(Expression* expr) { mExpression = expr; }
+	void SetVariable(Variable* var) { mVariable = var; }
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

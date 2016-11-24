@@ -25,13 +25,14 @@ class ExpressionStatement;
 class Compiler
 {
 protected:
-	typedef std::map<Identifier, std::unique_ptr<FunctionDeclaration>> FunctionDeclarationMap;
-	typedef std::map<Identifier, std::unique_ptr<Type>> TypeMap;
+	typedef std::map<Identifier, FunctionDeclaration*> FunctionDeclarationMap;
+	typedef std::map<Identifier, Type*> TypeMap;
 
 	int mErrorCount;
 	int mCurrentTokenIndex;
 	TType mCurrentTokenType;
 	Token* mCurrentToken;
+	CompoundStatement* mGlobalBody;
 	std::vector<Token> mTokenList;
 	std::vector<Identifier> mFileNames;
 	std::vector<Identifier> mStemNames;
@@ -83,6 +84,7 @@ protected:
 	void ParseGlueFunctionDeclaration();
 
 	void ParseScriptDeclaration();
+	void ParseScriptGlobalVariable();
 	void ParseScriptFunction();
 	Statement* ParseScriptStatement();
 	Statement* ParseScriptCompoundStatement();

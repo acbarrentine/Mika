@@ -37,7 +37,7 @@ public:
 	virtual void Visit(class IRReturnInstruction*) = 0;
 };
 
-class IROperand
+class IROperand : public ManagedEntity
 {
 public:
 	virtual void Accept(IRVisitor* visitor, bool forWrite) = 0;
@@ -193,7 +193,7 @@ public:
 	friend class Optimizer;
 };
 
-class IRInstruction
+class IRInstruction : public ManagedEntity
 {
 public:
 	struct OpCodeData

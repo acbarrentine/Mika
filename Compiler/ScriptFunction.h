@@ -12,19 +12,22 @@ class ObjectFileHelper;
 class ScriptFunction : public FunctionDeclaration
 {
 protected:
-	std::unique_ptr<Statement> mStatement;
+	Statement* mStatement;
+	bool mIsGlobal;
 
 public:
-	ScriptFunction(int rootToken)
+	ScriptFunction(int rootToken, bool isGlobal)
 		: FunctionDeclaration(rootToken)
+		, mIsGlobal(isGlobal)
 	{}
 
 	virtual void SetName(Identifier name);
 	virtual bool IsScriptFunction() const { return true; }
+	bool IsGlobal() const { return mIsGlobal; }
 
 	void SetStatement(Statement* stmt)
 	{
-		mStatement = std::unique_ptr<Statement>(stmt);
+		mStatement = stmt;
 	}
 
 	void ResolveTypes(SymbolTable& symbolTable);

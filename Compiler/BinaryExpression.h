@@ -8,16 +8,16 @@ enum TType : int;
 class BinaryExpression : public Expression
 {
 protected:
-	std::unique_ptr<Expression> mLeft;
-	std::unique_ptr<Expression> mRight;
+	Expression* mLeft;
+	Expression* mRight;
 	TType mTokenType;
 	OpCode mOpCode;
 
 public:
 	BinaryExpression(int rootToken);
 
-	void SetLeft(Expression* expr) { mLeft = std::unique_ptr<Expression>(expr); }
-	void SetRight(Expression* expr) { mRight = std::unique_ptr<Expression>(expr); }
+	void SetLeft(Expression* expr) { mLeft = expr; }
+	void SetRight(Expression* expr) { mRight = expr; }
 
 	int GetPrecedence() const;
 

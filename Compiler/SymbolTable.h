@@ -11,7 +11,13 @@ protected:
 
 public:
 	SymbolTable()
-	{}
+	{
+		Push();
+	}
+	~SymbolTable()
+	{
+		Pop();
+	}
 
 	void Push()
 	{

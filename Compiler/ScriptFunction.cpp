@@ -19,10 +19,13 @@ void ScriptFunction::SetName(Identifier name)
 
 void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 {
-	symbolTable.Push();
+	if (!mIsGlobal)
+		symbolTable.Push();
+	
 	BindParameters(symbolTable);
 	mStatement->ResolveTypes(symbolTable);
-	symbolTable.Pop();
+	
+	if (!mIsGlobal) symbolTable.Pop();
 }
 
 void ScriptFunction::GenCode(ObjectFileHelper& helper)
