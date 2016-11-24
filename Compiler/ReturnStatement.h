@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Statement.h"
-#include "Expression.h"
+
+class Expression;
 
 class ReturnStatement : public Statement
 {

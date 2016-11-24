@@ -24,12 +24,16 @@ public:
 	void Visit(IRVariableOperand* op, bool) override
 	{
 		Variable* var = op->mVariable;
-		mStream << "%" << var->GetName().GetString() << " (" << std::setbase(16) << var->GetStackOffset() << ")";
+		if (var->GetIsGlobal())
+			mStream << "g";
+		else
+			mStream << "%";
+		mStream << std::setbase(10) << var->GetStackOffset() << " (" << var->GetName().GetString() <<  ")";
 	}
 
 	void Visit(IRRegisterOperand* op, bool) override
 	{
-		mStream << "%" << std::setbase(10) << op->mTempRegister;
+		mStream << "%" << std::setbase(10) << op->mStackOffset;
 	}
 
 	void Visit(IRLabelOperand* op, bool) override

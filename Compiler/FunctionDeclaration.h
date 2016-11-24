@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Identifier.h"
-#include "Variable.h"
 
+class Variable;
 class SymbolTable;
 
 class FunctionDeclaration : public ManagedEntity

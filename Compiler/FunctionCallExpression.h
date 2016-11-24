@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Expression.h"
+
 class FunctionDeclaration;
 
 class FunctionCallExpression : public Expression

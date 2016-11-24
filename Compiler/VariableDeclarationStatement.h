@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Statement.h"
-#include "Expression.h"
-#include "Variable.h"
+
+class Expression;
+class Variable;
 
 class VariableDeclarationStatement : public Statement
 {
@@ -19,6 +20,7 @@ public:
 
 	void SetExpression(Expression* expr) { mExpression = expr; }
 	void SetVariable(Variable* var) { mVariable = var; }
+	void SetGlobal(bool isGlobal);
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;

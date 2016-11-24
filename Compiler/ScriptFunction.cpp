@@ -2,7 +2,7 @@
 #include "Identifier.h"
 #include "ScriptFunction.h"
 #include "FunctionDeclaration.h"
-#include "Statement.h"
+#include "CompoundStatement.h"
 #include "Variable.h"
 #include "SymbolTable.h"
 #include "ObjectFileHelper.h"
@@ -15,6 +15,11 @@ void ScriptFunction::SetName(Identifier name)
 	Token& tok = GCompiler.GetToken(mRootToken);
 	Identifier fileNameStem = GCompiler.GetStemName(tok.GetFileIndex());
 	mName = GCompiler.ComposeIdentifier("%s:%s", fileNameStem.GetString(), name.GetString());
+}
+
+void ScriptFunction::AddStatement(Statement* stmt)
+{
+	mStatement->AddStatement(stmt);
 }
 
 void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)

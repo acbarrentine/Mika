@@ -2,6 +2,7 @@
 #include "MikaArchive.h"
 #include "MikaVM.h"
 #include "Glue.h"
+#include "Catch.hpp"
 
 MikaVM::MikaVM(int stackSize)
 	: mOperands(nullptr)
@@ -30,9 +31,9 @@ void MikaVM::Import(const char* fileName)
 void MikaVM::Execute(const char* functionName)
 {
 	Function* func = GetScriptFunction(functionName);
+	REQUIRE(func);
 	if (!func)
 	{
-		std::cerr << "Function " << functionName << " not found." << std::endl;
 		return;
 	}
 
@@ -91,8 +92,18 @@ MikaVM::Cell MikaVM::GetFunctionArg(int index)
 MikaVM::Cell MikaVM::GetStackValue(int offset)
 {
 	Location& loc = GetLocation();
-	assert(loc.BasePtr + offset < loc.StackPtr);
-	Cell* cell = (Cell*)(loc.BasePtr + offset);
+	Cell* cell;
+	if (offset & 0x80000000)
+	{
+		offset &= ~0x80000000;
+		assert(loc.Func->mGlobalContext->mStack.size() > offset);
+		cell = (Cell*)(&loc.Func->mGlobalContext->mStack[0] + offset);
+	}
+	else
+	{
+		assert(loc.BasePtr + offset < loc.StackPtr);
+		cell = (Cell*)(loc.BasePtr + offset);
+	}
 	return *cell;
 }
 
@@ -125,8 +136,18 @@ void MikaVM::PushFunctionArg(MikaVM::Cell value)
 void MikaVM::CopyToStack(Cell value, int stackOffset)
 {
 	Location& loc = GetLocation();
-	assert(loc.BasePtr + stackOffset < loc.StackPtr);
-	Cell* cell = (Cell*)(loc.BasePtr + stackOffset);
+	Cell* cell;
+	if (stackOffset & 0x80000000)
+	{
+		stackOffset &= ~0x80000000;
+		assert(loc.Func->mGlobalContext->mStack.size() > stackOffset);
+		cell = (Cell*)(&loc.Func->mGlobalContext->mStack[0] + stackOffset);
+	}
+	else
+	{
+		assert(loc.BasePtr + stackOffset < loc.StackPtr);
+		cell = (Cell*)(loc.BasePtr + stackOffset);
+	}
 	*cell = value;
 }
 

@@ -30,14 +30,28 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			}
 		}
 
+		// allocate the global context for use with this script's functions
+		MikaVM::GlobalContext* globalContext = new MikaVM::GlobalContext;
+		globalContext->mStringData = std::move(fileHeader.mStringData);
+		const char* globalName = nullptr;
+		int globalStackSize = 0;
+
 		// add each function to the VM
-		for (MikaArchiveFunctionHeader& arHeader : fileHeader.mFunctions)
+		for (size_t i = 0; i < fileHeader.mFunctions.size(); ++i)
 		{
+			MikaArchiveFunctionHeader& arHeader = fileHeader.mFunctions[i];
+			
 			MikaVM::Function runTimeHeader;
-			runTimeHeader.mStringData = std::move(arHeader.mStringData);
 			runTimeHeader.mByteData = std::move(arHeader.mByteData);
-			runTimeHeader.mName = &runTimeHeader.mStringData[0];
+			runTimeHeader.mName = &globalContext->mStringData[arHeader.mNameOffset];
 			runTimeHeader.mStackSize = arHeader.mStackSize;
+			runTimeHeader.mGlobalContext = globalContext;
+
+			if (i == 0)
+			{
+				globalName = runTimeHeader.mName;
+				globalStackSize = runTimeHeader.mStackSize;
+			}
 
 			// fixup function references
 			for (size_t pcOffset = 0; pcOffset < runTimeHeader.mByteData.size(); )
@@ -55,11 +69,18 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			for (int& fixup : arHeader.mStringFixups)
 			{
 				MikaVM::Cell* location = (MikaVM::Cell*) (&runTimeHeader.mByteData[fixup]);
-				const char* str = &runTimeHeader.mStringData[location->mIntVal];
+				const char* str = &globalContext->mStringData[location->mIntVal];
 				location->mPtrVal = (void*) str;
 			}
 
 			vm->mScriptFunctions.insert(std::make_pair(runTimeHeader.mName, std::move(runTimeHeader)));
+		}
+
+		// initialize the global stack
+		if (globalName)
+		{
+			globalContext->mStack.insert(globalContext->mStack.begin(), globalStackSize, 0);
+			vm->Execute(globalName);
 		}
 	}
 }

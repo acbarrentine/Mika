@@ -2,6 +2,14 @@
 #include "VariableDeclarationStatement.h"
 #include "ObjectFileHelper.h"
 #include "SymbolTable.h"
+#include "Compiler.h"
+#include "Expression.h"
+#include "Variable.h"
+
+void VariableDeclarationStatement::SetGlobal(bool isGlobal)
+{
+	mVariable->SetIsGlobal(isGlobal);
+}
 
 void VariableDeclarationStatement::ResolveTypes(SymbolTable& symbolTable)
 {
@@ -10,7 +18,10 @@ void VariableDeclarationStatement::ResolveTypes(SymbolTable& symbolTable)
 	{
 		mExpression->ResolveType(symbolTable);
 
-		// TODO - check compatibility with the variable
+		if (mExpression->GetType() != mVariable->GetType())
+		{
+			GCompiler.Error(mExpression->GetRootToken(), "initializer type incompatible with variable type");
+		}
 	}
 }
 

@@ -5,11 +5,13 @@
 class ReferenceCollector : public IRVisitor
 {
 protected:
+	ObjectFileHelper& mHelper;
 	ObjectFileHelper::FunctionRecord& mRecord;
 
 public:
-	ReferenceCollector(ObjectFileHelper::FunctionRecord& record)
-		: mRecord(record)
+	ReferenceCollector(ObjectFileHelper& helper, ObjectFileHelper::FunctionRecord& record)
+		: mHelper(helper)
+		, mRecord(record)
 	{
 	}
 
@@ -20,12 +22,12 @@ public:
 
 	void Visit(IRFunctionOperand* op, bool) override
 	{
-		op->mStringOffset =	mRecord.AddString(op->mFunction->GetName());
+		op->mStringOffset =	mHelper.AddString(op->mFunction->GetName());
 	}
 
 	void Visit(IRStringOperand* op, bool) override
 	{
-		op->mStringOffset = mRecord.AddString(op->mValue);
+		op->mStringOffset = mHelper.AddString(op->mValue);
 	}
 
 	void Visit(IRRegisterOperand*, bool) override {}
@@ -63,7 +65,7 @@ public:
 	void Visit(IRVariableOperand* op, bool) override
 	{
 		Variable* var = op->mVariable;
-		if (var->GetStackOffset() < 0)
+		if (!var->IsStackOffsetAssigned())
 		{
 			Type* varType = var->GetType();
 			int size = varType->GetSize();

@@ -7,10 +7,10 @@ class ByteCodeWriter : public IRVisitor
 protected:
 	struct ByteStream : public MikaArchive
 	{
-		std::vector<unsigned char>& mByteCode;
-		unsigned char* mHead;
+		std::vector<char>& mByteCode;
+		char* mHead;
 
-		ByteStream(std::vector<unsigned char>& byteCode)
+		ByteStream(std::vector<char>& byteCode)
 			: mByteCode(byteCode)
 		{
 		}
@@ -47,7 +47,12 @@ public:
 	void Visit(IRVariableOperand* op, bool) override
 	{
 		MikaArchiveCell cell;
-		cell.mIntVal = op->mVariable->GetStackOffset();
+		Variable* var = op->mVariable;
+		cell.mIntVal = var->GetStackOffset();
+		if (var->GetIsGlobal())
+		{
+			cell.mIntVal |= 0x80000000;
+		}
 		mByteStream << cell;
 	}
 

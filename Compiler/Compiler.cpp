@@ -34,7 +34,6 @@ Compiler::Compiler()
 	, mCurrentTokenIndex(0)
 	, mCurrentTokenType(TType::kInvalid)
 	, mCurrentToken(nullptr)
-	, mGlobalBody(nullptr)
 {
 	Reset();
 }
@@ -47,7 +46,6 @@ void Compiler::Reset()
 	mCurrentTokenIndex = 0;
 	mCurrentTokenType = TType::kInvalid;
 	mCurrentToken = nullptr;
-	mGlobalBody = nullptr;
 	mTokenList.clear();
 	mFileNames.clear();
 	mStemNames.clear();
@@ -221,8 +219,8 @@ void Compiler::ParseScript()
 	ScriptFunction* globalFunc = new ScriptFunction(mCurrentTokenIndex, true);
 	globalFunc->SetName(AddIdentifier("__global__"));
 	globalFunc->SetReturnType(FindType(TType::kVoid));
-	mGlobalBody = new CompoundStatement(mCurrentTokenIndex);
-	globalFunc->SetStatement(mGlobalBody);
+	CompoundStatement* globalBody = new CompoundStatement(mCurrentTokenIndex);
+	globalFunc->SetStatement(globalBody);
 	mScriptFunctions.push_back(globalFunc);
 
 	while (mCurrentTokenType != TType::kEOF)
@@ -432,8 +430,9 @@ void Compiler::ParseScriptDeclaration()
 
 void Compiler::ParseScriptGlobalVariable()
 {
-	Statement* stmt = ParseScriptVariableDeclaration();
-	mGlobalBody->AddStatement(stmt);
+	VariableDeclarationStatement* stmt = ParseScriptVariableDeclaration();
+	stmt->SetGlobal(true);
+	mScriptFunctions[0]->AddStatement(stmt);
 }
 
 void Compiler::ParseScriptFunction()
@@ -461,7 +460,7 @@ void Compiler::ParseScriptFunction()
 	func->SetReturnType(returnType);
 	func->SetName(name);
 
-	Statement* body = ParseScriptStatement();
+	CompoundStatement* body = ParseScriptCompoundStatement();
 	func->SetStatement(body);
 
 	mScriptFunctions.push_back(func);
@@ -490,14 +489,21 @@ Statement* Compiler::ParseScriptStatement()
 			break;
 
 		default:
-			retVal = ParseScriptExpressionStatement();
+			if (Peek(TType::kColon))
+			{
+				retVal = ParseScriptVariableDeclaration();
+			}
+			else
+			{
+				retVal = ParseScriptExpressionStatement();
+			}
 			break;
 	}
 	
 	return retVal;
 }
 
-Statement* Compiler::ParseScriptCompoundStatement()
+CompoundStatement* Compiler::ParseScriptCompoundStatement()
 {
 	CompoundStatement* cmpStmt = new CompoundStatement(mCurrentTokenIndex);
 
@@ -513,7 +519,7 @@ Statement* Compiler::ParseScriptCompoundStatement()
 	return cmpStmt;
 }
 
-Statement* Compiler::ParseScriptIfStatement()
+IfStatement* Compiler::ParseScriptIfStatement()
 {
 	IfStatement* ifStmt = new IfStatement(mCurrentTokenIndex);
 
@@ -534,7 +540,7 @@ Statement* Compiler::ParseScriptIfStatement()
 	return ifStmt;
 }
 
-Statement* Compiler::ParseScriptWhileStatement()
+WhileStatement* Compiler::ParseScriptWhileStatement()
 {
 	WhileStatement* whileStmt = new WhileStatement(mCurrentTokenIndex);
 	Expect(TType::kWhile);
@@ -545,7 +551,7 @@ Statement* Compiler::ParseScriptWhileStatement()
 	return whileStmt;
 }
 
-Statement* Compiler::ParseScriptReturnStatement()
+ReturnStatement* Compiler::ParseScriptReturnStatement()
 {
 	ReturnStatement* retStmt = new ReturnStatement(mCurrentTokenIndex);
 	Expect(TType::kReturn);
@@ -554,7 +560,7 @@ Statement* Compiler::ParseScriptReturnStatement()
 	return retStmt;
 }
 
-Statement* Compiler::ParseScriptVariableDeclaration()
+VariableDeclarationStatement* Compiler::ParseScriptVariableDeclaration()
 {
 	VariableDeclarationStatement* varStmt = new VariableDeclarationStatement(mCurrentTokenIndex);
 
@@ -594,13 +600,8 @@ Statement* Compiler::ParseScriptVariableDeclaration()
 	return varStmt;
 }
 
-Statement* Compiler::ParseScriptExpressionStatement()
+ExpressionStatement* Compiler::ParseScriptExpressionStatement()
 {
-	if (Peek(TType::kColon))
-	{
-		return ParseScriptVariableDeclaration();
-	}
-
 	ExpressionStatement* exprStmt = new ExpressionStatement(mCurrentTokenIndex);
 	Expression* expr = ParseScriptExpression();
 	if (!expr)

@@ -5,16 +5,16 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Source Files\Lexing">
+    <Filter Include="Source Files\Lexer">
       <UniqueIdentifier>{82f44b9e-7e32-4dd8-8d87-66c7649fd1b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GlueSyntax.flex.cpp">
-      <Filter>Source Files\Lexing</Filter>
+      <Filter>Source Files\Lexer</Filter>
     </ClCompile>
     <ClCompile Include="ScriptSyntax.flex.cpp">
-      <Filter>Source Files\Lexing</Filter>
+      <Filter>Source Files\Lexer</Filter>
     </ClCompile>
     <ClCompile Include="BinaryExpression.cpp">
       <Filter>Source Files</Filter>
@@ -207,10 +207,10 @@
   </ItemGroup>
   <ItemGroup>
     <Flex Include="GlueSyntax.l">
-      <Filter>Source Files\Lexing</Filter>
+      <Filter>Source Files\Lexer</Filter>
     </Flex>
     <Flex Include="ScriptSyntax.l">
-      <Filter>Source Files\Lexing</Filter>
+      <Filter>Source Files\Lexer</Filter>
     </Flex>
   </ItemGroup>
 </Project>

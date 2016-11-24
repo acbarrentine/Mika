@@ -47,15 +47,15 @@ struct MikaArchiveStringFixup
 
 struct MikaArchiveFunctionHeader
 {
+	unsigned int mNameOffset;
 	unsigned int mStackSize;
-	std::vector<char> mStringData;
-	std::vector<unsigned char> mByteData;
+	std::vector<char> mByteData;
 	std::vector<int> mStringFixups;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFunctionHeader& header)
 	{
+		ar << header.mNameOffset;
 		ar << header.mStackSize;
-		ar << header.mStringData;
 		ar << header.mByteData;
 		ar << header.mStringFixups;
 		return ar;
@@ -65,11 +65,13 @@ struct MikaArchiveFunctionHeader
 struct MikaArchiveFileHeader
 {
 	unsigned int mMagic;
+	std::vector<char> mStringData;
 	std::vector<MikaArchiveFunctionHeader> mFunctions;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFileHeader& header)
 	{
 		ar << header.mMagic;
+		ar << header.mStringData;
 		ar << header.mFunctions;
 		return ar;
 	}

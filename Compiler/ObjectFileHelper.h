@@ -12,18 +12,18 @@ protected:
 	struct FunctionRecord
 	{
 		ScriptFunction* mFunction;
+		int mNameOffset;
 		int mStackUsage;
 		std::vector<IRInstruction*> mInstructions;
-		std::vector<char> mStringData;
-		std::vector<unsigned char> mByteCodeData;
+		std::vector<char> mByteCodeData;
 		std::vector<int> mStringFixups;
 
-		FunctionRecord(ScriptFunction* func);
-		int AddString(Identifier id);
+		FunctionRecord(ScriptFunction* func, int nameOffset);
 		void AddStringFixup(int stackOffset);
 	};
 
 	std::vector<FunctionRecord> mFunctions;
+	std::vector<char> mStringData;
 
 public:
 	ObjectFileHelper()
@@ -31,7 +31,7 @@ public:
 	}
 
 	void AddFunction(ScriptFunction* func);
-	void AddVariable(Variable* var);
+	int AddString(Identifier id);
 
 	IRInstruction* EmitInstruction(OpCode opCode, int rootToken);
 	void EmitReturn(int rootToken);

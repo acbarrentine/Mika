@@ -33,21 +33,12 @@ public:
 	bool Failed() { return mStream.bad(); }
 };
 
-ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func)
+ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func, int nameOffset)
 	: mFunction(func)
+	, mNameOffset(nameOffset)
 	, mStackUsage(0)
 {
-	AddString(func->GetName());
 	mInstructions.reserve(200);
-}
-
-int ObjectFileHelper::FunctionRecord::AddString(Identifier id)
-{
-	size_t len = mStringData.size();
-	const char* str = id.GetString();
-	mStringData.insert(mStringData.end(), str, str + strlen(str));
-	mStringData.push_back('\0');
-	return (int)len;
 }
 
 void ObjectFileHelper::FunctionRecord::AddStringFixup(int stackOffset)
@@ -57,7 +48,7 @@ void ObjectFileHelper::FunctionRecord::AddStringFixup(int stackOffset)
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
-	mFunctions.emplace_back(func);
+	mFunctions.emplace_back(func, AddString(func->GetName()));
 	func->GenCode(*this);
 
 	FunctionRecord& record = mFunctions.back();
@@ -72,9 +63,13 @@ void ObjectFileHelper::AddFunction(ScriptFunction* func)
 	byteCodeWriter.WriteFunction();
 }
 
-void ObjectFileHelper::AddVariable(Variable* var)
+int ObjectFileHelper::AddString(Identifier id)
 {
-	var;
+	size_t len = mStringData.size();
+	const char* str = id.GetString();
+	mStringData.insert(mStringData.end(), str, str + strlen(str));
+	mStringData.push_back('\0');
+	return (int)len;
 }
 
 IRInstruction* ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
@@ -114,12 +109,13 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	
 	MikaArchiveFileHeader fileHeader;
 	fileHeader.mMagic = 'MIKA';
+	fileHeader.mStringData = std::move(mStringData);
 
 	for (FunctionRecord& record : mFunctions)
 	{
 		MikaArchiveFunctionHeader header;
+		header.mNameOffset = record.mNameOffset;
 		header.mStackSize = record.mStackUsage;
-		header.mStringData = std::move(record.mStringData);
 		header.mByteData = std::move(record.mByteCodeData);
 		header.mStringFixups = std::move(record.mStringFixups);
 
@@ -147,7 +143,7 @@ void ObjectFileHelper::WriteDebugFile(const char* debugFileName)
 void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 {
 	// mark variables referenced
-	ReferenceCollector collector(record);
+	ReferenceCollector collector(*this, record);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&collector);

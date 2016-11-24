@@ -5,16 +5,18 @@ class MikaVM
 public:
 	typedef void(*GlueFunc)(class MikaVM*);
 
+	struct GlobalContext
+	{
+		std::vector<char> mStack;
+		std::vector<char> mStringData;
+	};
+
 	struct Function
 	{
 		const char* mName;
+		GlobalContext* mGlobalContext;
+		std::vector<char> mByteData;
 		int mStackSize;
-		std::vector<char> mStringData;
-		std::vector<unsigned char> mByteData;
-
-		// TODO
-		// Include a pointer to a shared GlobalContext object that references
-		// any global vars or similar per-script content
 	};
 
 	union Cell

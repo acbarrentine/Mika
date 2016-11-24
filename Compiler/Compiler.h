@@ -21,6 +21,8 @@ class CompoundStatement;
 class IfStatement;
 class WhileStatement;
 class ExpressionStatement;
+class ReturnStatement;
+class VariableDeclarationStatement;
 
 class Compiler
 {
@@ -32,7 +34,6 @@ protected:
 	int mCurrentTokenIndex;
 	TType mCurrentTokenType;
 	Token* mCurrentToken;
-	CompoundStatement* mGlobalBody;
 	std::vector<Token> mTokenList;
 	std::vector<Identifier> mFileNames;
 	std::vector<Identifier> mStemNames;
@@ -87,12 +88,12 @@ protected:
 	void ParseScriptGlobalVariable();
 	void ParseScriptFunction();
 	Statement* ParseScriptStatement();
-	Statement* ParseScriptCompoundStatement();
-	Statement* ParseScriptIfStatement();
-	Statement* ParseScriptWhileStatement();
-	Statement* ParseScriptReturnStatement();
-	Statement* ParseScriptExpressionStatement();
-	Statement* ParseScriptVariableDeclaration();
+	CompoundStatement* ParseScriptCompoundStatement();
+	IfStatement* ParseScriptIfStatement();
+	WhileStatement* ParseScriptWhileStatement();
+	ReturnStatement* ParseScriptReturnStatement();
+	ExpressionStatement* ParseScriptExpressionStatement();
+	VariableDeclarationStatement* ParseScriptVariableDeclaration();
 	Expression* ParseScriptExpression();
 	Expression* ParseScriptPrimaryExpression();
 	Expression* ParseScriptExpressionWithPrecedence(int minPrecedence);

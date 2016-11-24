@@ -2,17 +2,17 @@
 
 class Type;
 class Statement;
+class CompoundStatement;
 class FunctionDeclaration;
 class SymbolTable;
 class ObjectFileHelper;
 
 #include "FunctionDeclaration.h"
-#include "Statement.h"
 
 class ScriptFunction : public FunctionDeclaration
 {
 protected:
-	Statement* mStatement;
+	CompoundStatement* mStatement;
 	bool mIsGlobal;
 
 public:
@@ -25,10 +25,11 @@ public:
 	virtual bool IsScriptFunction() const { return true; }
 	bool IsGlobal() const { return mIsGlobal; }
 
-	void SetStatement(Statement* stmt)
+	void SetStatement(CompoundStatement* stmt)
 	{
 		mStatement = stmt;
 	}
+	void AddStatement(Statement* stmt);
 
 	void ResolveTypes(SymbolTable& symbolTable);
 	void GenCode(ObjectFileHelper& helper);

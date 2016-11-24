@@ -17,7 +17,7 @@ fun TestIntMath() : void
 	AssertEqualsInt(2, 1+2*3-5)
 }
 
-fun SquareInt(val:int):int return val * val
+fun SquareInt(val:int):int { return val * val }
 
 fun TestFloatMath() : void
 {
@@ -28,7 +28,9 @@ fun TestFloatMath() : void
 }
 
 fun Least(left:float, right:float) : float
+{
 	if left < right
 		return left
 	else
 		return right
+}
