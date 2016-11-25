@@ -24,9 +24,11 @@ protected:
 
 	std::vector<FunctionRecord> mFunctions;
 	std::vector<char> mStringData;
+	int mGlobalStackOffset;
 
 public:
 	ObjectFileHelper()
+		: mGlobalStackOffset(0)
 	{
 	}
 

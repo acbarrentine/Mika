@@ -53,12 +53,14 @@ class VariableLocator : public IRVisitor
 {
 protected:
 	int mStackOffset;
+	int& mGlobalStackOffset;
 	int mUsedBytes;
 
 public:
-	VariableLocator(int startOffset)
-		: mStackOffset(startOffset)
-		, mUsedBytes(startOffset)
+	VariableLocator(int& initialGlobalOffset)
+		: mStackOffset(0)
+		, mGlobalStackOffset(initialGlobalOffset)
+		, mUsedBytes(0)
 	{
 	}
 
@@ -71,11 +73,19 @@ public:
 			int size = varType->GetSize();
 			if (size < sizeof(int*))
 				size = sizeof(int*);
-			var->SetStackOffset(mStackOffset);
-			mStackOffset += size;
-			if (mStackOffset > mUsedBytes)
+			if (var->GetIsGlobal())
 			{
-				mUsedBytes = mStackOffset;
+				var->SetStackOffset(mGlobalStackOffset);
+				mGlobalStackOffset += size;
+			}
+			else
+			{
+				var->SetStackOffset(mStackOffset);
+				mStackOffset += size;
+				if (mStackOffset > mUsedBytes)
+				{
+					mUsedBytes = mStackOffset;
+				}
 			}
 		}
 	}

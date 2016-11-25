@@ -48,18 +48,16 @@ public:
 	{
 		MikaArchiveCell cell;
 		Variable* var = op->mVariable;
-		cell.mIntVal = var->GetStackOffset();
-		if (var->GetIsGlobal())
-		{
-			cell.mIntVal |= 0x80000000;
-		}
+		cell.mStackIndex.mOffset = var->GetStackOffset();
+		cell.mStackIndex.mGlobal = var->GetIsGlobal() ? 1 : 0;
 		mByteStream << cell;
 	}
 
 	void Visit(IRRegisterOperand* op, bool) override
 	{
 		MikaArchiveCell cell;
-		cell.mIntVal = op->mStackOffset;
+		cell.mStackIndex.mOffset = op->mStackOffset;
+		cell.mStackIndex.mGlobal = 0;
 		mByteStream << cell;
 	}
 

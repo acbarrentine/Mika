@@ -19,15 +19,24 @@ public:
 		int mStackSize;
 	};
 
+	struct StackIndex
+	{
+		int mOffset;
+		int mGlobal;
+		StackIndex(int offset, bool global) : mOffset(offset), mGlobal(global) {}
+	};
+
 	union Cell
 	{
 		double mDblVal;
 		int mIntVal;
 		void* mPtrVal;
+		StackIndex mStackIndex;
 		Cell() : mDblVal(0) {}
 		Cell(int val) : mIntVal(val) {}
 		Cell(double val) : mDblVal(val) {}
 		Cell(void* val) : mPtrVal(val) {}
+		Cell(int offset, bool global) : mStackIndex(offset, global) {}
 	};
 
 	struct Instruction
@@ -98,13 +107,13 @@ public:
 	Cell GetOperand(int index);
 	Cell GetOperandStackValue(int index);
 	Cell GetFunctionArg(int index);
-	Cell GetStackValue(int offset);
+	Cell GetStackValue(StackIndex index);
 	GlueFunc GetGlueFunction(const char* functionName);
 	Function* GetScriptFunction(const char* functionName);
 	void ResetFunctionArgs();
 
 	void PushFunctionArg(Cell value);
-	void CopyToStack(Cell value, int stackOffset);
+	void SetStackValue(Cell value, StackIndex index);
 	void SetResultRegister(Cell value);
 	Cell GetResultRegister() const;
 

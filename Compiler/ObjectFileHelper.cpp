@@ -109,6 +109,7 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	
 	MikaArchiveFileHeader fileHeader;
 	fileHeader.mMagic = 'MIKA';
+	fileHeader.mGlobalStackSize = mGlobalStackOffset;
 	fileHeader.mStringData = std::move(mStringData);
 
 	for (FunctionRecord& record : mFunctions)
@@ -150,13 +151,12 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 	}
 
 	// assign stack locations to used variables
-	int stackOffset = 0;
-	VariableLocator varLocator(stackOffset);
+	VariableLocator varLocator(mGlobalStackOffset);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&varLocator);
 	}
-	stackOffset = varLocator.GetUsedBytes();
+	int stackOffset = varLocator.GetUsedBytes();
 
 	TempRegisterLocator tempLocator(stackOffset);
 	for (IRInstruction* op : record.mInstructions)

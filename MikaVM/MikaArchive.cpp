@@ -34,7 +34,6 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 		MikaVM::GlobalContext* globalContext = new MikaVM::GlobalContext;
 		globalContext->mStringData = std::move(fileHeader.mStringData);
 		const char* globalName = nullptr;
-		int globalStackSize = 0;
 
 		// add each function to the VM
 		for (size_t i = 0; i < fileHeader.mFunctions.size(); ++i)
@@ -50,7 +49,6 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			if (i == 0)
 			{
 				globalName = runTimeHeader.mName;
-				globalStackSize = runTimeHeader.mStackSize;
 			}
 
 			// fixup function references
@@ -79,7 +77,7 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 		// initialize the global stack
 		if (globalName)
 		{
-			globalContext->mStack.insert(globalContext->mStack.begin(), globalStackSize, 0);
+			globalContext->mStack.insert(globalContext->mStack.begin(), fileHeader.mGlobalStackSize, 0);
 			vm->Execute(globalName);
 		}
 	}

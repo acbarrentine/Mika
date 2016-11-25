@@ -62,15 +62,18 @@ struct MikaArchiveFunctionHeader
 	}
 };
 
+
 struct MikaArchiveFileHeader
 {
 	unsigned int mMagic;
+	int mGlobalStackSize;
 	std::vector<char> mStringData;
 	std::vector<MikaArchiveFunctionHeader> mFunctions;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFileHeader& header)
 	{
 		ar << header.mMagic;
+		ar << header.mGlobalStackSize;
 		ar << header.mStringData;
 		ar << header.mFunctions;
 		return ar;
@@ -106,6 +109,11 @@ struct MikaArchiveCell
 		int mIntVal;
 		double mDblVal;
 		void* mPtrVal;
+		struct
+		{
+			int mOffset;
+			int mGlobal;
+		} mStackIndex;
 	};
 
 	MikaArchiveCell()
