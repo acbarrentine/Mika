@@ -23,6 +23,49 @@ public:
 
 	void Visit(IRInstruction* op)
 	{
+		// look for the use of a temporary holding a value about to
+		// be moved to a variable
+		if (mPrev && op->mCode == CopyStackToStack)
+		{
+			switch (mPrev->mCode)
+			{
+				case AddInt:
+				case AddFloat:
+				case SubtractInt:
+				case SubtractFloat:
+				case DivideInt:
+				case DivideFloat:
+				case MultiplyInt:
+				case MultiplyFloat:
+				case EqualsInt:
+				case EqualsFloat:
+				case EqualsString:
+				case LessEqualsInt:
+				case LessEqualsFloat:
+				case LessEqualsString:
+				case GreaterEqualsInt:
+				case GreaterEqualsFloat:
+				case GreaterEqualsString:
+				case LessThanInt:
+				case LessThanFloat:
+				case LessThanString:
+				case GreaterThanInt:
+				case GreaterThanFloat:
+				case GreaterThanString:
+				case NotEqualsInt:
+				case NotEqualsFloat:
+				case NotEqualsString:
+					if (mPrev->mOperands[0] == op->mOperands[1])
+					{
+						op->Remove();
+						mPrev->mOperands[0] = op->mOperands[0];
+					}
+					break;
+
+				default:
+					break;
+			}
+		}
 		mPrev = op;
 	}
 
