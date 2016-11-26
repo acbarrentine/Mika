@@ -97,6 +97,12 @@
     <ClCompile Include="MemoryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BreakStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinueStatement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryExpression.h">
@@ -205,6 +211,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ContinueStatement.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

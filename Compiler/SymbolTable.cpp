@@ -6,7 +6,9 @@
 void SymbolTable::AddVariable(Variable* var)
 {
 	VariableMap& currentFrame = mVariableLookup.back();
-	currentFrame[var->GetName()] = var;
+	Identifier name = var->GetName();
+	assert(currentFrame.find(name) == currentFrame.end());
+	currentFrame[name] = var;
 }
 
 Variable* SymbolTable::FindVariable(Identifier id)
@@ -27,6 +29,7 @@ Label* SymbolTable::GenLabel(Identifier name, int sequence)
 {
 	Label* label = new Label(name, sequence);
 	LabelMap& currentFrame = mLabelLookup.back();
+	assert(currentFrame.find(name) == currentFrame.end());
 	currentFrame[name] = label;
 	return label;
 }

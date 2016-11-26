@@ -21,8 +21,10 @@
   <ItemGroup>
     <ClCompile Include="AssignmentExpression.cpp" />
     <ClCompile Include="BinaryExpression.cpp" />
+    <ClCompile Include="BreakStatement.cpp" />
     <ClCompile Include="Compiler.cpp" />
     <ClCompile Include="CompoundStatement.cpp" />
+    <ClCompile Include="ContinueStatement.cpp" />
     <ClCompile Include="Expression.cpp" />
     <ClCompile Include="ExpressionStatement.cpp" />
     <ClCompile Include="FloatConstantExpression.cpp" />
@@ -55,10 +57,12 @@
   <ItemGroup>
     <ClInclude Include="AssignmentExpression.h" />
     <ClInclude Include="BinaryExpression.h" />
+    <ClInclude Include="BreakStatement.h" />
     <ClInclude Include="ByteCodeLocator.h" />
     <ClInclude Include="ByteCodeWriter.h" />
     <ClInclude Include="Compiler.h" />
     <ClInclude Include="CompoundStatement.h" />
+    <ClInclude Include="ContinueStatement.h" />
     <ClInclude Include="DebugWriter.h" />
     <ClInclude Include="Expression.h" />
     <ClInclude Include="ExpressionStatement.h" />

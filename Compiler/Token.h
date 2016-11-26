@@ -27,6 +27,8 @@ enum TType : int
 	kIf,
 	kElse,
 	kWhile,
+	kBreak,
+	kContinue,
 	kAnd,
 	kOr,
 	kFun,

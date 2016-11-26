@@ -8,12 +8,16 @@
 
 void WhileStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	mExpression->ResolveType(symbolTable);
-	mLoop->ResolveTypes(symbolTable);
+	symbolTable.Push();
 
 	int seq = symbolTable.GetNextLabelSequence();
 	mLoopLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("while_loop"), seq);
 	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("while_end"), seq);
+
+	mExpression->ResolveType(symbolTable);
+	mLoop->ResolveTypes(symbolTable);
+
+	symbolTable.Pop();
 }
 
 void WhileStatement::GenCode(ObjectFileHelper& helper)

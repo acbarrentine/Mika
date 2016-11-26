@@ -22,6 +22,8 @@ class IfStatement;
 class WhileStatement;
 class ExpressionStatement;
 class ReturnStatement;
+class BreakStatement;
+class ContinueStatement;
 class VariableDeclarationStatement;
 
 class Compiler
@@ -92,6 +94,8 @@ protected:
 	IfStatement* ParseScriptIfStatement();
 	WhileStatement* ParseScriptWhileStatement();
 	ReturnStatement* ParseScriptReturnStatement();
+	BreakStatement* ParseScriptBreakStatement();
+	ContinueStatement* ParseScriptContinueStatement();
 	ExpressionStatement* ParseScriptExpressionStatement();
 	VariableDeclarationStatement* ParseScriptVariableDeclaration();
 	Expression* ParseScriptExpression();

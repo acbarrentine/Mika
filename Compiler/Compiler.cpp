@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <stdarg.h>
 #include "MemoryManager.h"
 #include "Compiler.h"
 #include "ScriptTokenizer.h"
@@ -24,8 +25,9 @@
 #include "ExpressionStatement.h"
 #include "ObjectFileHelper.h"
 #include "GlueGenerator.h"
-#include <stdarg.h>
 #include "VariableDeclarationStatement.h"
+#include "BreakStatement.h"
+#include "ContinueStatement.h"
 
 Compiler GCompiler;
 
@@ -484,6 +486,10 @@ Statement* Compiler::ParseScriptStatement()
 			retVal = ParseScriptReturnStatement();
 			break;
 
+		case TType::kBreak:
+			retVal = ParseScriptBreakStatement();
+			break;
+
 		case TType::kOpenBrace:
 			retVal = ParseScriptCompoundStatement();
 			break;
@@ -558,6 +564,20 @@ ReturnStatement* Compiler::ParseScriptReturnStatement()
 	Expression* expr = ParseScriptExpression();
 	retStmt->SetExpression(expr);
 	return retStmt;
+}
+
+BreakStatement* Compiler::ParseScriptBreakStatement()
+{
+	BreakStatement* breakStmt = new BreakStatement(mCurrentTokenIndex);
+	Expect(TType::kBreak);
+	return breakStmt;
+}
+
+ContinueStatement* Compiler::ParseScriptContinueStatement()
+{
+	ContinueStatement* continueStmt = new ContinueStatement(mCurrentTokenIndex);
+	Expect(TType::kContinue);
+	return continueStmt;
 }
 
 VariableDeclarationStatement* Compiler::ParseScriptVariableDeclaration()

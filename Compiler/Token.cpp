@@ -57,6 +57,8 @@ const char* Token::StringRepresentation(TType tokenType)
 		case kIf:				return "if";
 		case kElse:				return "else";
 		case kWhile:			return "while";
+		case kBreak:			return "break";
+		case kContinue:			return "continue";
 		case kAnd:				return "and";
 		case kOr:				return "or";
 		case kFun:				return "fun";

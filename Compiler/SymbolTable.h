@@ -18,6 +18,7 @@ protected:
 
 public:
 	SymbolTable()
+		: mLabelSequence(1)
 	{
 		Push();
 	}
@@ -26,11 +27,15 @@ public:
 		Pop();
 	}
 
+	void StartFunction()
+	{
+		mLabelSequence = 1;
+	}
+
 	void Push()
 	{
 		mVariableLookup.push_back(VariableMap());
 		mLabelLookup.push_back(LabelMap());
-		mLabelSequence = 1;
 	}
 
 	void Pop()

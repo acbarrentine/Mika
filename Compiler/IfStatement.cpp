@@ -7,6 +7,12 @@
 
 void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 {
+	symbolTable.Push();
+
+	int seq = symbolTable.GetNextLabelSequence();
+	mElseLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_else"), seq);
+	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_end"), seq);
+
 	mExpression->ResolveType(symbolTable);
 	mThenClause->ResolveTypes(symbolTable);
 	if (mElseClause)
@@ -14,9 +20,7 @@ void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 		mElseClause->ResolveTypes(symbolTable);
 	}
 
-	int seq = symbolTable.GetNextLabelSequence();
-	mElseLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_else"), seq);
-	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_end"), seq);
+	symbolTable.Pop();
 }
 
 void IfStatement::GenCode(ObjectFileHelper& helper)
@@ -27,7 +31,7 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 	IROperand* condition = mExpression->GetResultRegister();
 	IRInstruction* ifOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	ifOp->SetOperand(0, condition);
-	ifOp->SetOperand(1, new IRLabelOperand(mElseLabel));
+	ifOp->SetOperand(1, mElseClause ? new IRLabelOperand(mElseLabel) : new IRLabelOperand(mEndLabel));
 
 	// then
 	mThenClause->GenCode(helper);
@@ -37,9 +41,9 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 	unOp->SetOperand(0, new IRLabelOperand(mEndLabel));
 
 	// else
-	helper.EmitLabel(mElseLabel,mRootToken);
 	if (mElseClause)
 	{
+		helper.EmitLabel(mElseLabel, mRootToken);
 		mElseClause->GenCode(helper);
 	}
 

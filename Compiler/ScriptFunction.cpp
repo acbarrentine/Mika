@@ -24,6 +24,8 @@ void ScriptFunction::AddStatement(Statement* stmt)
 
 void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 {
+	symbolTable.StartFunction();
+
 	if (!mIsGlobal)
 		symbolTable.Push();
 
