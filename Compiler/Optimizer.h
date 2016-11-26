@@ -71,18 +71,19 @@ public:
 
 	void Visit(IRLabelInstruction* op) override
 	{
+		if (mPrev && mPrev->mCode == UnconditionalBranch)
+		{
+			IRLabelOperand* target = (IRLabelOperand*)mPrev->mOperands[0];
+			if (target->mLabel == op->mLabel)
+			{
+				mPrev->Remove();
+			}
+		}
 		mPrev = op;
 	}
 
 	void Visit(IRReturnInstruction* op) override
 	{
-		// a manual return statement at the end of a function will generate
-		// two of these in a row
-		IRReturnInstruction* previousReturn = dynamic_cast<IRReturnInstruction*>(mPrev);
-		if (previousReturn)
-		{
-			op->Remove();
-		}
 		mPrev = op;
 	}
 

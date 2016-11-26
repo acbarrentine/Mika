@@ -26,7 +26,9 @@ void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 {
 	if (!mIsGlobal)
 		symbolTable.Push();
-	
+
+	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("end"), symbolTable.GetNextLabelSequence());
+
 	BindParameters(symbolTable);
 	mStatement->ResolveTypes(symbolTable);
 	
@@ -45,5 +47,6 @@ void ScriptFunction::GenCode(ObjectFileHelper& helper)
 	}
 
 	mStatement->GenCode(helper);
+	helper.EmitLabel(mEndLabel, mRootToken);
 	helper.EmitReturn(mRootToken);
 }

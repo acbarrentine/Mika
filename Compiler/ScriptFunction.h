@@ -1,23 +1,24 @@
 #pragma once
 
-class Type;
+#include "FunctionDeclaration.h"
+
 class Statement;
 class CompoundStatement;
-class FunctionDeclaration;
 class SymbolTable;
 class ObjectFileHelper;
-
-#include "FunctionDeclaration.h"
+class Label;
 
 class ScriptFunction : public FunctionDeclaration
 {
 protected:
 	CompoundStatement* mStatement;
+	Label* mEndLabel;
 	bool mIsGlobal;
 
 public:
 	ScriptFunction(int rootToken, bool isGlobal)
 		: FunctionDeclaration(rootToken)
+		, mEndLabel(nullptr)
 		, mIsGlobal(isGlobal)
 	{}
 

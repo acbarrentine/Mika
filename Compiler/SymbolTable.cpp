@@ -1,20 +1,42 @@
 #include "stdafx.h"
 #include "SymbolTable.h"
 #include "Variable.h"
-
+#include "Label.h"
 
 void SymbolTable::AddVariable(Variable* var)
 {
-	VariableMap& currentFrame = mLookup.back();
-	currentFrame.insert(std::make_pair(var->GetName(), var));
+	VariableMap& currentFrame = mVariableLookup.back();
+	currentFrame[var->GetName()] = var;
 }
 
 Variable* SymbolTable::FindVariable(Identifier id)
 {
-	for (std::vector<VariableMap>::reverse_iterator it = mLookup.rbegin(); it != mLookup.rend(); ++it)
+	for (std::vector<VariableMap>::reverse_iterator it = mVariableLookup.rbegin(); it != mVariableLookup.rend(); ++it)
 	{
 		VariableMap& symbols = *it;
 		VariableMap::iterator found = symbols.find(id);
+		if (found != symbols.end())
+		{
+			return found->second;
+		}
+	}
+	return nullptr;
+}
+
+Label* SymbolTable::GenLabel(Identifier name, int sequence)
+{
+	Label* label = new Label(name, sequence);
+	LabelMap& currentFrame = mLabelLookup.back();
+	currentFrame[name] = label;
+	return label;
+}
+
+Label* SymbolTable::FindLabel(Identifier id)
+{
+	for (std::vector<LabelMap>::reverse_iterator it = mLabelLookup.rbegin(); it != mLabelLookup.rend(); ++it)
+	{
+		LabelMap& symbols = *it;
+		LabelMap::iterator found = symbols.find(id);
 		if (found != symbols.end())
 		{
 			return found->second;

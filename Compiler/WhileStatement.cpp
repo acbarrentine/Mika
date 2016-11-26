@@ -4,35 +4,37 @@
 #include "IRCode.h"
 #include "ObjectFileHelper.h"
 #include "Compiler.h"
+#include "SymbolTable.h"
 
 void WhileStatement::ResolveTypes(SymbolTable& symbolTable)
 {
 	mExpression->ResolveType(symbolTable);
 	mLoop->ResolveTypes(symbolTable);
+
+	int seq = symbolTable.GetNextLabelSequence();
+	mLoopLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("while_loop"), seq);
+	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("while_end"), seq);
 }
 
 void WhileStatement::GenCode(ObjectFileHelper& helper)
 {
-	IRLabelInstruction* loopLabel = helper.GenLabel(GCompiler.AddIdentifier("while_loop"), mRootToken);
-	IRLabelInstruction* endLabel = helper.GenLabel(GCompiler.AddIdentifier("while_end"), mRootToken);
-
 	// evaluate the loop condition
-	helper.EmitLabel(loopLabel);
+	helper.EmitLabel(mLoopLabel, mRootToken);
 	mExpression->GenCode(helper);
 
 	// conditional branch to end
 	IROperand* condition = mExpression->GetResultRegister();
 	IRInstruction* endBranchOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	endBranchOp->SetOperand(0, condition);
-	endBranchOp->SetOperand(1, new IRLabelOperand(endLabel));
+	endBranchOp->SetOperand(1, new IRLabelOperand(mEndLabel));
 
 	// body
 	mLoop->GenCode(helper);
 
 	// branch to start
 	IRInstruction* loopBranchOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
-	loopBranchOp->SetOperand(0, new IRLabelOperand(loopLabel));
+	loopBranchOp->SetOperand(0, new IRLabelOperand(mLoopLabel));
 
 	// end
-	helper.EmitLabel(endLabel);
+	helper.EmitLabel(mEndLabel, mRootToken);
 }

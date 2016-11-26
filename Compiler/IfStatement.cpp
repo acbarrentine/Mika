@@ -3,6 +3,7 @@
 #include "Expression.h"
 #include "ObjectFileHelper.h"
 #include "Compiler.h"
+#include "SymbolTable.h"
 
 void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 {
@@ -12,35 +13,36 @@ void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 	{
 		mElseClause->ResolveTypes(symbolTable);
 	}
+
+	int seq = symbolTable.GetNextLabelSequence();
+	mElseLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_else"), seq);
+	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_end"), seq);
 }
 
 void IfStatement::GenCode(ObjectFileHelper& helper)
 {
-	IRLabelInstruction* elseLabel = helper.GenLabel(GCompiler.AddIdentifier("if_else"), mRootToken);
-	IRLabelInstruction* endLabel = helper.GenLabel(GCompiler.AddIdentifier("if_end"), mRootToken);
-
 	mExpression->GenCode(helper);
 
 	// conditional branch to end
 	IROperand* condition = mExpression->GetResultRegister();
 	IRInstruction* ifOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	ifOp->SetOperand(0, condition);
-	ifOp->SetOperand(1, new IRLabelOperand(elseLabel));
+	ifOp->SetOperand(1, new IRLabelOperand(mElseLabel));
 
 	// then
 	mThenClause->GenCode(helper);
 	
 	// branch to end
 	IRInstruction* unOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
-	unOp->SetOperand(0, new IRLabelOperand(endLabel));
+	unOp->SetOperand(0, new IRLabelOperand(mEndLabel));
 
 	// else
-	helper.EmitLabel(elseLabel);
+	helper.EmitLabel(mElseLabel,mRootToken);
 	if (mElseClause)
 	{
 		mElseClause->GenCode(helper);
 	}
 
 	// end
-	helper.EmitLabel(endLabel);
+	helper.EmitLabel(mEndLabel, mRootToken);
 }

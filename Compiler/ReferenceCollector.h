@@ -37,12 +37,7 @@ public:
 
 	void Visit(IRInstruction* op)
 	{
-		int numOperands = op->GetNumOperands();
-		for (int i = 0; i < numOperands; ++i)
-		{
-			IROperand* operand = op->mOperands[i];
-			operand->Accept(this, op->WritesOperand(i));
-		}
+		VisitChildren(op);
 	}
 
 	void Visit(class IRLabelInstruction*) override {}
@@ -99,12 +94,7 @@ public:
 
 	void Visit(IRInstruction* op)
 	{
-		int numOperands = op->GetNumOperands();
-		for (int i = 0; i < numOperands; ++i)
-		{
-			IROperand* operand = op->mOperands[i];
-			operand->Accept(this, op->WritesOperand(i));
-		}
+		VisitChildren(op);
 	}
 
 	void Visit(class IRLabelInstruction*) override {}
@@ -157,12 +147,7 @@ public:
 
 	void Visit(IRInstruction* op)
 	{
-		int numOperands = op->GetNumOperands();
-		for (int i = 0; i < numOperands; ++i)
-		{
-			IROperand* operand = op->mOperands[i];
-			operand->Accept(this, op->WritesOperand(i));
-		}
+		VisitChildren(op);
 	}
 
 	void Visit(class IRLabelInstruction*) override {}

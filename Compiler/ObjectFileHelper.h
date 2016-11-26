@@ -5,6 +5,7 @@
 
 class Variable;
 class ScriptFunction;
+class Label;
 
 class ObjectFileHelper
 {
@@ -36,10 +37,8 @@ public:
 	int AddString(Identifier id);
 
 	IRInstruction* EmitInstruction(OpCode opCode, int rootToken);
-	void EmitReturn(int rootToken);
-
-	IRLabelInstruction* GenLabel(Identifier name, int rootToken);
-	void EmitLabel(IRLabelInstruction* label);
+	IRInstruction* EmitReturn(int rootToken);
+	IRInstruction* EmitLabel(Label* label, int rootToken);
 
 	void WriteObjectFile(const char* objectFileName);
 	void WriteDebugFile(const char* debugFileName);

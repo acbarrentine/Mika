@@ -3,6 +3,7 @@
 #include "Statement.h"
 
 class Expression;
+class Label;
 
 class IfStatement : public Statement
 {
@@ -10,6 +11,8 @@ protected:
 	Expression* mExpression;
 	Statement* mThenClause;
 	Statement* mElseClause;
+	Label* mElseLabel;
+	Label* mEndLabel;
 
 public:
 	IfStatement(int rootToken)
@@ -17,6 +20,8 @@ public:
 		, mExpression(nullptr)
 		, mThenClause(nullptr)
 		, mElseClause(nullptr)
+		, mElseLabel(nullptr)
+		, mEndLabel(nullptr)
 	{}
 
 	void SetExpression(Expression* expr) { mExpression = expr; }

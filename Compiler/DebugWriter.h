@@ -38,7 +38,8 @@ public:
 
 	void Visit(IRLabelOperand* op, bool) override
 	{
-		mStream << op->mLabel->mLabel.GetString() << " (0x" << std::setbase(16) << op->mByteCodeOffset << ")";
+		Label* label = op->mLabel;
+		mStream << label->GetName().GetString() << "_" << std::setbase(16) << label->GetSequence() << " (0x" << op->mByteCodeOffset << ")";
 	}
 
 	void Visit(IRIntOperand* op, bool) override
@@ -78,7 +79,8 @@ public:
 
 	void Visit(class IRLabelInstruction* op) override
 	{
-		mStream << op->mLabel.GetString() << ":" << std::endl;
+		Label* label = op->mLabel;
+		mStream << label->GetName().GetString() << "_" << std::setbase(16) << label->GetSequence() << ":" << std::endl;
 	}
 
 	void Visit(class IRReturnInstruction* op) override

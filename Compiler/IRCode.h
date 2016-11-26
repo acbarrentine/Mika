@@ -12,6 +12,7 @@ class Identifier;
 class Variable;
 class FunctionDeclaration;
 class IRLabelInstruction;
+class Label;
 
 #undef MIKA_OPCODE
 #define MIKA_OPCODE(op, numArgs, numWrites) op,
@@ -35,6 +36,8 @@ public:
 	virtual void Visit(class IRInstruction*) = 0;
 	virtual void Visit(class IRLabelInstruction*) = 0;
 	virtual void Visit(class IRReturnInstruction*) = 0;
+
+	void VisitChildren(class IRInstruction* op);
 };
 
 class IROperand : public ManagedEntity
@@ -113,11 +116,11 @@ public:
 class IRLabelOperand : public IROperand
 {
 protected:
-	IRLabelInstruction* mLabel;
+	Label* mLabel;
 	int mByteCodeOffset;
 
 public:
-	IRLabelOperand(IRLabelInstruction* label) : mLabel(label), mByteCodeOffset(0) {}
+	IRLabelOperand(Label* label) : mLabel(label), mByteCodeOffset(0) {}
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
@@ -229,7 +232,7 @@ public:
 		mOperands[index] = op;
 	}
 
-	void SetByteCodeOffset(int byteCodeOffset)
+	virtual void SetByteCodeOffset(int byteCodeOffset)
 	{
 		mByteCodeOffset = byteCodeOffset;
 	}
@@ -245,6 +248,7 @@ public:
 		if (!mRemoved) visitor->Visit(this);
 	}
 
+	friend class IRVisitor;
 	friend class DebugWriter;
 	friend class ReferenceCollector;
 	friend class VariableLocator;
@@ -258,10 +262,10 @@ public:
 class IRLabelInstruction : public IRInstruction
 {
 protected:
-	Identifier mLabel;
+	Label* mLabel;
 
 public:
-	IRLabelInstruction(Identifier label, int rootToken)
+	IRLabelInstruction(Label* label, int rootToken)
 		: IRInstruction(IllegalInstruction, rootToken)
 		, mLabel(label)
 	{
@@ -276,6 +280,8 @@ public:
 	{
 		if (!mRemoved) visitor->Visit(this);
 	}
+
+	virtual void SetByteCodeOffset(int byteCodeOffset);
 
 	friend class DebugWriter;
 	friend class ReferenceCollector;

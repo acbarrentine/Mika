@@ -72,6 +72,7 @@
     <ClInclude Include="IfStatement.h" />
     <ClInclude Include="IntConstantExpression.h" />
     <ClInclude Include="IRCode.h" />
+    <ClInclude Include="Label.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="ObjectFileHelper.h" />
     <ClInclude Include="Optimizer.h" />

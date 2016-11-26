@@ -50,12 +50,7 @@ public:
 		op->SetByteCodeOffset(mByteCodeOffset);
 		mByteCodeOffset += sizeof(MikaArchiveInstruction);
 		
-		int numOperands = op->GetNumOperands();
-		for (int i = 0; i < numOperands; ++i)
-		{
-			IROperand* operand = op->mOperands[i];
-			operand->Accept(this, op->WritesOperand(i));
-		}
+		VisitChildren(op);
 
 		// make sure the operands pushed the offset to the right place
 		assert(mByteCodeOffset == targetOffset);
@@ -87,7 +82,7 @@ public:
 
 	void Visit(IRLabelOperand* op, bool) override
 	{
-		op->SetOffset(op->mLabel->mByteCodeOffset);
+		op->SetOffset(op->mLabel->GetByteCodeOffset());
 	}
 
 	void Visit(IRRegisterOperand*, bool) override {}
@@ -99,12 +94,7 @@ public:
 
 	void Visit(IRInstruction* op)
 	{
-		int numOperands = op->GetNumOperands();
-		for (int i = 0; i < numOperands; ++i)
-		{
-			IROperand* operand = op->mOperands[i];
-			operand->Accept(this, op->WritesOperand(i));
-		}
+		VisitChildren(op);
 	}
 
 	void Visit(class IRLabelInstruction*) override {}

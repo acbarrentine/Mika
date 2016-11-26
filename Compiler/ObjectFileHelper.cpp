@@ -6,6 +6,7 @@
 #include "FunctionDeclaration.h"
 #include "Variable.h"
 #include "Type.h"
+#include "Label.h"
 #include "../MikaVM/MikaArchive.h"
 #include "../MikaVM/MikaVM.h"
 #include "ByteCodeWriter.h"
@@ -79,23 +80,19 @@ IRInstruction* ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
 	return record.mInstructions.back();
 }
 
-void ObjectFileHelper::EmitReturn(int rootToken)
+IRInstruction* ObjectFileHelper::EmitReturn(int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
 	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken));
+	return record.mInstructions.back();
 }
 
-IRLabelInstruction* ObjectFileHelper::GenLabel(Identifier name, int rootToken)
-{
-	return new IRLabelInstruction(name, rootToken);
-}
-
-void ObjectFileHelper::EmitLabel(IRLabelInstruction* label)
+IRInstruction* ObjectFileHelper::EmitLabel(Label* label, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.push_back(label);
+	record.mInstructions.emplace_back(new IRLabelInstruction(label, rootToken));
+	return record.mInstructions.back();
 }
-
 
 void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 {
