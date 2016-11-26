@@ -17,6 +17,7 @@
 #include "IdentifierExpression.h"
 #include "BinaryExpression.h"
 #include "AssignmentExpression.h"
+#include "LogicalExpression.h"
 #include "Statement.h"
 #include "CompoundStatement.h"
 #include "IfStatement.h"
@@ -748,6 +749,10 @@ BinaryExpression* Compiler::ParseScriptBinaryOperator()
 
 		case TType::kArrow:
 			return new AssignmentExpression(mCurrentTokenIndex);
+
+		case TType::kAnd:
+		case TType::kOr:
+			return new LogicalExpression(mCurrentTokenIndex);
 
 		default:
 			return nullptr;

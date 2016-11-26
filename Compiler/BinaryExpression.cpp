@@ -19,6 +19,10 @@ int BinaryExpression::GetPrecedence() const
 	{
 		case TType::kArrow:
 			return 4;
+		case TType::kAnd:
+			return 7;
+		case TType::kOr:
+			return 6;
 		case TType::kPlus:
 			return 14;
 		case TType::kMinus:

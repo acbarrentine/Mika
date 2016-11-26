@@ -14,6 +14,11 @@ void IfStatement::ResolveTypes(SymbolTable& symbolTable)
 	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("if_end"), seq);
 
 	mExpression->ResolveType(symbolTable);
+	if (mExpression->GetType() != GCompiler.FindType(TType::kInt))
+	{
+		GCompiler.Error(mExpression->GetRootToken(), "incompatible type for if condition");
+	}
+
 	mThenClause->ResolveTypes(symbolTable);
 	if (mElseClause)
 	{

@@ -13,6 +13,14 @@ fun TestEntry() : int
 		Assert(0)
 	}
 
+	if (Twice(4) == 8 and Twice(10) == 20)
+		Assert(1)
+
+	if (0 or 1)
+		Assert(1)
+	else
+		Assert(0)
+
 	var1 <- 1
 	while (var1 < 100)
 	{

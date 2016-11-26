@@ -103,6 +103,9 @@
     <ClCompile Include="ContinueStatement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LogicalExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryExpression.h">
@@ -217,6 +220,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ContinueStatement.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicalExpression.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
