@@ -46,6 +46,7 @@ const char* Token::StringRepresentation(TType tokenType)
 		case kMinus:			return "-";
 		case kSlash:			return "/";
 		case kAsterisk:			return "*";
+		case kPercent:			return "%";
 		case kArrow:			return "<-";
 		case kEquals:			return "==";
 		case kLessEquals:		return "<=";

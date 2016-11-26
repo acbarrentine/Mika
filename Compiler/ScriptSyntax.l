@@ -36,6 +36,7 @@ LETTER					[a-zA-Z_]
 "-"						{ SYNTAX_TOKEN(TType::kMinus); }
 "/"						{ SYNTAX_TOKEN(TType::kSlash); }
 "*"						{ SYNTAX_TOKEN(TType::kAsterisk); }
+"%"						{ SYNTAX_TOKEN(TType::kPercent); }
 "<-"					{ SYNTAX_TOKEN(TType::kArrow); }
 "=="					{ SYNTAX_TOKEN(TType::kEquals); }
 "<="					{ SYNTAX_TOKEN(TType::kLessEquals); }

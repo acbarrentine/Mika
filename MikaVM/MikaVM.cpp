@@ -369,6 +369,15 @@ void Glue_MultiplyFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
+void Glue_ModulusInt(MikaVM* vm)
+{
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(lhs.mIntVal % rhs.mIntVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
+}
+
 void Glue_EqualsInt(MikaVM* vm)
 {
 	MikaVM::Cell destLoc = vm->GetOperand(0);

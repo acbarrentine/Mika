@@ -109,13 +109,12 @@ public:
 class TempRegisterLocator : public IRVisitor
 {
 protected:
+	std::vector<int> mFreeRegisters;
 	int mStackOffset;
-	int mUsedBytes;
 
 public:
 	TempRegisterLocator(int startOffset)
 		: mStackOffset(startOffset)
-		, mUsedBytes(startOffset)
 	{
 	}
 
@@ -125,16 +124,20 @@ public:
 		// and then once for read
 		if (forWrite)
 		{
-			op->mStackOffset = mStackOffset;
-			mStackOffset += sizeof(int*);
-			if (mStackOffset > mUsedBytes)
+			if (mFreeRegisters.size())
 			{
-				mUsedBytes = mStackOffset;
+				op->mStackOffset = mFreeRegisters.back();
+				mFreeRegisters.pop_back();
+			}
+			else
+			{
+				op->mStackOffset = mStackOffset;
+				mStackOffset += sizeof(int*);
 			}
 		}
 		else
 		{
-			mStackOffset -= sizeof(int*);
+			mFreeRegisters.push_back(op->mStackOffset);
 		}
 	}
 
@@ -155,6 +158,6 @@ public:
 
 	int GetUsedBytes() const
 	{
-		return mUsedBytes;
+		return mStackOffset;
 	}
 };

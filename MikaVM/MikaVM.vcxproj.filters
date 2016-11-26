@@ -62,5 +62,8 @@
     <None Include="..\TestScripts\TestMath.mika">
       <Filter>Test Scripts</Filter>
     </None>
+    <None Include="..\TestScripts\TestLoops.mika">
+      <Filter>Test Scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

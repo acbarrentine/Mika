@@ -172,6 +172,7 @@
   <ItemGroup>
     <None Include="..\TestScripts\FirstRun.mika" />
     <None Include="..\TestScripts\MikaGlue.mikah" />
+    <None Include="..\TestScripts\TestLoops.mika" />
     <None Include="..\TestScripts\TestMath.mika" />
   </ItemGroup>
   <ItemGroup>

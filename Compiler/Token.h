@@ -16,6 +16,7 @@ enum TType : int
 	kMinus,
 	kSlash,
 	kAsterisk,
+	kPercent,
 	kArrow,
 	kEquals,
 	kLessEquals,

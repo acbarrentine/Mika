@@ -1,42 +1,5 @@
-GlobalVar : int <- 12
-
 fun TestEntry() : int
 {
-	var1 : int
-	var1 <- 4 + Twice(GlobalVar)
-	AssertEqualsInt(var1, 28)
-
-	if Twice(3) >= 6
-		Assert(1)
-	else
-	{
-		Assert(0)
-	}
-
-	if (Twice(4) == 8 and Twice(10) == 20)
-		Assert(1)
-
-	if (0 or 1)
-		Assert(1)
-	else
-		Assert(0)
-
-	var1 <- 1
-	while (var1 < 100)
-	{
-		var1 <- var1 + 1
-		if var1 == 10
-			break
-	}
-	AssertEqualsInt(var1, 10)
-
-	AssertEqualsInt(AnotherGlobalVar+1, 21)
-	return AnotherGlobalVar
-}
-
-AnotherGlobalVar : int <- 20
-
-fun Twice(val:int) : int
-{
-	return 2 * val
+	intVar : int <- 2
+	Assert(intVar / 2 != (intVar - 1) / 2)
 }

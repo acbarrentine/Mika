@@ -1,0 +1,62 @@
+fun TestEntry() : void
+{
+	TestLoopCondition()
+	TestBreak()
+	TestContinue()
+}
+
+fun TestLoopCondition() : void
+{
+	intVar : int <- 0
+	while (intVar < 10)
+		intVar <- intVar + 2
+	AssertEqualsInt(10, intVar)
+
+	floatVar : float <- 0.0
+	while (floatVar < 10.0)
+		floatVar <- floatVar + 2.0
+	AssertEqualsFloat(10.0, floatVar)
+
+	while (0)
+		intVar <- 0
+	AssertEqualsInt(10, intVar)
+}
+
+fun TestBreak() : void
+{
+	intVar : int <- 0
+	while 1
+	{
+		intVar <- 1
+		break
+		intVar <- intVar - 1
+	}
+	AssertEqualsInt(intVar, 1)
+
+	while intVar
+	{
+		intVar2 : int <- 0
+		while (intVar2 < 10)
+		{
+			if intVar2 == 5
+				break
+			intVar2 <- intVar2 + 1
+		}
+		AssertEqualsInt(5, intVar2)
+		intVar <- 0
+	}
+	AssertEqualsInt(0, intVar)
+}
+
+fun TestContinue() : void
+{
+	intVar : int <- 0
+	while intVar < 10
+	{
+		intVar <- intVar + 1
+		if intVar % 2
+			continue
+		Assert (intVar / 2 != (intVar - 1) / 2)
+	}
+	AssertEqualsInt(intVar, 10)
+}

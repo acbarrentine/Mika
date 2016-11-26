@@ -48,3 +48,8 @@ TEST_CASE_METHOD(CompileAndRunFixture, "TestMath", "[Math]")
 {
 	CompileAndRun("TestMath");
 }
+
+TEST_CASE_METHOD(CompileAndRunFixture, "TestLoops", "[While]")
+{
+	CompileAndRun("TestLoops");
+}

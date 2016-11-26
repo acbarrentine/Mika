@@ -491,6 +491,10 @@ Statement* Compiler::ParseScriptStatement()
 			retVal = ParseScriptBreakStatement();
 			break;
 
+		case TType::kContinue:
+			retVal = ParseScriptContinueStatement();
+			break;
+
 		case TType::kOpenBrace:
 			retVal = ParseScriptCompoundStatement();
 			break;
@@ -739,6 +743,7 @@ BinaryExpression* Compiler::ParseScriptBinaryOperator()
 		case TType::kMinus:
 		case TType::kSlash:
 		case TType::kAsterisk:
+		case TType::kPercent:
 		case TType::kEquals:
 		case TType::kLessEquals:
 		case TType::kGreaterEquals:
@@ -807,9 +812,9 @@ void Compiler::ShowLine(int errorTokenIndex, const char* message, MsgSeverity se
 		--tokenIndex;
 	}
 
-	while (tokenIndex < (int)mTokenList.size())
+	for (; tokenIndex < (int)mTokenList.size(); ++tokenIndex)
 	{
-		const Token& tok = mTokenList[tokenIndex++];
+		const Token& tok = mTokenList[tokenIndex];
 		if (tok.GetLineNumber() != line)
 			break;
 
