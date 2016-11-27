@@ -19,7 +19,6 @@ void GlueGenerator::WriteGlueFile(const char* glueFileName)
 		return;
 	}
 
-	Type* locType = GCompiler.FindType(TType::kLocation);
 	Type* voidType = GCompiler.FindType(TType::kVoid);
 
 	outStream << "#pragma once" << std::endl << std::endl;
@@ -30,39 +29,37 @@ void GlueGenerator::WriteGlueFile(const char* glueFileName)
 		outStream << "void Glue_" << functionName << "(MikaVM* vm)" << std::endl;
 		outStream << "{" << std::endl;
 
+		if (decl->GetTakesLocation())
+		{
+			outStream << "\tMikaVM::Location& loc = vm->GetLocation();" << std::endl;
+		}
+
 		// marshal arguments
 		int numParams = decl->GetParameterCount();
 		for (int i = 0; i < numParams; ++i)
 		{
 			Variable* param = decl->GetParameter(i);
 			Type* paramType = param->GetType();
-			if (paramType == locType)
+			Identifier paramName = param->GetName();
+			if (paramName)
 			{
-				outStream << "\tMikaVM::Location& loc = vm->GetLocation();" << std::endl;
+				outStream << "\t"
+					<< paramType->GetNativeName() << " "
+					<< paramName.GetString()
+					<< " = (" << paramType->GetNativeName() << ")"
+					<< "vm->GetFunctionArg(" << i << ")."
+					<< paramType->GetCellField()
+					<< ";" << std::endl;
 			}
 			else
 			{
-				Identifier paramName = param->GetName();
-				if (paramName)
-				{
-					outStream << "\t"
-						<< paramType->GetNativeName() << " "
-						<< paramName.GetString()
-						<< " = (" << paramType->GetNativeName() << ")"
-						<< "vm->GetFunctionArg(" << i << ")."
-						<< paramType->GetCellField()
-						<< ";" << std::endl;
-				}
-				else
-				{
-					outStream << "\t"
-						<< paramType->GetNativeName() << " "
-						<< "param" << i + 1
-						<< " = (" << paramType->GetNativeName() << ")"
-						<< "vm->GetFunctionArg(" << i << ")."
-						<< paramType->GetCellField()
-						<< ";" << std::endl;
-				}
+				outStream << "\t"
+					<< paramType->GetNativeName() << " "
+					<< "param" << i + 1
+					<< " = (" << paramType->GetNativeName() << ")"
+					<< "vm->GetFunctionArg(" << i << ")."
+					<< paramType->GetCellField()
+					<< ";" << std::endl;
 			}
 		}
 
@@ -78,21 +75,20 @@ void GlueGenerator::WriteGlueFile(const char* glueFileName)
 		{
 			if (i != 0) outStream << ", ";
 			Variable* param = decl->GetParameter(i);
-			Type* paramType = param->GetType();
-			if (paramType == locType)
-			{
-				outStream << "loc.Func->mName, loc.LineNumber";
-			}
+			Identifier paramName = param->GetName();
+			if (paramName)
+				outStream << paramName.GetString();
 			else
-			{
-				Identifier paramName = param->GetName();
-				if (paramName)
-					outStream << paramName.GetString();
-				else
-					outStream << "param" << i + 1;
-			}
+				outStream << "param" << i + 1;
+		}
+		if (decl->GetTakesLocation())
+		{
+			if (numParams > 0)
+				outStream << ", ";
+			outStream << "loc.Func->mName, loc.LineNumber";
 		}
 		outStream << ");" << std::endl;
+		
 		if (returnType != voidType)
 		{
 			outStream << "vm->SetConditionRegister(retVal);" << std::endl;

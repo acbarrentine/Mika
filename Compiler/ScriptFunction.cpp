@@ -24,16 +24,14 @@ void ScriptFunction::AddStatement(Statement* stmt)
 void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 {
 	symbolTable.StartFunction();
-
-	if (!mIsGlobal)
-		symbolTable.Push();
+	symbolTable.Push();
 
 	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("end"), symbolTable.GetNextLabelSequence());
 
 	BindParameters(symbolTable);
 	mStatement->ResolveTypes(symbolTable);
 	
-	if (!mIsGlobal) symbolTable.Pop();
+	symbolTable.Pop();
 }
 
 void ScriptFunction::GenCode(ObjectFileHelper& helper)

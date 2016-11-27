@@ -3,6 +3,7 @@
 #include "Compiler.h"
 #include "FunctionDeclaration.h"
 #include "ObjectFileHelper.h"
+#include "Variable.h"
 
 void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 {
@@ -17,12 +18,24 @@ void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 
 	mType = mDeclaration->GetReturnType();
 
-	for (unsigned int i = 0; i < mActuals.size(); ++i)
+	if (mActuals.size() != mDeclaration->GetParameterCount())
 	{
-		Expression* expr = mActuals[i];
-		expr->ResolveType(symbolTable);
+		GCompiler.Error(mRootToken, "wrong number of args for function call");
+	}
+	else
+	{
+		for (int i = 0; i < mActuals.size(); ++i)
+		{
+			Expression* expr = mActuals[i];
+			expr->ResolveType(symbolTable);
+			
+			Variable* declared = mDeclaration->GetParameter(i);
+			if (expr->GetType() != declared->GetType())
+			{
+				GCompiler.Error(expr->GetRootToken(), "argument type incompatible with declaration");
+			}
+		}
 
-		// todo - compare to declared types
 	}
 }
 

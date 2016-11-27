@@ -65,7 +65,6 @@ void Compiler::Reset()
 	RegisterBuiltInType(TType::kInt, "int", "mIntVal", sizeof(int));
 	RegisterBuiltInType(TType::kFloat, "double", "mDblVal", sizeof(double));
 	RegisterBuiltInType(TType::kString, "const char*", "mPtrVal", sizeof(char*));
-	RegisterBuiltInType(TType::kLocation, nullptr, nullptr, sizeof(int) + sizeof(char*));
 }
 
 void Compiler::Message(MsgSeverity severity, const char* format, ...)
@@ -329,7 +328,6 @@ Type* Compiler::ParseType()
 		case TType::kFloat:
 		case TType::kString:
 		case TType::kVoid:
-		case TType::kLocation:
 			returnType = FindType(mCurrentTokenType);
 			NextToken();
 			break;
@@ -365,14 +363,22 @@ void Compiler::ParseFunctionParameters(FunctionDeclaration* decl)
 			Expect(TType::kColon);
 		}
 
-		Type* varType = ParseType();
-		var->SetType(varType);
+		if (mCurrentTokenType == TType::kLocation)
+		{
+			decl->SetTakesLocation(true);
+			Expect(TType::kLocation);
+		}
+		else
+		{
+			Type* varType = ParseType();
+			var->SetType(varType);
 
-		decl->AddParameter(var);
-
+			decl->AddParameter(var);
+		}
+		
 		if (mCurrentTokenType != TType::kComma)
 			break;
-
+		
 		Expect(TType::kComma);
 	}
 }

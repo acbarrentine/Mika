@@ -5,10 +5,19 @@
 
 void SymbolTable::AddVariable(Variable* var)
 {
-	VariableMap& currentFrame = mVariableLookup.back();
 	Identifier name = var->GetName();
-	assert(currentFrame.find(name) == currentFrame.end());
-	currentFrame[name] = var;
+	if (var->GetIsGlobal())
+	{
+		VariableMap& globalFrame = mVariableLookup.front();
+		assert(globalFrame.find(name) == globalFrame.end());
+		globalFrame[name] = var;
+	}
+	else
+	{
+		VariableMap& currentFrame = mVariableLookup.back();
+		assert(currentFrame.find(name) == currentFrame.end());
+		currentFrame[name] = var;
+	}
 }
 
 Variable* SymbolTable::FindVariable(Identifier id)

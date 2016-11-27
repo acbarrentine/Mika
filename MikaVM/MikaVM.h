@@ -39,6 +39,12 @@ public:
 		Cell(int offset, bool global) : mStackIndex(offset, global) {}
 	};
 
+	struct String
+	{
+		std::string mValue;
+		String(const char* initialValue) : mValue(initialValue) {}
+	};
+
 	struct Instruction
 	{
 		GlueFunc mFunc;
