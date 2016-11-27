@@ -42,8 +42,15 @@ public:
 
 class IROperand : public ManagedEntity
 {
+protected:
+	int mReadCount;
+
 public:
+	IROperand() : mReadCount(0) {}
 	virtual void Accept(IRVisitor* visitor, bool forWrite) = 0;
+
+	void AddRead() { ++mReadCount; }
+	int GetReadCount() const { return mReadCount; }
 };
 
 class IRFunctionOperand : public IROperand
@@ -230,6 +237,8 @@ public:
 	void SetOperand(int index, IROperand* op)
 	{
 		mOperands[index] = op;
+		if (!WritesOperand(index))
+			op->AddRead();
 	}
 
 	virtual void SetByteCodeOffset(int byteCodeOffset)

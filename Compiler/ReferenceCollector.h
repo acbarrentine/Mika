@@ -110,6 +110,7 @@ class TempRegisterLocator : public IRVisitor
 {
 protected:
 	std::vector<int> mFreeRegisters;
+	std::map<int, int> mUsedRegisters;
 	int mStackOffset;
 
 public:
@@ -120,8 +121,6 @@ public:
 
 	void Visit(IRRegisterOperand* op, bool forWrite) override
 	{
-		// a temp register gets used twice, once for write
-		// and then once for read
 		if (forWrite)
 		{
 			if (mFreeRegisters.size())
@@ -134,10 +133,24 @@ public:
 				op->mStackOffset = mStackOffset;
 				mStackOffset += sizeof(int*);
 			}
+
+			// set the read count so we know when to release it
+			mUsedRegisters[op->mStackOffset] = op->GetReadCount();
 		}
 		else
 		{
-			mFreeRegisters.push_back(op->mStackOffset);
+			int stackOffset = op->mStackOffset;
+			int readCount = mUsedRegisters[stackOffset];
+			--readCount;
+			if (!readCount)
+			{
+				mUsedRegisters.erase(stackOffset);
+				mFreeRegisters.push_back(stackOffset);
+			}
+			else
+			{
+				mUsedRegisters[stackOffset] = readCount;
+			}
 		}
 	}
 

@@ -40,10 +40,15 @@ void LogicalExpression::GenCode(ObjectFileHelper& helper)
 
 	mResultRegister = new IRRegisterOperand();
 
+	IRRegisterOperand* zeroRegister = new IRRegisterOperand();
+	IRInstruction* zero = helper.EmitInstruction(CopyConstantToStack, mRootToken);
+	zero->SetOperand(0, zeroRegister);
+	zero->SetOperand(1, new IRIntOperand(0));
+
 	IRInstruction* op1 = helper.EmitInstruction(mOpCode, mRootToken);
 	op1->SetOperand(0, mResultRegister);
 	op1->SetOperand(1, mLeft->GetResultRegister());
-	op1->SetOperand(2, new IRIntOperand(0));
+	op1->SetOperand(2, zeroRegister);
 
 	IRInstruction* branch1 = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	branch1->SetOperand(0, mResultRegister);
@@ -54,7 +59,7 @@ void LogicalExpression::GenCode(ObjectFileHelper& helper)
 	IRInstruction* op2 = helper.EmitInstruction(mOpCode, mRootToken);
 	op2->SetOperand(0, mResultRegister);
 	op2->SetOperand(1, mRight->GetResultRegister());
-	op2->SetOperand(2, new IRIntOperand(0));
+	op2->SetOperand(2, zeroRegister);
 
 	IRInstruction* branch2 = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	branch2->SetOperand(0, mResultRegister);

@@ -1,4 +1,6 @@
 fun TestEntry() : int
 {
-	Assert(-1 > -2)
+	true : int <- 1
+	false : int <- 0
+	Assert((true or false) and (false or true))
 }

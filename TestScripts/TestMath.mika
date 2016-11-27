@@ -2,6 +2,7 @@ fun TestEntry() : void
 {
 	TestIntMath()
 	TestFloatMath()
+	TestLogicalOperators()
 }
 
 fun TestIntMath() : void
@@ -41,4 +42,13 @@ fun Least(left:float, right:float) : float
 		return left
 	else
 		return right
+}
+
+fun TestLogicalOperators() : void
+{
+	true : int <- 1
+	false : int <- 0
+	Assert(false or true)
+	Assert(true and true)
+	Assert((true or false) and (false or true))
 }
