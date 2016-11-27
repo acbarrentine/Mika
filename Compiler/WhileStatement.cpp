@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "WhileStatement.h"
 #include "Expression.h"
-#include "IRCode.h"
 #include "ObjectFileHelper.h"
 #include "Compiler.h"
 #include "SymbolTable.h"

@@ -6,7 +6,6 @@
 #include "Variable.h"
 #include "SymbolTable.h"
 #include "ObjectFileHelper.h"
-#include "IRCode.h"
 #include "Token.h"
 #include "Compiler.h"
 

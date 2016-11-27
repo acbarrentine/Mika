@@ -1,5 +1,4 @@
 fun TestEntry() : int
 {
-	intVar : int <- 2
-	Assert(intVar / 2 != (intVar - 1) / 2)
+	Assert(-1 > -2)
 }

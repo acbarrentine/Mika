@@ -8,6 +8,7 @@ fun TestIntMath() : void
 {
 	AssertEqualsInt(4, 4)
 	AssertEqualsInt(9 + 13, 22)
+	AssertEqualsInt(9 + -4, 5)
 
 	AssertEqualsInt(SquareInt(5), 25)
 	three : int <- 3
@@ -23,6 +24,7 @@ fun TestFloatMath() : void
 {
 	AssertEqualsFloat(1.0, 2.0 / 2.0)
 	Assert(1.0 < 2.0)
+	Assert(-1.0 > -2.0)
 
 	AssertEqualsFloat(3.0, Least(3.0, 5.0))		# test single-line comment
 }

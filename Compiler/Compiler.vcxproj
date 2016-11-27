@@ -52,6 +52,7 @@
     <ClCompile Include="StringConstantExpression.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
     <ClCompile Include="Token.cpp" />
+    <ClCompile Include="UnaryExpression.cpp" />
     <ClCompile Include="VariableDeclarationStatement.cpp" />
     <ClCompile Include="WhileStatement.cpp" />
   </ItemGroup>
@@ -92,6 +93,7 @@
     <ClInclude Include="SymbolTable.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Type.h" />
+    <ClInclude Include="UnaryExpression.h" />
     <ClInclude Include="Variable.h" />
     <ClInclude Include="VariableDeclarationStatement.h" />
     <ClInclude Include="WhileStatement.h" />

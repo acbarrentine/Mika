@@ -4,7 +4,6 @@
 #include "ObjectFileHelper.h"
 #include "Compiler.h"
 #include "SymbolTable.h"
-#include "IRCode.h"
 
 void ReturnStatement::ResolveTypes(SymbolTable& symbolTable)
 {

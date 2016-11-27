@@ -18,6 +18,7 @@
 #include "BinaryExpression.h"
 #include "AssignmentExpression.h"
 #include "LogicalExpression.h"
+#include "UnaryExpression.h"
 #include "Statement.h"
 #include "CompoundStatement.h"
 #include "IfStatement.h"
@@ -649,12 +650,22 @@ Expression* Compiler::ParseScriptPrimaryExpression()
 	Expression* expr = nullptr;
 	switch (mCurrentTokenType)
 	{
-		case kOpenParen:
+		case TType::kMinus:
+		{
+			UnaryExpression* unary = new UnaryExpression(mCurrentTokenIndex);
+			Expect(TType::kMinus);
+			unary->SetTarget(ParseScriptPrimaryExpression());
+			expr = unary;
+			break;
+		}
+
+		case TType::kOpenParen:
 			NextToken();
 			expr = ParseScriptExpressionWithPrecedence(0);
 			Expect(TType::kCloseParen);
 			break;
-		case kIdentifier:
+		
+		case TType::kIdentifier:
 			if (Peek(TType::kOpenParen))
 			{
 				FunctionCallExpression* callExpr = new FunctionCallExpression(mCurrentTokenIndex);
@@ -682,19 +693,23 @@ Expression* Compiler::ParseScriptPrimaryExpression()
 				NextToken();
 			}
 			break;
-		case kIntConstant:
+		
+		case TType::kIntConstant:
 			expr = new IntConstantExpression(mCurrentTokenIndex);
 			NextToken();
 			break;
-		case kFloatConstant:
+		
+		case TType::kFloatConstant:
 			expr = new FloatConstantExpression(mCurrentTokenIndex);
 			NextToken();
 			break;
-		case kStringConstant:
+		
+		case TType::kStringConstant:
 			expr = new StringConstantExpression(mCurrentTokenIndex);
 			NextToken();
 			break;
-		case kEOF:
+
+		case TType::kEOF:
 		default:
 			break;
 	}
@@ -703,7 +718,6 @@ Expression* Compiler::ParseScriptPrimaryExpression()
 
 Expression* Compiler::ParseScriptExpressionWithPrecedence(int minPrecedence)
 {
-	minPrecedence;
 	Expression* expr = ParseScriptPrimaryExpression();
 	while (1)
 	{

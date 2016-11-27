@@ -510,6 +510,22 @@ void Glue_NotEqualsString(MikaVM*)
 {
 }
 
+void Glue_NegateInt(MikaVM* vm)
+{
+	MikaVM::Cell dest = vm->GetOperand(0);
+	MikaVM::Cell val = vm->GetOperandStackValue(1);
+	MikaVM::Cell result(-1 * val.mIntVal);
+	vm->SetStackValue(result, dest.mStackIndex);
+}
+
+void Glue_NegateFloat(MikaVM* vm)
+{
+	MikaVM::Cell dest = vm->GetOperand(0);
+	MikaVM::Cell val = vm->GetOperandStackValue(1);
+	MikaVM::Cell result(-1.0 * val.mDblVal);
+	vm->SetStackValue(result, dest.mStackIndex);
+}
+
 #undef MIKA_OPCODE
 #define MIKA_OPCODE(op, numArgs, numWrites) Glue_ ## op,
 MikaVM::GlueFunc MikaVM::SBuiltInFunctions[] =
