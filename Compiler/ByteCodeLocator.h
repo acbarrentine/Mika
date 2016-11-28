@@ -43,6 +43,10 @@ public:
 		mRecord.AddStringFixup(mByteCodeOffset);
 		mByteCodeOffset += sizeof(MikaArchiveCell);
 	}
+	void Visit(IRStackBytesOperand*, bool) override
+	{
+		mByteCodeOffset += sizeof(MikaArchiveCell);
+	}
 
 	void Visit(IRInstruction* op)
 	{
@@ -91,6 +95,7 @@ public:
 	void Visit(IRIntOperand*, bool) override {}
 	void Visit(IRFloatOperand*, bool) override {}
 	void Visit(IRStringOperand*, bool) override {}
+	void Visit(IRStackBytesOperand*, bool) override {}
 
 	void Visit(IRInstruction* op)
 	{

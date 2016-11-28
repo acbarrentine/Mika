@@ -8,6 +8,7 @@ MIKA_OPCODE(CopyResultRegister, 1, 1)
 MIKA_OPCODE(SetResultRegister, 1, 0)
 MIKA_OPCODE(ConditionalBranch, 2, 0)
 MIKA_OPCODE(UnconditionalBranch, 1, 0)
+MIKA_OPCODE(MoveStackPointer, 1, 0)
 
 MIKA_OPCODE(AddInt, 3, 1)
 MIKA_OPCODE(AddFloat, 3, 1)

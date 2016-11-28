@@ -127,6 +127,12 @@ void MikaVM::ResetFunctionArgs()
 	mFunctionArgs.clear();
 }
 
+void MikaVM::MoveStackPointer(int numBytes)
+{
+	Location& loc = mCallFrames.back();
+	loc.StackPtr += numBytes;
+}
+
 void MikaVM::PushFunctionArg(MikaVM::Cell value)
 {
 	mFunctionArgs.push_back(value);
@@ -285,6 +291,12 @@ void Glue_UnconditionalBranch(MikaVM* vm)
 {
 	MikaVM::Cell dest = vm->GetOperand(0);
 	vm->SetPCOffset(dest.mIntVal);
+}
+
+void Glue_MoveStackPointer(MikaVM* vm)
+{
+	MikaVM::Cell dist = vm->GetOperand(0);
+	vm->MoveStackPointer(dist.mIntVal);
 }
 
 void Glue_AddInt(MikaVM* vm)
@@ -528,6 +540,7 @@ void Glue_NegateFloat(MikaVM* vm)
 
 #undef MIKA_OPCODE
 #define MIKA_OPCODE(op, numArgs, numWrites) Glue_ ## op,
+
 MikaVM::GlueFunc MikaVM::SBuiltInFunctions[] =
 {
 	nullptr,

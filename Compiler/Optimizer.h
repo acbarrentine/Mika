@@ -20,6 +20,7 @@ public:
 	void Visit(IRLabelOperand*, bool) override {}
 	void Visit(IRIntOperand*, bool) override {}
 	void Visit(IRFloatOperand*, bool) override {}
+	void Visit(IRStackBytesOperand*, bool) override {}
 
 	void Visit(IRInstruction* op)
 	{

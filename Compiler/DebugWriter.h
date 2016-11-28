@@ -57,6 +57,11 @@ public:
 		mStream << "\"" << op->mValue.GetString() << "\"";
 	}
 
+	void Visit(IRStackBytesOperand* op, bool) override
+	{
+		mStream << std::setbase(10) << op->mNumBytes;
+	}
+
 	void Visit(IRInstruction* op) override
 	{
 		mStream << "\t" << std::setfill('0') << std::setw(8) << std::setbase(16)

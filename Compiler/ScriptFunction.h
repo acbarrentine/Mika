@@ -11,7 +11,7 @@ class Label;
 class ScriptFunction : public FunctionDeclaration
 {
 protected:
-	CompoundStatement* mStatement;
+	CompoundStatement* mBody;
 	Label* mEndLabel;
 	bool mIsGlobal;
 
@@ -28,7 +28,7 @@ public:
 
 	void SetStatement(CompoundStatement* stmt)
 	{
-		mStatement = stmt;
+		mBody = stmt;
 	}
 	void AddStatement(Statement* stmt);
 

@@ -1,6 +1,6 @@
+fun SquareInt(val:int):int { return val * val }
+
 fun TestEntry() : int
 {
-	true : int <- 1
-	false : int <- 0
-	Assert((true or false) and (false or true))
+	Assert(SquareInt(3)==9)
 }

@@ -46,23 +46,25 @@ void LogicalExpression::GenCode(ObjectFileHelper& helper)
 	zero->SetOperand(1, new IRIntOperand(0));
 
 	IRInstruction* op1 = helper.EmitInstruction(mOpCode, mRootToken);
-	op1->SetOperand(0, mResultRegister);
+	IRRegisterOperand* op1Result = new IRRegisterOperand();
+	op1->SetOperand(0, op1Result);
 	op1->SetOperand(1, mLeft->GetResultRegister());
 	op1->SetOperand(2, zeroRegister);
 
 	IRInstruction* branch1 = helper.EmitInstruction(ConditionalBranch, mRootToken);
-	branch1->SetOperand(0, mResultRegister);
+	branch1->SetOperand(0, op1Result);
 	branch1->SetOperand(1, new IRLabelOperand(logicalAnd ? mFalseLabel : mTrueLabel));
 
 	mRight->GenCode(helper);
 
 	IRInstruction* op2 = helper.EmitInstruction(mOpCode, mRootToken);
-	op2->SetOperand(0, mResultRegister);
+	IRRegisterOperand* op2Result = new IRRegisterOperand();
+	op2->SetOperand(0, op2Result);
 	op2->SetOperand(1, mRight->GetResultRegister());
 	op2->SetOperand(2, zeroRegister);
 
 	IRInstruction* branch2 = helper.EmitInstruction(ConditionalBranch, mRootToken);
-	branch2->SetOperand(0, mResultRegister);
+	branch2->SetOperand(0, op2Result);
 	branch2->SetOperand(1, new IRLabelOperand(logicalAnd ? mFalseLabel : mTrueLabel));
 
 	if (logicalAnd)

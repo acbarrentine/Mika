@@ -18,7 +18,7 @@ void ScriptFunction::SetName(Identifier name)
 
 void ScriptFunction::AddStatement(Statement* stmt)
 {
-	mStatement->AddStatement(stmt);
+	mBody->AddStatement(stmt);
 }
 
 void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
@@ -29,13 +29,16 @@ void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 	mEndLabel = symbolTable.GenLabel(GCompiler.AddIdentifier("end"), symbolTable.GetNextLabelSequence());
 
 	BindParameters(symbolTable);
-	mStatement->ResolveTypes(symbolTable);
+	mBody->ResolveTypes(symbolTable);
 	
 	symbolTable.Pop();
 }
 
 void ScriptFunction::GenCode(ObjectFileHelper& helper)
 {
+	IRInstruction* pushScope = helper.EmitInstruction(MoveStackPointer, mRootToken);
+	pushScope->SetOperand(0, new IRStackBytesOperand(false));
+
 	// save called arguments
 	for (int i = 0; i < GetParameterCount(); ++i)
 	{
@@ -45,7 +48,11 @@ void ScriptFunction::GenCode(ObjectFileHelper& helper)
 		op->SetOperand(1, new IRIntOperand(i));
 	}
 
-	mStatement->GenCode(helper);
+	mBody->GenCode(helper);
 	helper.EmitLabel(mEndLabel, mRootToken);
+
+	IRInstruction* popScope = helper.EmitInstruction(MoveStackPointer, mRootToken);
+	popScope->SetOperand(0, new IRStackBytesOperand(true));
+
 	helper.EmitReturn(mRootToken);
 }

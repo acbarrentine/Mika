@@ -22,6 +22,18 @@ enum OpCode : int
 #include "..\MikaVM\MikaOpcodes.h"
 };
 
+#define VISITOR_CLASSES \
+ 	friend class DebugWriter; \
+	friend class ReferenceCollector; \
+	friend class VariableLocator; \
+	friend class TempRegisterLocator; \
+	friend class ByteCodeLocator; \
+	friend class LabelLocator; \
+	friend class ByteCodeWriter; \
+	friend class Optimizer; \
+	friend class StackPointerMover; \
+	friend class IRVisitor;
+
 class IRVisitor
 {
 public:
@@ -32,7 +44,8 @@ public:
 	virtual void Visit(class IRIntOperand*, bool forWrite) = 0;
 	virtual void Visit(class IRFloatOperand*, bool forWrite) = 0;
 	virtual void Visit(class IRStringOperand*, bool forWrite) = 0;
-	
+	virtual void Visit(class IRStackBytesOperand*, bool) = 0;
+
 	virtual void Visit(class IRInstruction*) = 0;
 	virtual void Visit(class IRLabelInstruction*) = 0;
 	virtual void Visit(class IRReturnInstruction*) = 0;
@@ -67,14 +80,7 @@ public:
 	}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRVariableOperand : public IROperand
@@ -85,14 +91,7 @@ public:
 	IRVariableOperand(Variable* var) : mVariable(var) {}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRRegisterOperand : public IROperand
@@ -110,14 +109,7 @@ public:
 	}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRLabelOperand : public IROperand
@@ -131,14 +123,7 @@ public:
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRIntOperand : public IROperand
@@ -150,14 +135,7 @@ public:
 	IRIntOperand(int val) : mValue(val) {}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRFloatOperand : public IROperand
@@ -169,14 +147,8 @@ public:
 	IRFloatOperand(double val) : mValue(val) {}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
+
 };
 
 class IRStringOperand : public IROperand
@@ -193,14 +165,22 @@ public:
 	}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
+};
+
+class IRStackBytesOperand : public IROperand
+{
+protected:
+	int mNumBytes;
+	bool mSubtract;
+
+public:
+	IRStackBytesOperand(bool subtract) : mNumBytes(0), mSubtract(subtract) {}
+
+	void SetStackBytes(int numBytes) { mNumBytes = numBytes; }
+
+	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
+	VISITOR_CLASSES;
 };
 
 class IRInstruction : public ManagedEntity
@@ -238,7 +218,13 @@ public:
 	{
 		mOperands[index] = op;
 		if (!WritesOperand(index))
+		{
 			op->AddRead();
+		}
+		else
+		{
+			assert(op->GetReadCount() == 0);
+		}
 	}
 
 	virtual void SetByteCodeOffset(int byteCodeOffset)
@@ -257,15 +243,7 @@ public:
 		if (!mRemoved) visitor->Visit(this);
 	}
 
-	friend class IRVisitor;
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRLabelInstruction : public IRInstruction
@@ -292,14 +270,7 @@ public:
 
 	virtual void SetByteCodeOffset(int byteCodeOffset);
 
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };
 
 class IRReturnInstruction : public IRInstruction
@@ -317,12 +288,5 @@ public:
 		if (!mRemoved) visitor->Visit(this);
 	}
 
-	friend class DebugWriter;
-	friend class ReferenceCollector;
-	friend class VariableLocator;
-	friend class TempRegisterLocator;
-	friend class ByteCodeLocator;
-	friend class LabelLocator;
-	friend class ByteCodeWriter;
-	friend class Optimizer;
+	VISITOR_CLASSES;
 };

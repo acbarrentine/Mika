@@ -34,6 +34,7 @@ public:
 	void Visit(IRLabelOperand*, bool) override {}
 	void Visit(IRIntOperand*, bool) override {}
 	void Visit(IRFloatOperand*, bool) override {}
+	void Visit(IRStackBytesOperand*, bool) override {}
 
 	void Visit(IRInstruction* op)
 	{
@@ -49,13 +50,11 @@ class VariableLocator : public IRVisitor
 protected:
 	int mStackOffset;
 	int& mGlobalStackOffset;
-	int mUsedBytes;
 
 public:
-	VariableLocator(int& initialGlobalOffset)
-		: mStackOffset(0)
+	VariableLocator(int& initialLocalOffset, int& initialGlobalOffset)
+		: mStackOffset(initialLocalOffset)
 		, mGlobalStackOffset(initialGlobalOffset)
-		, mUsedBytes(0)
 	{
 	}
 
@@ -77,10 +76,6 @@ public:
 			{
 				var->SetStackOffset(mStackOffset);
 				mStackOffset += size;
-				if (mStackOffset > mUsedBytes)
-				{
-					mUsedBytes = mStackOffset;
-				}
 			}
 		}
 	}
@@ -91,6 +86,7 @@ public:
 	void Visit(IRIntOperand*, bool) override {}
 	void Visit(IRFloatOperand*, bool) override {}
 	void Visit(IRStringOperand*, bool) override {}
+	void Visit(IRStackBytesOperand*, bool) override {}
 
 	void Visit(IRInstruction* op)
 	{
@@ -99,11 +95,6 @@ public:
 
 	void Visit(class IRLabelInstruction*) override {}
 	void Visit(class IRReturnInstruction*) override {}
-
-	int GetUsedBytes() const
-	{
-		return mUsedBytes;
-	}
 };
 
 class TempRegisterLocator : public IRVisitor
@@ -114,8 +105,8 @@ protected:
 	int mStackOffset;
 
 public:
-	TempRegisterLocator(int startOffset)
-		: mStackOffset(startOffset)
+	TempRegisterLocator()
+		: mStackOffset(0)
 	{
 	}
 
@@ -123,19 +114,22 @@ public:
 	{
 		if (forWrite)
 		{
-			if (mFreeRegisters.size())
+			if (op->mStackOffset < 0)
 			{
-				op->mStackOffset = mFreeRegisters.back();
-				mFreeRegisters.pop_back();
-			}
-			else
-			{
-				op->mStackOffset = mStackOffset;
-				mStackOffset += sizeof(int*);
-			}
+				if (mFreeRegisters.size())
+				{
+					op->mStackOffset = mFreeRegisters.back();
+					mFreeRegisters.pop_back();
+				}
+				else
+				{
+					op->mStackOffset = mStackOffset;
+					mStackOffset += sizeof(int*);
+				}
 
-			// set the read count so we know when to release it
-			mUsedRegisters[op->mStackOffset] = op->GetReadCount();
+				// set the read count so we know when to release it
+				mUsedRegisters[op->mStackOffset] = op->GetReadCount();
+			}
 		}
 		else
 		{
@@ -160,6 +154,7 @@ public:
 	void Visit(IRIntOperand*, bool) override {}
 	void Visit(IRFloatOperand*, bool) override {}
 	void Visit(IRStringOperand*, bool) override {}
+	void Visit(IRStackBytesOperand*, bool) override {}
 
 	void Visit(IRInstruction* op)
 	{
@@ -173,4 +168,77 @@ public:
 	{
 		return mStackOffset;
 	}
+};
+
+class StackPointerMover : public IRVisitor
+{
+protected:
+	int mStackBytes;
+
+	struct AddOperation
+	{
+		IRInstruction* mAddOp;
+		int mInitialStackBytes;
+		AddOperation(IRInstruction* addOp, int stackBytes) : mAddOp(addOp), mInitialStackBytes(stackBytes) {}
+	};
+	std::vector<AddOperation> mAddOperations;
+
+public:
+	StackPointerMover(int baseLine)
+		: mStackBytes(baseLine)
+	{
+	}
+
+	void Visit(IRVariableOperand* op, bool) override
+	{
+		int stackOffset = op->mVariable->GetStackOffset() + sizeof(int*);
+		if (stackOffset > mStackBytes)
+			mStackBytes = stackOffset;
+	}
+
+	void Visit(IRRegisterOperand*, bool) override {}
+	void Visit(IRFunctionOperand*, bool) override {}
+	void Visit(IRLabelOperand*, bool) override {}
+	void Visit(IRIntOperand*, bool) override {}
+	void Visit(IRFloatOperand*, bool) override {}
+	void Visit(IRStringOperand*, bool) override {}
+	void Visit(IRStackBytesOperand*, bool) override {}
+
+	void Visit(IRInstruction* op)
+	{
+		if (op->mCode == MoveStackPointer)
+		{
+			IRStackBytesOperand* amountOp = (IRStackBytesOperand*)op->mOperands[0];
+			if (amountOp->mSubtract)
+			{
+				assert(mAddOperations.size());
+				AddOperation& add = mAddOperations.back();
+				mAddOperations.pop_back();
+
+				int delta = mStackBytes - add.mInitialStackBytes;
+				if (delta)
+				{
+					IRStackBytesOperand* addAmountOp = (IRStackBytesOperand*)add.mAddOp->mOperands[0];
+					addAmountOp->SetStackBytes(delta);
+					amountOp->SetStackBytes(-delta);
+				}
+				else
+				{
+					op->Remove();
+					add.mAddOp->Remove();
+				}
+			}
+			else
+			{
+				mAddOperations.emplace_back(op, mStackBytes);
+			}
+		}
+		else
+		{
+			VisitChildren(op);
+		}
+	}
+
+	void Visit(class IRLabelInstruction*) override {}
+	void Visit(class IRReturnInstruction*) override {}
 };

@@ -117,6 +117,7 @@ public:
 	GlueFunc GetGlueFunction(const char* functionName);
 	Function* GetScriptFunction(const char* functionName);
 	void ResetFunctionArgs();
+	void MoveStackPointer(int numBytes);
 
 	void PushFunctionArg(Cell value);
 	void SetStackValue(Cell value, StackIndex index);

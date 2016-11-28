@@ -89,6 +89,13 @@ public:
 		mByteStream << cell;
 	}
 
+	void Visit(IRStackBytesOperand* op, bool) override
+	{
+		MikaArchiveCell cell;
+		cell.mIntVal = op->mNumBytes;
+		mByteStream << cell;
+	}
+
 	static_assert(sizeof(MikaArchiveInstruction) == sizeof(MikaVM::Instruction), "Compiler and runtime disagreement on instruction size");
 	static_assert(sizeof(MikaArchiveCell) == sizeof(MikaVM::Cell), "Compiler and runtime disagree on Cell size");
 
