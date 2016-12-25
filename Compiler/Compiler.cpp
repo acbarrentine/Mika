@@ -30,6 +30,7 @@
 #include "VariableDeclarationStatement.h"
 #include "BreakStatement.h"
 #include "ContinueStatement.h"
+#include "Platform.h"
 
 Compiler GCompiler;
 
@@ -67,14 +68,6 @@ void Compiler::Reset()
 	RegisterBuiltInType(TType::kString, "const char*", "mPtrVal", sizeof(char*));
 }
 
-void Compiler::Message(MsgSeverity severity, const char* format, ...)
-{
-	va_list args;
-	va_start(args, format);
-	MessageArgs(severity, format, args);
-	va_end(args);
-}
-
 static FILE* GetStream(MsgSeverity severity)
 {
 	switch (severity)
@@ -83,51 +76,19 @@ static FILE* GetStream(MsgSeverity severity)
 		case MsgSeverity::kError2:
 		case MsgSeverity::kWarn:
 			return stderr;
-
+			
 		default:
 		case MsgSeverity::kInfo:
 			return stdout;
 	}
 }
 
-void Compiler::MessageArgs(MsgSeverity severity, const char* format, va_list args)
+void Compiler::Message(MsgSeverity severity, const char* format, ...)
 {
-	FILE* stream = GetStream(severity);
-	static char buf[64 * 1024];
-
-	int len = vsnprintf(buf, sizeof(buf), format, args);
-
-	OutputDebugString(buf);
-
-	static HANDLE console = 0;
-	if (!console)
-	{
-		console = GetStdHandle(STD_OUTPUT_HANDLE);
-	}
-
-	if (console && len > 0)
-	{
-		CONSOLE_SCREEN_BUFFER_INFO buffer_info;
-		GetConsoleScreenBufferInfo(console, &buffer_info);
-		switch (severity)
-		{
-			case MsgSeverity::kError:
-			case MsgSeverity::kError2:
-				SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_INTENSITY);
-				break;
-
-			case MsgSeverity::kWarn:
-				SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-				break;
-		}
-		DWORD out;
-		SetConsoleTextAttribute(console, buffer_info.wAttributes);
-		WriteFile(console, buf, len, &out, NULL);
-	}
-	else
-	{
-		fprintf(stream, buf);
-	}
+	va_list args;
+	va_start(args, format);
+	Platform::MessageArgs(GetStream(severity), format, args);
+	va_end(args);
 }
 
 void Compiler::Error(int errorTokenIndex, const char* message)
@@ -146,7 +107,7 @@ void Compiler::Error(const char* format, ...)
 	va_list args;
 	va_start(args, format);
 
-	MessageArgs(MsgSeverity::kError, format, args);
+	Platform::MessageArgs(GetStream(MsgSeverity::kError), format, args);
 	Message(MsgSeverity::kError, "\n");
 	va_end(args);
 
@@ -283,7 +244,7 @@ Identifier Compiler::ComposeIdentifier(const char* format, ...)
 	char buf[512];
 	va_list args;
 	va_start(args, format);
-	vsnprintf_s(buf, ARRAY_COUNT(buf), format, args);
+	vsnprintf(buf, ARRAY_COUNT(buf), format, args);
 	va_end(args);
 
 	return AddIdentifier(buf);
@@ -865,7 +826,7 @@ bool Compiler::Expect(TType expectedType)
 	if (mCurrentTokenType != expectedType)
 	{
 		char messageBuf[32];
-		sprintf_s(messageBuf, "'%s' expected", Token::StringRepresentation(expectedType));
+		SPRINTF(messageBuf, "'%s' expected", Token::StringRepresentation(expectedType));
 		Error(mCurrentTokenIndex, messageBuf);
 		return false;
 	}
@@ -898,13 +859,5 @@ void Compiler::SwallowLine()
 void Compiler::AddSourceFile(const char* fileName)
 {
 	mFileNames.push_back(AddIdentifier(fileName));
-
-	// split out the file name part of the incoming path
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
-	_splitpath_s(fileName, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-
-	mStemNames.push_back(AddIdentifier(fname));
+	mStemNames.push_back(AddIdentifier(Platform::FileNameStem(fileName)));
 }

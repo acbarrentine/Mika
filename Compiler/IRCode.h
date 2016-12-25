@@ -19,7 +19,7 @@ class Label;
 enum OpCode : int
 {
 	IllegalInstruction,
-#include "..\MikaVM\MikaOpcodes.h"
+#include "../MikaVM/MikaOpcodes.h"
 };
 
 #define VISITOR_CLASSES \
@@ -268,7 +268,7 @@ public:
 		if (!mRemoved) visitor->Visit(this);
 	}
 
-	virtual void SetByteCodeOffset(int byteCodeOffset);
+	virtual void SetByteCodeOffset(int byteCodeOffset) override;
 
 	VISITOR_CLASSES;
 };
@@ -283,7 +283,7 @@ public:
 
 	virtual int GetSize() const override;
 
-	virtual void Accept(IRVisitor* visitor)
+	virtual void Accept(IRVisitor* visitor) override
 	{
 		if (!mRemoved) visitor->Visit(this);
 	}

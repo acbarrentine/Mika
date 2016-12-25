@@ -11,7 +11,7 @@ int IRRegisterOperand::SDummyRegister = 0;
 IRInstruction::OpCodeData IRInstruction::SOpCodeData[] =
 {
 	IllegalInstruction, "IllegalInstruction", 0, 0,
-#include "..\MikaVM\MikaOpcodes.h"
+#include "../MikaVM/MikaOpcodes.h"
 };
 
 void IRVisitor::VisitChildren(IRInstruction* op)

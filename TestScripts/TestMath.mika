@@ -34,6 +34,8 @@ fun TestFloatMath() : void
 
 	# Area of a circle is less than the square that inscribes it
 	Assert(SquareFloat(4.0) > PI * SquareFloat(2.0))
+
+    Assert(Sqrt(9.0) == 3.0)
 }
 
 fun Least(left:float, right:float) : float

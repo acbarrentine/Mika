@@ -86,7 +86,7 @@ LETTER					[a-zA-Z_]
 	/* String constant */
 \".*\"										{
 												char stringBuf[2048];
-												strncpy_s(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
+												STRNCPY(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
 												Token& t = GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno);
 												t.SetValue(GCompiler.AddIdentifier(stringBuf, stringBuf + (yyleng - 2)));
 												return TType::kStringConstant;

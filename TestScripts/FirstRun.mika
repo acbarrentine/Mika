@@ -3,4 +3,5 @@ fun SquareInt(val:int):int { return val * val }
 fun TestEntry() : int
 {
 	Assert(SquareInt(3)==9)
+    Assert(Sqrt(9.0) == 3.0)
 }

@@ -1,0 +1,829 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3AB420831E0E51160080E50C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420821E0E51160080E50C /* main.cpp */; };
+		3AB420941E0E64CE0080E50C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420931E0E64CE0080E50C /* main.cpp */; };
+		3AB4209C1E0E6B6D0080E50C /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB4209A1E0E6B6D0080E50C /* stdafx.cpp */; };
+		3AB4209D1E0E6C260080E50C /* libCompiler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AC947AB1DF3AA4F00881BE4 /* libCompiler.a */; };
+		3AB420AA1E0E6EE90080E50C /* Glue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420A01E0E6EE90080E50C /* Glue.cpp */; };
+		3AB420AB1E0E6EE90080E50C /* MikaArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420A21E0E6EE90080E50C /* MikaArchive.cpp */; };
+		3AB420AC1E0E6EE90080E50C /* MikaVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420A51E0E6EE90080E50C /* MikaVM.cpp */; };
+		3AB420AD1E0E6EE90080E50C /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420A71E0E6EE90080E50C /* stdafx.cpp */; };
+		3AB420AE1E0E6EE90080E50C /* Tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420A91E0E6EE90080E50C /* Tests.cpp */; };
+		3AB420AF1E0E70F40080E50C /* libCompiler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AC947AB1DF3AA4F00881BE4 /* libCompiler.a */; };
+		3AC948061DF3AE2700881BE4 /* AssignmentExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947B91DF3AE2700881BE4 /* AssignmentExpression.cpp */; };
+		3AC948071DF3AE2700881BE4 /* AssignmentExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947BA1DF3AE2700881BE4 /* AssignmentExpression.h */; };
+		3AC948081DF3AE2700881BE4 /* BinaryExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947BB1DF3AE2700881BE4 /* BinaryExpression.cpp */; };
+		3AC948091DF3AE2700881BE4 /* BinaryExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947BC1DF3AE2700881BE4 /* BinaryExpression.h */; };
+		3AC9480A1DF3AE2700881BE4 /* BreakStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947BD1DF3AE2700881BE4 /* BreakStatement.cpp */; };
+		3AC9480B1DF3AE2700881BE4 /* BreakStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947BE1DF3AE2700881BE4 /* BreakStatement.h */; };
+		3AC9480C1DF3AE2700881BE4 /* ByteCodeLocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947BF1DF3AE2700881BE4 /* ByteCodeLocator.h */; };
+		3AC9480D1DF3AE2700881BE4 /* ByteCodeWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */; };
+		3AC9480E1DF3AE2700881BE4 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947C11DF3AE2700881BE4 /* Compiler.cpp */; };
+		3AC9480F1DF3AE2700881BE4 /* Compiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C21DF3AE2700881BE4 /* Compiler.h */; };
+		3AC948101DF3AE2700881BE4 /* Compiler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C31DF3AE2700881BE4 /* Compiler.hpp */; };
+		3AC948121DF3AE2700881BE4 /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */; };
+		3AC948131DF3AE2700881BE4 /* CompoundStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */; };
+		3AC948141DF3AE2700881BE4 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */; };
+		3AC948151DF3AE2700881BE4 /* ContinueStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C81DF3AE2700881BE4 /* ContinueStatement.h */; };
+		3AC948161DF3AE2700881BE4 /* DebugWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C91DF3AE2700881BE4 /* DebugWriter.h */; };
+		3AC948171DF3AE2700881BE4 /* Expression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947CA1DF3AE2700881BE4 /* Expression.cpp */; };
+		3AC948181DF3AE2700881BE4 /* Expression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947CB1DF3AE2700881BE4 /* Expression.h */; };
+		3AC948191DF3AE2700881BE4 /* ExpressionStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947CC1DF3AE2700881BE4 /* ExpressionStatement.cpp */; };
+		3AC9481A1DF3AE2700881BE4 /* ExpressionStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947CD1DF3AE2700881BE4 /* ExpressionStatement.h */; };
+		3AC9481B1DF3AE2700881BE4 /* FloatConstantExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947CE1DF3AE2700881BE4 /* FloatConstantExpression.cpp */; };
+		3AC9481C1DF3AE2700881BE4 /* FloatConstantExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947CF1DF3AE2700881BE4 /* FloatConstantExpression.h */; };
+		3AC9481D1DF3AE2700881BE4 /* FunctionCallExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947D01DF3AE2700881BE4 /* FunctionCallExpression.cpp */; };
+		3AC9481E1DF3AE2700881BE4 /* FunctionCallExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947D11DF3AE2700881BE4 /* FunctionCallExpression.h */; };
+		3AC9481F1DF3AE2700881BE4 /* FunctionDeclaration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947D21DF3AE2700881BE4 /* FunctionDeclaration.cpp */; };
+		3AC948201DF3AE2700881BE4 /* FunctionDeclaration.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947D31DF3AE2700881BE4 /* FunctionDeclaration.h */; };
+		3AC948211DF3AE2700881BE4 /* GlueGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947D41DF3AE2700881BE4 /* GlueGenerator.cpp */; };
+		3AC948221DF3AE2700881BE4 /* GlueGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947D51DF3AE2700881BE4 /* GlueGenerator.h */; };
+		3AC948251DF3AE2700881BE4 /* GlueTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947D81DF3AE2700881BE4 /* GlueTokenizer.cpp */; };
+		3AC948261DF3AE2700881BE4 /* GlueTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947D91DF3AE2700881BE4 /* GlueTokenizer.h */; };
+		3AC948271DF3AE2700881BE4 /* Identifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947DA1DF3AE2700881BE4 /* Identifier.cpp */; };
+		3AC948281DF3AE2700881BE4 /* Identifier.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947DB1DF3AE2700881BE4 /* Identifier.h */; };
+		3AC948291DF3AE2700881BE4 /* IdentifierExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947DC1DF3AE2700881BE4 /* IdentifierExpression.cpp */; };
+		3AC9482A1DF3AE2700881BE4 /* IdentifierExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947DD1DF3AE2700881BE4 /* IdentifierExpression.h */; };
+		3AC9482B1DF3AE2700881BE4 /* IfStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947DE1DF3AE2700881BE4 /* IfStatement.cpp */; };
+		3AC9482C1DF3AE2700881BE4 /* IfStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947DF1DF3AE2700881BE4 /* IfStatement.h */; };
+		3AC9482D1DF3AE2700881BE4 /* IntConstantExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947E01DF3AE2700881BE4 /* IntConstantExpression.cpp */; };
+		3AC9482E1DF3AE2700881BE4 /* IntConstantExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947E11DF3AE2700881BE4 /* IntConstantExpression.h */; };
+		3AC9482F1DF3AE2700881BE4 /* IRCode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947E21DF3AE2700881BE4 /* IRCode.cpp */; };
+		3AC948301DF3AE2700881BE4 /* IRCode.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947E31DF3AE2700881BE4 /* IRCode.h */; };
+		3AC948311DF3AE2700881BE4 /* Label.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947E41DF3AE2700881BE4 /* Label.h */; };
+		3AC948321DF3AE2700881BE4 /* LogicalExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947E51DF3AE2700881BE4 /* LogicalExpression.cpp */; };
+		3AC948331DF3AE2700881BE4 /* LogicalExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947E61DF3AE2700881BE4 /* LogicalExpression.h */; };
+		3AC948341DF3AE2700881BE4 /* MemoryManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947E71DF3AE2700881BE4 /* MemoryManager.cpp */; };
+		3AC948351DF3AE2700881BE4 /* MemoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947E81DF3AE2700881BE4 /* MemoryManager.h */; };
+		3AC948361DF3AE2700881BE4 /* ObjectFileHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947E91DF3AE2700881BE4 /* ObjectFileHelper.cpp */; };
+		3AC948371DF3AE2700881BE4 /* ObjectFileHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947EA1DF3AE2700881BE4 /* ObjectFileHelper.h */; };
+		3AC948381DF3AE2700881BE4 /* Optimizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947EB1DF3AE2700881BE4 /* Optimizer.h */; };
+		3AC948391DF3AE2700881BE4 /* ReferenceCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947EC1DF3AE2700881BE4 /* ReferenceCollector.h */; };
+		3AC9483A1DF3AE2700881BE4 /* ReturnStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947ED1DF3AE2700881BE4 /* ReturnStatement.cpp */; };
+		3AC9483B1DF3AE2700881BE4 /* ReturnStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947EE1DF3AE2700881BE4 /* ReturnStatement.h */; };
+		3AC9483C1DF3AE2700881BE4 /* ScriptFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947EF1DF3AE2700881BE4 /* ScriptFunction.cpp */; };
+		3AC9483D1DF3AE2700881BE4 /* ScriptFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947F01DF3AE2700881BE4 /* ScriptFunction.h */; };
+		3AC948401DF3AE2700881BE4 /* ScriptTokenizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947F31DF3AE2700881BE4 /* ScriptTokenizer.cpp */; };
+		3AC948411DF3AE2700881BE4 /* ScriptTokenizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947F41DF3AE2700881BE4 /* ScriptTokenizer.h */; };
+		3AC948421DF3AE2700881BE4 /* Statement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947F51DF3AE2700881BE4 /* Statement.h */; };
+		3AC948431DF3AE2700881BE4 /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947F61DF3AE2700881BE4 /* stdafx.cpp */; };
+		3AC948441DF3AE2700881BE4 /* stdafx.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947F71DF3AE2700881BE4 /* stdafx.h */; };
+		3AC948451DF3AE2700881BE4 /* StringConstantExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947F81DF3AE2700881BE4 /* StringConstantExpression.cpp */; };
+		3AC948461DF3AE2700881BE4 /* StringConstantExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947F91DF3AE2700881BE4 /* StringConstantExpression.h */; };
+		3AC948471DF3AE2700881BE4 /* SymbolTable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947FA1DF3AE2700881BE4 /* SymbolTable.cpp */; };
+		3AC948481DF3AE2700881BE4 /* SymbolTable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947FB1DF3AE2700881BE4 /* SymbolTable.h */; };
+		3AC948491DF3AE2700881BE4 /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947FC1DF3AE2700881BE4 /* Token.cpp */; };
+		3AC9484A1DF3AE2700881BE4 /* Token.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947FD1DF3AE2700881BE4 /* Token.h */; };
+		3AC9484B1DF3AE2700881BE4 /* Type.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947FE1DF3AE2700881BE4 /* Type.h */; };
+		3AC9484C1DF3AE2700881BE4 /* UnaryExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947FF1DF3AE2700881BE4 /* UnaryExpression.cpp */; };
+		3AC9484D1DF3AE2700881BE4 /* UnaryExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC948001DF3AE2700881BE4 /* UnaryExpression.h */; };
+		3AC9484E1DF3AE2700881BE4 /* Variable.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC948011DF3AE2700881BE4 /* Variable.h */; };
+		3AC9484F1DF3AE2700881BE4 /* VariableDeclarationStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948021DF3AE2700881BE4 /* VariableDeclarationStatement.cpp */; };
+		3AC948501DF3AE2700881BE4 /* VariableDeclarationStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC948031DF3AE2700881BE4 /* VariableDeclarationStatement.h */; };
+		3AC948511DF3AE2700881BE4 /* WhileStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948041DF3AE2700881BE4 /* WhileStatement.cpp */; };
+		3AC948521DF3AE2700881BE4 /* WhileStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC948051DF3AE2700881BE4 /* WhileStatement.h */; };
+		3AC948551DF3B57600881BE4 /* GlueSyntax.lpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */; };
+		3AC948561DF3B57600881BE4 /* ScriptSyntax.lpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */; };
+		3AD4DDD01DF8CFA000A1A7B4 /* PlatformMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4DDCF1DF8CFA000A1A7B4 /* PlatformMac.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3AB4208B1E0E64B70080E50C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AC947A31DF3AA4F00881BE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AC947AA1DF3AA4F00881BE4;
+			remoteInfo = Compiler;
+		};
+		3AB420981E0E65200080E50C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AC947A31DF3AA4F00881BE4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AC947AA1DF3AA4F00881BE4;
+			remoteInfo = Compiler;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3AB4207E1E0E51160080E50C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		3AB4208F1E0E64CE0080E50C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3AB420801E0E51160080E50C /* MikaVM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaVM; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AB420821E0E51160080E50C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420911E0E64CE0080E50C /* MikaCL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaCL; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AB420931E0E64CE0080E50C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB4209A1E0E6B6D0080E50C /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB4209B1E0E6B6D0080E50C /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AB4209E1E0E6EE90080E50C /* Catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Catch.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB4209F1E0E6EE90080E50C /* GeneratedGlue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GeneratedGlue.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A01E0E6EE90080E50C /* Glue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Glue.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A11E0E6EE90080E50C /* Glue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Glue.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A21E0E6EE90080E50C /* MikaArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MikaArchive.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A31E0E6EE90080E50C /* MikaArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaArchive.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A41E0E6EE90080E50C /* MikaOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaOpcodes.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A51E0E6EE90080E50C /* MikaVM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MikaVM.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A61E0E6EE90080E50C /* MikaVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaVM.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A71E0E6EE90080E50C /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A81E0E6EE90080E50C /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420A91E0E6EE90080E50C /* Tests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tests.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AB420B51E0E76200080E50C /* FirstRun.mika */ = {isa = PBXFileReference; lastKnownFileType = text; name = FirstRun.mika; path = TestScripts/FirstRun.mika; sourceTree = "<group>"; };
+		3AB420B61E0E76200080E50C /* MikaGlue.mikah */ = {isa = PBXFileReference; lastKnownFileType = text; name = MikaGlue.mikah; path = TestScripts/MikaGlue.mikah; sourceTree = "<group>"; };
+		3AB420B71E0E76200080E50C /* TestLoops.mika */ = {isa = PBXFileReference; lastKnownFileType = text; name = TestLoops.mika; path = TestScripts/TestLoops.mika; sourceTree = "<group>"; };
+		3AB420B81E0E76200080E50C /* TestMath.mika */ = {isa = PBXFileReference; lastKnownFileType = text; name = TestMath.mika; path = TestScripts/TestMath.mika; sourceTree = "<group>"; };
+		3AC947AB1DF3AA4F00881BE4 /* libCompiler.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCompiler.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AC947B91DF3AE2700881BE4 /* AssignmentExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AssignmentExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947BA1DF3AE2700881BE4 /* AssignmentExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = AssignmentExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947BB1DF3AE2700881BE4 /* BinaryExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BinaryExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947BC1DF3AE2700881BE4 /* BinaryExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = BinaryExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947BD1DF3AE2700881BE4 /* BreakStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BreakStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947BE1DF3AE2700881BE4 /* BreakStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = BreakStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947BF1DF3AE2700881BE4 /* ByteCodeLocator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ByteCodeLocator.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ByteCodeWriter.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C11DF3AE2700881BE4 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compiler.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C21DF3AE2700881BE4 /* Compiler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Compiler.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C31DF3AE2700881BE4 /* Compiler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compiler.hpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompoundStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = CompoundStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContinueStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C81DF3AE2700881BE4 /* ContinueStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ContinueStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947C91DF3AE2700881BE4 /* DebugWriter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = DebugWriter.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947CA1DF3AE2700881BE4 /* Expression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Expression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947CB1DF3AE2700881BE4 /* Expression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Expression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947CC1DF3AE2700881BE4 /* ExpressionStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947CD1DF3AE2700881BE4 /* ExpressionStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ExpressionStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947CE1DF3AE2700881BE4 /* FloatConstantExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConstantExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947CF1DF3AE2700881BE4 /* FloatConstantExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = FloatConstantExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D01DF3AE2700881BE4 /* FunctionCallExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FunctionCallExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D11DF3AE2700881BE4 /* FunctionCallExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = FunctionCallExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D21DF3AE2700881BE4 /* FunctionDeclaration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FunctionDeclaration.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D31DF3AE2700881BE4 /* FunctionDeclaration.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = FunctionDeclaration.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D41DF3AE2700881BE4 /* GlueGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlueGenerator.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D51DF3AE2700881BE4 /* GlueGenerator.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = GlueGenerator.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D81DF3AE2700881BE4 /* GlueTokenizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlueTokenizer.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947D91DF3AE2700881BE4 /* GlueTokenizer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = GlueTokenizer.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947DA1DF3AE2700881BE4 /* Identifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Identifier.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947DB1DF3AE2700881BE4 /* Identifier.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Identifier.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947DC1DF3AE2700881BE4 /* IdentifierExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IdentifierExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947DD1DF3AE2700881BE4 /* IdentifierExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = IdentifierExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947DE1DF3AE2700881BE4 /* IfStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IfStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947DF1DF3AE2700881BE4 /* IfStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = IfStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E01DF3AE2700881BE4 /* IntConstantExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IntConstantExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E11DF3AE2700881BE4 /* IntConstantExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = IntConstantExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E21DF3AE2700881BE4 /* IRCode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IRCode.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E31DF3AE2700881BE4 /* IRCode.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = IRCode.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E41DF3AE2700881BE4 /* Label.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Label.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E51DF3AE2700881BE4 /* LogicalExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogicalExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E61DF3AE2700881BE4 /* LogicalExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = LogicalExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E71DF3AE2700881BE4 /* MemoryManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryManager.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E81DF3AE2700881BE4 /* MemoryManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = MemoryManager.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947E91DF3AE2700881BE4 /* ObjectFileHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectFileHelper.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947EA1DF3AE2700881BE4 /* ObjectFileHelper.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ObjectFileHelper.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947EB1DF3AE2700881BE4 /* Optimizer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Optimizer.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947EC1DF3AE2700881BE4 /* ReferenceCollector.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ReferenceCollector.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947ED1DF3AE2700881BE4 /* ReturnStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReturnStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947EE1DF3AE2700881BE4 /* ReturnStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ReturnStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947EF1DF3AE2700881BE4 /* ScriptFunction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScriptFunction.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F01DF3AE2700881BE4 /* ScriptFunction.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ScriptFunction.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F31DF3AE2700881BE4 /* ScriptTokenizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ScriptTokenizer.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F41DF3AE2700881BE4 /* ScriptTokenizer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ScriptTokenizer.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F51DF3AE2700881BE4 /* Statement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Statement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F61DF3AE2700881BE4 /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F71DF3AE2700881BE4 /* stdafx.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = stdafx.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F81DF3AE2700881BE4 /* StringConstantExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringConstantExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947F91DF3AE2700881BE4 /* StringConstantExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = StringConstantExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947FA1DF3AE2700881BE4 /* SymbolTable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SymbolTable.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947FB1DF3AE2700881BE4 /* SymbolTable.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = SymbolTable.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947FC1DF3AE2700881BE4 /* Token.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Token.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947FD1DF3AE2700881BE4 /* Token.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Token.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947FE1DF3AE2700881BE4 /* Type.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Type.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC947FF1DF3AE2700881BE4 /* UnaryExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UnaryExpression.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948001DF3AE2700881BE4 /* UnaryExpression.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = UnaryExpression.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948011DF3AE2700881BE4 /* Variable.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Variable.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948021DF3AE2700881BE4 /* VariableDeclarationStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VariableDeclarationStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948031DF3AE2700881BE4 /* VariableDeclarationStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = VariableDeclarationStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948041DF3AE2700881BE4 /* WhileStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WhileStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948051DF3AE2700881BE4 /* WhileStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = WhileStatement.h; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = GlueSyntax.lpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = ScriptSyntax.lpp; sourceTree = "<group>"; usesTabs = 1; };
+		3AD4DDCE1DF8CEFF00A1A7B4 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		3AD4DDCF1DF8CFA000A1A7B4 /* PlatformMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformMac.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3AB4207D1E0E51160080E50C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB420AF1E0E70F40080E50C /* libCompiler.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AB4208E1E0E64CE0080E50C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB4209D1E0E6C260080E50C /* libCompiler.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC947A81DF3AA4F00881BE4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3AB420811E0E51160080E50C /* MikaVM */ = {
+			isa = PBXGroup;
+			children = (
+				3AB4209E1E0E6EE90080E50C /* Catch.hpp */,
+				3AB4209F1E0E6EE90080E50C /* GeneratedGlue.hpp */,
+				3AB420A01E0E6EE90080E50C /* Glue.cpp */,
+				3AB420A11E0E6EE90080E50C /* Glue.h */,
+				3AB420A21E0E6EE90080E50C /* MikaArchive.cpp */,
+				3AB420A31E0E6EE90080E50C /* MikaArchive.h */,
+				3AB420A41E0E6EE90080E50C /* MikaOpcodes.h */,
+				3AB420A51E0E6EE90080E50C /* MikaVM.cpp */,
+				3AB420A61E0E6EE90080E50C /* MikaVM.h */,
+				3AB420A71E0E6EE90080E50C /* stdafx.cpp */,
+				3AB420A81E0E6EE90080E50C /* stdafx.h */,
+				3AB420A91E0E6EE90080E50C /* Tests.cpp */,
+				3AB420821E0E51160080E50C /* main.cpp */,
+			);
+			path = MikaVM;
+			sourceTree = "<group>";
+		};
+		3AB420921E0E64CE0080E50C /* MikaCL */ = {
+			isa = PBXGroup;
+			children = (
+				3AB4209A1E0E6B6D0080E50C /* stdafx.cpp */,
+				3AB4209B1E0E6B6D0080E50C /* stdafx.h */,
+				3AB420931E0E64CE0080E50C /* main.cpp */,
+			);
+			path = MikaCL;
+			sourceTree = "<group>";
+		};
+		3AB420B01E0E75A20080E50C /* TestScripts */ = {
+			isa = PBXGroup;
+			children = (
+				3AB420B51E0E76200080E50C /* FirstRun.mika */,
+				3AB420B61E0E76200080E50C /* MikaGlue.mikah */,
+				3AB420B71E0E76200080E50C /* TestLoops.mika */,
+				3AB420B81E0E76200080E50C /* TestMath.mika */,
+			);
+			name = TestScripts;
+			sourceTree = "<group>";
+		};
+		3AC947A21DF3AA4F00881BE4 = {
+			isa = PBXGroup;
+			children = (
+				3AB420B01E0E75A20080E50C /* TestScripts */,
+				3AC947AD1DF3AA4F00881BE4 /* Compiler */,
+				3AB420811E0E51160080E50C /* MikaVM */,
+				3AB420921E0E64CE0080E50C /* MikaCL */,
+				3AC947AC1DF3AA4F00881BE4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3AC947AC1DF3AA4F00881BE4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3AC947AB1DF3AA4F00881BE4 /* libCompiler.a */,
+				3AB420801E0E51160080E50C /* MikaVM */,
+				3AB420911E0E64CE0080E50C /* MikaCL */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3AC947AD1DF3AA4F00881BE4 /* Compiler */ = {
+			isa = PBXGroup;
+			children = (
+				3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */,
+				3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */,
+				3AC947B91DF3AE2700881BE4 /* AssignmentExpression.cpp */,
+				3AC947BA1DF3AE2700881BE4 /* AssignmentExpression.h */,
+				3AC947BB1DF3AE2700881BE4 /* BinaryExpression.cpp */,
+				3AC947BC1DF3AE2700881BE4 /* BinaryExpression.h */,
+				3AC947BD1DF3AE2700881BE4 /* BreakStatement.cpp */,
+				3AC947BE1DF3AE2700881BE4 /* BreakStatement.h */,
+				3AC947BF1DF3AE2700881BE4 /* ByteCodeLocator.h */,
+				3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */,
+				3AC947C11DF3AE2700881BE4 /* Compiler.cpp */,
+				3AC947C21DF3AE2700881BE4 /* Compiler.h */,
+				3AC947C31DF3AE2700881BE4 /* Compiler.hpp */,
+				3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */,
+				3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */,
+				3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */,
+				3AC947C81DF3AE2700881BE4 /* ContinueStatement.h */,
+				3AC947C91DF3AE2700881BE4 /* DebugWriter.h */,
+				3AC947CA1DF3AE2700881BE4 /* Expression.cpp */,
+				3AC947CB1DF3AE2700881BE4 /* Expression.h */,
+				3AC947CC1DF3AE2700881BE4 /* ExpressionStatement.cpp */,
+				3AC947CD1DF3AE2700881BE4 /* ExpressionStatement.h */,
+				3AC947CE1DF3AE2700881BE4 /* FloatConstantExpression.cpp */,
+				3AC947CF1DF3AE2700881BE4 /* FloatConstantExpression.h */,
+				3AC947D01DF3AE2700881BE4 /* FunctionCallExpression.cpp */,
+				3AC947D11DF3AE2700881BE4 /* FunctionCallExpression.h */,
+				3AC947D21DF3AE2700881BE4 /* FunctionDeclaration.cpp */,
+				3AC947D31DF3AE2700881BE4 /* FunctionDeclaration.h */,
+				3AC947D41DF3AE2700881BE4 /* GlueGenerator.cpp */,
+				3AC947D51DF3AE2700881BE4 /* GlueGenerator.h */,
+				3AC947D81DF3AE2700881BE4 /* GlueTokenizer.cpp */,
+				3AC947D91DF3AE2700881BE4 /* GlueTokenizer.h */,
+				3AC947DA1DF3AE2700881BE4 /* Identifier.cpp */,
+				3AC947DB1DF3AE2700881BE4 /* Identifier.h */,
+				3AC947DC1DF3AE2700881BE4 /* IdentifierExpression.cpp */,
+				3AC947DD1DF3AE2700881BE4 /* IdentifierExpression.h */,
+				3AC947DE1DF3AE2700881BE4 /* IfStatement.cpp */,
+				3AC947DF1DF3AE2700881BE4 /* IfStatement.h */,
+				3AC947E01DF3AE2700881BE4 /* IntConstantExpression.cpp */,
+				3AC947E11DF3AE2700881BE4 /* IntConstantExpression.h */,
+				3AC947E21DF3AE2700881BE4 /* IRCode.cpp */,
+				3AC947E31DF3AE2700881BE4 /* IRCode.h */,
+				3AC947E41DF3AE2700881BE4 /* Label.h */,
+				3AC947E51DF3AE2700881BE4 /* LogicalExpression.cpp */,
+				3AC947E61DF3AE2700881BE4 /* LogicalExpression.h */,
+				3AC947E71DF3AE2700881BE4 /* MemoryManager.cpp */,
+				3AC947E81DF3AE2700881BE4 /* MemoryManager.h */,
+				3AC947E91DF3AE2700881BE4 /* ObjectFileHelper.cpp */,
+				3AC947EA1DF3AE2700881BE4 /* ObjectFileHelper.h */,
+				3AC947EB1DF3AE2700881BE4 /* Optimizer.h */,
+				3AC947EC1DF3AE2700881BE4 /* ReferenceCollector.h */,
+				3AC947ED1DF3AE2700881BE4 /* ReturnStatement.cpp */,
+				3AC947EE1DF3AE2700881BE4 /* ReturnStatement.h */,
+				3AC947EF1DF3AE2700881BE4 /* ScriptFunction.cpp */,
+				3AC947F01DF3AE2700881BE4 /* ScriptFunction.h */,
+				3AC947F31DF3AE2700881BE4 /* ScriptTokenizer.cpp */,
+				3AC947F41DF3AE2700881BE4 /* ScriptTokenizer.h */,
+				3AC947F51DF3AE2700881BE4 /* Statement.h */,
+				3AC947F61DF3AE2700881BE4 /* stdafx.cpp */,
+				3AC947F71DF3AE2700881BE4 /* stdafx.h */,
+				3AC947F81DF3AE2700881BE4 /* StringConstantExpression.cpp */,
+				3AC947F91DF3AE2700881BE4 /* StringConstantExpression.h */,
+				3AC947FA1DF3AE2700881BE4 /* SymbolTable.cpp */,
+				3AC947FB1DF3AE2700881BE4 /* SymbolTable.h */,
+				3AC947FC1DF3AE2700881BE4 /* Token.cpp */,
+				3AC947FD1DF3AE2700881BE4 /* Token.h */,
+				3AC947FE1DF3AE2700881BE4 /* Type.h */,
+				3AC947FF1DF3AE2700881BE4 /* UnaryExpression.cpp */,
+				3AC948001DF3AE2700881BE4 /* UnaryExpression.h */,
+				3AC948011DF3AE2700881BE4 /* Variable.h */,
+				3AC948021DF3AE2700881BE4 /* VariableDeclarationStatement.cpp */,
+				3AC948031DF3AE2700881BE4 /* VariableDeclarationStatement.h */,
+				3AC948041DF3AE2700881BE4 /* WhileStatement.cpp */,
+				3AC948051DF3AE2700881BE4 /* WhileStatement.h */,
+				3AD4DDCE1DF8CEFF00A1A7B4 /* Platform.h */,
+				3AD4DDCF1DF8CFA000A1A7B4 /* PlatformMac.cpp */,
+			);
+			path = Compiler;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3AC947A91DF3AA4F00881BE4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AC948441DF3AE2700881BE4 /* stdafx.h in Headers */,
+				3AC948281DF3AE2700881BE4 /* Identifier.h in Headers */,
+				3AC948311DF3AE2700881BE4 /* Label.h in Headers */,
+				3AC9480C1DF3AE2700881BE4 /* ByteCodeLocator.h in Headers */,
+				3AC9482E1DF3AE2700881BE4 /* IntConstantExpression.h in Headers */,
+				3AC948301DF3AE2700881BE4 /* IRCode.h in Headers */,
+				3AC9481A1DF3AE2700881BE4 /* ExpressionStatement.h in Headers */,
+				3AC9484A1DF3AE2700881BE4 /* Token.h in Headers */,
+				3AC948381DF3AE2700881BE4 /* Optimizer.h in Headers */,
+				3AC948091DF3AE2700881BE4 /* BinaryExpression.h in Headers */,
+				3AC948481DF3AE2700881BE4 /* SymbolTable.h in Headers */,
+				3AC948371DF3AE2700881BE4 /* ObjectFileHelper.h in Headers */,
+				3AC9482C1DF3AE2700881BE4 /* IfStatement.h in Headers */,
+				3AC948501DF3AE2700881BE4 /* VariableDeclarationStatement.h in Headers */,
+				3AC948261DF3AE2700881BE4 /* GlueTokenizer.h in Headers */,
+				3AC948391DF3AE2700881BE4 /* ReferenceCollector.h in Headers */,
+				3AC948331DF3AE2700881BE4 /* LogicalExpression.h in Headers */,
+				3AC9481E1DF3AE2700881BE4 /* FunctionCallExpression.h in Headers */,
+				3AC9480F1DF3AE2700881BE4 /* Compiler.h in Headers */,
+				3AC9480B1DF3AE2700881BE4 /* BreakStatement.h in Headers */,
+				3AC9484D1DF3AE2700881BE4 /* UnaryExpression.h in Headers */,
+				3AC948161DF3AE2700881BE4 /* DebugWriter.h in Headers */,
+				3AC948461DF3AE2700881BE4 /* StringConstantExpression.h in Headers */,
+				3AC948101DF3AE2700881BE4 /* Compiler.hpp in Headers */,
+				3AC948071DF3AE2700881BE4 /* AssignmentExpression.h in Headers */,
+				3AC948201DF3AE2700881BE4 /* FunctionDeclaration.h in Headers */,
+				3AC9480D1DF3AE2700881BE4 /* ByteCodeWriter.h in Headers */,
+				3AC9482A1DF3AE2700881BE4 /* IdentifierExpression.h in Headers */,
+				3AC948411DF3AE2700881BE4 /* ScriptTokenizer.h in Headers */,
+				3AC948521DF3AE2700881BE4 /* WhileStatement.h in Headers */,
+				3AC9484B1DF3AE2700881BE4 /* Type.h in Headers */,
+				3AC948131DF3AE2700881BE4 /* CompoundStatement.h in Headers */,
+				3AC948181DF3AE2700881BE4 /* Expression.h in Headers */,
+				3AC948421DF3AE2700881BE4 /* Statement.h in Headers */,
+				3AC948151DF3AE2700881BE4 /* ContinueStatement.h in Headers */,
+				3AC9483B1DF3AE2700881BE4 /* ReturnStatement.h in Headers */,
+				3AC948351DF3AE2700881BE4 /* MemoryManager.h in Headers */,
+				3AC9484E1DF3AE2700881BE4 /* Variable.h in Headers */,
+				3AC9483D1DF3AE2700881BE4 /* ScriptFunction.h in Headers */,
+				3AC9481C1DF3AE2700881BE4 /* FloatConstantExpression.h in Headers */,
+				3AC948221DF3AE2700881BE4 /* GlueGenerator.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3AB4207F1E0E51160080E50C /* MikaVM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AB420871E0E51160080E50C /* Build configuration list for PBXNativeTarget "MikaVM" */;
+			buildPhases = (
+				3AB4207C1E0E51160080E50C /* Sources */,
+				3AB4207D1E0E51160080E50C /* Frameworks */,
+				3AB4207E1E0E51160080E50C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AB4208C1E0E64B70080E50C /* PBXTargetDependency */,
+			);
+			name = MikaVM;
+			productName = MikaVM;
+			productReference = 3AB420801E0E51160080E50C /* MikaVM */;
+			productType = "com.apple.product-type.tool";
+		};
+		3AB420901E0E64CE0080E50C /* MikaCL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AB420951E0E64CE0080E50C /* Build configuration list for PBXNativeTarget "MikaCL" */;
+			buildPhases = (
+				3AB4208D1E0E64CE0080E50C /* Sources */,
+				3AB4208E1E0E64CE0080E50C /* Frameworks */,
+				3AB4208F1E0E64CE0080E50C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3AB420991E0E65200080E50C /* PBXTargetDependency */,
+			);
+			name = MikaCL;
+			productName = MikaCL;
+			productReference = 3AB420911E0E64CE0080E50C /* MikaCL */;
+			productType = "com.apple.product-type.tool";
+		};
+		3AC947AA1DF3AA4F00881BE4 /* Compiler */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AC947B61DF3AA4F00881BE4 /* Build configuration list for PBXNativeTarget "Compiler" */;
+			buildPhases = (
+				3AC947A71DF3AA4F00881BE4 /* Sources */,
+				3AC947A81DF3AA4F00881BE4 /* Frameworks */,
+				3AC947A91DF3AA4F00881BE4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Compiler;
+			productName = Compiler;
+			productReference = 3AC947AB1DF3AA4F00881BE4 /* libCompiler.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3AC947A31DF3AA4F00881BE4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Alexander Barrentine";
+				TargetAttributes = {
+					3AB4207F1E0E51160080E50C = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 4WQP86PQ5Z;
+						ProvisioningStyle = Automatic;
+					};
+					3AB420901E0E64CE0080E50C = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 4WQP86PQ5Z;
+						ProvisioningStyle = Automatic;
+					};
+					3AC947AA1DF3AA4F00881BE4 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 4WQP86PQ5Z;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 3AC947A61DF3AA4F00881BE4 /* Build configuration list for PBXProject "Mika" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3AC947A21DF3AA4F00881BE4;
+			productRefGroup = 3AC947AC1DF3AA4F00881BE4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3AC947AA1DF3AA4F00881BE4 /* Compiler */,
+				3AB4207F1E0E51160080E50C /* MikaVM */,
+				3AB420901E0E64CE0080E50C /* MikaCL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3AB4207C1E0E51160080E50C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB420AC1E0E6EE90080E50C /* MikaVM.cpp in Sources */,
+				3AB420AA1E0E6EE90080E50C /* Glue.cpp in Sources */,
+				3AB420831E0E51160080E50C /* main.cpp in Sources */,
+				3AB420AE1E0E6EE90080E50C /* Tests.cpp in Sources */,
+				3AB420AB1E0E6EE90080E50C /* MikaArchive.cpp in Sources */,
+				3AB420AD1E0E6EE90080E50C /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AB4208D1E0E64CE0080E50C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AB420941E0E64CE0080E50C /* main.cpp in Sources */,
+				3AB4209C1E0E6B6D0080E50C /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AC947A71DF3AA4F00881BE4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AC9484C1DF3AE2700881BE4 /* UnaryExpression.cpp in Sources */,
+				3AC9481F1DF3AE2700881BE4 /* FunctionDeclaration.cpp in Sources */,
+				3AC948291DF3AE2700881BE4 /* IdentifierExpression.cpp in Sources */,
+				3AC948401DF3AE2700881BE4 /* ScriptTokenizer.cpp in Sources */,
+				3AC948061DF3AE2700881BE4 /* AssignmentExpression.cpp in Sources */,
+				3AC9481D1DF3AE2700881BE4 /* FunctionCallExpression.cpp in Sources */,
+				3AC9482F1DF3AE2700881BE4 /* IRCode.cpp in Sources */,
+				3AC948491DF3AE2700881BE4 /* Token.cpp in Sources */,
+				3AC948431DF3AE2700881BE4 /* stdafx.cpp in Sources */,
+				3AC948191DF3AE2700881BE4 /* ExpressionStatement.cpp in Sources */,
+				3AC9480A1DF3AE2700881BE4 /* BreakStatement.cpp in Sources */,
+				3AC9483A1DF3AE2700881BE4 /* ReturnStatement.cpp in Sources */,
+				3AC9482D1DF3AE2700881BE4 /* IntConstantExpression.cpp in Sources */,
+				3AC9483C1DF3AE2700881BE4 /* ScriptFunction.cpp in Sources */,
+				3AC948561DF3B57600881BE4 /* ScriptSyntax.lpp in Sources */,
+				3AC948211DF3AE2700881BE4 /* GlueGenerator.cpp in Sources */,
+				3AC9484F1DF3AE2700881BE4 /* VariableDeclarationStatement.cpp in Sources */,
+				3AC948121DF3AE2700881BE4 /* CompoundStatement.cpp in Sources */,
+				3AC948321DF3AE2700881BE4 /* LogicalExpression.cpp in Sources */,
+				3AC9482B1DF3AE2700881BE4 /* IfStatement.cpp in Sources */,
+				3AC948341DF3AE2700881BE4 /* MemoryManager.cpp in Sources */,
+				3AC948141DF3AE2700881BE4 /* ContinueStatement.cpp in Sources */,
+				3AC948511DF3AE2700881BE4 /* WhileStatement.cpp in Sources */,
+				3AC948251DF3AE2700881BE4 /* GlueTokenizer.cpp in Sources */,
+				3AC948271DF3AE2700881BE4 /* Identifier.cpp in Sources */,
+				3AC9480E1DF3AE2700881BE4 /* Compiler.cpp in Sources */,
+				3AC948361DF3AE2700881BE4 /* ObjectFileHelper.cpp in Sources */,
+				3AC948081DF3AE2700881BE4 /* BinaryExpression.cpp in Sources */,
+				3AD4DDD01DF8CFA000A1A7B4 /* PlatformMac.cpp in Sources */,
+				3AC948551DF3B57600881BE4 /* GlueSyntax.lpp in Sources */,
+				3AC9481B1DF3AE2700881BE4 /* FloatConstantExpression.cpp in Sources */,
+				3AC948451DF3AE2700881BE4 /* StringConstantExpression.cpp in Sources */,
+				3AC948471DF3AE2700881BE4 /* SymbolTable.cpp in Sources */,
+				3AC948171DF3AE2700881BE4 /* Expression.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3AB4208C1E0E64B70080E50C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AC947AA1DF3AA4F00881BE4 /* Compiler */;
+			targetProxy = 3AB4208B1E0E64B70080E50C /* PBXContainerItemProxy */;
+		};
+		3AB420991E0E65200080E50C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AC947AA1DF3AA4F00881BE4 /* Compiler */;
+			targetProxy = 3AB420981E0E65200080E50C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3AB420841E0E51160080E50C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3AB420851E0E51160080E50C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3AB420961E0E64CE0080E50C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3AB420971E0E64CE0080E50C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		3AC947B41DF3AA4F00881BE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3AC947B51DF3AA4F00881BE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3AC947B71DF3AA4F00881BE4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3AC947B81DF3AA4F00881BE4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_CPP_EXCEPTIONS = YES;
+				GCC_ENABLE_CPP_RTTI = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3AB420871E0E51160080E50C /* Build configuration list for PBXNativeTarget "MikaVM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AB420841E0E51160080E50C /* Debug */,
+				3AB420851E0E51160080E50C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AB420951E0E64CE0080E50C /* Build configuration list for PBXNativeTarget "MikaCL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AB420961E0E64CE0080E50C /* Debug */,
+				3AB420971E0E64CE0080E50C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		3AC947A61DF3AA4F00881BE4 /* Build configuration list for PBXProject "Mika" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AC947B41DF3AA4F00881BE4 /* Debug */,
+				3AC947B51DF3AA4F00881BE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AC947B61DF3AA4F00881BE4 /* Build configuration list for PBXNativeTarget "Compiler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AC947B71DF3AA4F00881BE4 /* Debug */,
+				3AC947B81DF3AA4F00881BE4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3AC947A31DF3AA4F00881BE4 /* Project object */;
+}

@@ -48,7 +48,7 @@ public:
 		mByteCodeOffset += sizeof(MikaArchiveCell);
 	}
 
-	void Visit(IRInstruction* op)
+	void Visit(IRInstruction* op) override
 	{
 		int targetOffset = mByteCodeOffset + op->GetSize();
 		op->SetByteCodeOffset(mByteCodeOffset);
@@ -97,7 +97,7 @@ public:
 	void Visit(IRStringOperand*, bool) override {}
 	void Visit(IRStackBytesOperand*, bool) override {}
 
-	void Visit(IRInstruction* op)
+	void Visit(IRInstruction* op) override
 	{
 		VisitChildren(op);
 	}

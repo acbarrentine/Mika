@@ -91,7 +91,7 @@ void GlueGenerator::WriteGlueFile(const char* glueFileName)
 		
 		if (returnType != voidType)
 		{
-			outStream << "vm->SetConditionRegister(retVal);" << std::endl;
+			outStream << "\tvm->SetResultRegister(retval);" << std::endl;
 		}
 
 		outStream << "}" << std::endl << std::endl;

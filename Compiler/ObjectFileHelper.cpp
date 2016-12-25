@@ -14,6 +14,7 @@
 #include "DebugWriter.h"
 #include "ReferenceCollector.h"
 #include "Optimizer.h"
+#include "Platform.h"
 
 class MikaWriter : public MikaArchive
 {
@@ -28,10 +29,11 @@ public:
 
 	void Open(const char* fileName)
 	{
+		Platform::CreateDirectory(fileName);
 		mStream.open(fileName, std::ios::out | std::ios::binary);
 	}
 
-	bool Failed() { return mStream.bad(); }
+	bool Failed() { return mStream.fail(); }
 };
 
 ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func, int nameOffset)

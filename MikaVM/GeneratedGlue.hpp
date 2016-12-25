@@ -38,6 +38,13 @@ void Glue_AssertEqualsString(MikaVM* vm)
 	AssertEqualsString(left, right, loc.Func->mName, loc.LineNumber);
 }
 
+void Glue_Sqrt(MikaVM* vm)
+{
+	double param1 = (double)vm->GetFunctionArg(0).mDblVal;
+	double retval = Sqrt(param1);
+	vm->SetResultRegister(retval);
+}
+
 void RegisterGlueFunctions(MikaVM* vm)
 {
 	vm->RegisterGlue({
@@ -46,5 +53,6 @@ void RegisterGlueFunctions(MikaVM* vm)
 		{ "AssertEqualsInt", Glue_AssertEqualsInt },
 		{ "AssertEqualsFloat", Glue_AssertEqualsFloat },
 		{ "AssertEqualsString", Glue_AssertEqualsString },
+		{ "Sqrt", Glue_Sqrt },
 	});
 }

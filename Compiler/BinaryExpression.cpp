@@ -89,6 +89,10 @@ void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 
 	switch (mTokenType)
 	{
+        default:
+            GCompiler.Error(mRootToken, "invalid token for binary expression");
+            break;
+            
 		case TType::kPlus:
 			mOpCode = AddOps[opType];
 			mType = leftType;

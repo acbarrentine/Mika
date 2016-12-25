@@ -22,7 +22,7 @@ public:
 	void Visit(IRFloatOperand*, bool) override {}
 	void Visit(IRStackBytesOperand*, bool) override {}
 
-	void Visit(IRInstruction* op)
+	void Visit(IRInstruction* op) override
 	{
 		// look for the use of a temporary holding a value about to
 		// be moved to a variable

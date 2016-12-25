@@ -3,3 +3,4 @@ Assert(cond : int, location) : void
 AssertEqualsInt(left:int, right:int, location) : void
 AssertEqualsFloat(left:float, right:float, location) : void
 AssertEqualsString(left:string, right:string, location) : void
+Sqrt(float):float

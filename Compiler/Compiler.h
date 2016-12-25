@@ -51,7 +51,6 @@ public:
 
 	void Reset();
 	void Message(MsgSeverity severity, const char* format, ...);
-	void MessageArgs(MsgSeverity severity, const char* format, va_list args);
 	void Error(int errorTokenIndex, const char* message);
 	void Error(const char* format, ...);
 
