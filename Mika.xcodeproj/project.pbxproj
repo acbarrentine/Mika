@@ -27,7 +27,6 @@
 		3AC9480D1DF3AE2700881BE4 /* ByteCodeWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */; };
 		3AC9480E1DF3AE2700881BE4 /* Compiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947C11DF3AE2700881BE4 /* Compiler.cpp */; };
 		3AC9480F1DF3AE2700881BE4 /* Compiler.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C21DF3AE2700881BE4 /* Compiler.h */; };
-		3AC948101DF3AE2700881BE4 /* Compiler.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C31DF3AE2700881BE4 /* Compiler.hpp */; };
 		3AC948121DF3AE2700881BE4 /* CompoundStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */; };
 		3AC948131DF3AE2700881BE4 /* CompoundStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */; };
 		3AC948141DF3AE2700881BE4 /* ContinueStatement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */; };
@@ -166,7 +165,6 @@
 		3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ByteCodeWriter.h; sourceTree = "<group>"; usesTabs = 1; };
 		3AC947C11DF3AE2700881BE4 /* Compiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Compiler.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AC947C21DF3AE2700881BE4 /* Compiler.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Compiler.h; sourceTree = "<group>"; usesTabs = 1; };
-		3AC947C31DF3AE2700881BE4 /* Compiler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Compiler.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CompoundStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = CompoundStatement.h; sourceTree = "<group>"; usesTabs = 1; };
 		3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContinueStatement.cpp; sourceTree = "<group>"; usesTabs = 1; };
@@ -338,7 +336,6 @@
 				3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */,
 				3AC947C11DF3AE2700881BE4 /* Compiler.cpp */,
 				3AC947C21DF3AE2700881BE4 /* Compiler.h */,
-				3AC947C31DF3AE2700881BE4 /* Compiler.hpp */,
 				3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */,
 				3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */,
 				3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */,
@@ -436,7 +433,6 @@
 				3AC9484D1DF3AE2700881BE4 /* UnaryExpression.h in Headers */,
 				3AC948161DF3AE2700881BE4 /* DebugWriter.h in Headers */,
 				3AC948461DF3AE2700881BE4 /* StringConstantExpression.h in Headers */,
-				3AC948101DF3AE2700881BE4 /* Compiler.hpp in Headers */,
 				3AC948071DF3AE2700881BE4 /* AssignmentExpression.h in Headers */,
 				3AC948201DF3AE2700881BE4 /* FunctionDeclaration.h in Headers */,
 				3AC9480D1DF3AE2700881BE4 /* ByteCodeWriter.h in Headers */,
@@ -804,6 +800,7 @@
 				3AB420971E0E64CE0080E50C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3AC947A61DF3AA4F00881BE4 /* Build configuration list for PBXProject "Mika" */ = {
 			isa = XCConfigurationList;
