@@ -39,7 +39,6 @@ public:
 ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func, int nameOffset)
 	: mFunction(func)
 	, mNameOffset(nameOffset)
-	, mStackUsage(0)
 {
 	mInstructions.reserve(200);
 }
@@ -78,22 +77,36 @@ int ObjectFileHelper::AddString(Identifier id)
 IRInstruction* ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRInstruction(opCode, rootToken));
+	record.mInstructions.emplace_back(new IRInstruction(opCode, rootToken, mScopeStack.back()));
 	return record.mInstructions.back();
 }
 
-IRInstruction* ObjectFileHelper::EmitReturn(int rootToken)
+IRInstruction* ObjectFileHelper::EmitTerminator(int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken));
+	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken, mScopeStack.back()));
 	return record.mInstructions.back();
 }
 
 IRInstruction* ObjectFileHelper::EmitLabel(Label* label, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRLabelInstruction(label, rootToken));
+	record.mInstructions.emplace_back(new IRLabelInstruction(label, rootToken, mScopeStack.back()));
 	return record.mInstructions.back();
+}
+
+void ObjectFileHelper::PushScope(int rootToken)
+{
+	mScopeStack.push_back(new IRScope());
+	IRInstruction* pushScope = EmitInstruction(MoveStackPointer, rootToken);
+	pushScope->SetOperand(0, new IRStackBytesOperand(false));
+}
+
+void ObjectFileHelper::PopScope(int rootToken)
+{
+	IRInstruction* pushScope = EmitInstruction(MoveStackPointer, rootToken);
+	pushScope->SetOperand(0, new IRStackBytesOperand(true));
+	mScopeStack.pop_back();
 }
 
 void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
@@ -115,7 +128,6 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	{
 		MikaArchiveFunctionHeader header;
 		header.mNameOffset = record.mNameOffset;
-		header.mStackSize = record.mStackUsage;
 		header.mByteData = std::move(record.mByteCodeData);
 		header.mStringFixups = std::move(record.mStringFixups);
 
@@ -149,13 +161,12 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 		op->Accept(&collector);
 	}
 
-	TempRegisterLocator tempLocator;
+	TempRegisterLocator tempLocator(0);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&tempLocator);
 	}
 	int stackBytesUsed = tempLocator.GetUsedBytes();
-	record.mStackUsage = stackBytesUsed;
 
 	// assign stack locations to used variables
 	VariableLocator varLocator(stackBytesUsed, mGlobalStackOffset);
@@ -164,7 +175,7 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 		op->Accept(&varLocator);
 	}
 
-	StackPointerMover stackMover(stackBytesUsed);
+	StackPointerMover stackMover;
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&stackMover);

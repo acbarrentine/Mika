@@ -50,11 +50,13 @@ class VariableLocator : public IRVisitor
 protected:
 	int mStackOffset;
 	int& mGlobalStackOffset;
+	IRScope* mCurrentScope;
 
 public:
 	VariableLocator(int& initialLocalOffset, int& initialGlobalOffset)
 		: mStackOffset(initialLocalOffset)
 		, mGlobalStackOffset(initialGlobalOffset)
+		, mCurrentScope(nullptr)
 	{
 	}
 
@@ -76,6 +78,7 @@ public:
 			{
 				var->SetStackOffset(mStackOffset);
 				mStackOffset += size;
+				mCurrentScope->SetStackOffset(mStackOffset);
 			}
 		}
 	}
@@ -90,11 +93,19 @@ public:
 
 	void Visit(IRInstruction* op) override
 	{
+		mCurrentScope = op->GetScope();
 		VisitChildren(op);
 	}
 
-	void Visit(class IRLabelInstruction*) override {}
-	void Visit(class IRReturnInstruction*) override {}
+	void Visit(IRLabelInstruction* op) override
+	{
+		mCurrentScope = op->GetScope();
+	}
+	
+	void Visit(IRReturnInstruction* op) override
+	{
+		mCurrentScope = op->GetScope();
+	}
 };
 
 class TempRegisterLocator : public IRVisitor
@@ -103,10 +114,14 @@ protected:
 	std::vector<int> mFreeRegisters;
 	std::map<int, int> mUsedRegisters;
 	int mStackOffset;
+	int mInitialOffset;
+	IRScope* mCurrentScope;
 
 public:
-	TempRegisterLocator()
-		: mStackOffset(0)
+	TempRegisterLocator(int initialOffset)
+		: mStackOffset(initialOffset)
+		, mInitialOffset(initialOffset)
+		, mCurrentScope(nullptr)
 	{
 	}
 
@@ -125,6 +140,7 @@ public:
 				{
 					op->mStackOffset = mStackOffset;
 					mStackOffset += sizeof(int*);
+					mCurrentScope->SetStackOffset(mStackOffset);
 				}
 
 				// set the read count so we know when to release it
@@ -158,15 +174,23 @@ public:
 
 	void Visit(IRInstruction* op) override
 	{
+		mCurrentScope = op->GetScope();
 		VisitChildren(op);
 	}
 
-	void Visit(class IRLabelInstruction*) override {}
-	void Visit(class IRReturnInstruction*) override {}
+	void Visit(IRLabelInstruction* op) override
+	{
+		mCurrentScope = op->GetScope();
+	}
+	
+	void Visit(IRReturnInstruction* op) override
+	{
+		mCurrentScope = op->GetScope();
+	}
 
 	int GetUsedBytes() const
 	{
-		return mStackOffset;
+		return mStackOffset - mInitialOffset;
 	}
 };
 
@@ -175,27 +199,13 @@ class StackPointerMover : public IRVisitor
 protected:
 	int mStackBytes;
 
-	struct AddOperation
-	{
-		IRInstruction* mAddOp;
-		int mInitialStackBytes;
-		AddOperation(IRInstruction* addOp, int stackBytes) : mAddOp(addOp), mInitialStackBytes(stackBytes) {}
-	};
-	std::vector<AddOperation> mAddOperations;
-
 public:
-	StackPointerMover(int baseLine)
-		: mStackBytes(baseLine)
+	StackPointerMover()
+		: mStackBytes(0)
 	{
 	}
 
-	void Visit(IRVariableOperand* op, bool) override
-	{
-		int stackOffset = op->mVariable->GetStackOffset() + sizeof(int*);
-		if (stackOffset > mStackBytes)
-			mStackBytes = stackOffset;
-	}
-
+	void Visit(IRVariableOperand*, bool) override {}
 	void Visit(IRRegisterOperand*, bool) override {}
 	void Visit(IRFunctionOperand*, bool) override {}
 	void Visit(IRLabelOperand*, bool) override {}
@@ -209,28 +219,27 @@ public:
 		if (op->mCode == MoveStackPointer)
 		{
 			IRStackBytesOperand* amountOp = (IRStackBytesOperand*)op->mOperands[0];
+			IRScope* scope = op->GetScope();
+			int newStackBytes = scope->GetStackBytes();
+			int delta = newStackBytes - mStackBytes;
+			
 			if (amountOp->mSubtract)
 			{
-				assert(mAddOperations.size());
-				AddOperation& add = mAddOperations.back();
-				mAddOperations.pop_back();
-
-				int delta = mStackBytes - add.mInitialStackBytes;
-				if (delta)
-				{
-					IRStackBytesOperand* addAmountOp = (IRStackBytesOperand*)add.mAddOp->mOperands[0];
-					addAmountOp->SetStackBytes(delta);
-					amountOp->SetStackBytes(-delta);
-				}
-				else
-				{
-					op->Remove();
-					add.mAddOp->Remove();
-				}
+				delta *= -1;
+				assert(delta <= 0);
 			}
 			else
 			{
-				mAddOperations.emplace_back(op, mStackBytes);
+				assert(delta >= 0);
+			}
+			
+			if (delta)
+			{
+				amountOp->SetStackBytes(delta);
+			}
+			else
+			{
+				op->Remove();
 			}
 		}
 		else

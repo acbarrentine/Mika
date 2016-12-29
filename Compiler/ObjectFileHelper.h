@@ -14,7 +14,6 @@ protected:
 	{
 		ScriptFunction* mFunction;
 		int mNameOffset;
-		int mStackUsage;
 		std::vector<IRInstruction*> mInstructions;
 		std::vector<char> mByteCodeData;
 		std::vector<int> mStringFixups;
@@ -25,6 +24,7 @@ protected:
 
 	std::vector<FunctionRecord> mFunctions;
 	std::vector<char> mStringData;
+	std::vector<IRScope*> mScopeStack;
 	int mGlobalStackOffset;
 
 public:
@@ -37,9 +37,12 @@ public:
 	int AddString(Identifier id);
 
 	IRInstruction* EmitInstruction(OpCode opCode, int rootToken);
-	IRInstruction* EmitReturn(int rootToken);
+	IRInstruction* EmitTerminator(int rootToken);
 	IRInstruction* EmitLabel(Label* label, int rootToken);
 
+	void PushScope(int rootToken);
+	void PopScope(int rootToken);
+	
 	void WriteObjectFile(const char* objectFileName);
 	void WriteDebugFile(const char* debugFileName);
 

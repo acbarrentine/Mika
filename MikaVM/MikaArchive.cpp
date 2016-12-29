@@ -43,7 +43,6 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			MikaVM::Function runTimeHeader;
 			runTimeHeader.mByteData = std::move(arHeader.mByteData);
 			runTimeHeader.mName = &globalContext->mStringData[arHeader.mNameOffset];
-			runTimeHeader.mStackSize = arHeader.mStackSize;
 			runTimeHeader.mGlobalContext = globalContext;
 
 			if (i == 0)

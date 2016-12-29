@@ -186,7 +186,7 @@ void MikaVM::PushCallFrame(Function* func)
 
 		newFrame.Func = func;
 		newFrame.BasePtr = &mStack[0];
-		newFrame.StackPtr = newFrame.BasePtr + func->mStackSize;
+		newFrame.StackPtr = newFrame.BasePtr;
 	}
 	else
 	{
@@ -196,7 +196,7 @@ void MikaVM::PushCallFrame(Function* func)
 
 		newFrame.Func = func;
 		newFrame.BasePtr = currentLoc.StackPtr;
-		newFrame.StackPtr = newFrame.BasePtr + func->mStackSize;
+		newFrame.StackPtr = newFrame.BasePtr;
 	}
 }
 

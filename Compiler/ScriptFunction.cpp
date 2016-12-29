@@ -36,8 +36,7 @@ void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 
 void ScriptFunction::GenCode(ObjectFileHelper& helper)
 {
-	IRInstruction* pushScope = helper.EmitInstruction(MoveStackPointer, mRootToken);
-	pushScope->SetOperand(0, new IRStackBytesOperand(false));
+	helper.PushScope(mRootToken);
 
 	// save called arguments
 	for (int i = 0; i < GetParameterCount(); ++i)
@@ -49,10 +48,8 @@ void ScriptFunction::GenCode(ObjectFileHelper& helper)
 	}
 
 	mBody->GenCode(helper);
+	
 	helper.EmitLabel(mEndLabel, mRootToken);
-
-	IRInstruction* popScope = helper.EmitInstruction(MoveStackPointer, mRootToken);
-	popScope->SetOperand(0, new IRStackBytesOperand(true));
-
-	helper.EmitReturn(mRootToken);
+	helper.PopScope(mRootToken);
+	helper.EmitTerminator(mRootToken);
 }

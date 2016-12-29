@@ -16,7 +16,6 @@ public:
 		const char* mName;
 		GlobalContext* mGlobalContext;
 		std::vector<char> mByteData;
-		int mStackSize;
 	};
 
 	struct StackIndex

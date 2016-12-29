@@ -53,6 +53,23 @@ public:
 	void VisitChildren(class IRInstruction* op);
 };
 
+class IRScope : public ManagedEntity
+{
+protected:
+	int mStackBytes;
+	
+public:
+	IRScope() : mStackBytes(0) {}
+	
+	void SetStackOffset(int stackBytes)
+	{
+		if (stackBytes > mStackBytes)
+			mStackBytes = stackBytes;
+	}
+	
+	int GetStackBytes() const { return mStackBytes; }
+};
+
 class IROperand : public ManagedEntity
 {
 protected:
@@ -87,6 +104,7 @@ class IRVariableOperand : public IROperand
 {
 protected:
 	Variable* mVariable;
+	
 public:
 	IRVariableOperand(Variable* var) : mVariable(var) {}
 
@@ -199,15 +217,17 @@ protected:
 	int mRootToken;
 	int mByteCodeOffset;
 	bool mRemoved;
+	IRScope* mScope;
 	IROperand* mOperands[3];
 	static OpCodeData SOpCodeData[];
 
 public:
-	IRInstruction(OpCode code, int rootToken)
+	IRInstruction(OpCode code, int rootToken, IRScope* scope)
 		: mCode(code)
 		, mRootToken(rootToken)
 		, mByteCodeOffset(0)
 		, mRemoved(false)
+		, mScope(scope)
 	{
 		mOperands[0] = 0;
 		mOperands[1] = 0;
@@ -237,7 +257,8 @@ public:
 	const char* GetName() const;
 	bool WritesOperand(int index);
 	void Remove() { mRemoved = true; }
-
+	IRScope* GetScope() const { return mScope; }
+	
 	virtual void Accept(IRVisitor* visitor)
 	{
 		if (!mRemoved) visitor->Visit(this);
@@ -252,8 +273,8 @@ protected:
 	Label* mLabel;
 
 public:
-	IRLabelInstruction(Label* label, int rootToken)
-		: IRInstruction(IllegalInstruction, rootToken)
+	IRLabelInstruction(Label* label, int rootToken, IRScope* scope)
+		: IRInstruction(IllegalInstruction, rootToken, scope)
 		, mLabel(label)
 	{
 	}
@@ -276,8 +297,8 @@ public:
 class IRReturnInstruction : public IRInstruction
 {
 public:
-	IRReturnInstruction(int rootToken)
-		: IRInstruction(IllegalInstruction, rootToken)
+	IRReturnInstruction(int rootToken, IRScope* scope)
+		: IRInstruction(IllegalInstruction, rootToken, scope)
 	{
 	}
 
