@@ -283,6 +283,8 @@ void Glue_ConditionalBranch(MikaVM* vm)
 	if (!condValue.mIntVal)
 	{
 		MikaVM::Cell dest = vm->GetOperand(1);
+		MikaVM::Cell stackBytes = vm->GetOperand(2);
+		vm->MoveStackPointer(stackBytes.mIntVal);
 		vm->SetPCOffset(dest.mIntVal);
 	}
 }
@@ -290,6 +292,8 @@ void Glue_ConditionalBranch(MikaVM* vm)
 void Glue_UnconditionalBranch(MikaVM* vm)
 {
 	MikaVM::Cell dest = vm->GetOperand(0);
+	MikaVM::Cell stackBytes = vm->GetOperand(1);
+	vm->MoveStackPointer(stackBytes.mIntVal);
 	vm->SetPCOffset(dest.mIntVal);
 }
 

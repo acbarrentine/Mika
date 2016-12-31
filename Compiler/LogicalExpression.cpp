@@ -54,6 +54,7 @@ void LogicalExpression::GenCode(ObjectFileHelper& helper)
 	IRInstruction* branch1 = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	branch1->SetOperand(0, op1Result);
 	branch1->SetOperand(1, new IRLabelOperand(logicalAnd ? mFalseLabel : mTrueLabel));
+	branch1->SetOperand(2, new IRStackBytesOperand(false));
 
 	mRight->GenCode(helper);
 
@@ -66,6 +67,7 @@ void LogicalExpression::GenCode(ObjectFileHelper& helper)
 	IRInstruction* branch2 = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	branch2->SetOperand(0, op2Result);
 	branch2->SetOperand(1, new IRLabelOperand(logicalAnd ? mFalseLabel : mTrueLabel));
+	branch2->SetOperand(2, new IRStackBytesOperand(false));
 
 	if (logicalAnd)
 	{
@@ -82,6 +84,7 @@ void LogicalExpression::GenCode(ObjectFileHelper& helper)
 
 	IRInstruction* branch3 = helper.EmitInstruction(UnconditionalBranch, mRootToken);
 	branch3->SetOperand(0, new IRLabelOperand(mEndLabel));
+	branch3->SetOperand(1, new IRStackBytesOperand(false));
 
 	if (logicalAnd)
 	{

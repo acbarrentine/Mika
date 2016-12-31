@@ -37,6 +37,7 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 	IRInstruction* ifOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	ifOp->SetOperand(0, condition);
 	ifOp->SetOperand(1, mElseClause ? new IRLabelOperand(mElseLabel) : new IRLabelOperand(mEndLabel));
+	ifOp->SetOperand(2, new IRStackBytesOperand(false));
 
 	// then
 	mThenClause->GenCode(helper);
@@ -44,6 +45,7 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 	// branch to end
 	IRInstruction* unOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
 	unOp->SetOperand(0, new IRLabelOperand(mEndLabel));
+	unOp->SetOperand(1, new IRStackBytesOperand(false));
 
 	// else
 	if (mElseClause)

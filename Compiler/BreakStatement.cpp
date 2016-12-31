@@ -17,4 +17,5 @@ void BreakStatement::GenCode(ObjectFileHelper& helper)
 {
 	IRInstruction* branchOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
 	branchOp->SetOperand(0, new IRLabelOperand(mTarget));
+	branchOp->SetOperand(1, new IRStackBytesOperand(false));
 }

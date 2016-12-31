@@ -56,18 +56,31 @@ public:
 class IRScope : public ManagedEntity
 {
 protected:
+	IRScope* mParent;
 	int mStackBytes;
 	
+	int GetParentStackBytes() const
+	{
+		return mParent ? mParent->GetStackBytes() : 0;
+	}
+	
 public:
-	IRScope() : mStackBytes(0) {}
+	IRScope(IRScope* parent)
+		: mParent(parent)
+		, mStackBytes(0) {}
 	
 	void SetStackOffset(int stackBytes)
 	{
+		int parentBytes = GetParentStackBytes();
+		stackBytes -= parentBytes;
 		if (stackBytes > mStackBytes)
 			mStackBytes = stackBytes;
 	}
 	
-	int GetStackBytes() const { return mStackBytes; }
+	int GetStackBytes() const
+	{
+		return mStackBytes + GetParentStackBytes();
+	}
 };
 
 class IROperand : public ManagedEntity
@@ -139,6 +152,7 @@ protected:
 public:
 	IRLabelOperand(Label* label) : mLabel(label), mByteCodeOffset(0) {}
 	void SetOffset(int byteCodeOffset) { mByteCodeOffset = byteCodeOffset; }
+	int GetTargetStackBytes() const;
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	VISITOR_CLASSES;

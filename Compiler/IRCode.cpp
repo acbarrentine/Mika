@@ -24,6 +24,12 @@ void IRVisitor::VisitChildren(IRInstruction* op)
 	}
 }
 
+int IRLabelOperand::GetTargetStackBytes() const
+{
+	IRScope* scope = mLabel->GetScope();
+	return scope->GetStackBytes();
+}
+
 int IRInstruction::GetSize() const
 {
 	return sizeof(MikaArchiveInstruction) + (GetNumOperands() * sizeof(int*));

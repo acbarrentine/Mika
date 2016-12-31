@@ -115,13 +115,13 @@ protected:
 	std::map<int, int> mUsedRegisters;
 	int mStackOffset;
 	int mInitialOffset;
-	IRScope* mCurrentScope;
+	IRScope* mFunctionScope;
 
 public:
-	TempRegisterLocator(int initialOffset)
+	TempRegisterLocator(int initialOffset, IRScope* functionScope)
 		: mStackOffset(initialOffset)
 		, mInitialOffset(initialOffset)
-		, mCurrentScope(nullptr)
+		, mFunctionScope(functionScope)
 	{
 	}
 
@@ -140,7 +140,7 @@ public:
 				{
 					op->mStackOffset = mStackOffset;
 					mStackOffset += sizeof(int*);
-					mCurrentScope->SetStackOffset(mStackOffset);
+					mFunctionScope->SetStackOffset(mStackOffset);
 				}
 
 				// set the read count so we know when to release it
@@ -174,19 +174,11 @@ public:
 
 	void Visit(IRInstruction* op) override
 	{
-		mCurrentScope = op->GetScope();
 		VisitChildren(op);
 	}
 
-	void Visit(IRLabelInstruction* op) override
-	{
-		mCurrentScope = op->GetScope();
-	}
-	
-	void Visit(IRReturnInstruction* op) override
-	{
-		mCurrentScope = op->GetScope();
-	}
+	void Visit(IRLabelInstruction*) override {}
+	void Visit(IRReturnInstruction*) override {}
 
 	int GetUsedBytes() const
 	{
@@ -198,6 +190,7 @@ class StackPointerMover : public IRVisitor
 {
 protected:
 	int mStackBytes;
+	std::vector<int> mPushes;
 
 public:
 	StackPointerMover()
@@ -216,35 +209,75 @@ public:
 
 	void Visit(IRInstruction* op) override
 	{
-		if (op->mCode == MoveStackPointer)
+		switch (op->mCode)
 		{
-			IRStackBytesOperand* amountOp = (IRStackBytesOperand*)op->mOperands[0];
-			IRScope* scope = op->GetScope();
-			int newStackBytes = scope->GetStackBytes();
-			int delta = newStackBytes - mStackBytes;
-			
-			if (amountOp->mSubtract)
+			case MoveStackPointer:
 			{
-				delta *= -1;
-				assert(delta <= 0);
+				IRStackBytesOperand* amountOp = (IRStackBytesOperand*)op->mOperands[0];
+				int delta;
+
+				if (amountOp->mSubtract)
+				{
+					delta = -1 * mPushes.back();
+					mPushes.pop_back();
+					assert(delta <= 0);
+					mStackBytes -= delta;
+				}
+				else
+				{
+					IRScope* scope = op->GetScope();
+					int newStackBytes = scope->GetStackBytes();
+
+					delta = newStackBytes - mStackBytes;
+					mStackBytes = newStackBytes;
+					assert(delta >= 0);
+					mPushes.push_back(delta);
+				}
+				
+				if (delta)
+				{
+					amountOp->SetStackBytes(delta);
+				}
+				else
+				{
+					op->Remove();
+				}
+				break;
 			}
-			else
+				
+			case ConditionalBranch:
 			{
-				assert(delta >= 0);
-			}
-			
-			if (delta)
-			{
+				IRLabelOperand* targetLabel = (IRLabelOperand*)op->mOperands[1];
+				IRStackBytesOperand* amountOp = (IRStackBytesOperand*)op->mOperands[2];
+				IRScope* thisScope = op->GetScope();
+				int currentStackBytes = thisScope->GetStackBytes();
+				int targetStackBytes = targetLabel->GetTargetStackBytes();
+				int delta = targetStackBytes - currentStackBytes;
+				// doesn't make sense to jump to a place with more stack usage than the current point
+				//assert(delta <= 0);
 				amountOp->SetStackBytes(delta);
+				break;
 			}
-			else
+				
+			case UnconditionalBranch:
 			{
-				op->Remove();
+				IRLabelOperand* targetLabel = (IRLabelOperand*)op->mOperands[0];
+				IRStackBytesOperand* amountOp = (IRStackBytesOperand*)op->mOperands[1];
+				IRScope* thisScope = op->GetScope();
+				int currentStackBytes = thisScope->GetStackBytes();
+				int targetStackBytes = targetLabel->GetTargetStackBytes();
+				int delta = targetStackBytes - currentStackBytes;
+				// doesn't make sense to jump to a place with more stack usage than the current point
+				//assert(delta <= 0);
+				amountOp->SetStackBytes(delta);
+				break;
 			}
-		}
-		else
-		{
-			VisitChildren(op);
+
+			default:
+			{
+				VisitChildren(op);
+				break;
+			}
 		}
 	}
 

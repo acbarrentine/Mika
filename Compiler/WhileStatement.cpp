@@ -35,6 +35,7 @@ void WhileStatement::GenCode(ObjectFileHelper& helper)
 	IRInstruction* endBranchOp = helper.EmitInstruction(ConditionalBranch, mRootToken);
 	endBranchOp->SetOperand(0, condition);
 	endBranchOp->SetOperand(1, new IRLabelOperand(mEndLabel));
+	endBranchOp->SetOperand(2, new IRStackBytesOperand(false));
 
 	// body
 	mLoop->GenCode(helper);
@@ -42,6 +43,7 @@ void WhileStatement::GenCode(ObjectFileHelper& helper)
 	// branch to start
 	IRInstruction* loopBranchOp = helper.EmitInstruction(UnconditionalBranch, mRootToken);
 	loopBranchOp->SetOperand(0, new IRLabelOperand(mLoopLabel));
+	loopBranchOp->SetOperand(1, new IRStackBytesOperand(false));
 
 	// end
 	helper.EmitLabel(mEndLabel, mRootToken);
