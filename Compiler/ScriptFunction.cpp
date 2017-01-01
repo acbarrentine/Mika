@@ -31,6 +31,9 @@ void ScriptFunction::ResolveTypes(SymbolTable& symbolTable)
 	BindParameters(symbolTable);
 	mBody->ResolveTypes(symbolTable);
 	
+	// TODO
+	// If the function has a return type, we should validate that we've actually returned it
+	
 	symbolTable.Pop();
 }
 

@@ -3,7 +3,7 @@
 void Glue_Print(MikaVM* vm)
 {
 	MikaVM::Location& loc = vm->GetLocation();
-	const char* param1 = (const char*)vm->GetFunctionArg(0).mPtrVal;
+	MikaString* param1 = (MikaString*)vm->GetFunctionArg(0).mStrVal;
 	Print(param1, loc.Func->mName, loc.LineNumber);
 }
 
@@ -33,8 +33,8 @@ void Glue_AssertEqualsFloat(MikaVM* vm)
 void Glue_AssertEqualsString(MikaVM* vm)
 {
 	MikaVM::Location& loc = vm->GetLocation();
-	const char* left = (const char*)vm->GetFunctionArg(0).mPtrVal;
-	const char* right = (const char*)vm->GetFunctionArg(1).mPtrVal;
+	MikaString* left = (MikaString*)vm->GetFunctionArg(0).mStrVal;
+	MikaString* right = (MikaString*)vm->GetFunctionArg(1).mStrVal;
 	AssertEqualsString(left, right, loc.Func->mName, loc.LineNumber);
 }
 

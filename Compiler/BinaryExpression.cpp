@@ -75,7 +75,7 @@ void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 	else
 		opType = 2;
 
-	const static OpCode AddOps[] = { AddInt, AddFloat, IllegalInstruction };
+	const static OpCode AddOps[] = { AddInt, AddFloat, AddString };
 	const static OpCode SubtractOps[] = { SubtractInt, SubtractFloat, IllegalInstruction };
 	const static OpCode DivideOps[] = { DivideInt, DivideFloat, IllegalInstruction };
 	const static OpCode MultiplyOps[] = { MultiplyInt, MultiplyFloat, IllegalInstruction };

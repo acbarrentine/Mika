@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MikaArchive.h"
 #include "MikaVM.h"
+#include "MikaString.h"
 
 void MikaReader::Serialize(void* v, int size)
 {
@@ -63,11 +64,18 @@ void MikaReader::Process(const char* fileName, MikaVM* vm)
 			}
 
 			// fixup strings
-			for (int& fixup : arHeader.mStringFixups)
+			for (int& fixup : arHeader.mStringPtrFixups)
 			{
 				MikaVM::Cell* location = (MikaVM::Cell*) (&runTimeHeader.mByteData[fixup]);
 				const char* str = &globalContext->mStringData[location->mIntVal];
-				location->mPtrVal = (void*) str;
+				location->mPtrVal = (void*)str;
+			}
+
+			for (int& fixup : arHeader.mStringObjFixups)
+			{
+				MikaVM::Cell* location = (MikaVM::Cell*) (&runTimeHeader.mByteData[fixup]);
+				const char* str = &globalContext->mStringData[location->mIntVal];
+				location->mStrVal = new MikaString(str);
 			}
 
 			vm->mScriptFunctions.insert(std::make_pair(runTimeHeader.mName, std::move(runTimeHeader)));

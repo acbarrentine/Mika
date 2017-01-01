@@ -43,9 +43,14 @@ ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func, int nameO
 	mInstructions.reserve(200);
 }
 
-void ObjectFileHelper::FunctionRecord::AddStringFixup(int stackOffset)
+void ObjectFileHelper::FunctionRecord::AddStringPtrFixup(int stackOffset)
 {
-	mStringFixups.push_back(stackOffset);
+	mStringPtrFixups.push_back(stackOffset);
+}
+
+void ObjectFileHelper::FunctionRecord::AddStringObjFixup(int stackOffset)
+{
+	mStringObjFixups.push_back(stackOffset);
 }
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
@@ -133,7 +138,8 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 		MikaArchiveFunctionHeader header;
 		header.mNameOffset = record.mNameOffset;
 		header.mByteData = std::move(record.mByteCodeData);
-		header.mStringFixups = std::move(record.mStringFixups);
+		header.mStringPtrFixups = std::move(record.mStringPtrFixups);
+		header.mStringObjFixups = std::move(record.mStringObjFixups);
 
 		fileHeader.mFunctions.push_back(header);
 	}

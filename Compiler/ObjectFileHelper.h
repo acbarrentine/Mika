@@ -16,10 +16,13 @@ protected:
 		int mNameOffset;
 		std::vector<IRInstruction*> mInstructions;
 		std::vector<char> mByteCodeData;
-		std::vector<int> mStringFixups;
+		std::vector<int> mStringPtrFixups;
+		std::vector<int> mStringObjFixups;
 
 		FunctionRecord(ScriptFunction* func, int nameOffset);
-		void AddStringFixup(int stackOffset);
+		
+		void AddStringPtrFixup(int stackOffset);
+		void AddStringObjFixup(int stackOffset);
 	};
 
 	std::vector<FunctionRecord> mFunctions;

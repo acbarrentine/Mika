@@ -7,7 +7,8 @@
 
 void ReturnStatement::ResolveTypes(SymbolTable& symbolTable)
 {
-	mExpression->ResolveType(symbolTable);
+	if (mExpression)
+		mExpression->ResolveType(symbolTable);
 	mTarget = symbolTable.FindLabel(GCompiler.AddIdentifier("end"));
 }
 

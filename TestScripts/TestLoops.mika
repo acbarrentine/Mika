@@ -3,6 +3,7 @@ fun TestEntry() : void
 	TestLoopCondition()
 	TestBreak()
 	TestContinue()
+    TestBranchOutOfLoop()
 }
 
 fun TestLoopCondition() : void
@@ -59,4 +60,17 @@ fun TestContinue() : void
 		Assert (intVar / 2 != (intVar - 1) / 2)
 	}
 	AssertEqualsInt(intVar, 10)
+}
+
+fun TestBranchOutOfLoop() : void
+{
+    intVar : int <- 0
+    while intVar < 10
+    {
+        floatVar : float <- 0.0
+        intVar <- intVar + 1
+        if intVar == 4
+            return
+    }
+    AssertEqualsInt(intVar, 4)
 }

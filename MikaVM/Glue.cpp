@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "Glue.h"
 #include "MikaVM.h"
+#include "MikaString.h"
 #include "Catch.hpp"
 #include "../Compiler/Platform.h"
 #include <math.h>
 
-void Print(const char* msg, const char* locationName, int lineNumber)
+void Print(MikaString* msg, const char* locationName, int lineNumber)
 {
 	char msgBuf[1024];
-	SPRINTF(msgBuf, "%s:%i - %s\n", locationName, lineNumber, msg);
+	SPRINTF(msgBuf, "%s:%i - %s\n", locationName, lineNumber, msg->GetCharPtr());
 
 	Platform::Message(stdout, msgBuf);
 }
@@ -28,9 +29,9 @@ void AssertEqualsFloat(double lhs, double rhs, const char* locationName, int lin
 	CHECK_LINE(lhs == rhs, locationName, lineNumber);
 }
 
-void AssertEqualsString(const char* left, const char* right, const char* locationName, int lineNumber)
+void AssertEqualsString(MikaString* left, MikaString* right, const char* locationName, int lineNumber)
 {
-	CHECK_LINE(strcmp(left, right) == 0, locationName, lineNumber);
+	CHECK_LINE(*left == *right, locationName, lineNumber);
 }
 
 float Sqrt(float val)

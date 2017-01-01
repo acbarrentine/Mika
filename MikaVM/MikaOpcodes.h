@@ -12,6 +12,7 @@ MIKA_OPCODE(MoveStackPointer, 1, 0)
 
 MIKA_OPCODE(AddInt, 3, 1)
 MIKA_OPCODE(AddFloat, 3, 1)
+MIKA_OPCODE(AddString, 3, 1)
 MIKA_OPCODE(SubtractInt, 3, 1)
 MIKA_OPCODE(SubtractFloat, 3, 1)
 MIKA_OPCODE(DivideInt, 3, 1)

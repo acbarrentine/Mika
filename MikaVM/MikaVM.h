@@ -1,5 +1,7 @@
 #pragma once
 
+class MikaString;
+
 class MikaVM
 {
 public:
@@ -29,19 +31,15 @@ public:
 	{
 		double mDblVal;
 		int mIntVal;
+		MikaString* mStrVal;
 		void* mPtrVal;
 		StackIndex mStackIndex;
 		Cell() : mDblVal(0) {}
 		Cell(int val) : mIntVal(val) {}
 		Cell(double val) : mDblVal(val) {}
+		Cell(MikaString* val) : mStrVal(val) {}
 		Cell(void* val) : mPtrVal(val) {}
 		Cell(int offset, bool global) : mStackIndex(offset, global) {}
-	};
-
-	struct String
-	{
-		std::string mValue;
-		String(const char* initialValue) : mValue(initialValue) {}
 	};
 
 	struct Instruction

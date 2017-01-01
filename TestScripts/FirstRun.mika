@@ -1,7 +1,9 @@
-fun SquareInt(val:int):int { return val * val }
-
-fun TestEntry() : int
+fun TestEntry() : void
 {
-	Assert(SquareInt(3)==9)
-    Assert(Sqrt(9.0) == 3.0)
+    strVar : string <- "hello"
+    strVar <- strVar + " world"
+    Print(strVar)
+    AssertEqualsString(strVar, "hello world")
+    if strVar == "guten abend"
+        Assert(0)
 }

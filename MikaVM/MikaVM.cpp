@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MikaArchive.h"
 #include "MikaVM.h"
+#include "MikaString.h"
 #include "Glue.h"
 #include "Catch.hpp"
 
@@ -69,6 +70,10 @@ void MikaVM::Execute(const char* functionName)
 		op->mFunc(this);
 	}
 
+	// stack byte pushes and pops should be symmetric
+	Location& currentLocation = GetLocation();
+	assert(currentLocation.BasePtr == currentLocation.StackPtr);
+	
 	mCallFrames.pop_back();
 	mOperands = nullptr;
 }
@@ -245,7 +250,6 @@ void Glue_CallNativeFunction(MikaVM* vm)
 	const char* name = (const char*)nameCell.mPtrVal;
 	MikaVM::GlueFunc glue = vm->GetGlueFunction(name);
 	assert(glue != nullptr);
-
 	glue(vm);
 }
 
@@ -255,12 +259,7 @@ void Glue_CallScriptFunction(MikaVM* vm)
 	MikaVM::Cell nameCell = vm->GetOperand(0);
 	const char* name = (const char*)nameCell.mPtrVal;
 	MikaVM::Function* func = vm->GetScriptFunction(name);
-	if (!func)
-	{
-		std::cerr << "Function " << name << " not found." << std::endl;
-		return;
-	}
-
+	assert(func != nullptr);
 	vm->PushCallFrame(func);
 }
 
@@ -318,6 +317,22 @@ void Glue_AddFloat(MikaVM* vm)
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
 	MikaVM::Cell result(lhs.mDblVal + rhs.mDblVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
+}
+
+void Glue_AddString(MikaVM* vm)
+{
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	
+	// replacing an existing string?
+	MikaVM::Cell existingValue = vm->GetStackValue(destLoc.mStackIndex);
+	delete existingValue.mStrVal;
+	
+	MikaString* newValue = new MikaString(*lhs.mStrVal + *rhs.mStrVal);
+	MikaVM::Cell result(newValue);
+	
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -412,8 +427,13 @@ void Glue_EqualsFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
-void Glue_EqualsString(MikaVM*)
+void Glue_EqualsString(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(*lhs.mStrVal == *rhs.mStrVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
 void Glue_LessEqualsInt(MikaVM* vm)

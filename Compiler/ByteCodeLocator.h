@@ -23,7 +23,7 @@ public:
 	}
 	void Visit(IRFunctionOperand*, bool) override
 	{
-		mRecord.AddStringFixup(mByteCodeOffset);
+		mRecord.AddStringPtrFixup(mByteCodeOffset);
 		mByteCodeOffset += sizeof(MikaArchiveCell);
 	}
 	void Visit(IRLabelOperand*, bool) override
@@ -40,7 +40,7 @@ public:
 	}
 	void Visit(IRStringOperand*, bool) override
 	{
-		mRecord.AddStringFixup(mByteCodeOffset);
+		mRecord.AddStringObjFixup(mByteCodeOffset);
 		mByteCodeOffset += sizeof(MikaArchiveCell);
 	}
 	void Visit(IRStackBytesOperand*, bool) override
