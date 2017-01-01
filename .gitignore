@@ -9,7 +9,7 @@
 
 # Mac user files
 .DS_Store
-UserInterfaceState.*
+xcuserdata/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
