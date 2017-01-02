@@ -454,8 +454,13 @@ void Glue_LessEqualsFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
-void Glue_LessEqualsString(MikaVM*)
+void Glue_LessEqualsString(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(*lhs.mStrVal <= *rhs.mStrVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
 void Glue_GreaterEqualsInt(MikaVM* vm)
@@ -476,8 +481,13 @@ void Glue_GreaterEqualsFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
-void Glue_GreaterEqualsString(MikaVM*)
+void Glue_GreaterEqualsString(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(*lhs.mStrVal >= *rhs.mStrVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
 void Glue_LessThanInt(MikaVM* vm)
@@ -498,8 +508,13 @@ void Glue_LessThanFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
-void Glue_LessThanString(MikaVM*)
+void Glue_LessThanString(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(*lhs.mStrVal < *rhs.mStrVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
 void Glue_GreaterThanInt(MikaVM* vm)
@@ -520,8 +535,13 @@ void Glue_GreaterThanFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
-void Glue_GreaterThanString(MikaVM*)
+void Glue_GreaterThanString(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(*lhs.mStrVal > *rhs.mStrVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
 void Glue_NotEqualsInt(MikaVM* vm)
@@ -542,8 +562,13 @@ void Glue_NotEqualsFloat(MikaVM* vm)
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
-void Glue_NotEqualsString(MikaVM*)
+void Glue_NotEqualsString(MikaVM* vm)
 {
+	MikaVM::Cell destLoc = vm->GetOperand(0);
+	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
+	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
+	MikaVM::Cell result(*lhs.mStrVal != *rhs.mStrVal);
+	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
 void Glue_NegateInt(MikaVM* vm)

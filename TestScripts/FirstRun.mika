@@ -2,8 +2,21 @@ fun TestEntry() : void
 {
     strVar : string <- "hello"
     strVar <- strVar + " world"
-    Print(strVar)
     AssertEqualsString(strVar, "hello world")
-    if strVar == "guten abend"
-        Assert(0)
+    Assert(strVar != "guten abend")
+    Assert(strVar >= "guten abend")
+
+    strVar <- strVar + " again"
+    AssertEqualsString("hello world again", strVar)
+
+    strVar <- "NewThing"
+    Assert (strVar != "hello world again")
+    Assert (strVar == "NewThing")
+
+    strVar2 : string <- strVar
+    Assert(strVar2 == strVar)
+    AssertEqualsString(strVar2, strVar)
+
+    strVar <- "old"
+    Assert(strVar2 != strVar)
 }

@@ -21,7 +21,32 @@ public:
 	{
 		return left.mValue == right.mValue;
 	}
-	
+
+	friend bool operator!=(const MikaString& left, const MikaString& right)
+	{
+		return left.mValue != right.mValue;
+	}
+
+	friend bool operator<(const MikaString& left, const MikaString& right)
+	{
+		return left.mValue < right.mValue;
+	}
+
+	friend bool operator<=(const MikaString& left, const MikaString& right)
+	{
+		return left.mValue <= right.mValue;
+	}
+
+	friend bool operator>(const MikaString& left, MikaString& right)
+	{
+		return left.mValue > right.mValue;
+	}
+
+	friend bool operator>=(const MikaString& left, MikaString& right)
+	{
+		return left.mValue >= right.mValue;
+	}
+
 	friend MikaString operator+(const MikaString& left, const MikaString& right)
 	{
 		return MikaString(left.mValue + right.mValue);
