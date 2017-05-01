@@ -7,19 +7,6 @@ class MikaVM
 public:
 	typedef void(*GlueFunc)(class MikaVM*);
 
-	struct GlobalContext
-	{
-		std::vector<char> mStack;
-		std::vector<char> mStringData;
-	};
-
-	struct Function
-	{
-		const char* mName;
-		GlobalContext* mGlobalContext;
-		std::vector<char> mByteData;
-	};
-
 	struct StackIndex
 	{
 		int mOffset;
@@ -42,6 +29,19 @@ public:
 		Cell(int offset, bool global) : mStackIndex(offset, global) {}
 	};
 
+	struct GlobalContext
+	{
+		std::vector<Cell> mStack;
+		std::vector<char> mStringData;
+	};
+	
+	struct Function
+	{
+		const char* mName;
+		GlobalContext* mGlobalContext;
+		std::vector<char> mByteData;
+	};
+	
 	struct Instruction
 	{
 		GlueFunc mFunc;
@@ -63,8 +63,8 @@ public:
 	struct Location
 	{
 		Function* Func;
-		char* BasePtr;
-		char* StackPtr;
+		Cell* BasePtr;
+		Cell* StackPtr;
 		unsigned int LineNumber;
 		size_t PCOffset;
 		
@@ -91,7 +91,7 @@ protected:
 	GlueMap mGlueFunctions;
 	Cell* mOperands;
 	std::vector<Cell> mFunctionArgs;
-	std::vector<char> mStack;
+	std::vector<Cell> mStack;
 	std::vector<Location> mCallFrames;
 	Cell mResultRegister;
 

@@ -176,10 +176,10 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 	{
 		op->Accept(&tempLocator);
 	}
-	int stackBytesUsed = tempLocator.GetUsedBytes();
+	int stackCellsUsed = tempLocator.GetNumUsedCells();
 
 	// assign stack locations to used variables
-	VariableLocator varLocator(stackBytesUsed, mGlobalStackOffset);
+	VariableLocator varLocator(stackCellsUsed, mGlobalStackOffset);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&varLocator);
