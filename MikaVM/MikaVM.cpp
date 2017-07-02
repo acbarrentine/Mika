@@ -150,12 +150,12 @@ void MikaVM::SetStackValue(Cell value, StackIndex index)
 	if (index.mGlobal)
 	{
 		assert(loc.Func->mGlobalContext->mStack.size() > index.mOffset);
-		cell = (&loc.Func->mGlobalContext->mStack[0] + index.mOffset);
+		cell = (Cell*)(&loc.Func->mGlobalContext->mStack[0] + index.mOffset);
 	}
 	else
 	{
 		assert(loc.BasePtr + index.mOffset < loc.StackPtr);
-		cell = loc.BasePtr + index.mOffset;
+		cell = (Cell*)(loc.BasePtr + index.mOffset);
 	}
 	*cell = value;
 }

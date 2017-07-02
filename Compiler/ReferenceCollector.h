@@ -65,15 +65,19 @@ public:
 		Variable* var = op->mVariable;
 		if (!var->IsStackOffsetAssigned())
 		{
+			Type* varType = var->GetType();
+			int size = varType->GetSize();
+			if (size < sizeof(int*))
+				size = sizeof(int*);
 			if (var->GetIsGlobal())
 			{
 				var->SetStackOffset(mGlobalStackOffset);
-				++mGlobalStackOffset;
+				mGlobalStackOffset += size;
 			}
 			else
 			{
 				var->SetStackOffset(mStackOffset);
-				++mStackOffset;
+				mStackOffset += size;
 				mCurrentScope->SetStackOffset(mStackOffset);
 			}
 		}
@@ -135,7 +139,7 @@ public:
 				else
 				{
 					op->mStackOffset = mStackOffset;
-					++mStackOffset;
+					mStackOffset += sizeof(int*);
 					mFunctionScope->SetStackOffset(mStackOffset);
 				}
 
@@ -176,7 +180,7 @@ public:
 	void Visit(IRLabelInstruction*) override {}
 	void Visit(IRReturnInstruction*) override {}
 
-	int GetNumUsedCells() const
+	int GetUsedBytes() const
 	{
 		return mStackOffset - mInitialOffset;
 	}
