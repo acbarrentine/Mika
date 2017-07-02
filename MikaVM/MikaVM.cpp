@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MikaArchive.h"
 #include "MikaVM.h"
-#include "MikaString.h"
 #include "Glue.h"
 #include "Catch.hpp"
 
@@ -317,22 +316,6 @@ void Glue_AddFloat(MikaVM* vm)
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
 	MikaVM::Cell result(lhs.mDblVal + rhs.mDblVal);
-	vm->SetStackValue(result, destLoc.mStackIndex);
-}
-
-void Glue_AddString(MikaVM* vm)
-{
-	MikaVM::Cell destLoc = vm->GetOperand(0);
-	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
-	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	
-	// replacing an existing string?
-	MikaVM::Cell existingValue = vm->GetStackValue(destLoc.mStackIndex);
-	delete existingValue.mStrVal;
-	
-	MikaString* newValue = new MikaString(*lhs.mStrVal + *rhs.mStrVal);
-	MikaVM::Cell result(newValue);
-	
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 

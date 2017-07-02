@@ -17,12 +17,10 @@ protected:
 		std::vector<IRInstruction*> mInstructions;
 		std::vector<char> mByteCodeData;
 		std::vector<int> mStringPtrFixups;
-		std::vector<int> mStringObjFixups;
 
 		FunctionRecord(ScriptFunction* func, int nameOffset);
 		
 		void AddStringPtrFixup(int stackOffset);
-		void AddStringObjFixup(int stackOffset);
 	};
 
 	std::vector<FunctionRecord> mFunctions;

@@ -65,7 +65,7 @@ void Compiler::Reset()
 	RegisterBuiltInType(TType::kVoid, "void", nullptr, 1);
 	RegisterBuiltInType(TType::kInt, "int", "mIntVal", sizeof(int));
 	RegisterBuiltInType(TType::kFloat, "double", "mDblVal", sizeof(double));
-	RegisterBuiltInType(TType::kString, "MikaString*", "mStrVal", sizeof(char*));
+	RegisterBuiltInType(TType::kString, "const char*", "mStrVal", sizeof(char*));
 }
 
 static FILE* GetStream(MsgSeverity severity)

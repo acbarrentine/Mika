@@ -48,11 +48,6 @@ void ObjectFileHelper::FunctionRecord::AddStringPtrFixup(int stackOffset)
 	mStringPtrFixups.push_back(stackOffset);
 }
 
-void ObjectFileHelper::FunctionRecord::AddStringObjFixup(int stackOffset)
-{
-	mStringObjFixups.push_back(stackOffset);
-}
-
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
 	mFunctions.emplace_back(func, AddString(func->GetName()));
@@ -139,7 +134,6 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 		header.mNameOffset = record.mNameOffset;
 		header.mByteData = std::move(record.mByteCodeData);
 		header.mStringPtrFixups = std::move(record.mStringPtrFixups);
-		header.mStringObjFixups = std::move(record.mStringObjFixups);
 
 		fileHeader.mFunctions.push_back(header);
 	}

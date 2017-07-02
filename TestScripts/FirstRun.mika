@@ -1,16 +1,15 @@
 fun TestEntry() : void
 {
     strVar : string <- "hello"
-    strVar <- strVar + " world"
-    AssertEqualsString(strVar, "hello world")
+    AssertEqualsString(strVar, "hello")
     Assert(strVar != "guten abend")
     Assert(strVar >= "guten abend")
 
-    strVar <- strVar + " again"
-    AssertEqualsString("hello world again", strVar)
+    strVar <- "again"
+    AssertEqualsString("again", strVar)
 
     strVar <- "NewThing"
-    Assert (strVar != "hello world again")
+    Assert (strVar != "again")
     Assert (strVar == "NewThing")
 
     strVar2 : string <- strVar

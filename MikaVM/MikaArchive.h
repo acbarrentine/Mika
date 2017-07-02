@@ -50,14 +50,12 @@ struct MikaArchiveFunctionHeader
 	unsigned int mNameOffset;
 	std::vector<char> mByteData;
 	std::vector<int> mStringPtrFixups;
-	std::vector<int> mStringObjFixups;
 
 	friend MikaArchive& operator <<(MikaArchive& ar, MikaArchiveFunctionHeader& header)
 	{
 		ar << header.mNameOffset;
 		ar << header.mByteData;
 		ar << header.mStringPtrFixups;
-		ar << header.mStringObjFixups;
 		return ar;
 	}
 };
