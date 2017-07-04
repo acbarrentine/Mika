@@ -38,10 +38,26 @@ void Glue_AssertEqualsString(MikaVM* vm)
 	AssertEqualsString(left, right, loc.Func->mName, loc.LineNumber);
 }
 
+void Glue_AssertNotEqualsPointer(MikaVM* vm)
+{
+	MikaVM::Location& loc = vm->GetLocation();
+	const char* left = (const char*)vm->GetFunctionArg(0).mStrVal;
+	const char* right = (const char*)vm->GetFunctionArg(1).mStrVal;
+	AssertNotEqualsPointer(left, right, loc.Func->mName, loc.LineNumber);
+}
+
 void Glue_Sqrt(MikaVM* vm)
 {
 	double param1 = (double)vm->GetFunctionArg(0).mDblVal;
 	double retval = Sqrt(param1);
+	vm->SetResultRegister(retval);
+}
+
+void Glue_FindSubstring(MikaVM* vm)
+{
+	const char* param1 = (const char*)vm->GetFunctionArg(0).mStrVal;
+	const char* param2 = (const char*)vm->GetFunctionArg(1).mStrVal;
+	const char* retval = FindSubstring(param1, param2);
 	vm->SetResultRegister(retval);
 }
 
@@ -53,6 +69,8 @@ void RegisterGlueFunctions(MikaVM* vm)
 		{ "AssertEqualsInt", Glue_AssertEqualsInt },
 		{ "AssertEqualsFloat", Glue_AssertEqualsFloat },
 		{ "AssertEqualsString", Glue_AssertEqualsString },
+		{ "AssertNotEqualsPointer", Glue_AssertNotEqualsPointer },
 		{ "Sqrt", Glue_Sqrt },
+		{ "FindSubstring", Glue_FindSubstring },
 	});
 }

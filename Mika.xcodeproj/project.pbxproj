@@ -132,6 +132,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3A08F1FB1F0B0F57004977ED /* TestStrings.mika */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TestStrings.mika; path = TestScripts/TestStrings.mika; sourceTree = "<group>"; };
 		3AB420801E0E51160080E50C /* MikaVM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaVM; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB420821E0E51160080E50C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB420911E0E64CE0080E50C /* MikaCL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaCL; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,6 +297,7 @@
 				3AB420B61E0E76200080E50C /* MikaGlue.mikah */,
 				3AB420B71E0E76200080E50C /* TestLoops.mika */,
 				3AB420B81E0E76200080E50C /* TestMath.mika */,
+				3A08F1FB1F0B0F57004977ED /* TestStrings.mika */,
 			);
 			name = TestScripts;
 			sourceTree = "<group>";

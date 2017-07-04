@@ -33,9 +33,19 @@ void AssertEqualsString(const char* left, const char* right, const char* locatio
 	CHECK_LINE(strcmp(left, right) == 0, locationName, lineNumber);
 }
 
+void AssertNotEqualsPointer(const char* left, const char* right, const char* locationName, int lineNumber)
+{
+	CHECK_LINE(left != right, locationName, lineNumber);
+}
+
 float Sqrt(float val)
 {
 	return sqrt(val);
+}
+
+const char* FindSubstring(const char* searchIn, const char* lookFor)
+{
+	return strstr(searchIn, lookFor);
 }
 
 #include "GeneratedGlue.hpp"

@@ -53,3 +53,8 @@ TEST_CASE_METHOD(CompileAndRunFixture, "TestLoops", "[While]")
 {
 	CompileAndRun("TestLoops");
 }
+
+TEST_CASE_METHOD(CompileAndRunFixture, "TestStrings", "[String]")
+{
+	CompileAndRun("TestStrings");
+}
