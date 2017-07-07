@@ -1,5 +1,5 @@
 #line 2 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
-#line 2 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 2 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 #include "stdafx.h"
 
 
@@ -442,9 +442,9 @@ static yyconst flex_int16_t yy_chk[80] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 1 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 
-#line 6 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 6 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 #include "Compiler.h"
 #include "GlueTokenizer.h"
 
@@ -550,7 +550,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 26 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 26 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 
 
 #line 557 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
@@ -634,68 +634,68 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 28 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 28 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kOpenParen); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 29 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 29 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kCloseParen); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 30 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 30 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kOpenBrace); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 31 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 31 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kCloseBrace); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 32 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kComma); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 33 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 33 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kColon); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 35 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kVoid); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 36 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 36 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kInt); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 37 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 37 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kFloat); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 38 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 38 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kString); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 39 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kStruct); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 40 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 40 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kLocation); }
 	YY_BREAK
 /* Identifier */
 case 13:
 YY_RULE_SETUP
-#line 43 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 43 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 {
 												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
 												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
@@ -705,33 +705,33 @@ YY_RULE_SETUP
 /* Whitespace */
 case 14:
 YY_RULE_SETUP
-#line 50 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 50 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 {}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 51 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 51 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 {}
 	YY_BREAK
 case 16:
 /* rule 16 can match eol */
 YY_RULE_SETUP
-#line 52 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 52 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 {}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 53 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 53 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Error check */
 case 17:
 YY_RULE_SETUP
-#line 56 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 56 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 { LexError( *yytext ); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 58 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 58 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
 #line 738 "C:\\Code\\Mika\\Compiler\\GlueSyntax.flex.cpp"
@@ -1631,7 +1631,7 @@ void Gluefree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 58 "C:\\Code\\Mika\\Compiler\\GlueSyntax.l"
+#line 58 "C:\\Code\\Mika\\Compiler\\GlueSyntax.lpp"
 
 
 

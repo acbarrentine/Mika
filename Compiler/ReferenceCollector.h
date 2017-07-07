@@ -229,8 +229,8 @@ public:
 					int newStackBytes = scope->GetStackBytes();
 
 					delta = newStackBytes - mStackBytes;
-					mStackBytes = newStackBytes;
 					assert(delta >= 0);
+					mStackBytes = newStackBytes;
 					mPushes.push_back(delta);
 				}
 				

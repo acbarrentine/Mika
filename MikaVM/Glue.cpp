@@ -38,7 +38,7 @@ void AssertNotEqualsPointer(const char* left, const char* right, const char* loc
 	CHECK_LINE(left != right, locationName, lineNumber);
 }
 
-float Sqrt(float val)
+double Sqrt(double val)
 {
 	return sqrt(val);
 }

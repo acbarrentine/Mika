@@ -41,6 +41,7 @@
     <ClCompile Include="LogicalExpression.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="ObjectFileHelper.cpp" />
+    <ClCompile Include="PlatformWin.cpp" />
     <ClCompile Include="ReturnStatement.cpp" />
     <ClCompile Include="ScriptFunction.cpp" />
     <ClCompile Include="ScriptSyntax.flex.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="ObjectFileHelper.h" />
     <ClInclude Include="Optimizer.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="ReferenceCollector.h" />
     <ClInclude Include="ReturnStatement.h" />
     <ClInclude Include="ScriptFunction.h" />
@@ -99,10 +101,10 @@
     <ClInclude Include="WhileStatement.h" />
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="GlueSyntax.l">
+    <Flex Include="GlueSyntax.lpp">
       <FileType>Document</FileType>
     </Flex>
-    <Flex Include="ScriptSyntax.l">
+    <Flex Include="ScriptSyntax.lpp">
       <FileType>Document</FileType>
     </Flex>
   </ItemGroup>
@@ -164,7 +166,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -180,7 +182,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
