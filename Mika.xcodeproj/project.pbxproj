@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A08F1FD1F0F3D56004977ED /* PlatformMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A08F1FC1F0F3D56004977ED /* PlatformMac.cpp */; };
 		3AB420831E0E51160080E50C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420821E0E51160080E50C /* main.cpp */; };
 		3AB420941E0E64CE0080E50C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420931E0E64CE0080E50C /* main.cpp */; };
 		3AB4209C1E0E6B6D0080E50C /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB4209A1E0E6B6D0080E50C /* stdafx.cpp */; };
@@ -90,7 +91,6 @@
 		3AC948521DF3AE2700881BE4 /* WhileStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC948051DF3AE2700881BE4 /* WhileStatement.h */; };
 		3AC948551DF3B57600881BE4 /* GlueSyntax.lpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */; };
 		3AC948561DF3B57600881BE4 /* ScriptSyntax.lpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */; };
-		3AD4DDD01DF8CFA000A1A7B4 /* PlatformMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AD4DDCF1DF8CFA000A1A7B4 /* PlatformMac.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +133,7 @@
 
 /* Begin PBXFileReference section */
 		3A08F1FB1F0B0F57004977ED /* TestStrings.mika */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TestStrings.mika; path = TestScripts/TestStrings.mika; sourceTree = "<group>"; };
+		3A08F1FC1F0F3D56004977ED /* PlatformMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformMac.cpp; sourceTree = "<group>"; };
 		3AB420801E0E51160080E50C /* MikaVM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaVM; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AB420821E0E51160080E50C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB420911E0E64CE0080E50C /* MikaCL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaCL; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,7 +231,6 @@
 		3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = GlueSyntax.lpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = ScriptSyntax.lpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AD4DDCE1DF8CEFF00A1A7B4 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
-		3AD4DDCF1DF8CFA000A1A7B4 /* PlatformMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformMac.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -327,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */,
+				3A08F1FC1F0F3D56004977ED /* PlatformMac.cpp */,
 				3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */,
 				3AC947B91DF3AE2700881BE4 /* AssignmentExpression.cpp */,
 				3AC947BA1DF3AE2700881BE4 /* AssignmentExpression.h */,
@@ -400,7 +401,6 @@
 				3AC948041DF3AE2700881BE4 /* WhileStatement.cpp */,
 				3AC948051DF3AE2700881BE4 /* WhileStatement.h */,
 				3AD4DDCE1DF8CEFF00A1A7B4 /* Platform.h */,
-				3AD4DDCF1DF8CFA000A1A7B4 /* PlatformMac.cpp */,
 			);
 			path = Compiler;
 			sourceTree = "<group>";
@@ -595,6 +595,7 @@
 				3AC948191DF3AE2700881BE4 /* ExpressionStatement.cpp in Sources */,
 				3AC9480A1DF3AE2700881BE4 /* BreakStatement.cpp in Sources */,
 				3AC9483A1DF3AE2700881BE4 /* ReturnStatement.cpp in Sources */,
+				3A08F1FD1F0F3D56004977ED /* PlatformMac.cpp in Sources */,
 				3AC9482D1DF3AE2700881BE4 /* IntConstantExpression.cpp in Sources */,
 				3AC9483C1DF3AE2700881BE4 /* ScriptFunction.cpp in Sources */,
 				3AC948561DF3B57600881BE4 /* ScriptSyntax.lpp in Sources */,
@@ -611,7 +612,6 @@
 				3AC9480E1DF3AE2700881BE4 /* Compiler.cpp in Sources */,
 				3AC948361DF3AE2700881BE4 /* ObjectFileHelper.cpp in Sources */,
 				3AC948081DF3AE2700881BE4 /* BinaryExpression.cpp in Sources */,
-				3AD4DDD01DF8CFA000A1A7B4 /* PlatformMac.cpp in Sources */,
 				3AC948551DF3B57600881BE4 /* GlueSyntax.lpp in Sources */,
 				3AC9481B1DF3AE2700881BE4 /* FloatConstantExpression.cpp in Sources */,
 				3AC948451DF3AE2700881BE4 /* StringConstantExpression.cpp in Sources */,

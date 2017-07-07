@@ -49,6 +49,11 @@ void ObjectFileHelper::FunctionRecord::AddStringPtrFixup(int stackOffset)
 	mStringPtrFixups.push_back(stackOffset);
 }
 
+ObjectFileHelper::ObjectFileHelper()
+	: mGlobalStackOffset(0)
+{
+}
+
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
 {
 	mFunctions.emplace_back(func, AddString(func->GetName()));
