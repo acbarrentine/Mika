@@ -51,7 +51,6 @@ void ScriptFunction::GenCode(ObjectFileHelper& helper)
 	}
 
 	mBody->GenCode(helper);
-	
 	helper.EmitLabel(mEndLabel, mRootToken);
 	helper.PopScope(mRootToken);
 	helper.EmitTerminator(mRootToken);

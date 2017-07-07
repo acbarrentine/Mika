@@ -34,7 +34,7 @@ void AssertEqualsString(MikaString* left, MikaString* right, const char* locatio
 	CHECK_LINE(*left == *right, locationName, lineNumber);
 }
 
-float Sqrt(float val)
+double Sqrt(double val)
 {
 	return sqrt(val);
 }

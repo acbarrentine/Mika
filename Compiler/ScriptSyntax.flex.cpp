@@ -1,5 +1,5 @@
 #line 2 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.flex.cpp"
-#line 2 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 2 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 #include "stdafx.h"
 
 
@@ -482,9 +482,9 @@ static yyconst flex_int16_t yy_chk[159] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 1 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 
-#line 6 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 6 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 #include "Compiler.h"
 #include "ScriptTokenizer.h"
 
@@ -590,7 +590,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 26 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 26 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 
 
 #line 597 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.flex.cpp"
@@ -674,173 +674,173 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 28 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 28 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kOpenParen); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 29 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 29 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kCloseParen); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 30 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 30 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kOpenBrace); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 31 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 31 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kCloseBrace); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 32 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kComma); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 33 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 33 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kColon); }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 34 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 34 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kDot); }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 35 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 35 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kPlus); }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 36 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 36 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kMinus); }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 37 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 37 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kSlash); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 38 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 38 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kAsterisk); }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 39 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 39 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kPercent); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 40 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 40 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kArrow); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 41 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 41 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kEquals); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 42 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 42 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kLessEquals); }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 43 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 43 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kGreaterEquals); }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 44 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 44 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kLessThan); }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 45 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 45 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kGreaterThan); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 46 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 46 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kNotEquals); }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 48 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 48 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kIf); }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 49 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 49 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kElse); }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 50 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 50 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kWhile); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 51 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 51 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kBreak); }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 52 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 52 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kContinue); }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 53 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 53 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kAnd); }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 54 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 54 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kOr); }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 55 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 55 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kFun); }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 56 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 56 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kVoid); }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 57 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 57 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kInt); }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 58 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 58 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kFloat); }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 59 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 59 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kString); }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 60 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 60 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kStruct); }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 61 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 61 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kReturn); }
 	YY_BREAK
 /* Identifier */
 case 34:
 YY_RULE_SETUP
-#line 64 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 64 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {
 												Token& t = GCompiler.CreateToken(TType::kIdentifier, mFileIndex, yylineno);
 												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
@@ -850,7 +850,7 @@ YY_RULE_SETUP
 /* Decimal constant */
 case 35:
 YY_RULE_SETUP
-#line 71 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 71 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {
 												Token& t = GCompiler.CreateToken(TType::kIntConstant, mFileIndex, yylineno);
 												t.SetValue(ParseInt());
@@ -861,7 +861,7 @@ YY_RULE_SETUP
 /* Float constant */
 case 36:
 YY_RULE_SETUP
-#line 79 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 79 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {
 												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno);
 												t.SetValue(ParseDouble());
@@ -872,10 +872,10 @@ YY_RULE_SETUP
 /* String constant */
 case 37:
 YY_RULE_SETUP
-#line 87 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 87 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {
 												char stringBuf[2048];
-												strncpy_s(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
+												STRNCPY(stringBuf, ARRAY_COUNT(stringBuf), yytext + 1, yyleng - 2);
 												Token& t = GCompiler.CreateToken(TType::kStringConstant, mFileIndex, yylineno);
 												t.SetValue(GCompiler.AddIdentifier(stringBuf, stringBuf + (yyleng - 2)));
 												return TType::kStringConstant;
@@ -884,27 +884,27 @@ YY_RULE_SETUP
 /* Whitespace */
 case 38:
 YY_RULE_SETUP
-#line 96 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 96 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 97 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 97 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {}
 	YY_BREAK
 case 40:
 /* rule 40 can match eol */
 YY_RULE_SETUP
-#line 98 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 98 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { ++yylineno; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 99 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 99 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 100 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 100 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { SYNTAX_TOKEN(TType::kEOF); }
 	YY_BREAK
 /* Comment */
@@ -913,18 +913,18 @@ case 42:
 (yy_c_buf_p) = yy_cp -= 1;
 YY_DO_BEFORE_ACTION; /* set up yytext again */
 YY_RULE_SETUP
-#line 103 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 103 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {}
 	YY_BREAK
 /* Error check */
 case 43:
 YY_RULE_SETUP
-#line 106 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 106 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 { LexError( *yytext ); }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 108 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 108 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
 #line 931 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.flex.cpp"
@@ -1824,7 +1824,7 @@ void Scriptfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 108 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.l"
+#line 108 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 
 
 

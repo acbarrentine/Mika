@@ -109,6 +109,9 @@
     <ClCompile Include="UnaryExpression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlatformWin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryExpression.h">
@@ -231,12 +234,15 @@
     <ClInclude Include="UnaryExpression.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Flex Include="GlueSyntax.l">
+    <Flex Include="GlueSyntax.lpp">
       <Filter>Source Files\Lexer</Filter>
     </Flex>
-    <Flex Include="ScriptSyntax.l">
+    <Flex Include="ScriptSyntax.lpp">
       <Filter>Source Files\Lexer</Filter>
     </Flex>
   </ItemGroup>

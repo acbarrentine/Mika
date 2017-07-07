@@ -1,9 +1,5 @@
 fun TestEntry() : void
 {
-    strVar : string <- "hello"
-    strVar <- strVar + " world"
-    Print(strVar)
-    AssertEqualsString(strVar, "hello world")
-    if strVar == "guten abend"
-        Assert(0)
 }
+
+fun SquareInt(val:int):int { return val * val }

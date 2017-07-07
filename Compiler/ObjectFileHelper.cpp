@@ -38,6 +38,7 @@ public:
 
 ObjectFileHelper::FunctionRecord::FunctionRecord(ScriptFunction* func, int nameOffset)
 	: mFunction(func)
+	, mFunctionScope(nullptr)
 	, mNameOffset(nameOffset)
 {
 	mInstructions.reserve(200);
@@ -51,6 +52,11 @@ void ObjectFileHelper::FunctionRecord::AddStringPtrFixup(int stackOffset)
 void ObjectFileHelper::FunctionRecord::AddStringObjFixup(int stackOffset)
 {
 	mStringObjFixups.push_back(stackOffset);
+}
+
+ObjectFileHelper::ObjectFileHelper()
+	: mGlobalStackOffset(0)
+{
 }
 
 void ObjectFileHelper::AddFunction(ScriptFunction* func)
@@ -82,21 +88,21 @@ int ObjectFileHelper::AddString(Identifier id)
 IRInstruction* ObjectFileHelper::EmitInstruction(OpCode opCode, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRInstruction(opCode, rootToken, mScopeStack.back()));
+	record.mInstructions.emplace_back(new IRInstruction(opCode, rootToken, GetCurrentScope()));
 	return record.mInstructions.back();
 }
 
 IRInstruction* ObjectFileHelper::EmitTerminator(int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken, mScopeStack.back()));
+	record.mInstructions.emplace_back(new IRReturnInstruction(rootToken, GetCurrentScope()));
 	return record.mInstructions.back();
 }
 
 IRInstruction* ObjectFileHelper::EmitLabel(Label* label, int rootToken)
 {
 	FunctionRecord& record = mFunctions.back();
-	record.mInstructions.emplace_back(new IRLabelInstruction(label, rootToken, mScopeStack.back()));
+	record.mInstructions.emplace_back(new IRLabelInstruction(label, rootToken, GetCurrentScope()));
 	label->SetScope(mScopeStack.back());
 	return record.mInstructions.back();
 }
@@ -105,8 +111,18 @@ void ObjectFileHelper::PushScope(int rootToken)
 {
 	IRScope* parent = nullptr;
 	if (mScopeStack.size())
+	{
 		parent = mScopeStack.back();
-	mScopeStack.push_back(new IRScope(parent));
+	}
+	IRScope* newScope = new IRScope(parent);
+	mScopeStack.push_back(newScope);
+
+	if (mScopeStack.size() == 1)
+	{
+		FunctionRecord& record = mFunctions.back();
+		record.mFunctionScope = newScope;
+	}
+
 	IRInstruction* pushScope = EmitInstruction(MoveStackPointer, rootToken);
 	pushScope->SetOperand(0, new IRStackBytesOperand(false));
 }
@@ -171,7 +187,7 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 		op->Accept(&collector);
 	}
 
-	TempRegisterLocator tempLocator(0, mScopeStack.front());
+	TempRegisterLocator tempLocator(0, record.mFunctionScope);
 	for (IRInstruction* op : record.mInstructions)
 	{
 		op->Accept(&tempLocator);
@@ -205,4 +221,9 @@ void ObjectFileHelper::AssignByteCodeOffsets(FunctionRecord& record)
 	{
 		op->Accept(&labelLocator);
 	}
+}
+
+IRScope* ObjectFileHelper::GetCurrentScope()
+{
+	return mScopeStack.empty() ? nullptr : mScopeStack.back();
 }

@@ -6,6 +6,7 @@
 class Variable;
 class ScriptFunction;
 class Label;
+class IRScope;
 
 class ObjectFileHelper
 {
@@ -13,6 +14,7 @@ protected:
 	struct FunctionRecord
 	{
 		ScriptFunction* mFunction;
+		IRScope* mFunctionScope;
 		int mNameOffset;
 		std::vector<IRInstruction*> mInstructions;
 		std::vector<char> mByteCodeData;
@@ -31,10 +33,7 @@ protected:
 	int mGlobalStackOffset;
 
 public:
-	ObjectFileHelper()
-		: mGlobalStackOffset(0)
-	{
-	}
+	ObjectFileHelper();
 
 	void AddFunction(ScriptFunction* func);
 	int AddString(Identifier id);
@@ -52,6 +51,8 @@ public:
 protected:
 	void AssignStackOffsets(FunctionRecord& record);
 	void AssignByteCodeOffsets(FunctionRecord& record);
+
+	IRScope* GetCurrentScope();
 
 	friend class DebugWriter;
 	friend class ByteCodeWriter;
