@@ -6,16 +6,15 @@ static char SFileBuff[_MAX_FNAME];
 const char* Platform::FileNameStem(const char* filePath)
 {
     // split out the file name part of the incoming path
-    char drive[_MAX_DRIVE];
-    char dir[_MAX_DIR];
-    char ext[_MAX_EXT];
-    _splitpath_s(filePath, drive, _MAX_DRIVE, dir, _MAX_DIR, SFileBuff, _MAX_FNAME, ext, _MAX_EXT);
+    _splitpath_s(filePath, nullptr, 0, nullptr, 0, SFileBuff, _MAX_FNAME, nullptr, 0);
     return SFileBuff;
 }
 
 void Platform::CreateDirectory(const char* filePath)
 {
-	::CreateDirectory(filePath, nullptr);
+	char dir[_MAX_DIR];
+	_splitpath_s(filePath, nullptr, 0, dir, _MAX_DIR, nullptr, 0, nullptr, 0);
+	::CreateDirectory(dir, nullptr);
 }
 
 void Platform::Message(FILE* stream, const char* format, ...)
