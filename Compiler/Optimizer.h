@@ -67,7 +67,6 @@ public:
 					break;
 			}
 		}
-		mPrev = op;
 	}
 
 	void Visit(IRLabelInstruction* op) override
@@ -80,19 +79,16 @@ public:
 				mPrev->Remove();
 			}
 		}
-		mPrev = op;
 	}
 
-	void Visit(IRReturnInstruction* op) override
-	{
-		mPrev = op;
-	}
+	void Visit(IRReturnInstruction* op) override {}
 
 	void OptimizeFunction(ObjectFileHelper::FunctionRecord& record)
 	{
 		for (IRInstruction* op : record.mInstructions)
 		{
 			op->Accept(this);
+			mPrev = op;
 		}
 	}
 };

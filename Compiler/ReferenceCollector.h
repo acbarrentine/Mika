@@ -191,10 +191,12 @@ class StackPointerMover : public IRVisitor
 protected:
 	int mStackBytes;
 	std::vector<int> mPushes;
+	IRInstruction* mPrev;
 
 public:
 	StackPointerMover()
 		: mStackBytes(0)
+		, mPrev(nullptr)
 	{
 	}
 
@@ -219,8 +221,9 @@ public:
 				if (amountOp->mSubtract)
 				{
 					delta = -1 * mPushes.back();
-					mPushes.pop_back();
+					assert(mPushes.size() > 0);
 					assert(delta <= 0);
+					mPushes.pop_back();
 					mStackBytes -= delta;
 				}
 				else
@@ -237,6 +240,16 @@ public:
 				if (delta)
 				{
 					amountOp->SetStackBytes(delta);
+					
+					if (mPrev && mPrev->mCode == MoveStackPointer)
+					{
+						IRStackBytesOperand* prevAmountOp = (IRStackBytesOperand*)mPrev->mOperands[0];
+						if (amountOp->mSubtract == prevAmountOp->mSubtract)
+						{
+							amountOp->mNumBytes += prevAmountOp->mNumBytes;
+							mPrev->Remove();
+						}
+					}
 				}
 				else
 				{
@@ -283,4 +296,13 @@ public:
 
 	void Visit(class IRLabelInstruction*) override {}
 	void Visit(class IRReturnInstruction*) override {}
+	
+	void ScanFunction(ObjectFileHelper::FunctionRecord& record)
+	{
+		for (IRInstruction* op : record.mInstructions)
+		{
+			op->Accept(this);
+			mPrev = op;
+		}
+	}
 };
