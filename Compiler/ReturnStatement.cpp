@@ -26,3 +26,22 @@ void ReturnStatement::GenCode(ObjectFileHelper& helper)
 	branchOp->SetOperand(0, new IRLabelOperand(mTarget));
 	branchOp->SetOperand(1, new IRStackBytesOperand(false));
 }
+
+void ReturnStatement::CheckReturnStatement(Type* expectedType)
+{
+	Type* voidType = GCompiler.FindType(TType::kVoid);
+	if (expectedType == voidType)
+	{
+		if (mExpression)
+		{
+			GCompiler.Error(mRootToken, "unexpected return type");
+		}
+	}
+	else
+	{
+		if (!mExpression || mExpression->GetType() != expectedType)
+		{
+			GCompiler.Error(mRootToken, "unexpected type for return statement");
+		}		
+	}
+}

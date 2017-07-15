@@ -24,3 +24,15 @@ void CompoundStatement::GenCode(ObjectFileHelper& helper)
 
 	helper.PopScope(mRootToken);
 }
+
+void CompoundStatement::CheckReturnStatement(Type* expectedType)
+{
+	if (mStmtList.empty())
+	{
+		Statement::CheckReturnStatement(expectedType);
+	}
+	else
+	{
+		mStmtList.back()->CheckReturnStatement(expectedType);
+	}
+}

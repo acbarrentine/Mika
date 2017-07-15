@@ -30,4 +30,5 @@ public:
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) override;
 	virtual void GenCode(ObjectFileHelper& helper) override;
+	virtual void CheckReturnStatement(Type* expectedType) override;
 };

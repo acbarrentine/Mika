@@ -57,3 +57,12 @@ void IfStatement::GenCode(ObjectFileHelper& helper)
 	// end
 	helper.EmitLabel(mEndLabel, mRootToken);
 }
+
+void IfStatement::CheckReturnStatement(Type* expectedType)
+{
+	if (mElseClause)
+	{
+		mElseClause->CheckReturnStatement(expectedType);
+	}
+	mThenClause->CheckReturnStatement(expectedType);
+}
