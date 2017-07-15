@@ -48,9 +48,8 @@ public:
 					mCurrent |= Bits::Escape;
 			}
 		}
-		else if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+		if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
-
 			if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN)
 			{
 				mCurrent |= Bits::LeftMouse;
@@ -125,6 +124,7 @@ void MikaWorld::Fire()
 		imp.mWhen = 1;
 		imp.mOutVector = out;
 		imp.mPos = collisionPoint;
+		end = collisionPoint;
 	}
 
 	// create fire ball
@@ -139,7 +139,7 @@ void MikaWorld::Fire()
 	f32 length = (f32)(end - start).getLength();
 	const f32 speed = 0.6f;
 	u32 time = (u32)(length / speed);
-
+	
 	scene::ISceneNodeAnimator* anim = nullptr;
 
 	// set flight line
@@ -148,6 +148,7 @@ void MikaWorld::Fire()
 	node->addAnimator(anim);
 	anim->drop();
 
+	// delete the billboard on impact
 	anim = sm->createDeleteAnimator(time);
 	node->addAnimator(anim);
 	anim->drop();
@@ -236,6 +237,7 @@ void MikaWorld::Run()
 
 			if (eventReceiver.CheckLeftMouse())
 			{
+				mVideoDevice->getLogger()->log("Fire!");
 				Fire();
 			}
 

@@ -9,3 +9,11 @@
 
 #include <iostream>
 #include <irrlicht.h>
+#include <windows.h>
+#include <vector>
+#include <set>
+#include <type_traits>
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <cassert>

@@ -277,7 +277,7 @@ Type* Compiler::FindType(Identifier name)
 void Compiler::RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size)
 {
 	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
-	mTypes.insert(std::make_pair(id, new Type(id, nativeName, cellField, size)));
+	mTypes[id] = new Type(id, nativeName, cellField, size);
 }
 
 Type* Compiler::ParseType()
@@ -291,6 +291,12 @@ Type* Compiler::ParseType()
 		case TType::kVoid:
 			returnType = FindType(mCurrentTokenType);
 			NextToken();
+			break;
+
+		case TType::kIdentifier:
+			returnType = FindType(mCurrentToken->GetIdentifier());
+			if (returnType)
+				NextToken();
 			break;
 
 		default:
@@ -348,7 +354,8 @@ void Compiler::ParseGlueDeclaration()
 {
 	switch (mCurrentTokenType)
 	{
-		case TType::kStruct:
+		case TType::kTypeName:
+			ParseGlueTypeNameDeclaration();
 			break;
 
 		case TType::kIdentifier:
@@ -359,6 +366,25 @@ void Compiler::ParseGlueDeclaration()
 			Error(mCurrentTokenIndex, "Glue declaration expected");
 			NextToken();
 			break;
+	}
+}
+
+void Compiler::ParseGlueTypeNameDeclaration()
+{
+	Expect(TType::kTypeName);
+	Expect(TType::kColon);
+
+	if (mCurrentTokenType != TType::kIdentifier)
+	{
+		Error(mCurrentTokenIndex, "type name identifier expected");
+		NextToken();
+	}
+	else
+	{
+		Identifier id = mCurrentToken->GetIdentifier();
+		Identifier nativeID = ComposeIdentifier("%s*", id.GetString());
+		mTypes[id] = new Type(id, nativeID.GetString(), "mPtrVal", sizeof(int*));
+		NextToken();
 	}
 }
 
@@ -373,6 +399,10 @@ void Compiler::ParseGlueFunctionDeclaration()
 	Expect(TType::kCloseParen);
 	Expect(TType::kColon);
 	Type* returnType = ParseType();
+	if (!returnType)
+	{
+		Error(mCurrentTokenIndex, "return type expected");
+	}
 	decl->SetReturnType(returnType);
 
   	mDeclarations[id] = decl;

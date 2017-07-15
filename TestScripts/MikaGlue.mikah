@@ -1,3 +1,6 @@
+TypeName : Vec3
+TypeName : World
+
 Print(string, location) : void
 Assert(cond : int, location) : void
 AssertEqualsInt(left:int, right:int, location) : void
@@ -6,3 +9,10 @@ AssertEqualsString(left:string, right:string, location) : void
 AssertNotEqualsPointer(left:string, right:string, location): void
 Sqrt(float):float
 FindSubstring(string, string) : string
+
+CreateVec3(X:float, Y:float, Z:float) : Vec3
+DeleteVec3(Vec3) : void
+Normalize(Vec3) : void
+Magnitude(Vec3) : float
+Dot(vec1 : Vec3, vec2 : Vec3) : float
+Cross(vec1 : Vec3, vec2 : Vec3, outVec : Vec3) : void

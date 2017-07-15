@@ -36,8 +36,8 @@ LETTER					[a-zA-Z_]
 "int"					{ SYNTAX_TOKEN(TType::kInt); }
 "float"					{ SYNTAX_TOKEN(TType::kFloat); }
 "string"				{ SYNTAX_TOKEN(TType::kString); }
-"struct"				{ SYNTAX_TOKEN(TType::kStruct); }
 "location"				{ SYNTAX_TOKEN(TType::kLocation); }
+"TypeName"				{ SYNTAX_TOKEN(TType::kTypeName); }
 
 	/* Identifier */
 {LETTER}({LETTER}|{DIGIT})*					{

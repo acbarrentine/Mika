@@ -149,11 +149,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Glue.h" />
+    <ClInclude Include="MikaArchive.h" />
+    <ClInclude Include="MikaOpcodes.h" />
+    <ClInclude Include="MikaVM.h" />
     <ClInclude Include="MikaWorld.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Glue.cpp" />
+    <ClCompile Include="MikaArchive.cpp" />
+    <ClCompile Include="MikaVM.cpp" />
     <ClCompile Include="MikaWorld.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

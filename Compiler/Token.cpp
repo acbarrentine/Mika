@@ -67,9 +67,9 @@ const char* Token::StringRepresentation(TType tokenType)
 		case kInt:				return "int";
 		case kFloat:			return "float";
 		case kString:			return "string";
-		case kStruct:			return "struct";
 		case kReturn:			return "return";
 		case kLocation:			return "location";
+		case kTypeName:			return "TypeName";
 
 		case kEOF:				return "<<EOF>>";
 
