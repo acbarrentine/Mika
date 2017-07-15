@@ -37,9 +37,9 @@ enum TType : int
 	kInt,
 	kFloat,
 	kString,
-	kStruct,
 	kReturn,
 	kLocation,
+	kTypeName,
 
 	kIdentifier,
 	kIntConstant,

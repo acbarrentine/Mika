@@ -83,6 +83,7 @@ protected:
 	void ParseFunctionParameters(FunctionDeclaration* decl);
 
 	void ParseGlueDeclaration();
+	void ParseGlueTypeNameDeclaration();
 	void ParseGlueFunctionDeclaration();
 
 	void ParseScriptDeclaration();
