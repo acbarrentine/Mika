@@ -246,3 +246,4 @@ ModelManifest.xml
 .fake/
 *.miko
 /TestScripts/Output
+/Asset/Quake.mikd

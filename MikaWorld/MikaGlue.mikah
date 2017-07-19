@@ -1,0 +1,19 @@
+TypeName : V3
+
+V3_ConstructEmpty() : V3
+V3_ConstructWithValues(X : float, Y : float, Z : float) : V3
+V3_ConstructCopy(other : V3) : V3
+V3_Assign(target : V3, other : V3) : void
+V3_Add(target : V3, other : V3) : void
+V3_Subtract(target : V3, other : V3) : void
+V3_Multiply(target : V3, other : V3) : void
+V3_Divide(target : V3, other : V3) : void
+V3_Scale(target : V3, by : float) : void
+V3_Equals(left : V3, right : V3) : int
+V3_NotEquals(left : V3, right : V3) : int
+V3_GetLength(V3) : float
+V3_GetLengthSquared(V3) : float
+V3_DotProduct(source : V3, target : V3) : float
+V3_CrossProduct(source : V3, target : V3) : V3
+V3_Normalize(V3) : void
+V3_Delete(V3) : void

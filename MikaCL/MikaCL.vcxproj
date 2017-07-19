@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{82A94F6A-18EF-4732-9737-31A3C6CFE6F6}</ProjectGuid>
+    <ProjectGuid>{671A2E6A-EAA8-4322-87FF-44964D6CF7E9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>MikaWorld</RootNamespace>
+    <RootNamespace>MikaCL</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -88,12 +88,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Code\irrlicht-1.8.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Code\irrlicht-1.8.4\lib\Win64-visualStudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -103,12 +101,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Code\irrlicht-1.8.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Code\irrlicht-1.8.4\lib\Win64-visualStudio;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,23 +142,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GeneratedGlue.hpp" />
-    <ClInclude Include="Glue.h" />
-    <ClInclude Include="MikaArchive.h" />
-    <ClInclude Include="MikaOpcodes.h" />
-    <ClInclude Include="MikaVM.h" />
-    <ClInclude Include="MikaWorld.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Glue.cpp" />
-    <ClCompile Include="MikaArchive.cpp" />
-    <ClCompile Include="MikaVM.cpp" />
-    <ClCompile Include="MikaWorld.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -171,30 +154,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="MikaGlue.mikah">
-      <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)x64\Debug\MikaCL.exe -glue %(FullPath) $(ProjectDir)GeneratedGlue.hpp</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)x64\Debug\MikaCL.exe -glue %(FullPath) $(ProjectDir)GeneratedGlue.hpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Mika glue</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)GeneratedGlue.hpp;%(Outputs)</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Mika glue</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)GeneratedGlue.hpp;%(Outputs)</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="Quake.mika">
-      <FileType>Document</FileType>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">MikaCL %(Filename)</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MikaCL %(Filename)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)x64\Debug\MikaCL.exe $(ProjectDir)MikaGlue.mikah -s %(FullPath) -o ..\Asset\%(Filename).miko -d ..\Asset\%(Filename).mikd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)x64\Debug\MikaCL.exe $(ProjectDir)MikaGlue.mikah -s %(FullPath) -o ..\Asset\%(Filename).miko -d ..\Asset\%(Filename).mikd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)x64\Debug\MikaCL.exe;$(ProjectDir)MikaGlue.mikah</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)x64\Debug\MikaCL.exe;$(ProjectDir)MikaGlue.mikah</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Asset\%(Filename).miko</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\Asset\%(Filename).miko</Outputs>
-    </CustomBuild>
+    <ProjectReference Include="..\Compiler\Compiler.vcxproj">
+      <Project>{46f9467b-9ed2-4bc1-80c6-76baeac88739}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

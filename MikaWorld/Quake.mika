@@ -1,0 +1,5 @@
+fun TestEntry() : void
+{
+}
+
+fun SquareInt(val:int):int { return val * val }
