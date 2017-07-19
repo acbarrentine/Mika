@@ -2,6 +2,7 @@
 
 class SymbolTable;
 class ObjectFileHelper;
+class Type;
 
 class Statement : public ManagedEntity
 {
@@ -15,4 +16,5 @@ public:
 
 	virtual void ResolveTypes(SymbolTable& symbolTable) = 0;
 	virtual void GenCode(ObjectFileHelper& helper) = 0;
+	virtual void CheckReturnStatement(Type* expectedType);
 };

@@ -91,6 +91,7 @@
 		3AC948521DF3AE2700881BE4 /* WhileStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AC948051DF3AE2700881BE4 /* WhileStatement.h */; };
 		3AC948551DF3B57600881BE4 /* GlueSyntax.lpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */; };
 		3AC948561DF3B57600881BE4 /* ScriptSyntax.lpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */; };
+		3AE75A461F1ABC820079FCBB /* Statement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE75A451F1ABC820079FCBB /* Statement.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,6 +232,7 @@
 		3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = GlueSyntax.lpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = ScriptSyntax.lpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AD4DDCE1DF8CEFF00A1A7B4 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
+		3AE75A451F1ABC820079FCBB /* Statement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Statement.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +385,7 @@
 				3AC947F01DF3AE2700881BE4 /* ScriptFunction.h */,
 				3AC947F31DF3AE2700881BE4 /* ScriptTokenizer.cpp */,
 				3AC947F41DF3AE2700881BE4 /* ScriptTokenizer.h */,
+				3AE75A451F1ABC820079FCBB /* Statement.cpp */,
 				3AC947F51DF3AE2700881BE4 /* Statement.h */,
 				3AC947F61DF3AE2700881BE4 /* stdafx.cpp */,
 				3AC947F71DF3AE2700881BE4 /* stdafx.h */,
@@ -610,6 +613,7 @@
 				3AC948251DF3AE2700881BE4 /* GlueTokenizer.cpp in Sources */,
 				3AC948271DF3AE2700881BE4 /* Identifier.cpp in Sources */,
 				3AC9480E1DF3AE2700881BE4 /* Compiler.cpp in Sources */,
+				3AE75A461F1ABC820079FCBB /* Statement.cpp in Sources */,
 				3AC948361DF3AE2700881BE4 /* ObjectFileHelper.cpp in Sources */,
 				3AC948081DF3AE2700881BE4 /* BinaryExpression.cpp in Sources */,
 				3AC948551DF3B57600881BE4 /* GlueSyntax.lpp in Sources */,

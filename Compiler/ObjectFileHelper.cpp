@@ -196,10 +196,7 @@ void ObjectFileHelper::AssignStackOffsets(FunctionRecord& record)
 	}
 
 	StackPointerMover stackMover;
-	for (IRInstruction* op : record.mInstructions)
-	{
-		op->Accept(&stackMover);
-	}
+	stackMover.ScanFunction(record);
 }
 
 void ObjectFileHelper::AssignByteCodeOffsets(FunctionRecord& record)

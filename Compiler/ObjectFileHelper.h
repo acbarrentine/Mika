@@ -57,4 +57,5 @@ protected:
 	friend class ReferenceCollector;
 	friend class ByteCodeLocator;
 	friend class Optimizer;
+	friend class StackPointerMover;
 };
