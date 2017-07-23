@@ -1,0 +1,6 @@
+rule mika
+  command = $compiler MikaGlue.mikah -s $in -o $out -d $assetdir/$file.mikd
+  description = Compiling $file.mika
+
+build $assetdir/Quake.miko : mika Quake.mika | MikaGlue.mikah
+  file = Quake

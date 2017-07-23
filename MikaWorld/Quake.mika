@@ -3,3 +3,5 @@ fun TestEntry() : void
 }
 
 fun SquareInt(val:int):int { return val * val }
+
+fun Print(msg:string):void {}
