@@ -46,6 +46,7 @@
     <ClCompile Include="ScriptFunction.cpp" />
     <ClCompile Include="ScriptSyntax.flex.cpp" />
     <ClCompile Include="ScriptTokenizer.cpp" />
+    <ClCompile Include="Statement.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

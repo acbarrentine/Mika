@@ -3,3 +3,4 @@ fun TestEntry() : void
 }
 
 fun SquareInt(val:int):int { return val * val }
+fun SquareRoot(float):float { return 1.0 }

@@ -81,7 +81,7 @@ public:
 		}
 	}
 
-	void Visit(IRReturnInstruction* op) override {}
+	void Visit(IRReturnInstruction*) override {}
 
 	void OptimizeFunction(ObjectFileHelper::FunctionRecord& record)
 	{
