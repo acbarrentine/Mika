@@ -75,6 +75,11 @@ void MikaVM::Execute(const char* functionName)
 	mOperands = nullptr;
 }
 
+void MikaVM::Reset()
+{
+	mScriptFunctions.clear();
+}
+
 MikaVM::Cell MikaVM::GetOperand(int index)
 {
 	return mOperands[index];

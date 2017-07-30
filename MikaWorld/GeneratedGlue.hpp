@@ -122,6 +122,12 @@ void Glue_V3_Delete(MikaVM* vm)
 	V3_Delete(param1);
 }
 
+void Glue_Print(MikaVM* vm)
+{
+	const char* param1 = (const char*)vm->GetFunctionArg(0).mStrVal;
+	Print(param1);
+}
+
 void RegisterGlueFunctions(MikaVM* vm)
 {
 	vm->RegisterGlue({
@@ -142,5 +148,6 @@ void RegisterGlueFunctions(MikaVM* vm)
 		{ "V3_CrossProduct", Glue_V3_CrossProduct },
 		{ "V3_Normalize", Glue_V3_Normalize },
 		{ "V3_Delete", Glue_V3_Delete },
+		{ "Print", Glue_Print },
 	});
 }

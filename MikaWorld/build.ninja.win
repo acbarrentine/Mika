@@ -1,4 +1,4 @@
-compiler = ../Bin/Mac/MikaCL
-assetdir = ../Asset
+compiler = ..\Bin\Win\MikaCL.exe
+assetdir = ..\Asset
 
 include build.ninja.common

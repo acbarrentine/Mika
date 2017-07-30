@@ -17,3 +17,5 @@ V3_DotProduct(source : V3, target : V3) : float
 V3_CrossProduct(source : V3, target : V3) : V3
 V3_Normalize(V3) : void
 V3_Delete(V3) : void
+
+Print(string) : void

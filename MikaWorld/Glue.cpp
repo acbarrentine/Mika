@@ -90,4 +90,10 @@ void V3_Delete(V3* vec)
 	delete vec;
 }
 
+void Print(const char* msg)
+{
+	OutputDebugStringA(msg);
+	OutputDebugStringA("\n");
+}
+
 #include "GeneratedGlue.hpp"

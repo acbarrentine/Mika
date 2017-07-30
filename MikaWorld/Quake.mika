@@ -1,8 +1,4 @@
-fun TestEntry() : void
+fun Loaded() : void
 {
+	Print("Quake: Reloaded")
 }
-
-fun SquareInt(val:int):int { return val * val }
-
-fun Print(msg:string):void {}
-fun SquareRoot(float):float { return 1.0 }

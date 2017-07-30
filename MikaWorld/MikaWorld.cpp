@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "MikaWorld.h"
+#include "MikaVM.h"
 
 using namespace irr;
 
@@ -10,6 +11,9 @@ using namespace irr;
 #pragma comment(lib, "Irrlicht.lib")
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
 #endif
+
+static char const* const SScriptName = "../Asset/Quake.miko";
+static char const* const SLoadedFunctionName = "Quake:Loaded";
 
 enum
 {
@@ -29,7 +33,8 @@ public:
 	{
 		None = 0,
 		LeftMouse = 1,
-		Escape = 1 << 1,
+		KeyEscape = 1 << 1,
+		KeyR = 1 << 2,
 	};
 
 protected:
@@ -40,15 +45,20 @@ public:
 	// This is the one method that we have to implement
 	virtual bool OnEvent(const SEvent& event)
 	{
-		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+		if (event.EventType == irr::EET_KEY_INPUT_EVENT && event.KeyInput.PressedDown)
 		{
-			if (event.KeyInput.Key == KEY_ESCAPE)
+			switch (event.KeyInput.Key)
 			{
-				if (event.KeyInput.PressedDown)
-					mCurrent |= Bits::Escape;
+				case KEY_ESCAPE:
+					mCurrent |= Bits::KeyEscape;
+					break;
+					
+				case KEY_KEY_R:
+					mCurrent |= Bits::KeyR;
+					break;
 			}
 		}
-		if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+		else if (event.EventType == irr::EET_MOUSE_INPUT_EVENT)
 		{
 			if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN)
 			{
@@ -73,12 +83,17 @@ public:
 
 	bool CheckEscape() const
 	{
-		return CheckSwitchEdge(Bits::Escape);
+		return CheckSwitchEdge(Bits::KeyEscape);
 	}
 
 	bool CheckLeftMouse() const
 	{
 		return CheckSwitchEdge(Bits::LeftMouse);
+	}
+
+	bool CheckReload() const
+	{
+		return CheckSwitchEdge(Bits::KeyR);
 	}
 
 	EventReceiver()
@@ -169,6 +184,85 @@ int main()
 	world.Run();
 }
 
+// Run shell command and capture output, from https://stackoverflow.com/a/35658917
+std::string ExecCmd(const wchar_t* cmd)
+{
+	std::string strResult;
+	HANDLE hPipeRead, hPipeWrite;
+
+	SECURITY_ATTRIBUTES saAttr = { sizeof(SECURITY_ATTRIBUTES) };
+	saAttr.bInheritHandle = TRUE;   //Pipe handles are inherited by child process.
+	saAttr.lpSecurityDescriptor = NULL;
+
+	// Create a pipe to get results from child's stdout.
+	if (!CreatePipe(&hPipeRead, &hPipeWrite, &saAttr, 0))
+		return strResult;
+
+	STARTUPINFO si = { sizeof(STARTUPINFO) };
+	si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+	si.hStdOutput = hPipeWrite;
+	si.hStdError = hPipeWrite;
+	si.wShowWindow = SW_HIDE;       // Prevents cmd window from flashing. Requires STARTF_USESHOWWINDOW in dwFlags.
+
+	PROCESS_INFORMATION pi = { 0 };
+
+	wchar_t cmdBuffer[1024];
+	wcscpy_s(cmdBuffer, cmd);
+	BOOL fSuccess = CreateProcessW(NULL, cmdBuffer, NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+	if (!fSuccess)
+	{
+		CloseHandle(hPipeWrite);
+		CloseHandle(hPipeRead);
+		return strResult;
+	}
+
+	bool bProcessEnded = false;
+	for (; !bProcessEnded;)
+	{
+		// Give some timeslice (50ms), so we won't waste 100% cpu.
+		bProcessEnded = WaitForSingleObject(pi.hProcess, 50) == WAIT_OBJECT_0;
+
+		// Even if process exited - we continue reading, if there is some data available over pipe.
+		for (;;)
+		{
+			char buf[1024];
+			DWORD dwRead = 0;
+			DWORD dwAvail = 0;
+
+			if (!::PeekNamedPipe(hPipeRead, NULL, 0, NULL, &dwAvail, NULL))
+				break;
+
+			if (!dwAvail) // no data available, return
+				break;
+
+			if (!::ReadFile(hPipeRead, buf, min(sizeof(buf) - 1, dwAvail), &dwRead, NULL) || !dwRead)
+				// error, the child process might ended
+				break;
+
+			buf[dwRead] = 0;
+			strResult += buf;
+		}
+	} //for
+
+	CloseHandle(hPipeWrite);
+	CloseHandle(hPipeRead);
+	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
+	return strResult;
+} //ExecCmd
+
+void LoadScript(MikaVM& vm)
+{
+	std::string result = ExecCmd(L"../Bin/Win/ninja.exe -f build.ninja.win");
+	OutputDebugStringA(result.c_str());
+	if (result.find("FAILED") == std::string::npos)
+	{
+		vm.Reset();
+		vm.Import(SScriptName);
+		vm.Execute(SLoadedFunctionName);
+	}
+}
+
 void MikaWorld::Run()
 {
 	EventReceiver eventReceiver;
@@ -226,6 +320,9 @@ void MikaWorld::Run()
 
 	s32 lastFPS = -1;
 
+	MikaVM vm;
+	LoadScript(vm);
+
 	while (mVideoDevice->run())
 	{
 		if (eventReceiver.CheckEscape())
@@ -239,6 +336,11 @@ void MikaWorld::Run()
 			{
 				mVideoDevice->getLogger()->log("Fire!");
 				Fire();
+			}
+			
+			if (eventReceiver.CheckReload())
+			{
+				LoadScript(vm);
 			}
 
 			smgr->drawAll();

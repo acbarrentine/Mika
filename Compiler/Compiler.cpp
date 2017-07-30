@@ -329,6 +329,10 @@ void Compiler::ParseFunctionParameters(FunctionDeclaration* decl)
 
 			Expect(TType::kColon);
 		}
+		else
+		{
+			var->SetName(AddIdentifier("__unnnamed__"));
+		}
 
 		if (mCurrentTokenType == TType::kLocation)
 		{

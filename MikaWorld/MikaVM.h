@@ -104,6 +104,7 @@ public:
 	void RegisterGlue(std::initializer_list<std::pair<const std::string, GlueFunc>> list);
 	void Import(const char* fileName);
 	void Execute(const char* functionName);
+	void Reset();
 
 	Cell GetOperand(int index);
 	Cell GetOperandStackValue(int index);
