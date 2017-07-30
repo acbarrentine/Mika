@@ -23,7 +23,6 @@ xcuserdata/
 [Xx]86/
 [Bb]uild/
 bld/
-[Bb]in/
 [Oo]bj/
 
 # Visual Studio 2015 cache/options directory
@@ -245,5 +244,6 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 *.miko
+*.mikd
 /TestScripts/Output
-/Asset/Quake.mikd
+

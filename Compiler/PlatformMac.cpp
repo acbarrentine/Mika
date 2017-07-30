@@ -2,21 +2,31 @@
 #include "Platform.h"
 #include <libgen.h>
 #include <sys/stat.h>
+#include <string.h>
 
 static char SPathBuffer[512];
 const char* Platform::FileNameStem(const char* filePath)
 {
     const char* dot = strrchr(filePath, '.');
     const char* slash = strrchr(filePath, '/');
-    if (dot && slash && dot > slash)
+    if (dot)
     {
-        ptrdiff_t len = dot - slash - 1;
-        strncpy(SPathBuffer, slash + 1, len);
-        SPathBuffer[len] = '\0';
+        if (slash && dot > slash)
+        {
+            ptrdiff_t len = dot - slash - 1;
+            strncpy(SPathBuffer, slash + 1, len);
+            SPathBuffer[len] = '\0';
+        }
+        else
+        {
+            ptrdiff_t len = dot - filePath;
+            strncpy(SPathBuffer, filePath, len);
+            SPathBuffer[len] = '\0';
+        }
     }
     else
     {
-        SPathBuffer[0] = '\0';
+        strlcpy(SPathBuffer, filePath, sizeof(SPathBuffer));
     }
     return SPathBuffer;
 }
