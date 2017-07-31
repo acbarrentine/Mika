@@ -4,6 +4,7 @@
 
 class Variable;
 class SymbolTable;
+class GlueGenerator;
 
 class FunctionDeclaration : public ManagedEntity
 {
@@ -42,4 +43,6 @@ public:
 	int GetRootToken() const { return mRootToken; }
 
 	virtual bool IsScriptFunction() const { return false; }
+
+	virtual void GenerateGlue(GlueGenerator& gen) const;
 };

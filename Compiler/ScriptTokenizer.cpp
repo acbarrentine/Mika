@@ -24,7 +24,7 @@ int ScriptTokenizer::ParseInt()
 	return atoi(yytext);
 }
 
-double ScriptTokenizer::ParseDouble()
+float ScriptTokenizer::ParseFloat()
 {
-	return atof(yytext);
+	return (float)atof(yytext);
 }

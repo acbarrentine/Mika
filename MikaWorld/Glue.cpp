@@ -9,7 +9,7 @@ V3* V3_ConstructEmpty()
 	return new V3();
 }
 
-V3* V3_ConstructWithValues(double X, double Y, double Z)
+V3* V3_ConstructWithValues(float X, float Y, float Z)
 {
 	return new V3((float)X, (float)Y, (float)Z);
 }
@@ -44,7 +44,7 @@ void V3_Divide(V3* target, V3* other)
 	*target /= *other;
 }
 
-void V3_Scale(V3* target, double by)
+void V3_Scale(V3* target, float by)
 {
 	*target *= (float)by;
 }
@@ -59,12 +59,12 @@ int V3_NotEquals(V3* left, V3* right)
 	return *left != *right;
 }
 
-double V3_GetLength(V3* vec)
+float V3_GetLength(V3* vec)
 {
 	return vec->getLength();
 }
 
-double V3_GetLengthSquared(V3* vec)
+float V3_GetLengthSquared(V3* vec)
 {
 	return vec->getLengthSQ();
 }

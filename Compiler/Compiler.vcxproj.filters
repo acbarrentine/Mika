@@ -115,6 +115,9 @@
     <ClCompile Include="Statement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UserDefinedType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryExpression.h">
@@ -238,6 +241,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Platform.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDefinedType.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemberFunctionDeclaration.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

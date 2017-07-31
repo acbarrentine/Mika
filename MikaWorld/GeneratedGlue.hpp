@@ -8,9 +8,9 @@ void Glue_V3_ConstructEmpty(MikaVM* vm)
 
 void Glue_V3_ConstructWithValues(MikaVM* vm)
 {
-	double X = (double)vm->GetFunctionArg(0).mDblVal;
-	double Y = (double)vm->GetFunctionArg(1).mDblVal;
-	double Z = (double)vm->GetFunctionArg(2).mDblVal;
+	float X = (float)vm->GetFunctionArg(0).mFltVal;
+	float Y = (float)vm->GetFunctionArg(1).mFltVal;
+	float Z = (float)vm->GetFunctionArg(2).mFltVal;
 	V3* retval = V3_ConstructWithValues(X, Y, Z);
 	vm->SetResultRegister(retval);
 }
@@ -60,7 +60,7 @@ void Glue_V3_Divide(MikaVM* vm)
 void Glue_V3_Scale(MikaVM* vm)
 {
 	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	double by = (double)vm->GetFunctionArg(1).mDblVal;
+	float by = (float)vm->GetFunctionArg(1).mFltVal;
 	V3_Scale(target, by);
 }
 
@@ -83,14 +83,14 @@ void Glue_V3_NotEquals(MikaVM* vm)
 void Glue_V3_GetLength(MikaVM* vm)
 {
 	V3* param1 = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	double retval = V3_GetLength(param1);
+	float retval = V3_GetLength(param1);
 	vm->SetResultRegister(retval);
 }
 
 void Glue_V3_GetLengthSquared(MikaVM* vm)
 {
 	V3* param1 = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	double retval = V3_GetLengthSquared(param1);
+	float retval = V3_GetLengthSquared(param1);
 	vm->SetResultRegister(retval);
 }
 
@@ -98,7 +98,7 @@ void Glue_V3_DotProduct(MikaVM* vm)
 {
 	V3* source = (V3*)vm->GetFunctionArg(0).mPtrVal;
 	V3* target = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	double retval = V3_DotProduct(source, target);
+	float retval = V3_DotProduct(source, target);
 	vm->SetResultRegister(retval);
 }
 

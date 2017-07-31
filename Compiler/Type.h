@@ -19,6 +19,7 @@ public:
 	{}
 
 	int GetSize() const { return mSize; }
+	const char* GetName() const { return mName.GetString(); }
 	const char* GetNativeName() const { return mNativeName; }
 	const char* GetCellField() const { return mCellField; }
 };

@@ -27,5 +27,5 @@ public:
 	void LexError(const char c);
 
 	int ParseInt();
-	double ParseDouble();
+	float ParseFloat();
 };

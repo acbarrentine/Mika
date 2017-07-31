@@ -40,6 +40,8 @@ enum TType : int
 	kReturn,
 	kLocation,
 	kTypeName,
+	kConstructor,
+	kDestroy,
 
 	kIdentifier,
 	kIntConstant,
@@ -59,7 +61,7 @@ protected:
 	union
 	{
 		int mIntValue;
-		double mFloatValue;
+		float mFloatValue;
 	};
 	Identifier mStringValue;
 
@@ -67,11 +69,11 @@ public:
 	Token(TType tokenType, int fileIndex, int lineNumber);
 
 	void SetValue(int val) { mIntValue = val; }
-	void SetValue(double val) { mFloatValue = val; }
+	void SetValue(float val) { mFloatValue = val; }
 	void SetValue(Identifier val) { mStringValue = val; }
 
 	int GetIntValue() const { return mIntValue; }
-	double GetFloatValue() const { return mFloatValue; }
+	float GetFloatValue() const { return mFloatValue; }
 	Identifier GetStringValue() const { return mStringValue; }
 
 	TType GetType() const { return mType; }

@@ -105,7 +105,7 @@ struct MikaArchiveCell
 	union
 	{
 		int mIntVal;
-		double mDblVal;
+		float mFltVal;
 		void* mPtrVal;
 		struct
 		{

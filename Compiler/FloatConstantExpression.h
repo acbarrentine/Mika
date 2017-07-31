@@ -5,7 +5,7 @@
 class FloatConstantExpression : public Expression
 {
 protected:
-	double mValue;
+	float mValue;
 
 public:
 	FloatConstantExpression(int rootToken)

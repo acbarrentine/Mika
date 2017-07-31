@@ -173,10 +173,10 @@ public:
 class IRFloatOperand : public IROperand
 {
 protected:
-	double mValue;
+	float mValue;
 
 public:
-	IRFloatOperand(double val) : mValue(val) {}
+	IRFloatOperand(float val) : mValue(val) {}
 
 	virtual void Accept(IRVisitor* visitor, bool forWrite) { visitor->Visit(this, forWrite); }
 	VISITOR_CLASSES;

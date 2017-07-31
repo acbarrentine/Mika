@@ -857,7 +857,7 @@ YY_RULE_SETUP
 #line 78 "C:\\Code\\Mika\\Compiler\\ScriptSyntax.lpp"
 {
 												Token& t = GCompiler.CreateToken(TType::kFloatConstant, mFileIndex, yylineno);
-												t.SetValue(ParseDouble());
+												t.SetValue(ParseFloat());
 												t.SetValue(GCompiler.AddIdentifier(yytext, yytext + yyleng));
 												return TType::kFloat;
 											}

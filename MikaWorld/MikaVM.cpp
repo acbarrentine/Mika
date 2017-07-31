@@ -318,7 +318,7 @@ void Glue_AddFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal + rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal + rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -336,7 +336,7 @@ void Glue_SubtractFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal - rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal - rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -359,12 +359,12 @@ void Glue_DivideFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	if (!rhs.mDblVal)
+	if (!rhs.mFltVal)
 	{
 		assert(0 && "Divide by 0!");
 		return;
 	}
-	MikaVM::Cell result(lhs.mDblVal / rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal / rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -382,7 +382,7 @@ void Glue_MultiplyFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal * rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal * rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -409,7 +409,7 @@ void Glue_EqualsFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal == rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal == rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -436,7 +436,7 @@ void Glue_LessEqualsFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal <= rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal <= rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -463,7 +463,7 @@ void Glue_GreaterEqualsFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal >= rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal >= rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -490,7 +490,7 @@ void Glue_LessThanFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal < rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal < rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -517,7 +517,7 @@ void Glue_GreaterThanFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal > rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal > rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -544,7 +544,7 @@ void Glue_NotEqualsFloat(MikaVM* vm)
 	MikaVM::Cell destLoc = vm->GetOperand(0);
 	MikaVM::Cell lhs = vm->GetOperandStackValue(1);
 	MikaVM::Cell rhs = vm->GetOperandStackValue(2);
-	MikaVM::Cell result(lhs.mDblVal != rhs.mDblVal);
+	MikaVM::Cell result(lhs.mFltVal != rhs.mFltVal);
 	vm->SetStackValue(result, destLoc.mStackIndex);
 }
 
@@ -569,7 +569,7 @@ void Glue_NegateFloat(MikaVM* vm)
 {
 	MikaVM::Cell dest = vm->GetOperand(0);
 	MikaVM::Cell val = vm->GetOperandStackValue(1);
-	MikaVM::Cell result(-1.0 * val.mDblVal);
+	MikaVM::Cell result(-1.0f * val.mFltVal);
 	vm->SetStackValue(result, dest.mStackIndex);
 }
 

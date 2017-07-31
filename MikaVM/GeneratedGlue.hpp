@@ -25,8 +25,8 @@ void Glue_AssertEqualsInt(MikaVM* vm)
 void Glue_AssertEqualsFloat(MikaVM* vm)
 {
 	MikaVM::Location& loc = vm->GetLocation();
-	double left = (double)vm->GetFunctionArg(0).mDblVal;
-	double right = (double)vm->GetFunctionArg(1).mDblVal;
+	float left = (float)vm->GetFunctionArg(0).mFltVal;
+	float right = (float)vm->GetFunctionArg(1).mFltVal;
 	AssertEqualsFloat(left, right, loc.Func->mName, loc.LineNumber);
 }
 
@@ -48,8 +48,8 @@ void Glue_AssertNotEqualsPointer(MikaVM* vm)
 
 void Glue_Sqrt(MikaVM* vm)
 {
-	double param1 = (double)vm->GetFunctionArg(0).mDblVal;
-	double retval = Sqrt(param1);
+	float param1 = (float)vm->GetFunctionArg(0).mFltVal;
+	float retval = Sqrt(param1);
 	vm->SetResultRegister(retval);
 }
 
@@ -61,48 +61,50 @@ void Glue_FindSubstring(MikaVM* vm)
 	vm->SetResultRegister(retval);
 }
 
-void Glue_CreateVec3(MikaVM* vm)
+void Glue_DeleteVec3(void* addr)
 {
-	double X = (double)vm->GetFunctionArg(0).mDblVal;
-	double Y = (double)vm->GetFunctionArg(1).mDblVal;
-	double Z = (double)vm->GetFunctionArg(2).mDblVal;
-	Vec3* retval = CreateVec3(X, Y, Z);
+	Vec3* obj = (Vec3*)addr;
+	delete obj;
+}
+
+void Glue_Vec3_XYZ(MikaVM* vm)
+{
+	float X = (float)vm->GetFunctionArg(0).mFltVal;
+	float Y = (float)vm->GetFunctionArg(1).mFltVal;
+	float Z = (float)vm->GetFunctionArg(2).mFltVal;
+	Vec3* retval = new Vec3(X, Y, Z);
+	vm->SetResultRegister(retval);
+	vm->RegisterDestructor(retval, Glue_DeleteVec3);
+}
+
+void Glue_Vec3_Normalize(MikaVM* vm)
+{
+	Vec3* obj = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
+	obj->Normalize();
+}
+
+void Glue_Vec3_Magnitude(MikaVM* vm)
+{
+	Vec3* obj = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
+	float retval = obj->Magnitude();
 	vm->SetResultRegister(retval);
 }
 
-void Glue_DeleteVec3(MikaVM* vm)
+void Glue_Vec3_Dot(MikaVM* vm)
 {
-	Vec3* param1 = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
-	DeleteVec3(param1);
-}
-
-void Glue_Normalize(MikaVM* vm)
-{
-	Vec3* param1 = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
-	Normalize(param1);
-}
-
-void Glue_Magnitude(MikaVM* vm)
-{
-	Vec3* param1 = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
-	double retval = Magnitude(param1);
-	vm->SetResultRegister(retval);
-}
-
-void Glue_Dot(MikaVM* vm)
-{
-	Vec3* vec1 = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
+	Vec3* obj = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
 	Vec3* vec2 = (Vec3*)vm->GetFunctionArg(1).mPtrVal;
-	double retval = Dot(vec1, vec2);
+	float retval = obj->Dot(vec2);
 	vm->SetResultRegister(retval);
 }
 
-void Glue_Cross(MikaVM* vm)
+void Glue_Vec3_Cross(MikaVM* vm)
 {
-	Vec3* vec1 = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
+	Vec3* obj = (Vec3*)vm->GetFunctionArg(0).mPtrVal;
 	Vec3* vec2 = (Vec3*)vm->GetFunctionArg(1).mPtrVal;
-	Vec3* outVec = (Vec3*)vm->GetFunctionArg(2).mPtrVal;
-	Cross(vec1, vec2, outVec);
+	Vec3* retval = obj->Cross(vec2);
+	vm->SetResultRegister(retval);
+	vm->RegisterDestructor(retval, Glue_DeleteVec3);
 }
 
 void RegisterGlueFunctions(MikaVM* vm)
@@ -116,11 +118,10 @@ void RegisterGlueFunctions(MikaVM* vm)
 		{ "AssertNotEqualsPointer", Glue_AssertNotEqualsPointer },
 		{ "Sqrt", Glue_Sqrt },
 		{ "FindSubstring", Glue_FindSubstring },
-		{ "CreateVec3", Glue_CreateVec3 },
-		{ "DeleteVec3", Glue_DeleteVec3 },
-		{ "Normalize", Glue_Normalize },
-		{ "Magnitude", Glue_Magnitude },
-		{ "Dot", Glue_Dot },
-		{ "Cross", Glue_Cross },
+		{ "Vec3_XYZ", Glue_Vec3_XYZ },
+		{ "Vec3_Normalize", Glue_Vec3_Normalize },
+		{ "Vec3_Magnitude", Glue_Vec3_Magnitude },
+		{ "Vec3_Dot", Glue_Vec3_Dot },
+		{ "Vec3_Cross", Glue_Vec3_Cross },
 	});
 }

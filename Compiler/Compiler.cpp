@@ -4,10 +4,10 @@
 #include "Compiler.h"
 #include "ScriptTokenizer.h"
 #include "GlueTokenizer.h"
-#include "Type.h"
+#include "UserDefinedType.h"
 #include "Variable.h"
 #include "SymbolTable.h"
-#include "FunctionDeclaration.h"
+#include "MemberFunctionDeclaration.h"
 #include "ScriptFunction.h"
 #include "Expression.h"
 #include "IntConstantExpression.h"
@@ -64,7 +64,7 @@ void Compiler::Reset()
 
 	RegisterBuiltInType(TType::kVoid, "void", nullptr, 1);
 	RegisterBuiltInType(TType::kInt, "int", "mIntVal", sizeof(int));
-	RegisterBuiltInType(TType::kFloat, "double", "mDblVal", sizeof(double));
+	RegisterBuiltInType(TType::kFloat, "float", "mFltVal", sizeof(float));
 	RegisterBuiltInType(TType::kString, "const char*", "mStrVal", sizeof(char*));
 }
 
@@ -149,12 +149,8 @@ void Compiler::WriteGlueFile(const char* fileName)
 	if (fileName && *fileName)
 	{
 		GlueGenerator gen;
-
-		for (FunctionDeclaration* decl : mOrderedDeclarations)
-		{
-			gen.AddFunction(decl);
-		}
-
+		gen.AddFunctions(mOrderedDeclarations);
+		gen.AddUserDefinedTypes(mUserDefinedTypes);
 		gen.WriteGlueFile(fileName);
 	}
 }
@@ -308,6 +304,7 @@ Type* Compiler::ParseType()
 
 void Compiler::ParseFunctionParameters(FunctionDeclaration* decl)
 {
+	int paramNumber = 1;
 	while (1)
 	{
 		if (mCurrentTokenType == TType::kCloseParen)
@@ -331,7 +328,7 @@ void Compiler::ParseFunctionParameters(FunctionDeclaration* decl)
 		}
 		else
 		{
-			var->SetName(AddIdentifier("__unnnamed__"));
+			var->SetName(ComposeIdentifier("param%i", paramNumber));
 		}
 
 		if (mCurrentTokenType == TType::kLocation)
@@ -351,6 +348,7 @@ void Compiler::ParseFunctionParameters(FunctionDeclaration* decl)
 			break;
 		
 		Expect(TType::kComma);
+		++paramNumber;
 	}
 }
 
@@ -378,18 +376,31 @@ void Compiler::ParseGlueTypeNameDeclaration()
 	Expect(TType::kTypeName);
 	Expect(TType::kColon);
 
+	int startToken = mCurrentTokenIndex;
+	Identifier id;
 	if (mCurrentTokenType != TType::kIdentifier)
 	{
 		Error(mCurrentTokenIndex, "type name identifier expected");
 		NextToken();
+		id = AddIdentifier("__error__");
 	}
 	else
 	{
-		Identifier id = mCurrentToken->GetIdentifier();
-		Identifier nativeID = ComposeIdentifier("%s*", id.GetString());
-		mTypes[id] = new Type(id, nativeID.GetString(), "mPtrVal", sizeof(int*));
+		id = mCurrentToken->GetIdentifier();
 		NextToken();
 	}
+
+	Identifier nativeID = ComposeIdentifier("%s*", id.GetString());
+	UserDefinedType* newType = new UserDefinedType(startToken, id, nativeID.GetString());
+	mTypes[id] = newType;
+	mUserDefinedTypes.emplace_back(newType);
+
+	Expect(TType::kOpenBrace);
+	while (mCurrentTokenType != TType::kCloseBrace)
+	{
+		ParseGlueMemberFunctionDeclaration(newType);
+	}
+	Expect(TType::kCloseBrace);
 }
 
 void Compiler::ParseGlueFunctionDeclaration()
@@ -409,8 +420,54 @@ void Compiler::ParseGlueFunctionDeclaration()
 	}
 	decl->SetReturnType(returnType);
 
-  	mDeclarations[id] = decl;
+	FunctionDeclaration* prevDecl = mDeclarations[decl->GetName()];
+	if (prevDecl)
+	{
+		Error(decl->GetRootToken(), "function already declared");
+		Error(prevDecl->GetRootToken(), "see previous declaration");
+	}
+
+	mDeclarations[decl->GetName()] = decl;
 	mOrderedDeclarations.push_back(decl);
+}
+
+void Compiler::ParseGlueMemberFunctionDeclaration(UserDefinedType* parentType)
+{
+	bool isConstructor = false;
+	bool destroyReturnValue = false;
+	if (mCurrentTokenType == TType::kConstructor)
+	{
+		isConstructor = true;
+		NextToken();
+	}
+
+	Identifier id = mCurrentToken->GetIdentifier();
+	MemberFunctionDeclaration* decl = new MemberFunctionDeclaration(mCurrentTokenIndex, parentType);
+	Identifier functionName = ComposeIdentifier("%s_%s", parentType->GetName(), id.GetString());
+	decl->SetName(functionName);
+	decl->SetMemberName(id);
+	NextToken();
+	Expect(TType::kOpenParen);
+	ParseFunctionParameters(decl);
+	Expect(TType::kCloseParen);
+	Expect(TType::kColon);
+	Type* returnType = ParseType();
+	if (!returnType)
+	{
+		Error(mCurrentTokenIndex, "return type expected");
+	}
+	decl->SetReturnType(returnType);
+
+	if (mCurrentTokenType == TType::kDestroy)
+	{
+		destroyReturnValue = true;
+		NextToken();
+	}
+
+	decl->SetConstructor(isConstructor);
+	decl->SetDestroyReturnValue(destroyReturnValue);
+
+	parentType->AddMemberFunction(decl);
 }
 
 void Compiler::ParseScriptDeclaration()

@@ -27,5 +27,9 @@ void Platform::Message(FILE* stream, const char* format, ...)
 
 void Platform::MessageArgs(FILE* stream, const char* format, va_list args)
 {
-	vfprintf(stream, format, args);
+	char msgBuf[4096];
+	vsprintf_s(msgBuf, format, args);
+	fprintf(stream, msgBuf);
+	OutputDebugStringA(msgBuf);
+
 }

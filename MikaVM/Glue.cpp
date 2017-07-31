@@ -23,7 +23,7 @@ void AssertEqualsInt(int lhs, int rhs, const char* locationName, int lineNumber)
 	CHECK_LINE(lhs == rhs, locationName, lineNumber);
 }
 
-void AssertEqualsFloat(double lhs, double rhs, const char* locationName, int lineNumber)
+void AssertEqualsFloat(float lhs, float rhs, const char* locationName, int lineNumber)
 {
 	CHECK_LINE(lhs == rhs, locationName, lineNumber);
 }
@@ -38,7 +38,7 @@ void AssertNotEqualsPointer(const char* left, const char* right, const char* loc
 	CHECK_LINE(left != right, locationName, lineNumber);
 }
 
-double Sqrt(double val)
+float Sqrt(float val)
 {
 	return sqrt(val);
 }
@@ -50,49 +50,40 @@ const char* FindSubstring(const char* searchIn, const char* lookFor)
 
 struct Vec3
 {
-	double X;
-	double Y;
-	double Z;
-	Vec3(double x, double y, double z)
+	float X;
+	float Y;
+	float Z;
+	Vec3(float x, float y, float z)
 		: X(x)
 		, Y(y)
 		, Z(z)
 	{}
+
+	float Magnitude() const
+	{
+		return sqrt(X*X + Y*Y + Z*Z);
+	}
+
+	void Normalize()
+	{
+		float mag = Magnitude();
+		X /= mag;
+		Y /= mag;
+		Z /= mag;
+	}
+
+	float Dot(Vec3* other)
+	{
+		return X*other->X + Y*other->Y + Z*other->Z;
+	}
+
+	Vec3* Cross(Vec3* other)
+	{
+		float x = Y*other->Z - Z*other->Y;
+		float y = Z*other->X - X*other->Z;
+		float z = X*other->Y - Y*other->X;
+		return new Vec3(x, y, z);
+	}
 };
-
-Vec3* CreateVec3(double x, double y, double z)
-{
-	return new Vec3(x, y, z);
-}
-
-void DeleteVec3(Vec3* vec)
-{
-	delete vec;
-}
-
-double Magnitude(Vec3* vec)
-{
-	return sqrt(vec->X*vec->X + vec->Y*vec->Y + vec->Z*vec->Z);
-}
-
-void Normalize(Vec3* vec)
-{
-	double mag = Magnitude(vec);
-	vec->X /= mag;
-	vec->Y /= mag;
-	vec->Z /= mag;
-}
-
-double Dot(Vec3* vec1, Vec3* vec2)
-{
-	return vec1->X*vec2->X + vec1->Y*vec2->Y + vec1->Z*vec2->Z;
-}
-
-void Cross(Vec3* vec1, Vec3* vec2, Vec3* outVec)
-{
-	outVec->X = vec1->Y*vec2->Z - vec1->Z*vec2->Y;
-	outVec->Y = vec1->Z*vec2->X - vec1->X*vec2->Z;
-	outVec->Z = vec1->X*vec2->Y - vec1->Y*vec2->X;
-}
 
 #include "GeneratedGlue.hpp"

@@ -12,6 +12,7 @@ enum class MsgSeverity : int
 };
 
 class Type;
+class UserDefinedType;
 class ScriptFunction;
 class FunctionDeclaration;
 class Expression;
@@ -42,6 +43,7 @@ protected:
 	std::vector<ScriptFunction*> mScriptFunctions;
 	std::vector<FunctionDeclaration*> mOrderedDeclarations;
 	FunctionDeclarationMap mDeclarations;
+	std::vector<UserDefinedType*> mUserDefinedTypes;
 	TypeMap mTypes;
 	StringTable mIdentifiers;
 	const int kInitialTokenCount = 200000;
@@ -85,6 +87,7 @@ protected:
 	void ParseGlueDeclaration();
 	void ParseGlueTypeNameDeclaration();
 	void ParseGlueFunctionDeclaration();
+	void ParseGlueMemberFunctionDeclaration(UserDefinedType* parentType);
 
 	void ParseScriptDeclaration();
 	void ParseScriptGlobalVariable();

@@ -27,14 +27,14 @@ public:
 
 	union Cell
 	{
-		double mDblVal;
+		float mFltVal;
 		int mIntVal;
 		const char* mStrVal;
 		void* mPtrVal;
 		StackIndex mStackIndex;
-		Cell() : mDblVal(0) {}
+		Cell() : mFltVal(0) {}
 		Cell(int val) : mIntVal(val) {}
-		Cell(double val) : mDblVal(val) {}
+		Cell(float val) : mFltVal(val) {}
 		Cell(const char* val) : mStrVal(val) {}
 		Cell(void* val) : mPtrVal(val) {}
 		Cell(int offset, bool global) : mStackIndex(offset, global) {}
