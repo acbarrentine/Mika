@@ -13,8 +13,12 @@ void IdentifierExpression::ResolveType(SymbolTable& symbolTable)
 	mVariable = symbolTable.FindVariable(mValue);
 	if (!mVariable)
 	{
-		GCompiler.Error(mRootToken, "identifier not found");
-		mType = GCompiler.FindType(TType::kInt);
+		mType = GCompiler.FindType(mValue);
+		if (!mType)
+		{
+			GCompiler.Error(mRootToken, "identifier not found");
+			mType = GCompiler.FindType(TType::kInt);		
+		}
 	}
 	else
 	{
@@ -27,14 +31,6 @@ void IdentifierExpression::GenCode(ObjectFileHelper& helper)
 	if (mVariable)
 	{
 		mResultRegister = new IRVariableOperand(mVariable);
-	}
-	else
-	{
-		IRInstruction* op = helper.EmitInstruction(CopyStackToStack, mRootToken);
-		op->SetOperand(0, mResultRegister);
-		op->SetOperand(1, new IRVariableOperand(mVariable));
-
-		mResultRegister = new IRRegisterOperand;
 	}
 }
 

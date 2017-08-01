@@ -14,6 +14,7 @@
 #include "FloatConstantExpression.h"
 #include "StringConstantExpression.h"
 #include "FunctionCallExpression.h"
+#include "MemberFunctionCallExpression.h"
 #include "IdentifierExpression.h"
 #include "BinaryExpression.h"
 #include "AssignmentExpression.h"
@@ -728,21 +729,7 @@ Expression* Compiler::ParseScriptPrimaryExpression()
 			{
 				FunctionCallExpression* callExpr = new FunctionCallExpression(mCurrentTokenIndex);
 				NextToken();
-				Expect(TType::kOpenParen);
-				while (mCurrentTokenType != TType::kCloseParen && mCurrentTokenType != TType::kEOF)
-				{
-					Expression* arg = ParseScriptExpression();
-					callExpr->AddActual(arg);
-					if (mCurrentTokenType == TType::kComma)
-					{
-						NextToken();
-					}
-					else
-					{
-						break;
-					}
-				}
-				Expect(TType::kCloseParen);
+				ParseScriptFunctionCallParams(callExpr);
 				expr = callExpr;
 			}
 			else
@@ -771,7 +758,40 @@ Expression* Compiler::ParseScriptPrimaryExpression()
 		default:
 			break;
 	}
+	
+	while (mCurrentTokenType == TType::kDot)
+	{
+		NextToken();
+		if (mCurrentTokenType != TType::kIdentifier)
+		{
+			Error("function identifier expected");
+			break;
+		}
+		MemberFunctionCallExpression* callExpr = new MemberFunctionCallExpression(mCurrentTokenIndex, expr);
+		expr = callExpr;
+		NextToken();
+		ParseScriptFunctionCallParams(callExpr);
+	}
 	return expr;
+}
+
+void Compiler::ParseScriptFunctionCallParams(FunctionCallExpression* callExpr)
+{
+	Expect(TType::kOpenParen);
+	while (mCurrentTokenType != TType::kCloseParen && mCurrentTokenType != TType::kEOF)
+	{
+		Expression* arg = ParseScriptExpression();
+		callExpr->AddActual(arg);
+		if (mCurrentTokenType == TType::kComma)
+		{
+			NextToken();
+		}
+		else
+		{
+			break;
+		}
+	}
+	Expect(TType::kCloseParen);
 }
 
 Expression* Compiler::ParseScriptExpressionWithPrecedence(int minPrecedence)

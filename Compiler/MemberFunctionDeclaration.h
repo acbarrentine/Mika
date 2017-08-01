@@ -23,6 +23,7 @@ public:
 	void SetConstructor(bool constructor) { mIsConstructor = constructor; }
 	void SetDestroyReturnValue(bool destroyReturn) { mDestroyReturnType = destroyReturn; }
 	void SetMemberName(Identifier name) { mMemberName = name; }
+    Identifier GetMemberName() const { return mMemberName; }
 
 	virtual void GenerateGlue(GlueGenerator& gen) const override;
 };

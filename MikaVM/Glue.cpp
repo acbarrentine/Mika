@@ -25,7 +25,7 @@ void AssertEqualsInt(int lhs, int rhs, const char* locationName, int lineNumber)
 
 void AssertEqualsFloat(float lhs, float rhs, const char* locationName, int lineNumber)
 {
-	CHECK_LINE(lhs == rhs, locationName, lineNumber);
+	CHECK_LINE(lhs == Approx(rhs), locationName, lineNumber);
 }
 
 void AssertEqualsString(const char* left, const char* right, const char* locationName, int lineNumber)

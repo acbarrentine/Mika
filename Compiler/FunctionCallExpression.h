@@ -16,6 +16,8 @@ public:
 	{}
 
 	virtual void ResolveType(SymbolTable& symbolTable) override;
+	void ResolveActuals(SymbolTable& symbolTable);
+
 	virtual void GenCode(ObjectFileHelper& helper) override;
 
 	void AddActual(Expression* arg)

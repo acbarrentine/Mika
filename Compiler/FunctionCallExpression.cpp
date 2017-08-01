@@ -17,7 +17,12 @@ void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 	}
 
 	mType = mDeclaration->GetReturnType();
+	
+	ResolveActuals(symbolTable);
+}
 
+void FunctionCallExpression::ResolveActuals(SymbolTable& symbolTable)
+{
 	if (mActuals.size() != mDeclaration->GetParameterCount())
 	{
 		GCompiler.Error(mRootToken, "wrong number of args for function call");
@@ -35,7 +40,7 @@ void FunctionCallExpression::ResolveType(SymbolTable& symbolTable)
 				GCompiler.Error(expr->GetRootToken(), "argument type incompatible with declaration");
 			}
 		}
-
+		
 	}
 }
 

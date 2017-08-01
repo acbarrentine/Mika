@@ -13,8 +13,13 @@ void UserDefinedType::AddMemberFunction(MemberFunctionDeclaration* decl)
 	}
 
 	mOrderedDeclarations.emplace_back(decl);
-	mDeclarations[decl->GetName()] = decl;
+	mDeclarations[decl->GetMemberName()] = decl;
 
 	if (decl->IsConstructor())
 		mHasConstructor = true;
+}
+
+MemberFunctionDeclaration* UserDefinedType::FindDeclaration(Identifier id)
+{
+    return mDeclarations[id];
 }

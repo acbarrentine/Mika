@@ -26,6 +26,7 @@ class ReturnStatement;
 class BreakStatement;
 class ContinueStatement;
 class VariableDeclarationStatement;
+class FunctionCallExpression;
 
 class Compiler
 {
@@ -103,6 +104,7 @@ protected:
 	VariableDeclarationStatement* ParseScriptVariableDeclaration();
 	Expression* ParseScriptExpression();
 	Expression* ParseScriptPrimaryExpression();
+	void ParseScriptFunctionCallParams(FunctionCallExpression* callExpr);
 	Expression* ParseScriptExpressionWithPrecedence(int minPrecedence);
 	BinaryExpression* ParseScriptBinaryOperator();
 

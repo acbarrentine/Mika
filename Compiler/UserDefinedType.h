@@ -23,7 +23,9 @@ public:
 	{}
 
 	void AddMemberFunction(MemberFunctionDeclaration* decl);
-	bool HasConstructor() const { return mHasConstructor; }
+    MemberFunctionDeclaration* FindDeclaration(Identifier id);
+
+    bool HasConstructor() const { return mHasConstructor; }
 
 	void GenerateGlue(GlueGenerator& gen) const;
 };

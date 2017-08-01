@@ -70,7 +70,7 @@ fun TestVectors() : void
 	AssertEqualsFloat(1.0, vec2.Magnitude())
 
 	dot1 : float <- vec1.Dot(vec2)
-	dot2 : float <- vec12.Dot(vec1)
+	dot2 : float <- vec2.Dot(vec1)
 	AssertEqualsFloat(dot1, dot2)
 	Assert(dot1 > 1.06 and dot1 < 1.07)
 }

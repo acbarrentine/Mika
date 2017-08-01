@@ -31,7 +31,6 @@ LETTER					[a-zA-Z_]
 "}"						{ SYNTAX_TOKEN(TType::kCloseBrace); }
 ","						{ SYNTAX_TOKEN(TType::kComma); }
 ":"						{ SYNTAX_TOKEN(TType::kColon); }
-"*"						{ SYNTAX_TOKEN(TType::kAsterisk); }
 
 "void"					{ SYNTAX_TOKEN(TType::kVoid); }
 "int"					{ SYNTAX_TOKEN(TType::kInt); }
@@ -52,7 +51,7 @@ LETTER					[a-zA-Z_]
 	/* Whitespace */
 [ \r\v\f]				{}
 [\t]					{}
-[\n]					{}
+[\n]					{ ++yylineno; }
 <<EOF>>					{ SYNTAX_TOKEN(TType::kEOF); }
 
 	/* Error check */
