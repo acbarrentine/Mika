@@ -6,7 +6,7 @@
 
 void FloatConstantExpression::ResolveType(SymbolTable&)
 {
-	mType = GCompiler.FindType(TType::kFloat);
+	mType = GCompiler.GetFloatType();
 
 	Token& tok = GCompiler.GetToken(mRootToken);
 	mValue = tok.GetFloatValue();

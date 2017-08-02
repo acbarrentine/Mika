@@ -17,7 +17,7 @@ void IdentifierExpression::ResolveType(SymbolTable& symbolTable)
 		if (!mType)
 		{
 			GCompiler.Error(mRootToken, "identifier not found");
-			mType = GCompiler.FindType(TType::kInt);		
+			mType = GCompiler.GetIntType();
 		}
 	}
 	else

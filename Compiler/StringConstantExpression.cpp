@@ -6,7 +6,7 @@
 
 void StringConstantExpression::ResolveType(SymbolTable&)
 {
-	mType = GCompiler.FindType(TType::kString);
+	mType = GCompiler.GetStringType();
 
 	Token& tok = GCompiler.GetToken(mRootToken);
 	mValue = tok.GetStringValue();

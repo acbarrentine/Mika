@@ -8,7 +8,7 @@
 void FunctionDeclaration::GenerateGlue(GlueGenerator& gen) const
 {
 	std::ofstream& outStream = gen.GetStream();
-	Type* voidType = GCompiler.FindType(TType::kVoid);
+	Type* voidType = GCompiler.GetVoidType();
 
 	const char* functionName = mName.GetString();
 	gen.AddGlueFunctionName(functionName);
@@ -69,7 +69,7 @@ void FunctionDeclaration::GenerateGlue(GlueGenerator& gen) const
 void MemberFunctionDeclaration::GenerateGlue(GlueGenerator& gen) const
 {
 	std::ofstream& outStream = gen.GetStream();
-	Type* voidType = GCompiler.FindType(TType::kVoid);
+	Type* voidType = GCompiler.GetVoidType();
 
 	const char* functionName = mName.GetString();
 	gen.AddGlueFunctionName(functionName);

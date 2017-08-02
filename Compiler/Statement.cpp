@@ -5,7 +5,7 @@
 
 void Statement::CheckReturnStatement(Type* expectedType)
 {
-    if (expectedType != GCompiler.FindType(TType::kVoid))
+    if (expectedType != GCompiler.GetVoidType())
     {
         GCompiler.Error(mRootToken, "return statement expected");
     }

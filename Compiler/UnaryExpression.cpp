@@ -20,8 +20,8 @@ void UnaryExpression::ResolveType(SymbolTable& symbolTable)
 		GCompiler.Error(mRootToken, "illegal token for negation");
 	}
 
-	Type* intType = GCompiler.FindType(TType::kInt);
-	Type* floatType = GCompiler.FindType(TType::kFloat);
+	Type* intType = GCompiler.GetIntType();
+	Type* floatType = GCompiler.GetFloatType();
 	if (mType == intType)
 	{
 		mOpCode = NegateInt;

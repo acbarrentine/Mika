@@ -29,7 +29,7 @@ void ReturnStatement::GenCode(ObjectFileHelper& helper)
 
 void ReturnStatement::CheckReturnStatement(Type* expectedType)
 {
-	Type* voidType = GCompiler.FindType(TType::kVoid);
+	Type* voidType = GCompiler.GetVoidType();
 	if (expectedType == voidType)
 	{
 		if (mExpression)

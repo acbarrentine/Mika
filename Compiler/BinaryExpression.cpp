@@ -64,8 +64,8 @@ void BinaryExpression::ResolveType(SymbolTable& symbolTable)
 		GCompiler.Error(mRootToken, "incompatible types in expression");
 	}
 
-	Type* intType = GCompiler.FindType(TType::kInt);
-	Type* floatType = GCompiler.FindType(TType::kFloat);
+	Type* intType = GCompiler.GetIntType();
+	Type* floatType = GCompiler.GetFloatType();
 
 	int opType;
 	if (leftType == intType)

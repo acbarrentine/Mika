@@ -63,7 +63,7 @@ void FunctionCallExpression::GenCode(ObjectFileHelper& helper)
 	IRInstruction* callOp = helper.EmitInstruction(code, mRootToken);
 	callOp->SetOperand(0, new IRFunctionOperand(mDeclaration));
 
-	if (mType != GCompiler.FindType(TType::kVoid))
+	if (mType != GCompiler.GetVoidType())
 	{
 		mResultRegister = new IRRegisterOperand;
 

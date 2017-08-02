@@ -14,7 +14,7 @@ void MemberFunctionCallExpression::ResolveType(SymbolTable& symbolTable)
     if (!objectType)
     {
         GCompiler.Error(mObject->GetRootToken(), "user defined type expected");
-        mType = GCompiler.FindType(TType::kInt);
+        mType = GCompiler.GetIntType();
         return;
     }
     
@@ -24,7 +24,7 @@ void MemberFunctionCallExpression::ResolveType(SymbolTable& symbolTable)
     if (!mMemberDeclaration)
     {
         GCompiler.Error(mRootToken, "member function declaration not found");
-        mType = GCompiler.FindType(TType::kInt);
+        mType = GCompiler.GetIntType();
         return;
     }
 
@@ -67,7 +67,7 @@ void MemberFunctionCallExpression::GenCode(ObjectFileHelper& helper)
     IRInstruction* callOp = helper.EmitInstruction(CallNativeFunction, mRootToken);
     callOp->SetOperand(0, new IRFunctionOperand(mDeclaration));
     
-    if (mType != GCompiler.FindType(TType::kVoid))
+    if (mType != GCompiler.GetVoidType())
     {
         mResultRegister = new IRRegisterOperand;
         

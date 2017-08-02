@@ -46,6 +46,10 @@ protected:
 	FunctionDeclarationMap mDeclarations;
 	std::vector<UserDefinedType*> mUserDefinedTypes;
 	TypeMap mTypes;
+	Type* mIntType;
+	Type* mFloatType;
+	Type* mVoidType;
+	Type* mStringType;
 	StringTable mIdentifiers;
 	const int kInitialTokenCount = 200000;
 
@@ -79,9 +83,13 @@ public:
 	FunctionDeclaration* FindDeclaration(Identifier name);
 	Type* FindType(TType tokenType);
 	Type* FindType(Identifier name);
+	Type* GetIntType() { return mIntType; }
+	Type* GetFloatType() { return mFloatType; }
+	Type* GetVoidType() { return mVoidType; }
+	Type* GetStringType() { return mStringType; }
 
 protected:
-	void RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size);
+	Type* RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size);
 	Type* ParseType();
 	void ParseFunctionParameters(FunctionDeclaration* decl);
 

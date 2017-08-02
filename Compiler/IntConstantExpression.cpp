@@ -6,7 +6,7 @@
 
 void IntConstantExpression::ResolveType(SymbolTable&)
 {
-	mType = GCompiler.FindType(TType::kInt);
+	mType = GCompiler.GetIntType();
 	
 	Token& tok = GCompiler.GetToken(mRootToken);
 	mValue = tok.GetIntValue();

@@ -40,6 +40,10 @@ Compiler::Compiler()
 	, mCurrentTokenIndex(0)
 	, mCurrentTokenType(TType::kInvalid)
 	, mCurrentToken(nullptr)
+	, mIntType(nullptr)
+	, mFloatType(nullptr)
+	, mVoidType(nullptr)
+	, mStringType(nullptr)
 {
 	Reset();
 }
@@ -63,10 +67,10 @@ void Compiler::Reset()
 
 	mTokenList.reserve(kInitialTokenCount);
 
-	RegisterBuiltInType(TType::kVoid, "void", nullptr, 1);
-	RegisterBuiltInType(TType::kInt, "int", "mIntVal", sizeof(int));
-	RegisterBuiltInType(TType::kFloat, "float", "mFltVal", sizeof(float));
-	RegisterBuiltInType(TType::kString, "const char*", "mStrVal", sizeof(char*));
+	mVoidType = RegisterBuiltInType(TType::kVoid, "void", nullptr, 1);
+	mIntType = RegisterBuiltInType(TType::kInt, "int", "mIntVal", sizeof(int));
+	mFloatType = RegisterBuiltInType(TType::kFloat, "float", "mFltVal", sizeof(float));
+	mStringType = RegisterBuiltInType(TType::kString, "const char*", "mStrVal", sizeof(char*));
 }
 
 static FILE* GetStream(MsgSeverity severity)
@@ -179,7 +183,7 @@ void Compiler::ParseScript()
 	// create a global function to contain global-scoped initializers
 	ScriptFunction* globalFunc = new ScriptFunction(mCurrentTokenIndex, true);
 	globalFunc->SetName(AddIdentifier("__global__"));
-	globalFunc->SetReturnType(FindType(TType::kVoid));
+	globalFunc->SetReturnType(mVoidType);
 	CompoundStatement* globalBody = new CompoundStatement(mCurrentTokenIndex);
 	globalFunc->SetStatement(globalBody);
 	mScriptFunctions.push_back(globalFunc);
@@ -271,10 +275,12 @@ Type* Compiler::FindType(Identifier name)
 	return it != mTypes.end() ? it->second : nullptr;
 }
 
-void Compiler::RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size)
+Type* Compiler::RegisterBuiltInType(TType name, const char* nativeName, const char* cellField, int size)
 {
 	Identifier id = mIdentifiers.AddValue(Token::StringRepresentation(name));
-	mTypes[id] = new Type(id, nativeName, cellField, size);
+	Type* newType = new Type(id, nativeName, cellField, size);
+	mTypes[id] = newType;
+	return newType;
 }
 
 Type* Compiler::ParseType()
@@ -665,7 +671,7 @@ VariableDeclarationStatement* Compiler::ParseScriptVariableDeclaration()
 	if (!type)
 	{
 		Error("variable type expected");
-		type = FindType(TType::kInt);
+		type = mIntType;
 	}
 	var->SetType(type);
 	varStmt->SetVariable(var);

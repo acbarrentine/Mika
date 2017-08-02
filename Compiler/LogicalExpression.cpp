@@ -16,7 +16,7 @@ void LogicalExpression::ResolveType(SymbolTable& symbolTable)
 	mLeft->ResolveType(symbolTable);
 	mRight->ResolveType(symbolTable);
 
-	Type* intType = GCompiler.FindType(TType::kInt);
+	Type* intType = GCompiler.GetIntType();
 	if (mLeft->GetType() != intType)
 	{
 		GCompiler.Error(mLeft->GetRootToken(), "incompatible type for logical operator");
