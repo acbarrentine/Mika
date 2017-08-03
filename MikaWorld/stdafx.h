@@ -5,11 +5,13 @@
 
 #pragma once
 
+#if WIN32
 #include "targetver.h"
+#include <windows.h>
+#endif
 
 #include <iostream>
 #include <irrlicht.h>
-#include <windows.h>
 #include <vector>
 #include <set>
 #include <type_traits>

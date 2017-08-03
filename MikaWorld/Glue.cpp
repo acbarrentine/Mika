@@ -92,8 +92,12 @@ void V3_Delete(V3* vec)
 
 void Print(const char* msg)
 {
+#if WIN32
 	OutputDebugStringA(msg);
 	OutputDebugStringA("\n");
+#else
+    printf("%s\n", msg);
+#endif
 }
 
 #include "GeneratedGlue.hpp"

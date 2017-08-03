@@ -187,6 +187,7 @@ int main()
 // Run shell command and capture output, from https://stackoverflow.com/a/35658917
 std::string ExecCmd(const wchar_t* cmd)
 {
+#if WIN32
 	std::string strResult;
 	HANDLE hPipeRead, hPipeWrite;
 
@@ -249,12 +250,19 @@ std::string ExecCmd(const wchar_t* cmd)
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 	return strResult;
+#else
+    return "";
+#endif
 } //ExecCmd
 
 void LoadScript(MikaVM& vm)
 {
 	std::string result = ExecCmd(L"../Bin/Win/ninja.exe -f build.ninja.win");
+#if WIN32
 	OutputDebugStringA(result.c_str());
+#else
+    printf(result.c_str());
+#endif
 	if (result.find("FAILED") == std::string::npos)
 	{
 		vm.Reset();

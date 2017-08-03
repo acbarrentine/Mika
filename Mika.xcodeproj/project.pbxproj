@@ -10,6 +10,11 @@
 		3A08F1FD1F0F3D56004977ED /* PlatformMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A08F1FC1F0F3D56004977ED /* PlatformMac.cpp */; };
 		3A28553E1F2EDBF000B5550A /* UserDefinedType.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A28553D1F2EDBF000B5550A /* UserDefinedType.cpp */; };
 		3A2855401F2EDBFD00B5550A /* UserDefinedType.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A28553F1F2EDBFD00B5550A /* UserDefinedType.h */; };
+		3A49C96F1F32CCAE007332BC /* Glue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A49C9621F32CCAE007332BC /* Glue.cpp */; };
+		3A49C9701F32CCAE007332BC /* MikaArchive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A49C9641F32CCAE007332BC /* MikaArchive.cpp */; };
+		3A49C9711F32CCAE007332BC /* MikaVM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A49C9681F32CCAE007332BC /* MikaVM.cpp */; };
+		3A49C9721F32CCAE007332BC /* MikaWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A49C96A1F32CCAE007332BC /* MikaWorld.cpp */; };
+		3A49C9731F32CCAE007332BC /* stdafx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A49C96D1F32CCAE007332BC /* stdafx.cpp */; };
 		3AA723FD1F2ED780008C4EEE /* MemberFunctionCallExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AA723FB1F2ED780008C4EEE /* MemberFunctionCallExpression.cpp */; };
 		3AA724001F2ED7CD008C4EEE /* MemberFunctionCallExpression.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AA723FF1F2ED7CD008C4EEE /* MemberFunctionCallExpression.h */; };
 		3AB420831E0E51160080E50C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB420821E0E51160080E50C /* main.cpp */; };
@@ -116,6 +121,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3A49C9581F32CC52007332BC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		3AB4207E1E0E51160080E50C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -141,6 +155,23 @@
 		3A08F1FC1F0F3D56004977ED /* PlatformMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlatformMac.cpp; sourceTree = "<group>"; };
 		3A28553D1F2EDBF000B5550A /* UserDefinedType.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UserDefinedType.cpp; sourceTree = "<group>"; };
 		3A28553F1F2EDBFD00B5550A /* UserDefinedType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefinedType.h; sourceTree = "<group>"; };
+		3A49C95A1F32CC52007332BC /* MikaWorld */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaWorld; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A49C9611F32CCAE007332BC /* GeneratedGlue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GeneratedGlue.hpp; sourceTree = "<group>"; };
+		3A49C9621F32CCAE007332BC /* Glue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Glue.cpp; sourceTree = "<group>"; };
+		3A49C9631F32CCAE007332BC /* Glue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Glue.h; sourceTree = "<group>"; };
+		3A49C9641F32CCAE007332BC /* MikaArchive.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MikaArchive.cpp; sourceTree = "<group>"; };
+		3A49C9651F32CCAE007332BC /* MikaArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaArchive.h; sourceTree = "<group>"; };
+		3A49C9661F32CCAE007332BC /* MikaGlue.mikah */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MikaGlue.mikah; sourceTree = "<group>"; };
+		3A49C9671F32CCAE007332BC /* MikaOpcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaOpcodes.h; sourceTree = "<group>"; };
+		3A49C9681F32CCAE007332BC /* MikaVM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MikaVM.cpp; sourceTree = "<group>"; };
+		3A49C9691F32CCAE007332BC /* MikaVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaVM.h; sourceTree = "<group>"; };
+		3A49C96A1F32CCAE007332BC /* MikaWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MikaWorld.cpp; sourceTree = "<group>"; };
+		3A49C96B1F32CCAE007332BC /* MikaWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MikaWorld.h; sourceTree = "<group>"; };
+		3A49C96C1F32CCAE007332BC /* Quake.mika */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quake.mika; sourceTree = "<group>"; };
+		3A49C96D1F32CCAE007332BC /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; };
+		3A49C96E1F32CCAE007332BC /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		3A49C9741F32CCBA007332BC /* build.ninja.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.ninja.common; sourceTree = "<group>"; };
+		3A49C9751F32CCBA007332BC /* build.ninja.mac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.ninja.mac; sourceTree = "<group>"; };
 		3AA723FB1F2ED780008C4EEE /* MemberFunctionCallExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemberFunctionCallExpression.cpp; sourceTree = "<group>"; };
 		3AA723FF1F2ED7CD008C4EEE /* MemberFunctionCallExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberFunctionCallExpression.h; sourceTree = "<group>"; };
 		3AB420801E0E51160080E50C /* MikaVM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaVM; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,6 +275,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3A49C9571F32CC52007332BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3AB4207D1E0E51160080E50C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -270,6 +308,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A49C95B1F32CC52007332BC /* MikaWorld */ = {
+			isa = PBXGroup;
+			children = (
+				3A49C9761F32CCC3007332BC /* Scripts */,
+				3A49C9611F32CCAE007332BC /* GeneratedGlue.hpp */,
+				3A49C9621F32CCAE007332BC /* Glue.cpp */,
+				3A49C9631F32CCAE007332BC /* Glue.h */,
+				3A49C9641F32CCAE007332BC /* MikaArchive.cpp */,
+				3A49C9651F32CCAE007332BC /* MikaArchive.h */,
+				3A49C9671F32CCAE007332BC /* MikaOpcodes.h */,
+				3A49C9681F32CCAE007332BC /* MikaVM.cpp */,
+				3A49C9691F32CCAE007332BC /* MikaVM.h */,
+				3A49C96A1F32CCAE007332BC /* MikaWorld.cpp */,
+				3A49C96B1F32CCAE007332BC /* MikaWorld.h */,
+				3A49C96D1F32CCAE007332BC /* stdafx.cpp */,
+				3A49C96E1F32CCAE007332BC /* stdafx.h */,
+			);
+			path = MikaWorld;
+			sourceTree = "<group>";
+		};
+		3A49C9761F32CCC3007332BC /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				3A49C9741F32CCBA007332BC /* build.ninja.common */,
+				3A49C9751F32CCBA007332BC /* build.ninja.mac */,
+				3A49C9661F32CCAE007332BC /* MikaGlue.mikah */,
+				3A49C96C1F32CCAE007332BC /* Quake.mika */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
 		3AB420811E0E51160080E50C /* MikaVM */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,6 +388,7 @@
 				3AC947AD1DF3AA4F00881BE4 /* Compiler */,
 				3AB420811E0E51160080E50C /* MikaVM */,
 				3AB420921E0E64CE0080E50C /* MikaCL */,
+				3A49C95B1F32CC52007332BC /* MikaWorld */,
 				3AC947AC1DF3AA4F00881BE4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -329,6 +399,7 @@
 				3AC947AB1DF3AA4F00881BE4 /* libCompiler.a */,
 				3AB420801E0E51160080E50C /* MikaVM */,
 				3AB420911E0E64CE0080E50C /* MikaCL */,
+				3A49C95A1F32CC52007332BC /* MikaWorld */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -475,6 +546,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3A49C9591F32CC52007332BC /* MikaWorld */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A49C95E1F32CC52007332BC /* Build configuration list for PBXNativeTarget "MikaWorld" */;
+			buildPhases = (
+				3A49C9561F32CC52007332BC /* Sources */,
+				3A49C9571F32CC52007332BC /* Frameworks */,
+				3A49C9581F32CC52007332BC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MikaWorld;
+			productName = MikaWorld;
+			productReference = 3A49C95A1F32CC52007332BC /* MikaWorld */;
+			productType = "com.apple.product-type.tool";
+		};
 		3AB4207F1E0E51160080E50C /* MikaVM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3AB420871E0E51160080E50C /* Build configuration list for PBXNativeTarget "MikaVM" */;
@@ -537,6 +625,11 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Alexander Barrentine";
 				TargetAttributes = {
+					3A49C9591F32CC52007332BC = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 4WQP86PQ5Z;
+						ProvisioningStyle = Automatic;
+					};
 					3AB4207F1E0E51160080E50C = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 4WQP86PQ5Z;
@@ -569,11 +662,24 @@
 				3AC947AA1DF3AA4F00881BE4 /* Compiler */,
 				3AB4207F1E0E51160080E50C /* MikaVM */,
 				3AB420901E0E64CE0080E50C /* MikaCL */,
+				3A49C9591F32CC52007332BC /* MikaWorld */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3A49C9561F32CC52007332BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A49C9721F32CCAE007332BC /* MikaWorld.cpp in Sources */,
+				3A49C9701F32CCAE007332BC /* MikaArchive.cpp in Sources */,
+				3A49C96F1F32CCAE007332BC /* Glue.cpp in Sources */,
+				3A49C9711F32CCAE007332BC /* MikaVM.cpp in Sources */,
+				3A49C9731F32CCAE007332BC /* stdafx.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3AB4207C1E0E51160080E50C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -656,6 +762,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3A49C95F1F32CC52007332BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				HEADER_SEARCH_PATHS = "../irrlicht-1.8.4/include";
+				LIBRARY_SEARCH_PATHS = "../irrlicht-1.8.4/lib/MacOSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3A49C9601F32CC52007332BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 4WQP86PQ5Z;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		3AB420841E0E51160080E50C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -810,6 +934,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3A49C95E1F32CC52007332BC /* Build configuration list for PBXNativeTarget "MikaWorld" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A49C95F1F32CC52007332BC /* Debug */,
+				3A49C9601F32CC52007332BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3AB420871E0E51160080E50C /* Build configuration list for PBXNativeTarget "MikaVM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
