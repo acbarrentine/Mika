@@ -35,6 +35,8 @@ void MikaVM::Execute(const char* functionName)
 		return;
 	}
 
+    REQUIRE(func->mNumArgs == mFunctionArgs.size());
+    
 	PushCallFrame(func);
 	size_t entryFrame = mCallFrames.size();
 

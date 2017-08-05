@@ -48,6 +48,7 @@ struct MikaArchiveStringFixup
 struct MikaArchiveFunctionHeader
 {
 	unsigned int mNameOffset;
+	int mNumArgs;
 	std::vector<char> mByteData;
 	std::vector<int> mStringPtrFixups;
 

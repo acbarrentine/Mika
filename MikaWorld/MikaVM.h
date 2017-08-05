@@ -14,6 +14,7 @@ public:
 	struct Function
 	{
 		const char* mName;
+        int mNumArgs;
 		GlobalContext* mGlobalContext;
 		std::vector<char> mByteData;
 	};

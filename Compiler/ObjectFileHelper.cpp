@@ -148,6 +148,7 @@ void ObjectFileHelper::WriteObjectFile(const char* objectFileName)
 	{
 		MikaArchiveFunctionHeader header;
 		header.mNameOffset = record.mNameOffset;
+		header.mNumArgs = record.mFunction->GetParameterCount();
 		header.mByteData = std::move(record.mByteCodeData);
 		header.mStringPtrFixups = std::move(record.mStringPtrFixups);
 
