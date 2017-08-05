@@ -39,6 +39,7 @@
     <ClCompile Include="IntConstantExpression.cpp" />
     <ClCompile Include="IRCode.cpp" />
     <ClCompile Include="LogicalExpression.cpp" />
+    <ClCompile Include="MemberFunctionCallExpression.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="ObjectFileHelper.cpp" />
     <ClCompile Include="PlatformWin.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="IRCode.h" />
     <ClInclude Include="Label.h" />
     <ClInclude Include="LogicalExpression.h" />
+    <ClInclude Include="MemberFunctionCallExpression.h" />
     <ClInclude Include="MemberFunctionDeclaration.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="ObjectFileHelper.h" />

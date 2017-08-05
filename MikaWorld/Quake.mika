@@ -1,4 +1,9 @@
 fun Loaded() : void
 {
-	Print("Quake: Reloaded")
+	Print("Quake: Loaded")
+}
+
+fun Hit() : void
+{
+	Print("Quake: Hit!")
 }

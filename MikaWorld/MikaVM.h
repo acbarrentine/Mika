@@ -21,7 +21,7 @@ public:
 	struct StackIndex
 	{
 		int mOffset;
-		int mGlobal;
+		bool mGlobal;
 		StackIndex(int offset, bool global) : mOffset(offset), mGlobal(global) {}
 	};
 
@@ -57,6 +57,14 @@ public:
 			return mFunc ? sizeof(Instruction) + (mNumArgs * sizeof(Cell)) : sizeof(Cell);
 		}
 	};
+	
+	typedef void(*DestructorFunc)(void*);
+	struct Destructor
+	{
+		void* Addr;
+		DestructorFunc Func;
+		Destructor(void* addr, DestructorFunc func) : Addr(addr), Func(func) {}
+	};
 
 	struct Location
 	{
@@ -65,10 +73,19 @@ public:
 		char* StackPtr;
 		unsigned int LineNumber;
 		size_t PCOffset;
+		std::vector<Destructor> DestructorsToRun;
 		
 		Location()
 		{
 			Reset();
+		}
+
+		~Location()
+		{
+			for (Destructor& destructor : DestructorsToRun)
+			{
+				destructor.Func(destructor.Addr);
+			}
 		}
 
 		void Reset()
@@ -124,4 +141,6 @@ public:
 	Location& GetLocation();
 	void PushCallFrame(Function* func);
 	void PopCallFrame();
+
+	void RegisterDestructor(void* addr, DestructorFunc func);
 };

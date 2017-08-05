@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "MikaWorld.h"
 #include "MikaVM.h"
+#include "MikaWorld.h"
 
 using namespace irr;
 
@@ -14,6 +14,45 @@ using namespace irr;
 
 static char const* const SScriptName = "../Asset/Quake.miko";
 static char const* const SLoadedFunctionName = "Quake:Loaded";
+
+MikaWorld GWorld;
+
+
+class ScriptCallbackAnimator : public irr::scene::ISceneNodeAnimator
+{
+protected:
+	irr::u32 mTimeToRun;
+	irr::core::stringc mCallback;
+	bool mDone;
+
+public:
+	ScriptCallbackAnimator(irr::u32 time, irr::core::stringc cb)
+		: irr::scene::ISceneNodeAnimator()
+		, mTimeToRun(time)
+		, mCallback(cb)
+		, mDone(false)
+	{
+	}
+
+	virtual void animateNode(irr::scene::ISceneNode* node, u32 timeMs)
+	{
+		if (!mDone && timeMs > mTimeToRun)
+		{
+			GWorld.Execute(mCallback.c_str());
+			mDone = true;
+		}
+	}
+
+	virtual ISceneNodeAnimator* createClone(irr::scene::ISceneNode* node, irr::scene::ISceneManager* newManager = nullptr)
+	{
+		return new ScriptCallbackAnimator(mTimeToRun, mCallback);
+	}
+
+	virtual bool hasFinished() const
+	{
+		return mDone;
+	}
+};
 
 enum
 {
@@ -172,7 +211,11 @@ void MikaWorld::Fire()
 	{
 		// create impact note
 		imp.mWhen = mVideoDevice->getTimer()->getTime() + (time - 100);
-		//Impacts.push_back(imp);
+		//mImpacts.push_back(imp);
+
+		ScriptCallbackAnimator* anim = new ScriptCallbackAnimator(imp.mWhen, "Quake:Hit");
+		node->addAnimator(anim);
+		anim->drop();
 	}
 }
 
@@ -180,14 +223,12 @@ void MikaWorld::Fire()
 
 int main()
 {
-	MikaWorld world;
-	world.Run();
+	GWorld.Run();
 }
 
 // Run shell command and capture output, from https://stackoverflow.com/a/35658917
 std::string ExecCmd(const wchar_t* cmd)
 {
-#if WIN32
 	std::string strResult;
 	HANDLE hPipeRead, hPipeWrite;
 
@@ -209,7 +250,7 @@ std::string ExecCmd(const wchar_t* cmd)
 
 	wchar_t cmdBuffer[1024];
 	wcscpy_s(cmdBuffer, cmd);
-	BOOL fSuccess = CreateProcessW(NULL, cmdBuffer, NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
+	BOOL fSuccess = CreateProcess(NULL, cmdBuffer, NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
 	if (!fSuccess)
 	{
 		CloseHandle(hPipeWrite);
@@ -250,25 +291,60 @@ std::string ExecCmd(const wchar_t* cmd)
 	CloseHandle(pi.hProcess);
 	CloseHandle(pi.hThread);
 	return strResult;
-#else
-    return "";
-#endif
 } //ExecCmd
 
-void LoadScript(MikaVM& vm)
+void MikaWorld::LoadScript()
 {
 	std::string result = ExecCmd(L"../Bin/Win/ninja.exe -f build.ninja.win");
-#if WIN32
-	OutputDebugStringA(result.c_str());
-#else
-    printf(result.c_str());
-#endif
-	if (result.find("FAILED") == std::string::npos)
+	irr::core::stringw msg(result.c_str(), (u32)(result.size() - 3));
+	AddScriptMessage(msg);
+
+	if (msg.find("FAILED") == -1)
 	{
-		vm.Reset();
-		vm.Import(SScriptName);
-		vm.Execute(SLoadedFunctionName);
+		mVM.Reset();
+		mVM.Import(SScriptName);
+		mVM.Execute(SLoadedFunctionName);
 	}
+}
+
+void MikaWorld::AddScriptMessage(const irr::core::stringw& msg)
+{
+	core::dimension2d<u32> size = mFont->getDimension(msg.c_str());
+	mScriptMessages.push_back(DebugMessage(msg, size));
+	mVideoDevice->getLogger()->log(msg.c_str());
+
+	mDebugTextLength += size.Height;
+	while (mDebugTextLength > WindowHeight)
+	{
+		DebugMessage& msg = mScriptMessages[0];
+		mDebugTextLength -= msg.Size.Height;
+		mScriptMessages.erase(0);
+	}
+}
+
+void MikaWorld::UpdateScriptMessages()
+{
+	u32 firstKeeper = 0;
+	for (u32 i = 0; i < mScriptMessages.size(); ++i)
+	{
+		DebugMessage& msg = mScriptMessages[i];
+		--msg.Duration;
+		if (msg.Duration == 0)
+		{
+			++firstKeeper;
+			mDebugTextLength -= msg.Size.Height;
+		}
+	}
+
+	if (firstKeeper > 0)
+	{
+		mScriptMessages.erase(0, firstKeeper);
+	}
+}
+
+void MikaWorld::Execute(const char* function)
+{
+	mVM.Execute(function);
 }
 
 void MikaWorld::Run()
@@ -276,12 +352,14 @@ void MikaWorld::Run()
 	EventReceiver eventReceiver;
 
 	// ask user for driver
-	mVideoDevice = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(640, 480), 16, false, false, true, &eventReceiver);
+	mVideoDevice = createDevice(video::EDT_OPENGL, core::dimension2d<u32>(WindowWidth, WindowHeight), 16, false, false, true, &eventReceiver);
 	if (!mVideoDevice)
 		return;
 
 	video::IVideoDriver* driver = mVideoDevice->getVideoDriver();
 	scene::ISceneManager* smgr = mVideoDevice->getSceneManager();
+	gui::IGUIEnvironment* gui = mVideoDevice->getGUIEnvironment();
+	mFont = gui->getFont("../Asset/fontcourier.bmp");
 
 	mVideoDevice->getFileSystem()->addFileArchive("../Asset/map-20kdm2.pk3");
 	scene::IAnimatedMesh* mesh = smgr->getMesh("20kdm2.bsp");
@@ -328,8 +406,7 @@ void MikaWorld::Run()
 
 	s32 lastFPS = -1;
 
-	MikaVM vm;
-	LoadScript(vm);
+	LoadScript();
 
 	while (mVideoDevice->run())
 	{
@@ -348,10 +425,19 @@ void MikaWorld::Run()
 			
 			if (eventReceiver.CheckReload())
 			{
-				LoadScript(vm);
+				LoadScript();
 			}
 
 			smgr->drawAll();
+
+			gui->drawAll();
+			s32 line = 20;
+			for (u32 i = 0; i < mScriptMessages.size(); ++i)
+			{
+				DebugMessage& msg = mScriptMessages[i];
+				mFont->draw(msg.Str, core::rect<s32>(20, line, (20 + msg.Size.Width), (line + msg.Size.Height)), video::SColor(255, 255, 255, 255));
+				line += msg.Size.Height;
+			}
 
 			driver->endScene();
 
@@ -367,6 +453,8 @@ void MikaWorld::Run()
 				lastFPS = fps;
 			}
 		}
+
+		UpdateScriptMessages();
 
 		eventReceiver.Update();
 	}

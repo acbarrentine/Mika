@@ -1,139 +1,145 @@
 #pragma once
 
-void Glue_V3_ConstructEmpty(MikaVM* vm)
+void Glue_Print(MikaVM* vm)
 {
-	V3* retval = V3_ConstructEmpty();
-	vm->SetResultRegister(retval);
+	MikaVM::Location& loc = vm->GetLocation();
+	const char* param1 = (const char*)vm->GetFunctionArg(0).mStrVal;
+	Print(param1, loc.Func->mName, loc.LineNumber);
 }
 
-void Glue_V3_ConstructWithValues(MikaVM* vm)
+void Glue_DeleteV3(void* addr)
 {
-	float X = (float)vm->GetFunctionArg(0).mFltVal;
-	float Y = (float)vm->GetFunctionArg(1).mFltVal;
-	float Z = (float)vm->GetFunctionArg(2).mFltVal;
-	V3* retval = V3_ConstructWithValues(X, Y, Z);
-	vm->SetResultRegister(retval);
+	V3* obj = (V3*)addr;
+	delete obj;
 }
 
-void Glue_V3_ConstructCopy(MikaVM* vm)
+void Glue_V3_Empty(MikaVM* vm)
+{
+	V3* retval = new V3();
+	vm->SetResultRegister(retval);
+	vm->RegisterDestructor(retval, Glue_DeleteV3);
+}
+
+void Glue_V3_XYZ(MikaVM* vm)
+{
+	float x = (float)vm->GetFunctionArg(0).mFltVal;
+	float y = (float)vm->GetFunctionArg(1).mFltVal;
+	float z = (float)vm->GetFunctionArg(2).mFltVal;
+	V3* retval = new V3(x, y, z);
+	vm->SetResultRegister(retval);
+	vm->RegisterDestructor(retval, Glue_DeleteV3);
+}
+
+void Glue_V3_Copy(MikaVM* vm)
 {
 	V3* other = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3* retval = V3_ConstructCopy(other);
+	V3* retval = new V3(other);
 	vm->SetResultRegister(retval);
+	vm->RegisterDestructor(retval, Glue_DeleteV3);
 }
 
 void Glue_V3_Assign(MikaVM* vm)
 {
-	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
 	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	V3_Assign(target, other);
+	obj->Assign(other);
 }
 
 void Glue_V3_Add(MikaVM* vm)
 {
-	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
 	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	V3_Add(target, other);
+	obj->Add(other);
 }
 
 void Glue_V3_Subtract(MikaVM* vm)
 {
-	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
 	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	V3_Subtract(target, other);
+	obj->Subtract(other);
 }
 
 void Glue_V3_Multiply(MikaVM* vm)
 {
-	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
 	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	V3_Multiply(target, other);
+	obj->Multiply(other);
 }
 
 void Glue_V3_Divide(MikaVM* vm)
 {
-	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
 	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	V3_Divide(target, other);
+	obj->Divide(other);
 }
 
 void Glue_V3_Scale(MikaVM* vm)
 {
-	V3* target = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	float by = (float)vm->GetFunctionArg(1).mFltVal;
-	V3_Scale(target, by);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	float scalar = (float)vm->GetFunctionArg(1).mFltVal;
+	obj->Scale(scalar);
 }
 
 void Glue_V3_Equals(MikaVM* vm)
 {
-	V3* left = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3* right = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	int retval = V3_Equals(left, right);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
+	int retval = obj->Equals(other);
 	vm->SetResultRegister(retval);
 }
 
 void Glue_V3_NotEquals(MikaVM* vm)
 {
-	V3* left = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3* right = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	int retval = V3_NotEquals(left, right);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* other = (V3*)vm->GetFunctionArg(1).mPtrVal;
+	int retval = obj->NotEquals(other);
 	vm->SetResultRegister(retval);
 }
 
 void Glue_V3_GetLength(MikaVM* vm)
 {
-	V3* param1 = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	float retval = V3_GetLength(param1);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	float retval = obj->GetLength();
 	vm->SetResultRegister(retval);
 }
 
 void Glue_V3_GetLengthSquared(MikaVM* vm)
 {
-	V3* param1 = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	float retval = V3_GetLengthSquared(param1);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	float retval = obj->GetLengthSquared();
 	vm->SetResultRegister(retval);
 }
 
 void Glue_V3_DotProduct(MikaVM* vm)
 {
-	V3* source = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3* target = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	float retval = V3_DotProduct(source, target);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* vec2 = (V3*)vm->GetFunctionArg(1).mPtrVal;
+	float retval = obj->DotProduct(vec2);
 	vm->SetResultRegister(retval);
 }
 
 void Glue_V3_CrossProduct(MikaVM* vm)
 {
-	V3* source = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3* target = (V3*)vm->GetFunctionArg(1).mPtrVal;
-	V3* retval = V3_CrossProduct(source, target);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	V3* vec2 = (V3*)vm->GetFunctionArg(1).mPtrVal;
+	V3* retval = obj->CrossProduct(vec2);
 	vm->SetResultRegister(retval);
+	vm->RegisterDestructor(retval, Glue_DeleteV3);
 }
 
 void Glue_V3_Normalize(MikaVM* vm)
 {
-	V3* param1 = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3_Normalize(param1);
-}
-
-void Glue_V3_Delete(MikaVM* vm)
-{
-	V3* param1 = (V3*)vm->GetFunctionArg(0).mPtrVal;
-	V3_Delete(param1);
-}
-
-void Glue_Print(MikaVM* vm)
-{
-	const char* param1 = (const char*)vm->GetFunctionArg(0).mStrVal;
-	Print(param1);
+	V3* obj = (V3*)vm->GetFunctionArg(0).mPtrVal;
+	obj->Normalize();
 }
 
 void RegisterGlueFunctions(MikaVM* vm)
 {
 	vm->RegisterGlue({
-		{ "V3_ConstructEmpty", Glue_V3_ConstructEmpty },
-		{ "V3_ConstructWithValues", Glue_V3_ConstructWithValues },
-		{ "V3_ConstructCopy", Glue_V3_ConstructCopy },
+		{ "Print", Glue_Print },
+		{ "V3_Empty", Glue_V3_Empty },
+		{ "V3_XYZ", Glue_V3_XYZ },
+		{ "V3_Copy", Glue_V3_Copy },
 		{ "V3_Assign", Glue_V3_Assign },
 		{ "V3_Add", Glue_V3_Add },
 		{ "V3_Subtract", Glue_V3_Subtract },
@@ -147,7 +153,5 @@ void RegisterGlueFunctions(MikaVM* vm)
 		{ "V3_DotProduct", Glue_V3_DotProduct },
 		{ "V3_CrossProduct", Glue_V3_CrossProduct },
 		{ "V3_Normalize", Glue_V3_Normalize },
-		{ "V3_Delete", Glue_V3_Delete },
-		{ "Print", Glue_Print },
 	});
 }

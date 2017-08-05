@@ -212,6 +212,11 @@ void MikaVM::PopCallFrame()
 	mCallFrames.pop_back();
 }
 
+void MikaVM::RegisterDestructor(void* addr, DestructorFunc func)
+{
+	mCallFrames.back().DestructorsToRun.emplace_back(Destructor(addr, func));
+}
+
 void Glue_CopyArgToStack(MikaVM* vm)
 {
 	MikaVM::Cell dest = vm->GetOperand(0);

@@ -26,7 +26,7 @@ void IdentifierExpression::ResolveType(SymbolTable& symbolTable)
 	}
 }
 
-void IdentifierExpression::GenCode(ObjectFileHelper& helper)
+void IdentifierExpression::GenCode(ObjectFileHelper&)
 {
 	if (mVariable)
 	{
