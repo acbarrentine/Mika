@@ -172,6 +172,7 @@
 		3A49C96E1F32CCAE007332BC /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
 		3A49C9741F32CCBA007332BC /* build.ninja.common */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.ninja.common; sourceTree = "<group>"; };
 		3A49C9751F32CCBA007332BC /* build.ninja.mac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build.ninja.mac; sourceTree = "<group>"; };
+		3A49C9771F3771CF007332BC /* Catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Catch.hpp; path = Catch/Catch.hpp; sourceTree = SOURCE_ROOT; };
 		3AA723FB1F2ED780008C4EEE /* MemberFunctionCallExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemberFunctionCallExpression.cpp; sourceTree = "<group>"; };
 		3AA723FF1F2ED7CD008C4EEE /* MemberFunctionCallExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberFunctionCallExpression.h; sourceTree = "<group>"; };
 		3AB420801E0E51160080E50C /* MikaVM */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MikaVM; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -180,7 +181,6 @@
 		3AB420931E0E64CE0080E50C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB4209A1E0E6B6D0080E50C /* stdafx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stdafx.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB4209B1E0E6B6D0080E50C /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; usesTabs = 1; };
-		3AB4209E1E0E6EE90080E50C /* Catch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Catch.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB4209F1E0E6EE90080E50C /* GeneratedGlue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GeneratedGlue.hpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB420A01E0E6EE90080E50C /* Glue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Glue.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		3AB420A11E0E6EE90080E50C /* Glue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Glue.h; sourceTree = "<group>"; usesTabs = 1; };
@@ -342,7 +342,7 @@
 		3AB420811E0E51160080E50C /* MikaVM */ = {
 			isa = PBXGroup;
 			children = (
-				3AB4209E1E0E6EE90080E50C /* Catch.hpp */,
+				3A49C9771F3771CF007332BC /* Catch.hpp */,
 				3AB4209F1E0E6EE90080E50C /* GeneratedGlue.hpp */,
 				3AB420A01E0E6EE90080E50C /* Glue.cpp */,
 				3AB420A11E0E6EE90080E50C /* Glue.h */,
