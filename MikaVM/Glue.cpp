@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Glue.h"
 #include "MikaVM.h"
-#include "Catch.hpp"
+#include "../Catch/Catch.hpp"
 #include "../Compiler/Platform.h"
 #include <math.h>
 

@@ -2,7 +2,7 @@
 #include "MikaArchive.h"
 #include "MikaVM.h"
 #include "Glue.h"
-#include "Catch.hpp"
+#include "../Catch/Catch.hpp"
 
 MikaVM::MikaVM(int stackSize)
 	: mOperands(nullptr)

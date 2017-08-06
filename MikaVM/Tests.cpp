@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Catch.hpp"
+#include "../Catch/Catch.hpp"
 #include "../Compiler/Compiler.h"
 #include "MikaVM.h"
 
@@ -18,10 +18,10 @@ public:
 	{
 		GCompiler.Reset();
 
-		std::string glueHeader = "../TestScripts/MikaGlue.mikah";
-		std::string sourceFile = "../TestScripts/" + scriptName + ".mika";
-		std::string objectPath = "../TestScripts/Output/" + scriptName + ".miko";
-		std::string debugPath = "../TestScripts/Output/" + scriptName + ".mikd";
+		std::string glueHeader = "TestScripts/MikaGlue.mikah";
+		std::string sourceFile = "TestScripts/" + scriptName + ".mika";
+		std::string objectPath = "TestScripts/Output/" + scriptName + ".miko";
+		std::string debugPath = "TestScripts/Output/" + scriptName + ".mikd";
 		std::string testEntry = scriptName + ":TestEntry";
 
 		if (GCompiler.GetErrorCount() == 0) GCompiler.ReadGlueHeader(glueHeader.c_str());
