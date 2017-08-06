@@ -4,11 +4,11 @@
 #include "../Compiler/Platform.h"
 
 #define CATCH_CONFIG_RUNNER
-#include "Catch.hpp"
+#include "../Catch/Catch.hpp"
 
 bool UpdateGlue()
 {
-    std::string glueHeader = "../TestScripts/MikaGlue.mikah";
+    std::string glueHeader = "TestScripts/MikaGlue.mikah";
     std::string tmpGlueModule = "GeneratedGlue.tmp";
     std::string curGlueModule = "GeneratedGlue.hpp";
     
