@@ -278,6 +278,73 @@
 			name = Catch;
 			sourceTree = "<group>";
 		};
+		3A962DDA1F3BDD5500805471 /* Lexer */ = {
+			isa = PBXGroup;
+			children = (
+				3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */,
+				3AC947D81DF3AE2700881BE4 /* GlueTokenizer.cpp */,
+				3AC947D91DF3AE2700881BE4 /* GlueTokenizer.h */,
+				3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */,
+				3AC947F31DF3AE2700881BE4 /* ScriptTokenizer.cpp */,
+				3AC947F41DF3AE2700881BE4 /* ScriptTokenizer.h */,
+			);
+			name = Lexer;
+			sourceTree = "<group>";
+		};
+		3A962DDB1F3BDD8B00805471 /* Expression */ = {
+			isa = PBXGroup;
+			children = (
+				3AC947B91DF3AE2700881BE4 /* AssignmentExpression.cpp */,
+				3AC947BA1DF3AE2700881BE4 /* AssignmentExpression.h */,
+				3AC947BB1DF3AE2700881BE4 /* BinaryExpression.cpp */,
+				3AC947BC1DF3AE2700881BE4 /* BinaryExpression.h */,
+				3AC947CA1DF3AE2700881BE4 /* Expression.cpp */,
+				3AC947CB1DF3AE2700881BE4 /* Expression.h */,
+				3AC947CE1DF3AE2700881BE4 /* FloatConstantExpression.cpp */,
+				3AC947CF1DF3AE2700881BE4 /* FloatConstantExpression.h */,
+				3AC947D01DF3AE2700881BE4 /* FunctionCallExpression.cpp */,
+				3AC947D11DF3AE2700881BE4 /* FunctionCallExpression.h */,
+				3AC947DC1DF3AE2700881BE4 /* IdentifierExpression.cpp */,
+				3AC947DD1DF3AE2700881BE4 /* IdentifierExpression.h */,
+				3AC947E01DF3AE2700881BE4 /* IntConstantExpression.cpp */,
+				3AC947E11DF3AE2700881BE4 /* IntConstantExpression.h */,
+				3AC947E51DF3AE2700881BE4 /* LogicalExpression.cpp */,
+				3AC947E61DF3AE2700881BE4 /* LogicalExpression.h */,
+				3AA723FB1F2ED780008C4EEE /* MemberFunctionCallExpression.cpp */,
+				3AA723FF1F2ED7CD008C4EEE /* MemberFunctionCallExpression.h */,
+				3AC947F81DF3AE2700881BE4 /* StringConstantExpression.cpp */,
+				3AC947F91DF3AE2700881BE4 /* StringConstantExpression.h */,
+				3AC947FF1DF3AE2700881BE4 /* UnaryExpression.cpp */,
+				3AC948001DF3AE2700881BE4 /* UnaryExpression.h */,
+			);
+			name = Expression;
+			sourceTree = "<group>";
+		};
+		3A962DDC1F3BDD9800805471 /* Statement */ = {
+			isa = PBXGroup;
+			children = (
+				3AC947BD1DF3AE2700881BE4 /* BreakStatement.cpp */,
+				3AC947BE1DF3AE2700881BE4 /* BreakStatement.h */,
+				3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */,
+				3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */,
+				3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */,
+				3AC947C81DF3AE2700881BE4 /* ContinueStatement.h */,
+				3AC947CC1DF3AE2700881BE4 /* ExpressionStatement.cpp */,
+				3AC947CD1DF3AE2700881BE4 /* ExpressionStatement.h */,
+				3AC947DE1DF3AE2700881BE4 /* IfStatement.cpp */,
+				3AC947DF1DF3AE2700881BE4 /* IfStatement.h */,
+				3AC947ED1DF3AE2700881BE4 /* ReturnStatement.cpp */,
+				3AC947EE1DF3AE2700881BE4 /* ReturnStatement.h */,
+				3AE75A451F1ABC820079FCBB /* Statement.cpp */,
+				3AC947F51DF3AE2700881BE4 /* Statement.h */,
+				3AC948021DF3AE2700881BE4 /* VariableDeclarationStatement.cpp */,
+				3AC948031DF3AE2700881BE4 /* VariableDeclarationStatement.h */,
+				3AC948041DF3AE2700881BE4 /* WhileStatement.cpp */,
+				3AC948051DF3AE2700881BE4 /* WhileStatement.h */,
+			);
+			name = Statement;
+			sourceTree = "<group>";
+		};
 		3AB420811E0E51160080E50C /* MikaVM */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,51 +412,22 @@
 		3AC947AD1DF3AA4F00881BE4 /* Compiler */ = {
 			isa = PBXGroup;
 			children = (
-				3AC947B91DF3AE2700881BE4 /* AssignmentExpression.cpp */,
-				3AC947BA1DF3AE2700881BE4 /* AssignmentExpression.h */,
-				3AC947BB1DF3AE2700881BE4 /* BinaryExpression.cpp */,
-				3AC947BC1DF3AE2700881BE4 /* BinaryExpression.h */,
-				3AC947BD1DF3AE2700881BE4 /* BreakStatement.cpp */,
-				3AC947BE1DF3AE2700881BE4 /* BreakStatement.h */,
 				3AC947BF1DF3AE2700881BE4 /* ByteCodeLocator.h */,
 				3AC947C01DF3AE2700881BE4 /* ByteCodeWriter.h */,
 				3AC947C11DF3AE2700881BE4 /* Compiler.cpp */,
 				3AC947C21DF3AE2700881BE4 /* Compiler.h */,
-				3AC947C51DF3AE2700881BE4 /* CompoundStatement.cpp */,
-				3AC947C61DF3AE2700881BE4 /* CompoundStatement.h */,
-				3AC947C71DF3AE2700881BE4 /* ContinueStatement.cpp */,
-				3AC947C81DF3AE2700881BE4 /* ContinueStatement.h */,
 				3AC947C91DF3AE2700881BE4 /* DebugWriter.h */,
-				3AC947CA1DF3AE2700881BE4 /* Expression.cpp */,
-				3AC947CB1DF3AE2700881BE4 /* Expression.h */,
-				3AC947CC1DF3AE2700881BE4 /* ExpressionStatement.cpp */,
-				3AC947CD1DF3AE2700881BE4 /* ExpressionStatement.h */,
-				3AC947CE1DF3AE2700881BE4 /* FloatConstantExpression.cpp */,
-				3AC947CF1DF3AE2700881BE4 /* FloatConstantExpression.h */,
-				3AC947D01DF3AE2700881BE4 /* FunctionCallExpression.cpp */,
-				3AC947D11DF3AE2700881BE4 /* FunctionCallExpression.h */,
+				3A962DDB1F3BDD8B00805471 /* Expression */,
 				3AC947D21DF3AE2700881BE4 /* FunctionDeclaration.cpp */,
 				3AC947D31DF3AE2700881BE4 /* FunctionDeclaration.h */,
 				3AC947D41DF3AE2700881BE4 /* GlueGenerator.cpp */,
 				3AC947D51DF3AE2700881BE4 /* GlueGenerator.h */,
-				3AC948531DF3B57600881BE4 /* GlueSyntax.lpp */,
-				3AC947D81DF3AE2700881BE4 /* GlueTokenizer.cpp */,
-				3AC947D91DF3AE2700881BE4 /* GlueTokenizer.h */,
 				3AC947DA1DF3AE2700881BE4 /* Identifier.cpp */,
 				3AC947DB1DF3AE2700881BE4 /* Identifier.h */,
-				3AC947DC1DF3AE2700881BE4 /* IdentifierExpression.cpp */,
-				3AC947DD1DF3AE2700881BE4 /* IdentifierExpression.h */,
-				3AC947DE1DF3AE2700881BE4 /* IfStatement.cpp */,
-				3AC947DF1DF3AE2700881BE4 /* IfStatement.h */,
-				3AC947E01DF3AE2700881BE4 /* IntConstantExpression.cpp */,
-				3AC947E11DF3AE2700881BE4 /* IntConstantExpression.h */,
 				3AC947E21DF3AE2700881BE4 /* IRCode.cpp */,
 				3AC947E31DF3AE2700881BE4 /* IRCode.h */,
 				3AC947E41DF3AE2700881BE4 /* Label.h */,
-				3AC947E51DF3AE2700881BE4 /* LogicalExpression.cpp */,
-				3AC947E61DF3AE2700881BE4 /* LogicalExpression.h */,
-				3AA723FB1F2ED780008C4EEE /* MemberFunctionCallExpression.cpp */,
-				3AA723FF1F2ED7CD008C4EEE /* MemberFunctionCallExpression.h */,
+				3A962DDA1F3BDD5500805471 /* Lexer */,
 				3AC947E71DF3AE2700881BE4 /* MemoryManager.cpp */,
 				3AC947E81DF3AE2700881BE4 /* MemoryManager.h */,
 				3AC947E91DF3AE2700881BE4 /* ObjectFileHelper.cpp */,
@@ -398,33 +436,19 @@
 				3AD4DDCE1DF8CEFF00A1A7B4 /* Platform.h */,
 				3A08F1FC1F0F3D56004977ED /* PlatformMac.cpp */,
 				3AC947EC1DF3AE2700881BE4 /* ReferenceCollector.h */,
-				3AC947ED1DF3AE2700881BE4 /* ReturnStatement.cpp */,
-				3AC947EE1DF3AE2700881BE4 /* ReturnStatement.h */,
 				3AC947EF1DF3AE2700881BE4 /* ScriptFunction.cpp */,
 				3AC947F01DF3AE2700881BE4 /* ScriptFunction.h */,
-				3AC948541DF3B57600881BE4 /* ScriptSyntax.lpp */,
-				3AC947F31DF3AE2700881BE4 /* ScriptTokenizer.cpp */,
-				3AC947F41DF3AE2700881BE4 /* ScriptTokenizer.h */,
-				3AE75A451F1ABC820079FCBB /* Statement.cpp */,
-				3AC947F51DF3AE2700881BE4 /* Statement.h */,
+				3A962DDC1F3BDD9800805471 /* Statement */,
 				3AC947F61DF3AE2700881BE4 /* stdafx.cpp */,
 				3AC947F71DF3AE2700881BE4 /* stdafx.h */,
-				3AC947F81DF3AE2700881BE4 /* StringConstantExpression.cpp */,
-				3AC947F91DF3AE2700881BE4 /* StringConstantExpression.h */,
 				3AC947FA1DF3AE2700881BE4 /* SymbolTable.cpp */,
 				3AC947FB1DF3AE2700881BE4 /* SymbolTable.h */,
 				3AC947FC1DF3AE2700881BE4 /* Token.cpp */,
 				3AC947FD1DF3AE2700881BE4 /* Token.h */,
 				3AC947FE1DF3AE2700881BE4 /* Type.h */,
-				3AC947FF1DF3AE2700881BE4 /* UnaryExpression.cpp */,
-				3AC948001DF3AE2700881BE4 /* UnaryExpression.h */,
 				3A28553D1F2EDBF000B5550A /* UserDefinedType.cpp */,
 				3A28553F1F2EDBFD00B5550A /* UserDefinedType.h */,
 				3AC948011DF3AE2700881BE4 /* Variable.h */,
-				3AC948021DF3AE2700881BE4 /* VariableDeclarationStatement.cpp */,
-				3AC948031DF3AE2700881BE4 /* VariableDeclarationStatement.h */,
-				3AC948041DF3AE2700881BE4 /* WhileStatement.cpp */,
-				3AC948051DF3AE2700881BE4 /* WhileStatement.h */,
 			);
 			path = Compiler;
 			sourceTree = "<group>";
