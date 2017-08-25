@@ -1,4 +1,0 @@
-compiler = ..\Bin\Win\MikaCL.exe
-assetdir = ..\Asset
-
-include build.ninja.common

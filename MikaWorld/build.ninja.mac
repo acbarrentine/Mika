@@ -1,4 +1,0 @@
-compiler = ../Bin/Mac/MikaCL
-assetdir = ../Asset
-
-include build.ninja.common

@@ -2,7 +2,6 @@
 #include "MikaArchive.h"
 #include "MikaVM.h"
 #include "Glue.h"
-#include "../Catch/Catch.hpp"
 
 MikaVM::MikaVM(int stackSize)
 	: mOperands(nullptr)
@@ -31,7 +30,7 @@ void MikaVM::Import(const char* fileName)
 void MikaVM::Execute(const char* functionName)
 {
 	Function* func = GetScriptFunction(functionName);
-	REQUIRE(func);
+	assert(func);
 	if (!func)
 	{
 		return;

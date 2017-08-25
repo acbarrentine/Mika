@@ -2,7 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "MikaVM.h"
+#include "../MikaVM/MikaVM.h"
+#include "../Compiler/Compiler.h"
 #include "MikaWorld.h"
 
 using namespace irr;
@@ -226,83 +227,31 @@ int main()
 	GWorld.Run();
 }
 
-// Run shell command and capture output, from https://stackoverflow.com/a/35658917
-std::string ExecCmd(const wchar_t* cmd)
-{
-	std::string strResult;
-	HANDLE hPipeRead, hPipeWrite;
-
-	SECURITY_ATTRIBUTES saAttr = { sizeof(SECURITY_ATTRIBUTES) };
-	saAttr.bInheritHandle = TRUE;   //Pipe handles are inherited by child process.
-	saAttr.lpSecurityDescriptor = NULL;
-
-	// Create a pipe to get results from child's stdout.
-	if (!CreatePipe(&hPipeRead, &hPipeWrite, &saAttr, 0))
-		return strResult;
-
-	STARTUPINFO si = { sizeof(STARTUPINFO) };
-	si.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-	si.hStdOutput = hPipeWrite;
-	si.hStdError = hPipeWrite;
-	si.wShowWindow = SW_HIDE;       // Prevents cmd window from flashing. Requires STARTF_USESHOWWINDOW in dwFlags.
-
-	PROCESS_INFORMATION pi = { 0 };
-
-	wchar_t cmdBuffer[1024];
-	wcscpy_s(cmdBuffer, cmd);
-	BOOL fSuccess = CreateProcess(NULL, cmdBuffer, NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &si, &pi);
-	if (!fSuccess)
-	{
-		CloseHandle(hPipeWrite);
-		CloseHandle(hPipeRead);
-		return strResult;
-	}
-
-	bool bProcessEnded = false;
-	for (; !bProcessEnded;)
-	{
-		// Give some timeslice (50ms), so we won't waste 100% cpu.
-		bProcessEnded = WaitForSingleObject(pi.hProcess, 50) == WAIT_OBJECT_0;
-
-		// Even if process exited - we continue reading, if there is some data available over pipe.
-		for (;;)
-		{
-			char buf[1024];
-			DWORD dwRead = 0;
-			DWORD dwAvail = 0;
-
-			if (!::PeekNamedPipe(hPipeRead, NULL, 0, NULL, &dwAvail, NULL))
-				break;
-
-			if (!dwAvail) // no data available, return
-				break;
-
-			if (!::ReadFile(hPipeRead, buf, min(sizeof(buf) - 1, dwAvail), &dwRead, NULL) || !dwRead)
-				// error, the child process might ended
-				break;
-
-			buf[dwRead] = 0;
-			strResult += buf;
-		}
-	} //for
-
-	CloseHandle(hPipeWrite);
-	CloseHandle(hPipeRead);
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-	return strResult;
-} //ExecCmd
-
 void MikaWorld::LoadScript()
 {
-	std::string result = ExecCmd(L"../Bin/Win/ninja.exe -f build.ninja.win");
-	irr::core::stringw msg(result.c_str(), (u32)(result.size() - 3));
-	AddScriptMessage(msg);
+	// Optionally, we could either skip writing the .miko file to disk, or
+	// timestamp check it and skip compilation if the output is newer than
+	// the sources. For now, just taking the easy way out.
 
-	if (msg.find("FAILED") == -1)
+	std::string glueHeader = "MikaGlue.mikah";
+	std::string sourceFile = "Quake.mika";
+	std::string objectPath = "../Asset/Quake.miko";
+	std::string debugPath = "../Asset/Quake.mikd";
+
+	GCompiler.Reset();
+	if (GCompiler.GetErrorCount() == 0) GCompiler.ReadGlueHeader(glueHeader.c_str());
+	if (GCompiler.GetErrorCount() == 0) GCompiler.ParseGlueHeader();
+	if (GCompiler.GetErrorCount() == 0) GCompiler.ReadScript(sourceFile.c_str());
+	if (GCompiler.GetErrorCount() == 0) GCompiler.ParseScript();
+	if (GCompiler.GetErrorCount() == 0) GCompiler.AnalyzeScript();
+	if (GCompiler.GetErrorCount() == 0) GCompiler.WriteObjectFile(objectPath.c_str(), debugPath.c_str());
+
+	mVM.Import(objectPath.c_str());
+
+	if (GCompiler.GetErrorCount() == 0)
 	{
 		mVM.Reset();
-		mVM.Import(SScriptName);
+		mVM.Import(objectPath.c_str());
 		mVM.Execute(SLoadedFunctionName);
 	}
 }

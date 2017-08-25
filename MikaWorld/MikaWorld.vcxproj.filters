@@ -22,19 +22,19 @@
     <ClInclude Include="MikaWorld.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MikaVM.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MikaArchive.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Glue.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="MikaOpcodes.h">
+    <ClInclude Include="GeneratedGlue.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedGlue.hpp">
+    <ClInclude Include="..\MikaVM\MikaArchive.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MikaVM\MikaOpcodes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MikaVM\MikaVM.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -45,13 +45,13 @@
     <ClCompile Include="MikaWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MikaVM.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MikaArchive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Glue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MikaVM\MikaArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MikaVM\MikaVM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Glue.h"
-#include "MikaVM.h"
+#include "../MikaVM/MikaVM.h"
 #include "MikaWorld.h"
 
 void Print(const char* msg, const char* locationName, int lineNumber)
